@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C31AC41C1CADD7150032230E /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31AC4181CADD7150032230E /* CurrentUser.swift */; };
+		C31AC41D1CADD7150032230E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31AC4191CADD7150032230E /* Extensions.swift */; };
+		C31AC41E1CADD7150032230E /* GlobalEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31AC41A1CADD7150032230E /* GlobalEnums.swift */; };
+		C31AC41F1CADD7150032230E /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31AC41B1CADD7150032230E /* Helper.swift */; };
+		C31AC4211CADD7520032230E /* SelectionLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31AC4201CADD7520032230E /* SelectionLayer.swift */; };
 		C3237E261CADC402008293D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3237E251CADC402008293D6 /* AppDelegate.swift */; };
 		C3237E281CADC402008293D6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3237E271CADC402008293D6 /* ViewController.swift */; };
 		C3237E2B1CADC402008293D6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3237E291CADC402008293D6 /* Main.storyboard */; };
@@ -15,6 +20,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C31AC4181CADD7150032230E /* CurrentUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
+		C31AC4191CADD7150032230E /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		C31AC41A1CADD7150032230E /* GlobalEnums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalEnums.swift; sourceTree = "<group>"; };
+		C31AC41B1CADD7150032230E /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		C31AC4201CADD7520032230E /* SelectionLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionLayer.swift; sourceTree = "<group>"; };
 		C3237E221CADC402008293D6 /* Plango.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Plango.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3237E251CADC402008293D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3237E271CADC402008293D6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -35,6 +45,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C31AC4221CADD84C0032230E /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				C31AC4191CADD7150032230E /* Extensions.swift */,
+				C31AC41A1CADD7150032230E /* GlobalEnums.swift */,
+				C31AC41B1CADD7150032230E /* Helper.swift */,
+				C31AC4201CADD7520032230E /* SelectionLayer.swift */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
 		C3237E191CADC402008293D6 = {
 			isa = PBXGroup;
 			children = (
@@ -56,6 +77,8 @@
 			children = (
 				C3237E251CADC402008293D6 /* AppDelegate.swift */,
 				C3237E271CADC402008293D6 /* ViewController.swift */,
+				C31AC4181CADD7150032230E /* CurrentUser.swift */,
+				C31AC4221CADD84C0032230E /* Helpers */,
 				C3237E291CADC402008293D6 /* Main.storyboard */,
 				C3237E2C1CADC402008293D6 /* Assets.xcassets */,
 				C3237E2E1CADC402008293D6 /* LaunchScreen.storyboard */,
@@ -135,8 +158,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C31AC4211CADD7520032230E /* SelectionLayer.swift in Sources */,
 				C3237E281CADC402008293D6 /* ViewController.swift in Sources */,
+				C31AC41C1CADD7150032230E /* CurrentUser.swift in Sources */,
 				C3237E261CADC402008293D6 /* AppDelegate.swift in Sources */,
+				C31AC41E1CADD7150032230E /* GlobalEnums.swift in Sources */,
+				C31AC41D1CADD7150032230E /* Extensions.swift in Sources */,
+				C31AC41F1CADD7150032230E /* Helper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,6 +314,7 @@
 				C3237E361CADC402008293D6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
