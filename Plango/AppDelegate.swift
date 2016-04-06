@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ViewDeck
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,8 +17,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(Notify.Login.rawValue, object: nil, queue: nil) { (notification) -> Void in
+            self.appLogin()
+        }
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(Notify.Logout.rawValue, object: nil, queue: nil) { (notification) -> Void in
+            self.appLogout()
+        }
+        
+        handleAuth()
+
         return true
     }
+    
+    func appLogin() {
+        handleAuth()
+    }
+    
+    func appLogout() {
+        handleAuth()
+    }
+    
+    func handleAuth() {
+        let homeController = UIStoryboard(name: StoryboardID.Main.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.HomeMenu.rawValue)
+        let centerController = UINavigationController(rootViewController: homeController)
+        let leftController = SideMenuTableViewController()
+        let deckController = IIViewDeckController(centerViewController: centerController, leftViewController: leftController)
+        deckController.leftSize = 100
+        window?.rootViewController = deckController
+        
+//        if Twitter.sharedInstance().sessionStore.session() == nil {
+//            //login root
+//            window?.rootViewController = UIStoryboard(name: StoryboardID.Main.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.Login.rawValue)
+//        } else {
+//            //main root
+//            window?.rootViewController = UIStoryboard(name: StoryboardID.Main.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.NavFeed.rawValue)
+//            
+//        }
+    }
+
 
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

@@ -25,10 +25,20 @@ DEPENDENCIES:
   - Kingfisher
   - MBProgressHUD
   - SnapKit
-  - Spring
+  - Spring (from `https://github.com/MengTo/Spring.git`, branch `master`)
   - SwiftyJSON
   - ViewDeck
   - Whisper
+
+EXTERNAL SOURCES:
+  Spring:
+    :branch: master
+    :git: https://github.com/MengTo/Spring.git
+
+CHECKOUT OPTIONS:
+  Spring:
+    :commit: 7bf7ef55e8e936d83b318a74650992898899a526
+    :git: https://github.com/MengTo/Spring.git
 
 SPEC CHECKSUMS:
   Alamofire: 9054db4a1b1ca9e363223183e01cea380159a27c

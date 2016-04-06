@@ -10,12 +10,16 @@ import Foundation
 
 enum StoryboardID: String {
     case Main = "Main"
+    case Utilities = "Utilities"
 }
 
 enum ViewControllerID: String {
-    case NavFeed = "FeedNavController"
-    case Feed = "FeedTableViewController"
-    case Login = "LoginViewController"
+    case SideMenu = "SideMenuTableViewController"
+    case HomeMenu = "HomeMenuTableViewController"
+    case PlanList = "PlanListTableViewController"
+    case Login = "LoginTableViewController"
+    case Search = "SearchTableViewController"
+    case TripFriends = "TripFriendsViewController"
 }
 
 enum Notify: String {
