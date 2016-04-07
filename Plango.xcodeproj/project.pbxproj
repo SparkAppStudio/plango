@@ -17,11 +17,12 @@
 		C3237E2B1CADC402008293D6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3237E291CADC402008293D6 /* Main.storyboard */; };
 		C3237E2D1CADC402008293D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3237E2C1CADC402008293D6 /* Assets.xcassets */; };
 		C3237E301CADC402008293D6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3237E2E1CADC402008293D6 /* LaunchScreen.storyboard */; };
-		C3B150601CB4DD00008E6A4E /* SideMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B1505F1CB4DD00008E6A4E /* SideMenuTableViewController.swift */; };
-		C3B150621CB4DD73008E6A4E /* HomeMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B150611CB4DD73008E6A4E /* HomeMenuTableViewController.swift */; };
+		C3978CCE1CB6FC4C001028D5 /* MyPlansViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3978CCD1CB6FC4C001028D5 /* MyPlansViewController.swift */; };
+		C3978CD01CB70118001028D5 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3978CCF1CB70118001028D5 /* SearchViewController.swift */; };
+		C3B150601CB4DD00008E6A4E /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B1505F1CB4DD00008E6A4E /* SettingsTableViewController.swift */; };
+		C3B150621CB4DD73008E6A4E /* DiscoverTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B150611CB4DD73008E6A4E /* DiscoverTableViewController.swift */; };
 		C3B150641CB4DDAE008E6A4E /* PlansTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B150631CB4DDAE008E6A4E /* PlansTableViewController.swift */; };
 		C3B150671CB4DE8E008E6A4E /* LoginTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B150661CB4DE8E008E6A4E /* LoginTableViewController.swift */; };
-		C3B150691CB4DED7008E6A4E /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B150681CB4DED7008E6A4E /* SearchTableViewController.swift */; };
 		C3B1506B1CB4E07D008E6A4E /* TripFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B1506A1CB4E07D008E6A4E /* TripFriendsViewController.swift */; };
 		C3B1506F1CB4E0F2008E6A4E /* Utilities.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3B1506E1CB4E0F2008E6A4E /* Utilities.storyboard */; };
 		C3CD5BE61CB5D4AB0079C0E7 /* PlansTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CD5BE51CB5D4AB0079C0E7 /* PlansTableViewCell.swift */; };
@@ -42,11 +43,12 @@
 		C3237E2C1CADC402008293D6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C3237E2F1CADC402008293D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C3237E311CADC402008293D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C3B1505F1CB4DD00008E6A4E /* SideMenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideMenuTableViewController.swift; sourceTree = "<group>"; };
-		C3B150611CB4DD73008E6A4E /* HomeMenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeMenuTableViewController.swift; sourceTree = "<group>"; };
+		C3978CCD1CB6FC4C001028D5 /* MyPlansViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPlansViewController.swift; sourceTree = "<group>"; };
+		C3978CCF1CB70118001028D5 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		C3B1505F1CB4DD00008E6A4E /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		C3B150611CB4DD73008E6A4E /* DiscoverTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewController.swift; sourceTree = "<group>"; };
 		C3B150631CB4DDAE008E6A4E /* PlansTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlansTableViewController.swift; sourceTree = "<group>"; };
 		C3B150661CB4DE8E008E6A4E /* LoginTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTableViewController.swift; sourceTree = "<group>"; };
-		C3B150681CB4DED7008E6A4E /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		C3B1506A1CB4E07D008E6A4E /* TripFriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TripFriendsViewController.swift; sourceTree = "<group>"; };
 		C3B1506E1CB4E0F2008E6A4E /* Utilities.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Utilities.storyboard; sourceTree = "<group>"; };
 		C3CD5BE51CB5D4AB0079C0E7 /* PlansTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlansTableViewCell.swift; sourceTree = "<group>"; };
@@ -129,9 +131,10 @@
 			isa = PBXGroup;
 			children = (
 				C3237E291CADC402008293D6 /* Main.storyboard */,
-				C3B1505F1CB4DD00008E6A4E /* SideMenuTableViewController.swift */,
-				C3B150611CB4DD73008E6A4E /* HomeMenuTableViewController.swift */,
+				C3B1505F1CB4DD00008E6A4E /* SettingsTableViewController.swift */,
+				C3B150611CB4DD73008E6A4E /* DiscoverTableViewController.swift */,
 				C3B150631CB4DDAE008E6A4E /* PlansTableViewController.swift */,
+				C3978CCD1CB6FC4C001028D5 /* MyPlansViewController.swift */,
 				C3CD5BE51CB5D4AB0079C0E7 /* PlansTableViewCell.swift */,
 			);
 			name = "Main Scene";
@@ -142,7 +145,7 @@
 			children = (
 				C3B1506E1CB4E0F2008E6A4E /* Utilities.storyboard */,
 				C3B150661CB4DE8E008E6A4E /* LoginTableViewController.swift */,
-				C3B150681CB4DED7008E6A4E /* SearchTableViewController.swift */,
+				C3978CCF1CB70118001028D5 /* SearchViewController.swift */,
 				C3B1506A1CB4E07D008E6A4E /* TripFriendsViewController.swift */,
 			);
 			name = "Utilities Scene";
@@ -283,14 +286,15 @@
 				C31AC4211CADD7520032230E /* SelectionLayer.swift in Sources */,
 				C31AC41C1CADD7150032230E /* CurrentUser.swift in Sources */,
 				C3237E261CADC402008293D6 /* AppDelegate.swift in Sources */,
-				C3B150621CB4DD73008E6A4E /* HomeMenuTableViewController.swift in Sources */,
+				C3B150621CB4DD73008E6A4E /* DiscoverTableViewController.swift in Sources */,
+				C3978CCE1CB6FC4C001028D5 /* MyPlansViewController.swift in Sources */,
 				C3B150671CB4DE8E008E6A4E /* LoginTableViewController.swift in Sources */,
 				C31AC41E1CADD7150032230E /* GlobalEnums.swift in Sources */,
+				C3978CD01CB70118001028D5 /* SearchViewController.swift in Sources */,
 				C31AC41D1CADD7150032230E /* Extensions.swift in Sources */,
-				C3B150691CB4DED7008E6A4E /* SearchTableViewController.swift in Sources */,
 				C31AC41F1CADD7150032230E /* Helper.swift in Sources */,
 				C3CD5BE61CB5D4AB0079C0E7 /* PlansTableViewCell.swift in Sources */,
-				C3B150601CB4DD00008E6A4E /* SideMenuTableViewController.swift in Sources */,
+				C3B150601CB4DD00008E6A4E /* SettingsTableViewController.swift in Sources */,
 				C3B1506B1CB4E07D008E6A4E /* TripFriendsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

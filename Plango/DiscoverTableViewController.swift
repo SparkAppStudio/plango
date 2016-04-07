@@ -7,29 +7,23 @@
 //
 
 import UIKit
-import ViewDeck
 
-class HomeMenuTableViewController: UITableViewController {
+class DiscoverTableViewController: UITableViewController {
     
-    lazy var menuBarButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "MENU", style: .Plain, target: self, action: #selector(HomeMenuTableViewController.toggleMenu))
-        return button
-    }()
+//    lazy var menuBarButton: UIBarButtonItem = {
+//        let button = UIBarButtonItem(title: "MENU", style: .Plain, target: self, action: #selector(HomeMenuTableViewController.toggleMenu))
+//        return button
+//    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.backgroundColor = UIColor.plangoCream()
 
-        self.navigationItem.leftBarButtonItem = menuBarButton
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    func toggleMenu() {
-        self.viewDeckController.toggleLeftView()
     }
         
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

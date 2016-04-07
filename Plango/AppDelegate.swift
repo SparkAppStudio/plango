@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import ViewDeck
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -41,14 +40,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func handleAuth() {
         let homeController = UIStoryboard(name: StoryboardID.Main.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.HomeMenu.rawValue)
-        let centerController = UINavigationController(rootViewController: homeController)
-        centerController.navigationBar.barTintColor = UIColor.plangoTeal()
-        centerController.navigationBar.tintColor = UIColor.whiteColor()
-        centerController.navigationBar.translucent = false
-        let leftController = SideMenuTableViewController()
-        let deckController = IIViewDeckController(centerViewController: centerController, leftViewController: leftController)
-        deckController.leftSize = 100
-        window?.rootViewController = deckController
+        let tabOne = UINavigationController(rootViewController: homeController)
+        
+        let searchController = UIStoryboard(name: StoryboardID.Utilities.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.Search.rawValue)
+        let tabTwo = UINavigationController(rootViewController: searchController)
+        
+        let myPlansController = MyPlansViewController()
+        let tabThree = UINavigationController(rootViewController: myPlansController)
+        
+        let settingsController = SettingsTableViewController()
+        let tabFour = UINavigationController(rootViewController: settingsController)
+        
+        plangoNav([tabOne, tabTwo, tabThree, tabFour])
+        
+        let tabController = UITabBarController()
+        tabController.viewControllers = [tabOne, tabTwo, tabThree, tabFour]
+        tabController.tabBar.barTintColor = UIColor.plangoCream()
+        tabController.tabBar.tintColor = UIColor.plangoTeal()
+        
+        tabOne.tabBarItem = UITabBarItem(title: "DISCOVER", image: nil, tag: 1)
+        tabTwo.tabBarItem = UITabBarItem(title: "SEARCH", image: nil, tag: 2)
+        tabThree.tabBarItem = UITabBarItem(title: "MY PLANS", image: nil, tag: 3)
+        tabFour.tabBarItem = UITabBarItem(title: "SETTINGS", image: nil, tag: 4)
+
+        window?.rootViewController = tabController
         
 //        if Twitter.sharedInstance().sessionStore.session() == nil {
 //            //login root
@@ -58,6 +73,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            window?.rootViewController = UIStoryboard(name: StoryboardID.Main.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.NavFeed.rawValue)
 //            
 //        }
+    }
+    
+    func plangoNav(navControllers: [UINavigationController]) {
+        for nav in navControllers {
+            nav.navigationBar.barTintColor = UIColor.plangoTeal()
+            nav.navigationBar.tintColor = UIColor.whiteColor()
+            nav.navigationBar.translucent = false
+        }
     }
 
 

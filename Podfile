@@ -23,7 +23,4 @@ target 'Plango' do
     pod 'ChameleonFramework/Swift'
     pod 'Spring', :git => 'https://github.com/MengTo/Spring.git', :branch => 'master'
 
-#    frontendNavigation
-    pod 'ViewDeck'
-
 end

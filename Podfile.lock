@@ -13,7 +13,6 @@ PODS:
   - SnapKit (0.20.0)
   - Spring (1.0.3)
   - SwiftyJSON (2.3.2)
-  - ViewDeck (2.4.2)
   - Whisper (2.1)
 
 DEPENDENCIES:
@@ -27,7 +26,6 @@ DEPENDENCIES:
   - SnapKit
   - Spring (from `https://github.com/MengTo/Spring.git`, branch `master`)
   - SwiftyJSON
-  - ViewDeck
   - Whisper
 
 EXTERNAL SOURCES:
@@ -51,7 +49,6 @@ SPEC CHECKSUMS:
   SnapKit: 5fce3c1bbbf1fbd31de9aa92f33eb9fa03f15650
   Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
-  ViewDeck: 0b7b83bc2782a20dfb76207d0a2e8c5e6a6d182d
   Whisper: 18b574de21a089c0d664b115f26e0d9ccbbadbab
 
 COCOAPODS: 0.38.2
