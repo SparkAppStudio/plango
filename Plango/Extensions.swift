@@ -8,6 +8,8 @@
 
 import UIKit
 import Photos
+import MBProgressHUD
+import Hue
 
 extension UIBarButtonItem {
     func hide(sender: Bool) {
@@ -22,6 +24,9 @@ extension UIBarButtonItem {
 
 extension UINavigationController {
     
+    override public func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
     //New implementation to prevent autorotate yet allow camera to rotate for proper pictures
     //works across the app because everything is embedded in the UINavigationController
     override public func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
@@ -63,6 +68,24 @@ extension UIImage {
             newHeight = maxDimension * ( height / width )
         }
         return CGSize(width: newWidth, height: newHeight)
+    }
+}
+
+extension UIColor {
+    static func plangoTeal() -> UIColor {
+        return UIColor.hex("#36C1CD")
+    }
+    static func plangoCream() -> UIColor {
+        return UIColor.hex("#FDF6EA")
+    }
+    static func plangoOrange() -> UIColor {
+        return UIColor.hex("#FF7916")
+    }
+    static func plangoGreen() -> UIColor {
+        return UIColor.hex("#67B908")
+    }
+    static func plangoBrown() -> UIColor {
+        return UIColor.hex("#93723B")
     }
 }
 
@@ -137,71 +160,71 @@ extension UIView {
     
     
     // MARK: Toast via MBProgressHUD
-//    func quickToast(title: String) {
-//        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//            let hud = MBProgressHUD.showHUDAddedTo(self, animated: true)
-//            hud.mode = MBProgressHUDMode.Text
-//            hud.labelText = title
-//            NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "hudTimerDidFire:", userInfo: hud, repeats: false)
-//        })
-//    }
-//    
-//    func detailToast(title: String, details: String) {
-//        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//            let hud = MBProgressHUD.showHUDAddedTo(self, animated: true)
-//            hud.mode = MBProgressHUDMode.Text
-//            hud.labelText = title
-//            hud.detailsLabelText = details
-//            NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: "hudTimerDidFire:", userInfo: hud, repeats: false)
-//        })
-//    }
-//    
-//    func imageToast(title: String, image: UIImage) {
-//        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//            let hud = MBProgressHUD.showHUDAddedTo(self, animated: true)
-//            hud.mode = MBProgressHUDMode.CustomView
-//            hud.labelText = title
-//            hud.customView = UIImageView(image: image)
-//            NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "hudTimerDidFire:", userInfo: hud, repeats: false)
-//        })
-//    }
-//    
-//    func showSimpleLoading() {
-//        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//            MBProgressHUD.showHUDAddedTo(self, animated: true)
-//        })
-//    }
-//    
-//    func hideSimpleLoading() {
-//        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//            MBProgressHUD.hideHUDForView(self, animated: true)
-//        })
-//    }
-//    
-//    func showPieLoading() -> MBProgressHUD {
-//        let hud = MBProgressHUD(view: self)
-//        hud.mode = MBProgressHUDMode.Determinate
-//        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//            self.addSubview(hud)
-//            hud.show(true)
-//        })
-//        return hud
-//    }
-//    
-//    func hidePieLoading(hud: MBProgressHUD, percent: Float) {
-//        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//            hud.progress = percent
-//            if hud.progress == 1.0 {
-//                hud.hide(true)
-//            }
-//        })
-//    }
-//    
-//    func hudTimerDidFire(sender: NSTimer) {
-//        if let hud = sender.userInfo as? MBProgressHUD {
-//            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//                hud.hide(true)
-//            })
-//        }
-//    }
+    func quickToast(title: String) {
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            let hud = MBProgressHUD.showHUDAddedTo(self, animated: true)
+            hud.mode = MBProgressHUDMode.Text
+            hud.labelText = title
+            NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(UIView.hudTimerDidFire(_:)), userInfo: hud, repeats: false)
+        })
+    }
+    
+    func detailToast(title: String, details: String) {
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            let hud = MBProgressHUD.showHUDAddedTo(self, animated: true)
+            hud.mode = MBProgressHUDMode.Text
+            hud.labelText = title
+            hud.detailsLabelText = details
+            NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: #selector(UIView.hudTimerDidFire(_:)), userInfo: hud, repeats: false)
+        })
+    }
+    
+    func imageToast(title: String, image: UIImage) {
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            let hud = MBProgressHUD.showHUDAddedTo(self, animated: true)
+            hud.mode = MBProgressHUDMode.CustomView
+            hud.labelText = title
+            hud.customView = UIImageView(image: image)
+            NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(UIView.hudTimerDidFire(_:)), userInfo: hud, repeats: false)
+        })
+    }
+    
+    func showSimpleLoading() {
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            MBProgressHUD.showHUDAddedTo(self, animated: true)
+        })
+    }
+    
+    func hideSimpleLoading() {
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            MBProgressHUD.hideHUDForView(self, animated: true)
+        })
+    }
+    
+    func showPieLoading() -> MBProgressHUD {
+        let hud = MBProgressHUD(view: self)
+        hud.mode = MBProgressHUDMode.Determinate
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.addSubview(hud)
+            hud.show(true)
+        })
+        return hud
+    }
+    
+    func hidePieLoading(hud: MBProgressHUD, percent: Float) {
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            hud.progress = percent
+            if hud.progress == 1.0 {
+                hud.hide(true)
+            }
+        })
+    }
+    
+    func hudTimerDidFire(sender: NSTimer) {
+        if let hud = sender.userInfo as? MBProgressHUD {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                hud.hide(true)
+            })
+        }
+    }
 }

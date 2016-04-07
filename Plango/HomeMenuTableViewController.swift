@@ -18,6 +18,7 @@ class HomeMenuTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.backgroundColor = UIColor.plangoCream()
 
         self.navigationItem.leftBarButtonItem = menuBarButton
     }
@@ -29,6 +30,22 @@ class HomeMenuTableViewController: UITableViewController {
     
     func toggleMenu() {
         self.viewDeckController.toggleLeftView()
+    }
+        
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if indexPath.section == 0 {
+            return Helper.CellHeight.wideScreen.value
+        } else {
+            return 40
+        }
+    }
+    
+    
+    // MARK: - Table view Delegate
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let plansController = UIStoryboard(name: StoryboardID.Main.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.Plans.rawValue)
+        self.showViewController(plansController, sender: nil)
     }
 
     // MARK: - Table view data source

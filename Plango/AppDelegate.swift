@@ -16,8 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
-        
+        // Override point for customization after application launch.        
         NSNotificationCenter.defaultCenter().addObserverForName(Notify.Login.rawValue, object: nil, queue: nil) { (notification) -> Void in
             self.appLogin()
         }
@@ -31,6 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    
     func appLogin() {
         handleAuth()
     }
@@ -42,6 +42,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func handleAuth() {
         let homeController = UIStoryboard(name: StoryboardID.Main.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.HomeMenu.rawValue)
         let centerController = UINavigationController(rootViewController: homeController)
+        centerController.navigationBar.barTintColor = UIColor.plangoTeal()
+        centerController.navigationBar.tintColor = UIColor.whiteColor()
+        centerController.navigationBar.translucent = false
         let leftController = SideMenuTableViewController()
         let deckController = IIViewDeckController(centerViewController: centerController, leftViewController: leftController)
         deckController.leftSize = 100

@@ -22,6 +22,18 @@ class Helper: NSObject {
         }
     }
     
+    let plangoTeal = UIColor.hex("#36C1CD")
+
+    
+    enum CellHeight: Int {
+        case wideScreen
+        var value: CGFloat {
+            switch self {
+            case .wideScreen: return UIScreen.mainScreen().bounds.size.width * (9/16)
+            }
+        }
+    }
+    
     enum PasswordMessage: String {
         case MismatchTitle = "Passwords don't match"
         case MismatchDetails = "Try again or press 'Reset Password'"

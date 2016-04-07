@@ -16,10 +16,14 @@ enum StoryboardID: String {
 enum ViewControllerID: String {
     case SideMenu = "SideMenuTableViewController"
     case HomeMenu = "HomeMenuTableViewController"
-    case PlanList = "PlanListTableViewController"
+    case Plans = "PlansTableViewController"
     case Login = "LoginTableViewController"
     case Search = "SearchTableViewController"
     case TripFriends = "TripFriendsViewController"
+}
+
+enum CellID: String {
+    case Plans = "PlansTableViewCell"
 }
 
 enum Notify: String {
