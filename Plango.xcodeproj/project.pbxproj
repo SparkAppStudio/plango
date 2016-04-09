@@ -19,6 +19,8 @@
 		C3237E301CADC402008293D6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3237E2E1CADC402008293D6 /* LaunchScreen.storyboard */; };
 		C3978CCE1CB6FC4C001028D5 /* MyPlansViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3978CCD1CB6FC4C001028D5 /* MyPlansViewController.swift */; };
 		C3978CD01CB70118001028D5 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3978CCF1CB70118001028D5 /* SearchViewController.swift */; };
+		C3978CD21CB85B38001028D5 /* PlansCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3978CD11CB85B38001028D5 /* PlansCellView.xib */; };
+		C3978CD41CB85C26001028D5 /* PlansCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3978CD31CB85C26001028D5 /* PlansCellView.swift */; };
 		C3B150601CB4DD00008E6A4E /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B1505F1CB4DD00008E6A4E /* SettingsTableViewController.swift */; };
 		C3B150621CB4DD73008E6A4E /* DiscoverTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B150611CB4DD73008E6A4E /* DiscoverTableViewController.swift */; };
 		C3B150641CB4DDAE008E6A4E /* PlansTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B150631CB4DDAE008E6A4E /* PlansTableViewController.swift */; };
@@ -45,6 +47,8 @@
 		C3237E311CADC402008293D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C3978CCD1CB6FC4C001028D5 /* MyPlansViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPlansViewController.swift; sourceTree = "<group>"; };
 		C3978CCF1CB70118001028D5 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		C3978CD11CB85B38001028D5 /* PlansCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlansCellView.xib; sourceTree = "<group>"; };
+		C3978CD31CB85C26001028D5 /* PlansCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlansCellView.swift; sourceTree = "<group>"; };
 		C3B1505F1CB4DD00008E6A4E /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		C3B150611CB4DD73008E6A4E /* DiscoverTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewController.swift; sourceTree = "<group>"; };
 		C3B150631CB4DDAE008E6A4E /* PlansTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlansTableViewController.swift; sourceTree = "<group>"; };
@@ -131,11 +135,13 @@
 			isa = PBXGroup;
 			children = (
 				C3237E291CADC402008293D6 /* Main.storyboard */,
+				C3978CD11CB85B38001028D5 /* PlansCellView.xib */,
 				C3B1505F1CB4DD00008E6A4E /* SettingsTableViewController.swift */,
 				C3B150611CB4DD73008E6A4E /* DiscoverTableViewController.swift */,
 				C3B150631CB4DDAE008E6A4E /* PlansTableViewController.swift */,
 				C3978CCD1CB6FC4C001028D5 /* MyPlansViewController.swift */,
 				C3CD5BE51CB5D4AB0079C0E7 /* PlansTableViewCell.swift */,
+				C3978CD31CB85C26001028D5 /* PlansCellView.swift */,
 			);
 			name = "Main Scene";
 			sourceTree = "<group>";
@@ -221,6 +227,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3237E301CADC402008293D6 /* LaunchScreen.storyboard in Resources */,
+				C3978CD21CB85B38001028D5 /* PlansCellView.xib in Resources */,
 				C3237E2D1CADC402008293D6 /* Assets.xcassets in Resources */,
 				C3237E2B1CADC402008293D6 /* Main.storyboard in Resources */,
 				C3B1506F1CB4E0F2008E6A4E /* Utilities.storyboard in Resources */,
@@ -286,6 +293,7 @@
 				C31AC4211CADD7520032230E /* SelectionLayer.swift in Sources */,
 				C31AC41C1CADD7150032230E /* CurrentUser.swift in Sources */,
 				C3237E261CADC402008293D6 /* AppDelegate.swift in Sources */,
+				C3978CD41CB85C26001028D5 /* PlansCellView.swift in Sources */,
 				C3B150621CB4DD73008E6A4E /* DiscoverTableViewController.swift in Sources */,
 				C3978CCE1CB6FC4C001028D5 /* MyPlansViewController.swift in Sources */,
 				C3B150671CB4DE8E008E6A4E /* LoginTableViewController.swift in Sources */,

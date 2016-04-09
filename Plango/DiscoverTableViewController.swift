@@ -27,10 +27,13 @@ class DiscoverTableViewController: UITableViewController {
     }
         
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.section == 0 {
+        switch indexPath.section {
+        case 0:
             return Helper.CellHeight.wideScreen.value
-        } else {
-            return 40
+        case 1:
+            return Helper.CellHeight.superWide.value
+        default:
+            return Helper.CellHeight.plans.value
         }
     }
     

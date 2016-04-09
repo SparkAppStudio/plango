@@ -27,9 +27,13 @@ class Helper: NSObject {
     
     enum CellHeight: Int {
         case wideScreen
+        case superWide
+        case plans
         var value: CGFloat {
             switch self {
             case .wideScreen: return UIScreen.mainScreen().bounds.size.width * (9/16)
+            case .superWide: return UIScreen.mainScreen().bounds.size.width * (9/21)
+            case .plans: return 100
             }
         }
     }

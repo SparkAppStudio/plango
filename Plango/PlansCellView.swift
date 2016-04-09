@@ -1,15 +1,15 @@
 //
-//  PlansTableViewCell.swift
+//  PlansCellView.swift
 //  Plango
 //
-//  Created by Douglas Hewitt on 4/6/16.
+//  Created by Douglas Hewitt on 4/8/16.
 //  Copyright © 2016 madebydouglas. All rights reserved.
 //
 
 import UIKit
 
-class PlansTableViewCell: UITableViewCell {
-    
+class PlansCellView: UIView {
+
     @IBOutlet weak var coverImageView: UIImageView!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var viewsIconImageView: UIImageView!
@@ -21,21 +21,4 @@ class PlansTableViewCell: UITableViewCell {
     @IBOutlet weak var planLengthLabel: UILabel!
     @IBOutlet weak var viewsCountLabel: UILabel!
     @IBOutlet weak var copiesCountLabel: UILabel!
-    
-    
-    
-    
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.backgroundColor = UIColor.whiteColor()
-
-    }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }
