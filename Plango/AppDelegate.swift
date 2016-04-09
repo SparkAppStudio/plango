@@ -63,16 +63,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabThree.tabBarItem = UITabBarItem(title: "MY PLANS", image: nil, tag: 3)
         tabFour.tabBarItem = UITabBarItem(title: "SETTINGS", image: nil, tag: 4)
 
-        window?.rootViewController = tabController
         
-//        if Twitter.sharedInstance().sessionStore.session() == nil {
-//            //login root
-//            window?.rootViewController = UIStoryboard(name: StoryboardID.Main.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.Login.rawValue)
-//        } else {
-//            //main root
-//            window?.rootViewController = UIStoryboard(name: StoryboardID.Main.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.NavFeed.rawValue)
-//            
-//        }
+        if Plango.sharedInstance.currentUser == nil {
+            //login root
+            window?.rootViewController = UIStoryboard(name: StoryboardID.Utilities.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.Login.rawValue)
+        } else {
+            //main root
+            window?.rootViewController = tabController
+        }
     }
     
     func plangoNav(navControllers: [UINavigationController]) {

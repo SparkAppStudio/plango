@@ -20,6 +20,18 @@ class PlansTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
+    
+    func fetchUsers() {
+        var usersArray = [User]()
+        Plango.sharedInstance.fetchUsers { (receivedUsers: [User]?, error: NSError?) in
+            if let error = error {
+                print(error.description)
+            } else if let users = receivedUsers {
+                usersArray = users
+                //TODO: - update tableView
+            }
+        }
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

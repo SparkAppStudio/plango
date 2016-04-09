@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		773923E7BA495B6F2CBB3FDF /* Pods_Plango.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07F66FFA0D6649D033859149 /* Pods_Plango.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		C31AC41C1CADD7150032230E /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31AC4181CADD7150032230E /* CurrentUser.swift */; };
+		C31AC41C1CADD7150032230E /* Plango.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31AC4181CADD7150032230E /* Plango.swift */; };
 		C31AC41D1CADD7150032230E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31AC4191CADD7150032230E /* Extensions.swift */; };
 		C31AC41E1CADD7150032230E /* GlobalEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31AC41A1CADD7150032230E /* GlobalEnums.swift */; };
 		C31AC41F1CADD7150032230E /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31AC41B1CADD7150032230E /* Helper.swift */; };
@@ -21,6 +21,9 @@
 		C3978CD01CB70118001028D5 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3978CCF1CB70118001028D5 /* SearchViewController.swift */; };
 		C3978CD21CB85B38001028D5 /* PlansCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3978CD11CB85B38001028D5 /* PlansCellView.xib */; };
 		C3978CD41CB85C26001028D5 /* PlansCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3978CD31CB85C26001028D5 /* PlansCellView.swift */; };
+		C3978CD61CB88602001028D5 /* Plan.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3978CD51CB88602001028D5 /* Plan.swift */; };
+		C3978CD81CB8860E001028D5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3978CD71CB8860E001028D5 /* User.swift */; };
+		C3978CDA1CB889DF001028D5 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3978CD91CB889DF001028D5 /* Tag.swift */; };
 		C3B150601CB4DD00008E6A4E /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B1505F1CB4DD00008E6A4E /* SettingsTableViewController.swift */; };
 		C3B150621CB4DD73008E6A4E /* DiscoverTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B150611CB4DD73008E6A4E /* DiscoverTableViewController.swift */; };
 		C3B150641CB4DDAE008E6A4E /* PlansTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B150631CB4DDAE008E6A4E /* PlansTableViewController.swift */; };
@@ -34,7 +37,7 @@
 		07F66FFA0D6649D033859149 /* Pods_Plango.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Plango.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ABD3BA9FAE086705AB4EC92 /* Pods-Plango.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plango.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plango/Pods-Plango.debug.xcconfig"; sourceTree = "<group>"; };
 		1F4A5AC332A1F636F21CB6A8 /* Pods-Plango.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plango.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plango/Pods-Plango.release.xcconfig"; sourceTree = "<group>"; };
-		C31AC4181CADD7150032230E /* CurrentUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
+		C31AC4181CADD7150032230E /* Plango.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plango.swift; sourceTree = "<group>"; };
 		C31AC4191CADD7150032230E /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C31AC41A1CADD7150032230E /* GlobalEnums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalEnums.swift; sourceTree = "<group>"; };
 		C31AC41B1CADD7150032230E /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
@@ -49,6 +52,9 @@
 		C3978CCF1CB70118001028D5 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		C3978CD11CB85B38001028D5 /* PlansCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlansCellView.xib; sourceTree = "<group>"; };
 		C3978CD31CB85C26001028D5 /* PlansCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlansCellView.swift; sourceTree = "<group>"; };
+		C3978CD51CB88602001028D5 /* Plan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plan.swift; sourceTree = "<group>"; };
+		C3978CD71CB8860E001028D5 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		C3978CD91CB889DF001028D5 /* Tag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		C3B1505F1CB4DD00008E6A4E /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		C3B150611CB4DD73008E6A4E /* DiscoverTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewController.swift; sourceTree = "<group>"; };
 		C3B150631CB4DDAE008E6A4E /* PlansTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlansTableViewController.swift; sourceTree = "<group>"; };
@@ -160,7 +166,10 @@
 		C3B1506D1CB4E0A5008E6A4E /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
-				C31AC4181CADD7150032230E /* CurrentUser.swift */,
+				C3978CD51CB88602001028D5 /* Plan.swift */,
+				C3978CD71CB8860E001028D5 /* User.swift */,
+				C3978CD91CB889DF001028D5 /* Tag.swift */,
+				C31AC4181CADD7150032230E /* Plango.swift */,
 			);
 			name = "Data Model";
 			sourceTree = "<group>";
@@ -289,12 +298,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3978CD61CB88602001028D5 /* Plan.swift in Sources */,
 				C3B150641CB4DDAE008E6A4E /* PlansTableViewController.swift in Sources */,
 				C31AC4211CADD7520032230E /* SelectionLayer.swift in Sources */,
-				C31AC41C1CADD7150032230E /* CurrentUser.swift in Sources */,
+				C31AC41C1CADD7150032230E /* Plango.swift in Sources */,
 				C3237E261CADC402008293D6 /* AppDelegate.swift in Sources */,
 				C3978CD41CB85C26001028D5 /* PlansCellView.swift in Sources */,
+				C3978CDA1CB889DF001028D5 /* Tag.swift in Sources */,
 				C3B150621CB4DD73008E6A4E /* DiscoverTableViewController.swift in Sources */,
+				C3978CD81CB8860E001028D5 /* User.swift in Sources */,
 				C3978CCE1CB6FC4C001028D5 /* MyPlansViewController.swift in Sources */,
 				C3B150671CB4DE8E008E6A4E /* LoginTableViewController.swift in Sources */,
 				C31AC41E1CADD7150032230E /* GlobalEnums.swift in Sources */,
