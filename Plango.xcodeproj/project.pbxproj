@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		773923E7BA495B6F2CBB3FDF /* Pods_Plango.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07F66FFA0D6649D033859149 /* Pods_Plango.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		C30C2FE91CBAEF2C00411B8E /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30C2FE81CBAEF2C00411B8E /* Formatter.swift */; };
 		C31AC41C1CADD7150032230E /* Plango.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31AC4181CADD7150032230E /* Plango.swift */; };
 		C31AC41D1CADD7150032230E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31AC4191CADD7150032230E /* Extensions.swift */; };
 		C31AC41E1CADD7150032230E /* GlobalEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31AC41A1CADD7150032230E /* GlobalEnums.swift */; };
@@ -37,6 +38,7 @@
 		07F66FFA0D6649D033859149 /* Pods_Plango.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Plango.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ABD3BA9FAE086705AB4EC92 /* Pods-Plango.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plango.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plango/Pods-Plango.debug.xcconfig"; sourceTree = "<group>"; };
 		1F4A5AC332A1F636F21CB6A8 /* Pods-Plango.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plango.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plango/Pods-Plango.release.xcconfig"; sourceTree = "<group>"; };
+		C30C2FE81CBAEF2C00411B8E /* Formatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		C31AC4181CADD7150032230E /* Plango.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plango.swift; sourceTree = "<group>"; };
 		C31AC4191CADD7150032230E /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C31AC41A1CADD7150032230E /* GlobalEnums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalEnums.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 		C31AC4221CADD84C0032230E /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				C30C2FE81CBAEF2C00411B8E /* Formatter.swift */,
 				C31AC4191CADD7150032230E /* Extensions.swift */,
 				C31AC41A1CADD7150032230E /* GlobalEnums.swift */,
 				C31AC41B1CADD7150032230E /* Helper.swift */,
@@ -299,6 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3978CD61CB88602001028D5 /* Plan.swift in Sources */,
+				C30C2FE91CBAEF2C00411B8E /* Formatter.swift in Sources */,
 				C3B150641CB4DDAE008E6A4E /* PlansTableViewController.swift in Sources */,
 				C31AC4211CADD7520032230E /* SelectionLayer.swift in Sources */,
 				C31AC41C1CADD7150032230E /* Plango.swift in Sources */,

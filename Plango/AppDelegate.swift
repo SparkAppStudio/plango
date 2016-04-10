@@ -66,7 +66,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if Plango.sharedInstance.currentUser == nil {
             //login root
-            window?.rootViewController = UIStoryboard(name: StoryboardID.Utilities.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.Login.rawValue)
+//            window?.rootViewController = UIStoryboard(name: StoryboardID.Utilities.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.Login.rawValue)
+            
+            window?.rootViewController = tabController
+
         } else {
             //main root
             window?.rootViewController = tabController

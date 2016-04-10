@@ -13,6 +13,8 @@ class PlansTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.backgroundColor = UIColor.plangoCream()
+        
+        fetchUsers()
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -29,6 +31,8 @@ class PlansTableViewController: UITableViewController {
             } else if let users = receivedUsers {
                 usersArray = users
                 //TODO: - update tableView
+                let aUser = usersArray[0]
+                print(aUser.userName)
             }
         }
     }

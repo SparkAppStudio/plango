@@ -14,7 +14,7 @@ class Plango: NSObject {
     static let sharedInstance = Plango()
     
     var currentUser: User!
-    var mongoUsersLocation = "server address"
+    var mongoUsersLocation = "http://ds031701.mongolab.com/users"
     
     typealias UsersResponse = ([User]?, NSError?) -> Void
     

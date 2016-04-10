@@ -35,6 +35,19 @@ extension UINavigationController {
     
 }
 
+extension NSDateFormatter {
+    
+    func dateFromStringOptional(string:String?) -> NSDate?
+    {
+        guard let value = string else
+        {
+            return nil
+        }
+        
+        return self.dateFromString(value)
+    }
+}
+
 extension PHAsset {
     
     func getAdjustedSize(maxDimension: CGFloat)-> CGSize {

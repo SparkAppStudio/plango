@@ -32,7 +32,7 @@ class User: NSObject {
     class func getUsersFromJSON(objectJSON: JSON) -> [User] {
         var tempUsers = [User?]()
         
-        guard let array = objectJSON["parentKey"]["usersKey"].arrayObject else {
+        guard let array = objectJSON["_id"].arrayObject else {
             return [User]()
         }
         
@@ -48,6 +48,10 @@ class User: NSObject {
     }
     
     class func createUser(dict: NSDictionary) -> User? {
-        //TODO: - parse JSON return User
+        let newUser = User()
+        newUser.id = dict["_id"] as! String
+        newUser.userName = dict["username"] as! String
+        
+        return newUser
     }
 }
