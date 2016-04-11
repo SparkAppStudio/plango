@@ -31,17 +31,12 @@ class User: NSObject {
     
     class func getUsersFromJSON(objectJSON: JSON) -> [User] {
         var tempUsers = [User?]()
-        
-        guard let array = objectJSON["_id"].arrayObject else {
+
+        guard let dictionary = objectJSON["data"].dictionaryObject else {
             return [User]()
         }
         
-        for dataObject: AnyObject in array {
-            guard let dict = dataObject as? NSDictionary else {
-                continue
-            }
-            tempUsers.append(createUser(dict))
-        }
+        tempUsers.append(createUser(dictionary))
         
         //remote nil users
         return tempUsers.flatMap { $0 }

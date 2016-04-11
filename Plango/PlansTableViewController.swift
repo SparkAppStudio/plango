@@ -31,8 +31,8 @@ class PlansTableViewController: UITableViewController {
             } else if let users = receivedUsers {
                 usersArray = users
                 //TODO: - update tableView
-                let aUser = usersArray[0]
-                print(aUser.userName)
+                let aUser = users.first
+                print(aUser?.userName)
             }
         }
     }
