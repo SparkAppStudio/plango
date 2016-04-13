@@ -23,13 +23,15 @@ class PlansTableViewCell: UITableViewCell {
     @IBOutlet weak var copiesCountLabel: UILabel!
     
     
+    var user: User?
+    var plan: Plan?
     
     
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.backgroundColor = UIColor.whiteColor()
-
+    func configure() {
+        self.layoutIfNeeded()
+        if let cellUser = user {
+            profileNameLabel.text = cellUser.userName
+        }
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

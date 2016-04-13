@@ -98,7 +98,7 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Popular Plans" id="oBh-fj-hfN">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="MgA-l9-fh9" customClass="PlansTableViewCell" customModule="Plango" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="MgA-l9-fh9">
                                         <rect key="frame" x="0.0" y="264" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MgA-l9-fh9" id="aoJ-Ww-2ia">

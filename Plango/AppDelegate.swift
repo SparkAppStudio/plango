@@ -58,10 +58,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabController.tabBar.barTintColor = UIColor.plangoCream()
         tabController.tabBar.tintColor = UIColor.plangoTeal()
         
-        tabOne.tabBarItem = UITabBarItem(title: "DISCOVER", image: nil, tag: 1)
-        tabTwo.tabBarItem = UITabBarItem(title: "SEARCH", image: nil, tag: 2)
-        tabThree.tabBarItem = UITabBarItem(title: "MY PLANS", image: nil, tag: 3)
-        tabFour.tabBarItem = UITabBarItem(title: "SETTINGS", image: nil, tag: 4)
+        let starImage = UIImage(named: "star")
+        let gearImage = UIImage(named: "gear")
+        let myImage = UIImage(named: "my")
+        let searchImage = UIImage(named: "search")
+        
+        tabOne.tabBarItem = UITabBarItem(title: "DISCOVER", image: starImage, tag: 1)
+        tabTwo.tabBarItem = UITabBarItem(title: "SEARCH", image: searchImage, tag: 2)
+        tabThree.tabBarItem = UITabBarItem(title: "MY PLANS", image: myImage, tag: 3)
+        tabFour.tabBarItem = UITabBarItem(title: "SETTINGS", image: gearImage, tag: 4)
 
         
         if Plango.sharedInstance.currentUser == nil {

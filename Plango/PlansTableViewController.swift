@@ -9,6 +9,9 @@
 import UIKit
 
 class PlansTableViewController: UITableViewController {
+    
+    var usersArray = [User]()
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,15 +27,14 @@ class PlansTableViewController: UITableViewController {
     }
     
     func fetchUsers() {
-        var usersArray = [User]()
+//        var usersArray = [User]()
         Plango.sharedInstance.fetchUsers { (receivedUsers: [User]?, error: NSError?) in
             if let error = error {
                 print(error.description)
             } else if let users = receivedUsers {
-                usersArray = users
+                self.usersArray = users
                 //TODO: - update tableView
-                let aUser = users.first
-                print(aUser?.userName)
+                self.tableView.reloadData()
             }
         }
     }
@@ -50,15 +52,14 @@ class PlansTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 10
+        return usersArray.count
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Plans.rawValue, forIndexPath: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Plans.rawValue, forIndexPath: indexPath) as! PlansTableViewCell
+        cell.user = self.usersArray.first
+        cell.configure()
         return cell
     }
     
