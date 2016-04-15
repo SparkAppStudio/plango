@@ -128,7 +128,7 @@ extension UICollectionView {
 }
 
 extension UICollectionViewFlowLayout {
-    func cellsFitAcrossScreen(numberOfCells: Int, labelHeight: CGFloat) -> CGSize {
+    func cellsFitAcrossScreen(numberOfCells: Int, labelHeight: CGFloat, cellShapeRatio: CGFloat) -> CGSize {
         //using information from flowLayout get proper spacing for cells across entire screen
         let insideMargin = self.minimumInteritemSpacing
         let outsideMargins = self.sectionInset.left + self.sectionInset.right
@@ -136,7 +136,16 @@ extension UICollectionViewFlowLayout {
         let subtractionForMargins: CGFloat = insideMargin * CGFloat(numberOfDivisions) + outsideMargins
         
         let fittedWidth = (UIScreen.mainScreen().bounds.width - subtractionForMargins) / CGFloat(numberOfCells)
-        return CGSize(width: fittedWidth, height: fittedWidth + labelHeight)
+        let ratioHeight = fittedWidth * cellShapeRatio
+        
+        return CGSize(width: fittedWidth, height: ratioHeight + labelHeight)
+    }
+    
+    func widescreenCards() -> CGSize {
+        let cellWidth = UIScreen.mainScreen().bounds.size.width * 0.6
+        let cellHeight = cellWidth * (9/16)
+        
+        return CGSize(width: cellWidth, height: cellHeight)
     }
 }
 

@@ -22,9 +22,6 @@ class Helper: NSObject {
         }
     }
     
-    let plangoTeal = UIColor.hex("#36C1CD")
-
-    
     enum CellHeight: Int {
         case wideScreen
         case superWide

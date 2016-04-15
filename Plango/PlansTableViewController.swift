@@ -16,6 +16,8 @@ class PlansTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.backgroundColor = UIColor.plangoCream()
+        let cellNib = UINib(nibName: "PlansCell", bundle: nil)
+        self.tableView.registerNib(cellNib, forCellReuseIdentifier: CellID.Plans.rawValue)
         
         fetchUsers()
 
@@ -61,6 +63,10 @@ class PlansTableViewController: UITableViewController {
         cell.user = self.usersArray.first
         cell.configure()
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return Helper.CellHeight.plans.value //should be the same as xib file
     }
     
 

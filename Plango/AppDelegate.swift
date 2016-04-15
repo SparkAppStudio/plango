@@ -23,9 +23,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NSNotificationCenter.defaultCenter().addObserverForName(Notify.Logout.rawValue, object: nil, queue: nil) { (notification) -> Void in
             self.appLogout()
         }
-        
+        window = UIWindow(frame: UIScreen.mainScreen().bounds)
         handleAuth()
-
+        window?.makeKeyAndVisible()
         return true
     }
     
@@ -39,8 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func handleAuth() {
-        let homeController = UIStoryboard(name: StoryboardID.Main.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.HomeMenu.rawValue)
-        let tabOne = UINavigationController(rootViewController: homeController)
+//        let homeController = UIStoryboard(name: StoryboardID.Main.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.Discover.rawValue)
+        let tabOne = UINavigationController(rootViewController: DiscoverTableViewController())
         
         let searchController = UIStoryboard(name: StoryboardID.Utilities.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.Search.rawValue)
         let tabTwo = UINavigationController(rootViewController: searchController)
