@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyPlansViewController" customModule="Plango" customModuleProvider="target">
+            <connections>
+                <outlet property="avatarImageView" destination="Gok-qh-UGN" id="y1P-C4-cGE"/>
+                <outlet property="coverImageView" destination="KHQ-80-fCQ" id="Daq-5i-VCj"/>
+                <outlet property="userNameLabel" destination="w2E-8i-Hgi" id="VmR-63-duT"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KHQ-80-fCQ">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Gok-qh-UGN">
+                    <rect key="frame" x="120" y="50" width="80" height="80"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="80" id="3aM-gW-lsR"/>
+                        <constraint firstAttribute="width" constant="80" id="sCd-VW-7Nu"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w2E-8i-Hgi">
+                    <rect key="frame" x="138" y="138" width="44" height="22"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Gok-qh-UGN" firstAttribute="centerY" secondItem="KHQ-80-fCQ" secondAttribute="centerY" id="6Jf-fC-weo"/>
+                <constraint firstItem="w2E-8i-Hgi" firstAttribute="centerX" secondItem="KHQ-80-fCQ" secondAttribute="centerX" id="7VB-dN-IBd"/>
+                <constraint firstItem="Gok-qh-UGN" firstAttribute="centerX" secondItem="KHQ-80-fCQ" secondAttribute="centerX" id="KLO-lf-1ep"/>
+                <constraint firstItem="w2E-8i-Hgi" firstAttribute="centerY" secondItem="KHQ-80-fCQ" secondAttribute="centerY" id="LEm-ub-eTb"/>
+                <constraint firstAttribute="bottom" secondItem="KHQ-80-fCQ" secondAttribute="bottom" id="TN8-ad-DYG"/>
+                <constraint firstItem="KHQ-80-fCQ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="WxQ-2b-fF7"/>
+                <constraint firstAttribute="trailing" secondItem="KHQ-80-fCQ" secondAttribute="trailing" id="YSp-jY-9pv"/>
+                <constraint firstItem="w2E-8i-Hgi" firstAttribute="top" secondItem="KHQ-80-fCQ" secondAttribute="bottom" constant="-42" id="aXG-cE-RaP"/>
+                <constraint firstItem="KHQ-80-fCQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ce9-eg-DFq"/>
+                <constraint firstItem="w2E-8i-Hgi" firstAttribute="top" secondItem="Gok-qh-UGN" secondAttribute="bottom" constant="8" id="d8q-3M-jvZ"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="LEm-ub-eTb"/>
+                    <exclude reference="aXG-cE-RaP"/>
+                </mask>
+            </variation>
+        </view>
+    </objects>
+</document>

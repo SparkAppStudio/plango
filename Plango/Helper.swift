@@ -68,6 +68,15 @@ class Helper: NSObject {
         return "Can't use '\(character)'"
     }
     
+    static func isValidSearchWithErrors(existingText: String?, possibleNewCharacter: String) -> String? {
+        if let text = existingText {
+            if text.characters.count + possibleNewCharacter.characters.count > 100 {
+                return "Search is too long"
+            }
+        }
+        return nil
+    }
+    
     static func isValidTweetWithErrors(existingText: String?, possibleNewCharacter: String) -> String? {
         if let text = existingText {
             

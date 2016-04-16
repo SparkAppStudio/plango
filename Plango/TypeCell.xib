@@ -16,7 +16,6 @@
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Qga-n8-lLE">
                         <rect key="frame" x="0.0" y="0.0" width="213" height="120"/>
-                        <color key="backgroundColor" red="0.8862745098" green="0.22352941179999999" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s2h-dm-ADK">
                         <rect key="frame" x="82" y="48" width="49" height="24"/>

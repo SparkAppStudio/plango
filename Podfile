@@ -13,6 +13,7 @@ target 'Plango' do
 
 #    frontendLayout
     pod 'SnapKit'
+    pod 'MXSegmentedPager'
 
 #    frontendNotifications
     pod 'MBProgressHUD'
