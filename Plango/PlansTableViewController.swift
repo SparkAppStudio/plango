@@ -45,7 +45,8 @@ class PlansTableViewController: UITableViewController {
         if let parent = parentViewController {
             parent.view.endEditing(true)
         }
-//        self.view.endEditing(true)
+        self.view.endEditing(true)
+        self.tableView.endEditing(true)
         super.touchesBegan(touches, withEvent: event)
     }
 

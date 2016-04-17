@@ -30,14 +30,20 @@ class DiscoverTableViewController: UITableViewController {
         }
     }
     
-//    lazy var menuBarButton: UIBarButtonItem = {
-//        let button = UIBarButtonItem(title: "MENU", style: .Plain, target: self, action: #selector(HomeMenuTableViewController.toggleMenu))
-//        return button
-//    }()
+    lazy var logoutBarButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "LOGOUT", style: .Plain, target: self, action: #selector(DiscoverTableViewController.logout))
+        return button
+    }()
+    
+    func logout() {
+        self.showViewController(LoginTableViewController(), sender: nil)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.backgroundColor = UIColor.plangoCream()
+        
+        self.navigationItem.rightBarButtonItem = logoutBarButton
         
         let plansNib = UINib(nibName: "PlansCell", bundle: nil)
         self.tableView.registerNib(plansNib, forCellReuseIdentifier: CellID.Plans.rawValue)

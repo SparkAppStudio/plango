@@ -115,7 +115,18 @@ extension NSIndexSet {
     
 }
 
+extension UITableView {
+    public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.endEditing(true)
+        super.touchesBegan(touches, withEvent: event)
+    }
+}
+
 extension UICollectionView {
+    public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.endEditing(true)
+        super.touchesBegan(touches, withEvent: event)
+    }
     
     //### returns empty Array, rather than nil, when no elements in rect.
     func aapl_indexPathsForElementsInRect(rect: CGRect) -> [NSIndexPath] {
@@ -150,13 +161,18 @@ extension UICollectionViewFlowLayout {
 }
 
 extension UIView {
+    public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.endEditing(true)
+        super.touchesBegan(touches, withEvent: event)
+    }
+    
     func makeCircle() {
         self.layer.cornerRadius = self.frame.size.width / 2
         self.clipsToBounds = true
     }
     
-    func makeRoundCorners() {
-        self.layer.cornerRadius = self.frame.size.width / 32
+    func makeRoundCorners(divider: Int) {
+        self.layer.cornerRadius = self.frame.size.width / CGFloat(divider)
         self.clipsToBounds = true
     }
     

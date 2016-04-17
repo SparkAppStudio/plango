@@ -16,5 +16,6 @@ class TypeCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         coverImageView.backgroundColor = UIColor.plangoTeal()
+        coverImageView.makeRoundCorners(32)
     }
 }

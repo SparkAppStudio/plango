@@ -8,88 +8,226 @@
 
 import UIKit
 
-class LoginTableViewController: UITableViewController {
+class LoginTableViewController: UITableViewController, UITextFieldDelegate {
+    
+
+    
+    var loginSegment: UISegmentedControl!
+
+    
+    lazy var usernameTextField: UITextField = {
+        let text = UITextField()
+        text.borderStyle = .None
+        text.placeholder = "Username"
+        text.delegate = self
+        return text
+    }()
+    
+    lazy var userOrEmailTextField: UITextField = {
+        let text = UITextField()
+        text.borderStyle = .None
+        text.placeholder = "Username or Email Address"
+        text.delegate = self
+        return text
+    }()
+    
+    lazy var emailTextField: UITextField = {
+        let text = UITextField()
+        text.borderStyle = .None
+        text.placeholder = "Email Address"
+        text.delegate = self
+        return text
+    }()
+    
+    lazy var passwordTextField: UITextField = {
+        let text = UITextField()
+        text.borderStyle = .None
+        text.placeholder = "Password"
+        text.delegate = self
+        return text
+    }()
+    
+    lazy var loginButton: UIButton = {
+        let button = UIButton()
+        button.frame = CGRectMake(8, 8, self.tableView.frame.width - 16, 30)
+        button.backgroundColor = UIColor.plangoOrange()
+        button.tintColor = UIColor.whiteColor()
+        button.setTitle("Log In", forState: UIControlState.Normal)
+        button.makeRoundCorners(64)
+        return button
+    }()
+    
+    lazy var footerView: UIView = {
+       let view = UIView()
+        return view
+    }()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        footerView.addSubview(loginButton)
+        
+        let titles = ["Login", "Signup"]
+        loginSegment = UISegmentedControl(items: titles)
+        loginSegment.selectedSegmentIndex = 0
+        loginSegment.addTarget(self, action: #selector(LoginTableViewController.didChangeLoginSegment), forControlEvents: .ValueChanged)
+        loginSegment.sizeToFit()
+        navigationItem.titleView = loginSegment
+        
+        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "username")
+        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "usernameemail")
+        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "email")
+        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "password")
+        
+        
+        
+        self.tableView.backgroundColor = UIColor.plangoCream()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    
+    func didChangeLoginSegment() {
+        tableView.reloadData()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    // MARK: - Text Field
+    
+    func processTextField(textField: UITextField) {
+        //        if let text = textField.text {
+        //            if text.characters.count > 0 {
+        //                if let currentProfile = self.profile {
+        //                    if let handle = currentProfile.handle {
+        //                        if handle != text {
+        //                            RVFirebaseUserProfile.lookUpProfileViaHandle(text, callback: { (error, userProfiles) -> Void in
+        //                                if let error = error {
+        //                                    error.printError("\(self.classForCoder)", method: "processTextField", message: nil)
+        //
+        //                                } else if userProfiles.count == 0 {
+        //                                    currentProfile.handle = text
+        //                                    currentProfile.save({ (error, ref) -> (Void) in
+        //                                        self.view.quickToast("updated name")
+        //                                    })
+        //                                } else if userProfiles.count >= 1 {
+        //                                    self.view.quickToast("sorry name already taken")
+        //
+        //                                }
+        //                            })
+        //                        }
+        //                    }
+        //                } else {
+        //                    print("In \(self.classForCoder).processTextField, no userProfile")
+        //                }
+        //
+        //
+        //            }
+        //        }
+    }
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.endEditing(true)
+        return true
+    }
+    
+    func textFieldShouldClear(textField: UITextField) -> Bool {
+        return true
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        textField.resignFirstResponder()
+        textField.layer.borderWidth = 0.0
+        
+        processTextField(textField)
+    }
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        
+        //enable tab
+        if string == "\t" {
+            textField.endEditing(true)
+            return false
+        }
+        
+        // method checks and sanitizes text for search
+        if let textErrors = Helper.isValidSearchWithErrors(textField.text, possibleNewCharacter: string) {
+            self.view.quickToast(textErrors)
+            Helper.textIsValid(textField, sender: false)
+            return false
+        } else {
+            // textErrors = nil so NO ERRORS proceed with text
+            Helper.textIsValid(textField, sender: true)
+            return true
+        }
     }
 
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        if loginSegment.selectedSegmentIndex == 0 {
+            return 2
+        } else {
+            return 3
+        }
     }
-
-    /*
+    
+    override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 60
+    }
+    
+    override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return footerView
+    }
+    
+//    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+//        let textFrame = CGRectMake(8, 4, cell.contentView.frame.width - 16, cell.contentView.frame.height - 8)
+//        usernameTextField.frame = textFrame
+//        userOrEmailTextField.frame = textFrame
+//        emailTextField.frame = textFrame
+//        passwordTextField.frame = textFrame
+//    }
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
+        if loginSegment.selectedSegmentIndex == 0 {
+            switch indexPath.row {
+            case 0:
+                let cell = tableView.dequeueReusableCellWithIdentifier("usernameemail", forIndexPath: indexPath)
+                usernameTextField.frame = CGRectMake(8, 4, cell.contentView.frame.width - 16, cell.contentView.frame.height - 8)
+                cell.contentView.addSubview(usernameTextField)
+                return cell
+            default:
+                let cell = tableView.dequeueReusableCellWithIdentifier("password", forIndexPath: indexPath)
+                passwordTextField.frame = CGRectMake(8, 4, cell.contentView.frame.width - 16, cell.contentView.frame.height - 8)
+                cell.contentView.addSubview(passwordTextField)
+                return cell
+            }
+        } else {
+            switch indexPath.row {
+            case 0:
+                let cell = tableView.dequeueReusableCellWithIdentifier("username", forIndexPath: indexPath)
+                usernameTextField.frame = CGRectMake(8, 4, cell.contentView.frame.width - 16, cell.contentView.frame.height - 8)
+                cell.contentView.addSubview(usernameTextField)
+                return cell
+            case 1:
+                let cell = tableView.dequeueReusableCellWithIdentifier("email", forIndexPath: indexPath)
+                emailTextField.frame = CGRectMake(8, 4, cell.contentView.frame.width - 16, cell.contentView.frame.height - 8)
+                cell.contentView.addSubview(emailTextField)
+                return cell
+            default:
+                let cell = tableView.dequeueReusableCellWithIdentifier("password", forIndexPath: indexPath)
+                passwordTextField.frame = CGRectMake(8, 4, cell.contentView.frame.width - 16, cell.contentView.frame.height - 8)
+                cell.contentView.addSubview(passwordTextField)
+                return cell
+            }
+        }
+        
 
-        // Configure the cell...
-
-        return cell
     }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

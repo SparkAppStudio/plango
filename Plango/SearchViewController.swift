@@ -58,22 +58,13 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         self.segmentedPager.segmentedControl.selectionIndicatorColor = UIColor.plangoOrange()
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        //for some reason setting delegate to fileowner (which is this class) in xib doesnt work
-//        searchTextField.delegate = self
-//        locationTextField.delegate = self
-//        startTextField.delegate = self
-//        endTextField.delegate = self
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        searchButton.makeRoundCorners(64)
     }
     
     // MARK: - Text Field
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        self.view.endEditing(true)
-        super.touchesBegan(touches, withEvent: event)
-    }
-        
+    
     func processTextField(textField: UITextField) {
 //        if let text = textField.text {
 //            if text.characters.count > 0 {

@@ -42,14 +42,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        let homeController = UIStoryboard(name: StoryboardID.Main.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.Discover.rawValue)
         let tabOne = UINavigationController(rootViewController: DiscoverTableViewController())
         
-        let searchController = UIStoryboard(name: StoryboardID.Utilities.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.Search.rawValue)
-        let tabTwo = UINavigationController(rootViewController: searchController)
+//        let searchController = UIStoryboard(name: StoryboardID.Utilities.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.Search.rawValue)
+        let tabTwo = UINavigationController(rootViewController: SearchViewController())
         
-        let myPlansController = MyPlansViewController()
-        let tabThree = UINavigationController(rootViewController: myPlansController)
+        let tabThree = UINavigationController(rootViewController: MyPlansViewController())
         
-        let settingsController = SettingsTableViewController()
-        let tabFour = UINavigationController(rootViewController: settingsController)
+        let tabFour = UINavigationController(rootViewController: SettingsTableViewController())
         
         plangoNav([tabOne, tabTwo, tabThree, tabFour])
         
