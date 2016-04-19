@@ -10,8 +10,7 @@ import UIKit
 
 class PlansTableViewController: UITableViewController {
     
-    var usersArray = [User]()
-
+    lazy var usersArray = [User]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +29,8 @@ class PlansTableViewController: UITableViewController {
     
     func fetchUsers() {
 //        var usersArray = [User]()
-        Plango.sharedInstance.fetchUsers { (receivedUsers: [User]?, error: NSError?) in
+        Plango.sharedInstance.fetchObjects("http://www.plango.us/users/") {
+            (receivedUsers: [User]?, error: NSError?) in
             if let error = error {
                 print(error.description)
             } else if let users = receivedUsers {

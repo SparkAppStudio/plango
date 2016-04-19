@@ -14,12 +14,24 @@ class Plango: NSObject {
     static let sharedInstance = Plango()
     
     var currentUser: User!
-    var mongoUsersLocation = "http://www.plango.us/users/5654a2512a8d0ea232c41310"
     
     typealias UsersResponse = ([User]?, NSError?) -> Void
     
-    func fetchUsers(onCompletion: UsersResponse) {
-        Alamofire.request(.GET, mongoUsersLocation).validate().responseString { response in
+    func findUserFromID(id: String) -> User? {
+        var aUser = User()
+        fetchObjects("http://www.plango.us/users/\(id)") {
+            (receivedUsers: [User]?, error: NSError?) in
+            if let error = error {
+                print(error.description)
+            } else if let users = receivedUsers {
+                aUser = users.first!
+            }
+        }
+        return aUser
+    }
+    
+    func fetchObjects(location: String, onCompletion: UsersResponse) {
+        Alamofire.request(.GET, location).validate().responseString { response in
             var receivedUsers = [User]()
             switch response.result {
             case .Success:

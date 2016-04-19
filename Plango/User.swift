@@ -19,15 +19,15 @@ class User: NSObject {
     var password: String!
     var authToken: String!
     
-    var avatar: NSData!
+    var avatar: String?
     
     var plans: NSArray!
     
-    var invites: Int32!
+    var invites: Int32?
     var admin: Bool!
     var confirmed: Bool!
     var showPlan: Bool!
-    var showSumon: Bool!
+    var showSum: Bool!
     
     class func getUsersFromJSON(objectJSON: JSON) -> [User] {
         var tempUsers = [User?]()
@@ -42,10 +42,21 @@ class User: NSObject {
         return tempUsers.flatMap { $0 }
     }
     
-    class func createUser(dict: NSDictionary) -> User? {
+    class func createUser(dictionary: NSDictionary) -> User? {
         let newUser = User()
-        newUser.id = dict["_id"] as! String
-        newUser.userName = dict["username"] as! String
+        newUser.id = dictionary["_id"] as! String
+        newUser.userName = dictionary["username"] as! String
+        newUser.displayName = dictionary["displayname"] as! String
+        newUser.email = dictionary["email"] as! String
+        newUser.password = dictionary["password"] as! String
+        newUser.authToken = dictionary["auth_token"] as! String
+        newUser.avatar = dictionary["avatar"] as? String
+        newUser.plans = dictionary["plans"] as! NSArray
+        newUser.invites = dictionary["num_invites"] as? Int32
+        newUser.admin = dictionary["admin"] as! Bool
+        newUser.confirmed = dictionary["confirmed"] as! Bool
+        newUser.showPlan = dictionary["showplanonboard"] as! Bool
+        newUser.showSum = dictionary["showsumonboard"] as! Bool
         
         return newUser
     }
