@@ -13,42 +13,66 @@ import SwiftyJSON
 class Plango: NSObject {
     static let sharedInstance = Plango()
     
+    enum Address: String {
+        case Home = "http://www.plango.us/"
+        case HomeSecure = "https://www.plango.us/"
+        case Users = "users/"
+        case Plans = "plans/"
+    }
+    
     var currentUser: User!
     
     typealias UsersResponse = ([User]?, NSError?) -> Void
+    typealias PlansResponse = ([Plan]?, NSError?) -> Void
+    typealias TagsResponse = ([Tag]?, NSError?) -> Void
     
-    func findUserFromID(id: String) -> User? {
-        var aUser = User()
-        fetchObjects("http://www.plango.us/users/\(id)") {
-            (receivedUsers: [User]?, error: NSError?) in
-            if let error = error {
-                print(error.description)
-            } else if let users = receivedUsers {
-                aUser = users.first!
-            }
-        }
-        return aUser
-    }
-    
-    func fetchObjects(location: String, onCompletion: UsersResponse) {
-        Alamofire.request(.GET, location).validate().responseString { response in
+    func fetchUsers(location: String, onCompletion: UsersResponse) {
+        Alamofire.request(.GET, location).validate().responseJSON { response in
             var receivedUsers = [User]()
+            
             switch response.result {
-            case .Success:
-                guard let receivedValue = response.result.value else {
-                    onCompletion(receivedUsers, nil)
-                    return
-                }
-                guard let receivedData = receivedValue.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) else {
-                    onCompletion(receivedUsers, nil)
-                    return
-                }
+            case .Success(let dataJSON):
                 
-                let objectJSON = JSON(data: receivedData)
+                //the verbose way, using generic response from Alamofire. Checks if the data may arrive but be empty, otherwise unnecessary
                 
-                receivedUsers = User.getUsersFromJSON(objectJSON)
+//                guard let receivedValue = response.result.value else {
+//                    onCompletion(receivedUsers, nil)
+//                    return
+//                }
+//                guard let receivedData = receivedValue.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) else {
+//                    onCompletion(receivedUsers, nil)
+//                    return
+//                }
+//                
+//                let theJSON = JSON(data: receivedData)
+                
+                let theJSON = JSON(dataJSON)
+                
+                receivedUsers = User.getUsersFromJSON(theJSON)
                 onCompletion(receivedUsers, nil)
                 
+            case .Failure(let error):
+                onCompletion(nil, error)
+            }
+        }
+    }
+    
+    func fetchPlans(location: String, onCompletion: PlansResponse) -> Void {
+        Alamofire.request(.GET, location).validate().responseJSON { response in
+            switch response.result {
+            case .Success(let dataJSON):
+                onCompletion(Plan.getPlansFromJSON(JSON(dataJSON)), nil)
+            case .Failure(let error):
+                onCompletion(nil, error)
+            }
+        }
+    }
+    
+    func fetchTags(location: String, onCompletion: TagsResponse) -> Void {
+        Alamofire.request(.GET, location).validate().responseJSON { response in
+            switch response.result {
+            case .Success(let dataJSON):
+                onCompletion(Tag.getTagsFromJSON(JSON(dataJSON)), nil)
             case .Failure(let error):
                 onCompletion(nil, error)
             }

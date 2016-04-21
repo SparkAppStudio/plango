@@ -11,6 +11,9 @@ import UIKit
 class PlansTableViewController: UITableViewController {
     
     lazy var usersArray = [User]()
+    lazy var plansArray = [Plan]()
+    
+    var plansLocation: String!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,23 +21,17 @@ class PlansTableViewController: UITableViewController {
         let cellNib = UINib(nibName: "PlansCell", bundle: nil)
         self.tableView.registerNib(cellNib, forCellReuseIdentifier: CellID.Plans.rawValue)
         
-        fetchUsers()
+        fetchPlans(plansLocation)
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
-    func fetchUsers() {
-//        var usersArray = [User]()
-        Plango.sharedInstance.fetchObjects("http://www.plango.us/users/") {
-            (receivedUsers: [User]?, error: NSError?) in
+    func fetchPlans(location: String) {
+        Plango.sharedInstance.fetchPlans(location) {
+            (receivedPlans: [Plan]?, error: NSError?) in
             if let error = error {
                 print(error.description)
-            } else if let users = receivedUsers {
-                self.usersArray = users
+            } else if let plans = receivedPlans {
+                self.plansArray = plans
                 //TODO: - update tableView
                 self.tableView.reloadData()
             }
@@ -62,14 +59,13 @@ class PlansTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return usersArray.count
+        return plansArray.count
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Plans.rawValue, forIndexPath: indexPath) as! PlansTableViewCell
-        cell.user = self.usersArray.first
+        cell.plan = self.plansArray[indexPath.row]
         cell.configure()
         return cell
     }

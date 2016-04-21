@@ -136,16 +136,18 @@ extension DiscoverTableViewController: UICollectionViewDataSource, UICollectionV
     
     enum TypeTitles: String {
         case Adventurous = "Adventurous"
+        case Foodie = "Foodie"
+        //TODO: - I need to know what all the categories are
         
         var section: Int {
             switch self {
             case .Adventurous: return 0
-                
+            case .Foodie: return 1
             }
         }
         
         static var count: Int {
-            return TypeTitles.Adventurous.hashValue + 9
+            return TypeTitles.Foodie.hashValue + 1
         }
         
     }

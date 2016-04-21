@@ -34,8 +34,10 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let plansVC = PlansTableViewController()
+        plansVC.plansLocation = ""
         
-        addPage("Search Results", controller: PlansTableViewController())
+        addPage("Search Results", controller: plansVC)
         
         // Parallax Header
         let bundle = NSBundle(forClass: self.dynamicType)

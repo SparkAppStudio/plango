@@ -25,10 +25,14 @@ class MyPlansViewController: MXSegmentedPagerController {
         return controllers
     }()
     
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        addPage("My Plans", controller: PlansTableViewController())
+        let plansVC = PlansTableViewController()
+        plansVC.plansLocation = "\(Plango.Address.Home.rawValue)\(Plango.Address.Plans.rawValue)560b0f3b5364673a220212ff"
+        addPage("My Plans", controller: plansVC)
         
         // Parallax Header
         let bundle = NSBundle(forClass: self.dynamicType)
