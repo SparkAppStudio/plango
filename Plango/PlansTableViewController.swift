@@ -35,6 +35,7 @@ class PlansTableViewController: UITableViewController {
                 //TODO: - update tableView
                 let cell = self.tableView.cellForRowAtIndexPath(indexPath) as! PlansTableViewCell
                 cell.user = users.first!
+                print("\(cell.user?.displayName) has \(cell.user?.invites?.description) invites")
                 cell.configure()
 //                self.tableView.reloadData()
             }
@@ -97,6 +98,7 @@ class PlansTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Plans.rawValue, forIndexPath: indexPath) as! PlansTableViewCell
         
         let plan = self.plansArray[indexPath.row]
+        print("the plan duration is \(plan.durationDays?.description)")
         cell.plan = plan
         self.fetchUserForPlan("\(Plango.EndPoint.UserByID.rawValue)\(plan.authorID)", indexPath: indexPath)
 

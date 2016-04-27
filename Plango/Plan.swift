@@ -66,7 +66,12 @@ class Plan: NSObject {
         date.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         
         newPlan.endDate = dictionary["end"] as? NSDate
-        newPlan.durationDays = dictionary["duration"] as? Int32
+        
+        if let duration = dictionary["duration"] as? String {
+            newPlan.durationDays = Int32(duration)
+        }
+    
+        
         newPlan.lastViewedDate = dictionary["last_viewed"] as? NSDate
         newPlan.lastUpdatedDate = dictionary["last_updated"] as? NSDate
         newPlan.createdDate = dictionary["created_date"] as? NSDate

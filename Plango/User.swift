@@ -52,7 +52,11 @@ class User: NSObject {
 //        newUser.authToken = dictionary["auth_token"] as! String
         newUser.avatar = dictionary["avatar"] as? String
         newUser.plans = dictionary["plans"] as? NSArray
-        newUser.invites = dictionary["num_invites"] as? Int32
+        
+        if let invites = dictionary["num_invites"] as? String {
+            newUser.invites = Int32(invites)
+        }
+        
         newUser.admin = dictionary["admin"] as? Bool
         newUser.confirmed = dictionary["confirmed"] as? Bool
         newUser.showPlan = dictionary["showplanonboard"] as? Bool
