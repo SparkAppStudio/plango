@@ -31,7 +31,7 @@ class MyPlansViewController: MXSegmentedPagerController {
         super.viewDidLoad()
         
         let plansVC = PlansTableViewController()
-        plansVC.plansLocation = "\(Plango.Address.Home.rawValue)\(Plango.Address.Plans.rawValue)560b0f3b5364673a220212ff"
+        plansVC.plansEndPoint = Plango.EndPoint.FindPlans.rawValue
         addPage("My Plans", controller: plansVC)
         
         // Parallax Header

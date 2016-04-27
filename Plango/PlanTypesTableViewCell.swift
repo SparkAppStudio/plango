@@ -45,5 +45,6 @@ class PlanTypesTableViewCell: UITableViewCell {
     func configureWithDataSourceDelegate(dataSourceDelegate delegate: protocol<UICollectionViewDataSource, UICollectionViewDelegate>) {
         collectionView.dataSource = delegate
         collectionView.delegate = delegate
+        collectionView.reloadData()
     }
 }

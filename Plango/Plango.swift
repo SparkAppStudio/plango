@@ -13,11 +13,11 @@ import SwiftyJSON
 class Plango: NSObject {
     static let sharedInstance = Plango()
     
-    enum Address: String {
-        case Home = "http://www.plango.us/"
-        case HomeSecure = "https://www.plango.us/"
-        case Users = "users/"
-        case Plans = "plans/"
+    enum EndPoint: String {
+        case UserByID = "http://www.plango.us/users/"
+        case PlanByID = "http://www.plango.us/plans/"
+        case FindPlans = "http://www.plango.us/findplans/"
+        case AllTags = "http://www.plango.us/tags"
     }
     
     var currentUser: User!
@@ -26,14 +26,15 @@ class Plango: NSObject {
     typealias PlansResponse = ([Plan]?, NSError?) -> Void
     typealias TagsResponse = ([Tag]?, NSError?) -> Void
     
-    func fetchUsers(location: String, onCompletion: UsersResponse) {
-        Alamofire.request(.GET, location).validate().responseJSON { response in
+    func fetchUsers(endPoint: String, onCompletion: UsersResponse) {
+        Alamofire.request(.GET, endPoint).validate().responseJSON { response in
             var receivedUsers = [User]()
             
             switch response.result {
             case .Success(let dataJSON):
                 
-                //the verbose way, using generic response from Alamofire. Checks if the data may arrive but be empty, otherwise unnecessary
+                // MARK: - NOTE: the verbose way
+                //using generic response from Alamofire. Checks if the data may arrive but be empty, otherwise unnecessary
                 
 //                guard let receivedValue = response.result.value else {
 //                    onCompletion(receivedUsers, nil)
@@ -45,7 +46,7 @@ class Plango: NSObject {
 //                }
 //                
 //                let theJSON = JSON(data: receivedData)
-                
+                print(dataJSON.description)
                 let theJSON = JSON(dataJSON)
                 
                 receivedUsers = User.getUsersFromJSON(theJSON)
@@ -57,8 +58,8 @@ class Plango: NSObject {
         }
     }
     
-    func fetchPlans(location: String, onCompletion: PlansResponse) -> Void {
-        Alamofire.request(.GET, location).validate().responseJSON { response in
+    func fetchPlans(endPoint: String, onCompletion: PlansResponse) -> Void {
+        Alamofire.request(.GET, endPoint).validate().responseJSON { response in
             switch response.result {
             case .Success(let dataJSON):
                 onCompletion(Plan.getPlansFromJSON(JSON(dataJSON)), nil)
@@ -68,8 +69,8 @@ class Plango: NSObject {
         }
     }
     
-    func fetchTags(location: String, onCompletion: TagsResponse) -> Void {
-        Alamofire.request(.GET, location).validate().responseJSON { response in
+    func fetchTags(endPoint: String, onCompletion: TagsResponse) -> Void {
+        Alamofire.request(.GET, endPoint).validate().responseJSON { response in
             switch response.result {
             case .Success(let dataJSON):
                 onCompletion(Tag.getTagsFromJSON(JSON(dataJSON)), nil)

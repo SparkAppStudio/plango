@@ -12,61 +12,66 @@ import Alamofire
 
 class Plan: NSObject {
     var id: String!
-    var name: String!
+    var name: String?
     var avatar: String?
-    var planDescription: String!
-    var isPublic: Bool!
+    var planDescription: String?
+    var isPublic: Bool?
 
     var authorID: String!
     
-    var startDate: NSDate!
-    var endDate: NSDate!
-    var durationDate: NSDate!
+    var startDate: NSDate?
+    var endDate: NSDate?
+    var durationDate: NSDate?
     
-    var lastViewedDate: NSDate!
-    var lastUpdatedDate: NSDate!
-    var createdDate: NSDate!
+    var lastViewedDate: NSDate?
+    var lastUpdatedDate: NSDate?
+    var createdDate: NSDate?
     
-    var members: NSArray!
-    var tags: NSArray!
-    var todos: NSArray!
-    var events: NSArray!
-    var places: NSArray!
-    var experiences: NSArray!
+    var members: NSArray?
+    var tags: [String]?
+    var todos: NSArray?
+    var events: NSArray?
+    var places: NSArray?
+    var experiences: NSArray?
+    
     
     class func getPlansFromJSON(objectJSON: JSON) -> [Plan] {
         var tempUsers = [Plan?]()
         
-        guard let dictionary = objectJSON["data"].dictionaryObject else {
+        guard let array = objectJSON["data"].arrayObject else {
             return [Plan]()
         }
         
-        tempUsers.append(createPlan(dictionary))
+        for item in array {
+            let dictionary = item as! NSDictionary
+            tempUsers.append(createPlan(dictionary))
+        }
         
         //remote nil users
         return tempUsers.flatMap { $0 }
     }
     
     class func createPlan(dictionary: NSDictionary) -> Plan? {
+
         let newPlan = Plan()
         newPlan.id = dictionary["_id"] as! String
-        newPlan.name = dictionary["name"] as! String
+        newPlan.name = dictionary["name"] as? String
         newPlan.avatar = dictionary["avatarUrl"] as? String
-        newPlan.planDescription = dictionary["description"] as! String
-        newPlan.isPublic = dictionary["is_public"] as! Bool
+        newPlan.planDescription = dictionary["description"] as? String
+        newPlan.isPublic = dictionary["is_public"] as? Bool
         newPlan.authorID = dictionary["created_by"] as! String
-        newPlan.startDate = dictionary["start"] as! NSDate
-        newPlan.endDate = dictionary["end"] as! NSDate
-        newPlan.durationDate = dictionary["duration"] as! NSDate
-        newPlan.lastViewedDate = dictionary["last_viewed"] as! NSDate
-        newPlan.lastUpdatedDate = dictionary["last_updated"] as! NSDate
-        newPlan.createdDate = dictionary["created_date"] as! NSDate
-        newPlan.members = dictionary["members"] as! NSArray
-        newPlan.tags = dictionary["tags"] as! NSArray
-        newPlan.todos = dictionary["todos"] as! NSArray
-        newPlan.events = dictionary["events"] as! NSArray
-        newPlan.places = dictionary["places"] as! NSArray
-        newPlan.experiences = dictionary["experiences"] as! NSArray
+        newPlan.startDate = dictionary["start"] as? NSDate
+        newPlan.endDate = dictionary["end"] as? NSDate
+        newPlan.durationDate = dictionary["duration"] as? NSDate
+        newPlan.lastViewedDate = dictionary["last_viewed"] as? NSDate
+        newPlan.lastUpdatedDate = dictionary["last_updated"] as? NSDate
+        newPlan.createdDate = dictionary["created_date"] as? NSDate
+        newPlan.members = dictionary["members"] as? NSArray
+        newPlan.tags = dictionary["tags"] as? [String]
+        newPlan.todos = dictionary["todos"] as? NSArray
+        newPlan.events = dictionary["events"] as? NSArray
+        newPlan.places = dictionary["places"] as? NSArray
+        newPlan.experiences = dictionary["experiences"] as? NSArray
         
         return newPlan
     }

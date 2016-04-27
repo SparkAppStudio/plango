@@ -1,0 +1,29 @@
+{"status":"success", "data":[
+                             {"_id": "5602358858fd2c973267e53b",
+                             "name": "SF in 5",
+                             "created_by": "56441caf6b2eb7371564f668",
+                             "start": "Tue Mar 15 2016 00:00:00 GMT-0700 (PDT)",
+                             "end": "Sat Mar 19 2016 00:00:00 GMT-0700 (PDT)",
+                             "duration": "4",
+                             "description": "Experience the best of what San Francisco has to offer.",
+                             "last_updated": "Mon Apr 18 2016 11:59:19 GMT-0700 (PDT)",
+                             "created_date": "Tue Sep 22 2015 22:15:52 GMT-0700 (PDT)",
+                             "__v": "75",
+                             "avatarUrl": "../img/tag-images/adventurous/adventurous_13.jpg",
+                             "likesCount": "0",
+                             "last_viewed": "Thu Apr 21 2016 16:37:36 GMT-0700 (PDT)",
+                             "is_public": "true",
+                             "members": [ { "_id": "56441caf6b2eb7371564f668", "confirmed": "true" } ],
+                             "tags": [ "Foodie", "Adventurous", "Touristy" ],
+                             "todos": [],
+                             "favorites": []},
+                             
+                             {"_id": "560998ab26ccca291699f6ec",
+                             "name": "UCLA Bar Crawl",
+                             "created_by": "5644231b6b2eb7371564f66a"},
+                             
+                             { "_id": "560a38c15364673a22021194",
+                             "name": "Monterey Day Trip",
+                             "created_by": "564425a76b2eb7371564f66c"}
+                             ]
+}

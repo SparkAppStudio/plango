@@ -30,6 +30,8 @@ class DiscoverTableViewController: UITableViewController {
         }
     }
     
+    lazy var tagsArray = [Tag]()
+    
     lazy var logoutBarButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "LOGOUT", style: .Plain, target: self, action: #selector(DiscoverTableViewController.logout))
         return button
@@ -41,6 +43,9 @@ class DiscoverTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        fetchTags(Plango.EndPoint.AllTags.rawValue)
+        
         self.tableView.backgroundColor = UIColor.plangoCream()
         
         self.navigationItem.rightBarButtonItem = logoutBarButton
@@ -134,32 +139,28 @@ class DiscoverTableViewController: UITableViewController {
 
 extension DiscoverTableViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
-    enum TypeTitles: String {
-        case Adventurous = "Adventurous"
-        case Foodie = "Foodie"
-        //TODO: - I need to know what all the categories are
-        
-        var section: Int {
-            switch self {
-            case .Adventurous: return 0
-            case .Foodie: return 1
+    func fetchTags(endPoint: String) {
+        Plango.sharedInstance.fetchTags(endPoint) { (receivedTags, error) in
+            if let error = error {
+                print(error.description)
+            } else if let tags = receivedTags {
+                self.tagsArray = tags
+                print(self.tagsArray.count.description)
+                self.tableView.reloadData()
             }
         }
-        
-        static var count: Int {
-            return TypeTitles.Foodie.hashValue + 1
-        }
-        
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return TypeTitles.count
+        return tagsArray.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(CellID.SpecificType.rawValue, forIndexPath: indexPath) as! TypeCollectionViewCell
         
         // Configure the cell
+        cell.plangoTag = tagsArray[indexPath.row]
+        cell.configure()
         
         return cell
     }

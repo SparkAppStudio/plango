@@ -35,7 +35,7 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         super.viewDidLoad()
         
         let plansVC = PlansTableViewController()
-        plansVC.plansLocation = ""
+        plansVC.plansEndPoint = Plango.EndPoint.FindPlans.rawValue
         
         addPage("Search Results", controller: plansVC)
         

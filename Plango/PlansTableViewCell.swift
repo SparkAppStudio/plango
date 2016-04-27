@@ -32,6 +32,20 @@ class PlansTableViewCell: UITableViewCell {
         if let cellUser = user {
             profileNameLabel.text = cellUser.userName
         }
+        if let cellPlan = plan {
+            planNameLabel.text = cellPlan.name
+            
+            var allTags = ""
+            guard let planTags = cellPlan.tags else {
+               return
+            }
+            for tagName in planTags {
+                allTags = allTags.stringByAppendingString("\(tagName), ")
+            }
+            planTagsLabel.text = allTags
+            
+            //TODO: - plan length, views count and copies count
+        }
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
