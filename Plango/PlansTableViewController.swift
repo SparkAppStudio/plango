@@ -96,9 +96,10 @@ class PlansTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Plans.rawValue, forIndexPath: indexPath) as! PlansTableViewCell
         
-        cell.plan = self.plansArray[indexPath.row]
-        
-        self.fetchUserForPlan("\(Plango.EndPoint.UserByID.rawValue)\(self.plansArray[indexPath.row].authorID)", indexPath: indexPath)
+        let plan = self.plansArray[indexPath.row]
+        cell.plan = plan
+        self.fetchUserForPlan("\(Plango.EndPoint.UserByID.rawValue)\(plan.authorID)", indexPath: indexPath)
+
         
         cell.configure()
         return cell

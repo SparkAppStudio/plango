@@ -33,8 +33,8 @@ class DiscoverTableViewController: UITableViewController {
     lazy var tagsArray = [Tag]()
     
     lazy var usersDictionary = [NSIndexPath:User]()
-    lazy var popularPlansArray = [Plan]()
-    lazy var favoritePlansArray = [Plan]()
+    lazy var popularPlansArray = [Plan]?()
+    lazy var favoritePlansArray = [Plan]?()
     
 
     
@@ -120,10 +120,13 @@ class DiscoverTableViewController: UITableViewController {
         default:
             let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Plans.rawValue, forIndexPath: indexPath) as! PlansTableViewCell
             if indexPath.section == DiscoverTitles.Popular.section {
-                cell.plan = self.popularPlansArray[indexPath.row]
+                if let plans = self.popularPlansArray {
+                    cell.plan = plans[indexPath.row]
+                }
             } else {
-                cell.plan = self.favoritePlansArray[indexPath.row]
-            }
+                if let plans = self.favoritePlansArray {
+                    cell.plan = plans[indexPath.row]
+                }            }
             //TODO: - fetchUserForPlan copy method or refactor
             cell.configure()
             return cell
