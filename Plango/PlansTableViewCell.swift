@@ -42,7 +42,8 @@ class PlansTableViewCell: UITableViewCell {
             for tagName in planTags {
                 allTags = allTags.stringByAppendingString("\(tagName), ")
             }
-            planTagsLabel.text = allTags
+            let cleanedTags = String(allTags.characters.dropLast(2))
+            planTagsLabel.text = cleanedTags
             
             //TODO: - plan length, views count and copies count
         }

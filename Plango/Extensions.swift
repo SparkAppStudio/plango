@@ -48,6 +48,13 @@ extension NSDateFormatter {
     }
 }
 
+extension String {
+    func trimWhiteSpace() -> String
+    {
+        return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+    }
+}
+
 extension PHAsset {
     
     func getAdjustedSize(maxDimension: CGFloat)-> CGSize {

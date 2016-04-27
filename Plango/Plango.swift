@@ -46,7 +46,6 @@ class Plango: NSObject {
 //                }
 //                
 //                let theJSON = JSON(data: receivedData)
-                print(dataJSON.description)
                 let theJSON = JSON(dataJSON)
                 
                 receivedUsers = User.getUsersFromJSON(theJSON)

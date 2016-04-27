@@ -20,10 +20,12 @@
                              
                              {"_id": "560998ab26ccca291699f6ec",
                              "name": "UCLA Bar Crawl",
-                             "created_by": "5644231b6b2eb7371564f66a"},
+                             "created_by": "5644231b6b2eb7371564f66a",
+                             "tags": [ "Foodie", "Adventurous" ]},
                              
                              { "_id": "560a38c15364673a22021194",
                              "name": "Monterey Day Trip",
-                             "created_by": "564425a76b2eb7371564f66c"}
+                             "created_by": "564425a76b2eb7371564f66c",
+                             "tags": [ "Touristy" ]}
                              ]
 }
