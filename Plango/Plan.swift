@@ -21,7 +21,7 @@ class Plan: NSObject {
     
     var startDate: NSDate?
     var endDate: NSDate?
-    var durationDate: NSDate?
+    var durationDays: Int32?
     
     var lastViewedDate: NSDate?
     var lastUpdatedDate: NSDate?
@@ -60,9 +60,13 @@ class Plan: NSObject {
         newPlan.planDescription = dictionary["description"] as? String
         newPlan.isPublic = dictionary["is_public"] as? Bool
         newPlan.authorID = dictionary["created_by"] as! String
+        
         newPlan.startDate = dictionary["start"] as? NSDate
+        let date = NSDateFormatter()
+        date.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        
         newPlan.endDate = dictionary["end"] as? NSDate
-        newPlan.durationDate = dictionary["duration"] as? NSDate
+        newPlan.durationDays = dictionary["duration"] as? Int32
         newPlan.lastViewedDate = dictionary["last_viewed"] as? NSDate
         newPlan.lastUpdatedDate = dictionary["last_updated"] as? NSDate
         newPlan.createdDate = dictionary["created_date"] as? NSDate

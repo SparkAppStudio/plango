@@ -32,6 +32,12 @@ class DiscoverTableViewController: UITableViewController {
     
     lazy var tagsArray = [Tag]()
     
+    lazy var usersDictionary = [NSIndexPath:User]()
+    lazy var popularPlansArray = [Plan]()
+    lazy var favoritePlansArray = [Plan]()
+    
+
+    
     lazy var logoutBarButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "LOGOUT", style: .Plain, target: self, action: #selector(DiscoverTableViewController.logout))
         return button
@@ -43,8 +49,6 @@ class DiscoverTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        fetchTags(Plango.EndPoint.AllTags.rawValue)
         
         self.tableView.backgroundColor = UIColor.plangoCream()
         
@@ -58,6 +62,9 @@ class DiscoverTableViewController: UITableViewController {
         
         self.tableView.registerClass(PlanTypesTableViewCell.self, forCellReuseIdentifier: CellID.PlanTypes.rawValue)
         
+        fetchTags(Plango.EndPoint.AllTags.rawValue)
+        //TODO: - fetchPlans, copy method or refactor
+        //TODO: - fetchCollections, get title's from a list I guess
     }
 
     override func didReceiveMemoryWarning() {
@@ -112,6 +119,13 @@ class DiscoverTableViewController: UITableViewController {
 
         default:
             let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Plans.rawValue, forIndexPath: indexPath) as! PlansTableViewCell
+            if indexPath.section == DiscoverTitles.Popular.section {
+                cell.plan = self.popularPlansArray[indexPath.row]
+            } else {
+                cell.plan = self.favoritePlansArray[indexPath.row]
+            }
+            //TODO: - fetchUserForPlan copy method or refactor
+            cell.configure()
             return cell
         }
     }
@@ -142,7 +156,7 @@ extension DiscoverTableViewController: UICollectionViewDataSource, UICollectionV
     func fetchTags(endPoint: String) {
         Plango.sharedInstance.fetchTags(endPoint) { (receivedTags, error) in
             if let error = error {
-                print(error.description)
+                print("\(self.classForCoder) \(error.description)")
             } else if let tags = receivedTags {
                 self.tagsArray = tags
                 print(self.tagsArray.count.description)
