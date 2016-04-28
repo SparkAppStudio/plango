@@ -62,7 +62,7 @@ class DiscoverTableViewController: UITableViewController {
         
         self.tableView.registerClass(PlanTypesTableViewCell.self, forCellReuseIdentifier: CellID.PlanTypes.rawValue)
         
-        fetchTags(Plango.EndPoint.AllTags.rawValue)
+//        fetchTags(Plango.EndPoint.AllTags.rawValue)
         //TODO: - fetchPlans, copy method or refactor
         //TODO: - fetchCollections, get title's from a list I guess
     }
@@ -159,7 +159,7 @@ extension DiscoverTableViewController: UICollectionViewDataSource, UICollectionV
     func fetchTags(endPoint: String) {
         Plango.sharedInstance.fetchTags(endPoint) { (receivedTags, error) in
             if let error = error {
-                print("\(self.classForCoder) \(error.description)")
+                Helper.printErrorMessage(self, error: error)
             } else if let tags = receivedTags {
                 self.tagsArray = tags
                 print(self.tagsArray.count.description)

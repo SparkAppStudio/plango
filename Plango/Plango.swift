@@ -18,13 +18,18 @@ class Plango: NSObject {
         case PlanByID = "http://www.plango.us/plans/"
         case FindPlans = "http://www.plango.us/findplans/"
         case AllTags = "http://www.plango.us/tags"
+//        case Login = "http://www.plango.us/login"
+        case Login = "http://0ca0ea35.ngrok.io/login"
+        case NewAccount = "https://www.plango.us/createuser"
+        case Logout = "https://www.plango.us/logout"
     }
     
-    var currentUser: User!
+    var currentUser: User?
     
     typealias UsersResponse = ([User]?, NSError?) -> Void
     typealias PlansResponse = ([Plan]?, NSError?) -> Void
     typealias TagsResponse = ([Tag]?, NSError?) -> Void
+    typealias LoginResponse = (User?, NSError?) -> Void
     
     func fetchUsers(endPoint: String, onCompletion: UsersResponse) {
         Alamofire.request(.GET, endPoint).validate().responseJSON { response in
@@ -73,6 +78,35 @@ class Plango: NSObject {
             switch response.result {
             case .Success(let dataJSON):
                 onCompletion(Tag.getTagsFromJSON(JSON(dataJSON)), nil)
+            case .Failure(let error):
+                onCompletion(nil, error)
+            }
+        }
+    }
+    
+    func loginUserWithPassword(endPoint: String, email: String, password: String, onCompletion: LoginResponse) -> Void {
+        let parameters = ["email" : email, "password" : password]
+        
+        Alamofire.request(.POST, endPoint, parameters: parameters).responseJSON { response in
+//            print(response)
+//            print(response.debugDescription)
+//            print(response.description)
+//            print(response.response)
+//            print(response.result)
+//            print(response.result.debugDescription)
+//            print(response.result.description)
+//            print(response.result.error)
+            
+            switch response.result {
+            case .Success(let value):
+                let dataJSON = JSON(value)
+                if dataJSON["status"].stringValue == "success" {
+                    onCompletion(User.getUsersFromJSON(dataJSON).first, nil)
+                } else {
+//                    let error = NSError(domain: <#T##String#>, code: <#T##Int#>, userInfo: <#T##[NSObject : AnyObject]?#>)
+//                    onCompletion(nil,)
+                }
+                
             case .Failure(let error):
                 onCompletion(nil, error)
             }

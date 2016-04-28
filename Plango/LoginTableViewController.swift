@@ -13,6 +13,9 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
 
     
     var loginSegment: UISegmentedControl!
+    
+    var textToSend: String!
+    var passwordToSend: String!
 
     
     lazy var usernameTextField: UITextField = {
@@ -54,6 +57,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         button.tintColor = UIColor.whiteColor()
         button.setTitle("Log In", forState: UIControlState.Normal)
         button.makeRoundCorners(64)
+        button.addTarget(self, action: #selector(didTapLogin), forControlEvents: .TouchUpInside)
         return button
     }()
     
@@ -89,11 +93,38 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     func didChangeLoginSegment() {
         tableView.reloadData()
     }
+    
+    func didTapLogin(button: UIButton) {
+        login()
+    }
+    
+    func login() {
+        Plango.sharedInstance.loginUserWithPassword(Plango.EndPoint.Login.rawValue, email: textToSend, password: passwordToSend) { (user, error) in
+            if let error = error {
+                print(Helper.printErrorMessage(self, error: error))
+    
+            } else {
+                Plango.sharedInstance.currentUser = user
+                print(Plango.sharedInstance.currentUser?.userName)
+            }
+        }
+    }
 
     
     // MARK: - Text Field
     
     func processTextField(textField: UITextField) {
+        
+        switch textField {
+        case self.usernameTextField:
+            textToSend = textField.text
+        case self.passwordTextField:
+            passwordToSend = textField.text
+        default:
+            break
+        }
+        
+        
         //        if let text = textField.text {
         //            if text.characters.count > 0 {
         //                if let currentProfile = self.profile {
@@ -125,7 +156,14 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(textField: UITextField) {
-        
+        switch textField {
+        case self.usernameTextField:
+            textToSend = textField.text
+        case self.passwordTextField:
+            passwordToSend = textField.text
+        default:
+            break
+        }
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -160,6 +198,14 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         } else {
             // textErrors = nil so NO ERRORS proceed with text
             Helper.textIsValid(textField, sender: true)
+            switch textField {
+            case self.usernameTextField:
+                textToSend = textField.text
+            case self.passwordTextField:
+                passwordToSend = textField.text
+            default:
+                break
+            }
             return true
         }
     }

@@ -54,6 +54,10 @@ class Helper: NSObject {
         case InvalidDetails = "Check your @'s and dot your .coms"
     }
     
+    static func printErrorMessage(classType: NSObject, error: NSError) -> String {
+        return "In \(classType.classForCoder) \(error)"
+    }
+    
     static func textIsValid(textField: UITextField, sender: Bool) {
         textField.layer.borderWidth = 3.0
         
