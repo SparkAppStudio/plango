@@ -19,7 +19,7 @@ class Plango: NSObject {
         case FindPlans = "http://www.plango.us/findplans/"
         case AllTags = "http://www.plango.us/tags"
 //        case Login = "http://www.plango.us/login"
-        case Login = "http://0ca0ea35.ngrok.io/login"
+        case Login = "http://dc65be72.ngrok.io/login"
         case NewAccount = "https://www.plango.us/createuser"
         case Logout = "https://www.plango.us/logout"
     }
@@ -103,8 +103,7 @@ class Plango: NSObject {
                 if dataJSON["status"].stringValue == "success" {
                     onCompletion(User.getUsersFromJSON(dataJSON).first, nil)
                 } else {
-//                    let error = NSError(domain: <#T##String#>, code: <#T##Int#>, userInfo: <#T##[NSObject : AnyObject]?#>)
-//                    onCompletion(nil,)
+                    onCompletion(nil, nil)
                 }
                 
             case .Failure(let error):

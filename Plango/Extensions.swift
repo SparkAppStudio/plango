@@ -224,7 +224,7 @@ extension UIView {
         })
     }
     
-    func imageToast(title: String, image: UIImage) {
+    func imageToast(title: String?, image: UIImage) {
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             let hud = MBProgressHUD.showHUDAddedTo(self, animated: true)
             hud.mode = MBProgressHUDMode.CustomView

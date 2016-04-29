@@ -14,14 +14,13 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     
     var loginSegment: UISegmentedControl!
     
-    var textToSend: String!
-    var passwordToSend: String!
-
-    
     lazy var usernameTextField: UITextField = {
         let text = UITextField()
         text.borderStyle = .None
         text.placeholder = "Username"
+        text.keyboardType = .EmailAddress
+        text.autocorrectionType = .No
+        text.autocapitalizationType = .None
         text.delegate = self
         return text
     }()
@@ -29,7 +28,10 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     lazy var userOrEmailTextField: UITextField = {
         let text = UITextField()
         text.borderStyle = .None
-        text.placeholder = "Username or Email Address"
+        text.placeholder = "Username or Email"
+        text.keyboardType = .EmailAddress
+        text.autocorrectionType = .No
+        text.autocapitalizationType = .None
         text.delegate = self
         return text
     }()
@@ -38,6 +40,9 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         let text = UITextField()
         text.borderStyle = .None
         text.placeholder = "Email Address"
+        text.keyboardType = .EmailAddress
+        text.autocorrectionType = .No
+        text.autocapitalizationType = .None
         text.delegate = self
         return text
     }()
@@ -46,6 +51,9 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         let text = UITextField()
         text.borderStyle = .None
         text.placeholder = "Password"
+        text.secureTextEntry = true
+        text.autocorrectionType = .No
+        text.autocapitalizationType = .None
         text.delegate = self
         return text
     }()
@@ -95,11 +103,34 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     func didTapLogin(button: UIButton) {
-        login()
+        if loginSegment.selectedSegmentIndex == 0 {
+            guard let userEmail = userOrEmailTextField.text else {
+                self.tableView.quickToast("Please Enter your Email")
+                return
+            }
+            guard let password = passwordTextField.text else {
+                self.tableView.quickToast("Please Enter your Password")
+                return
+            }
+            
+            if userEmail.isEmpty {
+                self.tableView.quickToast("Please Enter your Email")
+            } else if password.isEmpty {
+                self.tableView.quickToast("Please Enter your Password")
+            } else {
+                loginWithPassword(userEmail, password: password)
+            }
+            
+        } else {
+            //TODO: - create user
+        }
     }
     
-    func login() {
-        Plango.sharedInstance.loginUserWithPassword(Plango.EndPoint.Login.rawValue, email: textToSend, password: passwordToSend) { (user, error) in
+    func loginWithPassword(userEmail: String, password: String) {
+        self.tableView.showSimpleLoading()
+        Plango.sharedInstance.loginUserWithPassword(Plango.EndPoint.Login.rawValue, email: userEmail, password: password) { (user, error) in
+            self.tableView.hideSimpleLoading()
+            self.tableView.imageToast(nil, image: UIImage(named: "whiteCheck")!)
             if let error = error {
                 print(Helper.printErrorMessage(self, error: error))
     
@@ -114,17 +145,6 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     // MARK: - Text Field
     
     func processTextField(textField: UITextField) {
-        
-        switch textField {
-        case self.usernameTextField:
-            textToSend = textField.text
-        case self.passwordTextField:
-            passwordToSend = textField.text
-        default:
-            break
-        }
-        
-        
         //        if let text = textField.text {
         //            if text.characters.count > 0 {
         //                if let currentProfile = self.profile {
@@ -156,14 +176,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(textField: UITextField) {
-        switch textField {
-        case self.usernameTextField:
-            textToSend = textField.text
-        case self.passwordTextField:
-            passwordToSend = textField.text
-        default:
-            break
-        }
+
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -198,14 +211,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         } else {
             // textErrors = nil so NO ERRORS proceed with text
             Helper.textIsValid(textField, sender: true)
-            switch textField {
-            case self.usernameTextField:
-                textToSend = textField.text
-            case self.passwordTextField:
-                passwordToSend = textField.text
-            default:
-                break
-            }
+
             return true
         }
     }
@@ -245,8 +251,8 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
             switch indexPath.row {
             case 0:
                 let cell = tableView.dequeueReusableCellWithIdentifier("usernameemail", forIndexPath: indexPath)
-                usernameTextField.frame = CGRectMake(8, 4, cell.contentView.frame.width - 16, cell.contentView.frame.height - 8)
-                cell.contentView.addSubview(usernameTextField)
+                userOrEmailTextField.frame = CGRectMake(8, 4, cell.contentView.frame.width - 16, cell.contentView.frame.height - 8)
+                cell.contentView.addSubview(userOrEmailTextField)
                 return cell
             default:
                 let cell = tableView.dequeueReusableCellWithIdentifier("password", forIndexPath: indexPath)
