@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import AlamofireImage
 import SwiftyJSON
 
 class Plango: NSObject {
@@ -22,6 +23,8 @@ class Plango: NSObject {
         case Login = "http://dc65be72.ngrok.io/login"
         case NewAccount = "https://www.plango.us/createuser"
         case Logout = "https://www.plango.us/logout"
+        case AmazonImageRoot = "https://plango-images.s3.amazonaws.com/"
+        case Home = "http://www.plango.us/"
     }
     
     var currentUser: User?
@@ -30,6 +33,20 @@ class Plango: NSObject {
     typealias PlansResponse = ([Plan]?, NSError?) -> Void
     typealias TagsResponse = ([Tag]?, NSError?) -> Void
     typealias LoginResponse = (User?, NSError?) -> Void
+    typealias ImageResponse = (UIImage?, NSError?) -> Void
+    
+    let photoCache = AutoPurgingImageCache(memoryCapacity: 100 * 1024 * 1024, preferredMemoryUsageAfterPurge: 60 * 1024 * 1024)
+    
+    func cleanEndPoint(endPoint: String) -> String {
+        var cleanedEndPoint = endPoint
+        if endPoint.lowercaseString.rangeOfString(Plango.EndPoint.AmazonImageRoot.rawValue) == nil {
+            if endPoint.lowercaseString.rangeOfString("../") != nil {
+                cleanedEndPoint = String(endPoint.characters.dropFirst(3))
+            }
+            cleanedEndPoint = Plango.EndPoint.Home.rawValue.stringByAppendingString(cleanedEndPoint)
+        }
+        return cleanedEndPoint
+    }
     
     func fetchUsers(endPoint: String, onCompletion: UsersResponse) {
         Alamofire.request(.GET, endPoint).validate().responseJSON { response in
@@ -78,6 +95,18 @@ class Plango: NSObject {
             switch response.result {
             case .Success(let dataJSON):
                 onCompletion(Tag.getTagsFromJSON(JSON(dataJSON)), nil)
+            case .Failure(let error):
+                onCompletion(nil, error)
+            }
+        }
+    }
+    
+    func fetchImage(endPoint: String, onCompletion: ImageResponse) -> Request {
+        return Alamofire.request(.GET, endPoint).validate().responseImage { (response) in
+            switch response.result {
+            case .Success(let image):
+                onCompletion(image, nil)
+                self.photoCache.addImage(image, withIdentifier: endPoint)
             case .Failure(let error):
                 onCompletion(nil, error)
             }

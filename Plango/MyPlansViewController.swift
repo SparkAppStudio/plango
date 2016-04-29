@@ -54,6 +54,15 @@ class MyPlansViewController: MXSegmentedPagerController {
         self.segmentedPager.segmentedControl.selectionIndicatorColor = UIColor.plangoOrange()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let endPoint = Plango.sharedInstance.currentUser?.avatar {
+            let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
+            avatarImageView.af_setImageWithURL(cleanURL!)
+        }
+    }
+    
     func addPage(title: String, controller: UIViewController) {
         self.addChildViewController(controller)
         controller.didMoveToParentViewController(self)
