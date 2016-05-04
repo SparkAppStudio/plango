@@ -27,6 +27,7 @@ class Plan: NSObject {
     var lastUpdatedDate: NSDate?
     var createdDate: NSDate?
     
+    var spamReported: NSArray?
     var members: NSArray?
     var tags: [String]?
     var todos: NSArray?
@@ -75,6 +76,8 @@ class Plan: NSObject {
         newPlan.lastViewedDate = dictionary["last_viewed"] as? NSDate
         newPlan.lastUpdatedDate = dictionary["last_updated"] as? NSDate
         newPlan.createdDate = dictionary["created_date"] as? NSDate
+        
+        newPlan.spamReported = dictionary["spamReported"] as? NSArray
         newPlan.members = dictionary["members"] as? NSArray
         newPlan.tags = dictionary["tags"] as? [String]
         newPlan.todos = dictionary["todos"] as? NSArray

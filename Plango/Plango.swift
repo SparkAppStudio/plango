@@ -20,7 +20,7 @@ class Plango: NSObject {
         case FindPlans = "http://www.plango.us/findplans/"
         case AllTags = "http://www.plango.us/tags"
 //        case Login = "http://www.plango.us/login"
-        case Login = "http://dc65be72.ngrok.io/login"
+        case Login = "http://dev.plango.us/login"
         case NewAccount = "https://www.plango.us/createuser"
         case Logout = "https://www.plango.us/logout"
         case AmazonImageRoot = "https://plango-images.s3.amazonaws.com/"
@@ -28,14 +28,17 @@ class Plango: NSObject {
     }
     
     var currentUser: User?
+    let alamoManager = Alamofire.Manager.sharedInstance
     
     typealias UsersResponse = ([User]?, NSError?) -> Void
     typealias PlansResponse = ([Plan]?, NSError?) -> Void
     typealias TagsResponse = ([Tag]?, NSError?) -> Void
-    typealias LoginResponse = (User?, NSError?) -> Void
+    typealias LoginResponse = (User?, String?) -> Void
+//    typealias log = () throws -> User
     typealias ImageResponse = (UIImage?, NSError?) -> Void
     
     let photoCache = AutoPurgingImageCache(memoryCapacity: 100 * 1024 * 1024, preferredMemoryUsageAfterPurge: 60 * 1024 * 1024)
+    
     
     func cleanEndPoint(endPoint: String) -> String {
         var cleanedEndPoint = endPoint
@@ -103,6 +106,7 @@ class Plango: NSObject {
     
     func fetchImage(endPoint: String, onCompletion: ImageResponse) -> Request {
         return Alamofire.request(.GET, endPoint).validate().responseImage { (response) in
+            
             switch response.result {
             case .Success(let image):
                 onCompletion(image, nil)
@@ -129,14 +133,31 @@ class Plango: NSObject {
             switch response.result {
             case .Success(let value):
                 let dataJSON = JSON(value)
-                if dataJSON["status"].stringValue == "success" {
+                if dataJSON["status"].stringValue == "success" || dataJSON["status"].intValue == 200 {
+                    
+                    //set cookies for future requests
+                    if let headerFields = response.response?.allHeaderFields as? [String: String],
+//                        responseURL = response.response?.URL,
+                        requestURL = response.request?.URL {
+                        let cookies = NSHTTPCookie.cookiesWithResponseHeaderFields(headerFields, forURL: requestURL)
+                        Alamofire.Manager.sharedInstance.session.configuration.HTTPCookieStorage?.setCookies(cookies, forURL: requestURL, mainDocumentURL: nil)
+                    }
+
+                    
                     onCompletion(User.getUsersFromJSON(dataJSON).first, nil)
                 } else {
-                    onCompletion(nil, nil)
+                    //TODO: - print server http error message
+                    var errorString = "failed to get proper error message"
+                    
+                    let message = dataJSON["message"].stringValue
+                    let status = dataJSON["status"].stringValue
+                    errorString = "Status: \(status) Message: \(message)"
+                    
+                    onCompletion(nil, errorString)
                 }
                 
             case .Failure(let error):
-                onCompletion(nil, error)
+                onCompletion(nil, error.localizedFailureReason)
             }
         }
     }

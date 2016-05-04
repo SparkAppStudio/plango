@@ -98,6 +98,11 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
 
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        checkForCurrentUser()
+    }
+    
     func didChangeLoginSegment() {
         tableView.reloadData()
     }
@@ -126,17 +131,27 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
+    func checkForCurrentUser() {
+        print(Plango.sharedInstance.currentUser?.userName)
+        
+        let aCookie = Plango.sharedInstance.alamoManager.session.configuration.HTTPCookieStorage?.cookies?.first
+        print(Plango.sharedInstance.alamoManager.session.configuration.HTTPCookieStorage?.cookies?.count)
+        print(aCookie)
+        print("\(aCookie?.name) \(aCookie?.comment) \(aCookie?.commentURL) \(aCookie?.description)")
+    }
+    
     func loginWithPassword(userEmail: String, password: String) {
         self.tableView.showSimpleLoading()
         Plango.sharedInstance.loginUserWithPassword(Plango.EndPoint.Login.rawValue, email: userEmail, password: password) { (user, error) in
             self.tableView.hideSimpleLoading()
             self.tableView.imageToast(nil, image: UIImage(named: "whiteCheck")!)
             if let error = error {
-                print(Helper.printErrorMessage(self, error: error))
+//                print(Helper.printErrorMessage(self, error: error))
+                print(error)
     
             } else {
                 Plango.sharedInstance.currentUser = user
-                print(Plango.sharedInstance.currentUser?.userName)
+                self.checkForCurrentUser()
             }
         }
     }
