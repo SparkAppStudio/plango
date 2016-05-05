@@ -26,6 +26,8 @@ class Plango: NSObject {
         case Home = "http://www.plango.us/"
     }
     
+    let env = NSBundle.mainBundle().infoDictionary!["BASE_ENDPOINT"] as! String
+    
     var currentUser: User?
     let alamoManager = Alamofire.Manager.sharedInstance
     

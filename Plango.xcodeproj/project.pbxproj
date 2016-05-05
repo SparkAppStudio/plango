@@ -464,10 +464,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0ABD3BA9FAE086705AB4EC92 /* Pods-Plango.debug.xcconfig */;
 			buildSettings = {
+				APP_DISPLAY_NAME = dev.Plango;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BASE_ENDPOINT = dev.plango.us;
 				INFOPLIST_FILE = Plango/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.madebydouglas.Plango;
+				PRODUCT_BUNDLE_IDENTIFIER = com.madebydouglas.Plango.Dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -476,7 +478,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1F4A5AC332A1F636F21CB6A8 /* Pods-Plango.release.xcconfig */;
 			buildSettings = {
+				APP_DISPLAY_NAME = Plango;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BASE_ENDPOINT = www.plango.us;
 				INFOPLIST_FILE = Plango/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.madebydouglas.Plango;
