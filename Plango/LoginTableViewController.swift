@@ -145,10 +145,8 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         Plango.sharedInstance.loginUserWithPassword(Plango.EndPoint.Login.rawValue, email: userEmail, password: password) { (user, error) in
             self.tableView.hideSimpleLoading()
             self.tableView.imageToast(nil, image: UIImage(named: "whiteCheck")!)
-            if let error = error {
-//                print(Helper.printErrorMessage(self, error: error))
-                print(error)
-    
+            if error != nil {
+                print(Helper.errorMessage(self, error: nil, message: error))
             } else {
                 Plango.sharedInstance.currentUser = user
                 self.checkForCurrentUser()

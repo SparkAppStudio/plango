@@ -54,8 +54,8 @@ class Helper: NSObject {
         case InvalidDetails = "Check your @'s and dot your .coms"
     }
     
-    static func printErrorMessage(classType: NSObject, error: NSError) -> String {
-        return "In \(classType.classForCoder) \(error)"
+    static func errorMessage(classType: NSObject, error: NSError?, message: String?) -> String {
+        return "In \(classType.classForCoder) Error: \(error) Message: \(message)"
     }
     
     static func textIsValid(textField: UITextField, sender: Bool) {

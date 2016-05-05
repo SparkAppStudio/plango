@@ -21,11 +21,14 @@ class Tag: NSObject {
     class func getTagsFromJSON(objectJSON: JSON) -> [Tag] {
         var tempTags = [Tag?]()
         
-        guard let dictionary = objectJSON["data"].dictionaryObject else {
+        guard let array = objectJSON["data"].arrayObject else {
             return [Tag]()
         }
         
-        tempTags.append(createTag(dictionary))
+        for item in array {
+            let dictionary = item as! NSDictionary
+            tempTags.append(createTag(dictionary))
+        }
         
         return tempTags.flatMap { $0 }
     }

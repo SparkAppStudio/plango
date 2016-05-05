@@ -18,8 +18,7 @@ class Plango: NSObject {
         case UserByID = "http://www.plango.us/users/"
         case PlanByID = "http://www.plango.us/plans/"
         case FindPlans = "http://www.plango.us/findplans/"
-        case AllTags = "http://www.plango.us/tags"
-//        case Login = "http://www.plango.us/login"
+        case AllTags = "http://dev.plango.us/tags"
         case Login = "http://dev.plango.us/login"
         case NewAccount = "https://www.plango.us/createuser"
         case Logout = "https://www.plango.us/logout"
@@ -30,9 +29,10 @@ class Plango: NSObject {
     var currentUser: User?
     let alamoManager = Alamofire.Manager.sharedInstance
     
+    
     typealias UsersResponse = ([User]?, NSError?) -> Void
     typealias PlansResponse = ([Plan]?, NSError?) -> Void
-    typealias TagsResponse = ([Tag]?, NSError?) -> Void
+    typealias TagsResponse = ([Tag]?, String?) -> Void
     typealias LoginResponse = (User?, String?) -> Void
 //    typealias log = () throws -> User
     typealias ImageResponse = (UIImage?, NSError?) -> Void
@@ -56,7 +56,7 @@ class Plango: NSObject {
             var receivedUsers = [User]()
             
             switch response.result {
-            case .Success(let dataJSON):
+            case .Success(let value):
                 
                 // MARK: - NOTE: the verbose way
                 //using generic response from Alamofire. Checks if the data may arrive but be empty, otherwise unnecessary
@@ -71,9 +71,9 @@ class Plango: NSObject {
 //                }
 //                
 //                let theJSON = JSON(data: receivedData)
-                let theJSON = JSON(dataJSON)
+                let dataJSON = JSON(value)
                 
-                receivedUsers = User.getUsersFromJSON(theJSON)
+                receivedUsers = User.getUsersFromJSON(dataJSON)
                 onCompletion(receivedUsers, nil)
                 
             case .Failure(let error):
@@ -85,8 +85,10 @@ class Plango: NSObject {
     func fetchPlans(endPoint: String, onCompletion: PlansResponse) -> Void {
         Alamofire.request(.GET, endPoint).validate().responseJSON { response in
             switch response.result {
-            case .Success(let dataJSON):
-                onCompletion(Plan.getPlansFromJSON(JSON(dataJSON)), nil)
+            case .Success(let value):
+                let dataJSON = JSON(value)
+
+                onCompletion(Plan.getPlansFromJSON(dataJSON), nil)
             case .Failure(let error):
                 onCompletion(nil, error)
             }
@@ -96,10 +98,22 @@ class Plango: NSObject {
     func fetchTags(endPoint: String, onCompletion: TagsResponse) -> Void {
         Alamofire.request(.GET, endPoint).validate().responseJSON { response in
             switch response.result {
-            case .Success(let dataJSON):
-                onCompletion(Tag.getTagsFromJSON(JSON(dataJSON)), nil)
+            case .Success(let value):
+                let dataJSON = JSON(value)
+                if dataJSON["status"].stringValue == "success" {
+                    onCompletion(Tag.getTagsFromJSON(dataJSON), nil)
+                } else {
+                    var errorString = "failed to get proper error message"
+                    
+                    let message = dataJSON["message"].stringValue
+                    let status = dataJSON["status"].stringValue
+                    errorString = "Status: \(status) Message: \(message)"
+                    
+                    onCompletion(nil, errorString)
+                }
+                
             case .Failure(let error):
-                onCompletion(nil, error)
+                onCompletion(nil, error.localizedDescription)
             }
         }
     }
@@ -121,14 +135,6 @@ class Plango: NSObject {
         let parameters = ["email" : email, "password" : password]
         
         Alamofire.request(.POST, endPoint, parameters: parameters).responseJSON { response in
-//            print(response)
-//            print(response.debugDescription)
-//            print(response.description)
-//            print(response.response)
-//            print(response.result)
-//            print(response.result.debugDescription)
-//            print(response.result.description)
-//            print(response.result.error)
             
             switch response.result {
             case .Success(let value):
@@ -146,7 +152,6 @@ class Plango: NSObject {
                     
                     onCompletion(User.getUsersFromJSON(dataJSON).first, nil)
                 } else {
-                    //TODO: - print server http error message
                     var errorString = "failed to get proper error message"
                     
                     let message = dataJSON["message"].stringValue

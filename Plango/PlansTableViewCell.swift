@@ -61,9 +61,10 @@ class PlansTableViewCell: UITableViewCell {
     func reset() {
         coverImageView.af_cancelImageRequest()
         profileImageView.af_cancelImageRequest()
-//        self.request?.cancel()
+//        self.request?.cancel() //for when using my own method and request manager
     }
     
+    //my own method for image handling, currently just using alamofire extension method so this may be unneccesarry
     func loadImageForImageView(endPoint: String, imageView: UIImageView) {
         let cleanedEndPoint = Plango.sharedInstance.cleanEndPoint(endPoint)
         
@@ -74,7 +75,7 @@ class PlansTableViewCell: UITableViewCell {
         
         self.request = Plango.sharedInstance.fetchImage(cleanedEndPoint, onCompletion: { (image, error) in
             if let error = error {
-                Helper.printErrorMessage(self, error: error)
+                print(Helper.errorMessage(self, error: error, message: nil))
             } else if let image = image {
                 imageView.image = image
             }
