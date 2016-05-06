@@ -49,7 +49,6 @@ class DiscoverTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.tableView.backgroundColor = UIColor.plangoCream()
         
         self.navigationItem.rightBarButtonItem = logoutBarButton
@@ -88,8 +87,9 @@ class DiscoverTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.showViewController(PlansTableViewController(), sender: nil)
+        print("select table")
     }
-
+    
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -180,6 +180,11 @@ extension DiscoverTableViewController: UICollectionViewDataSource, UICollectionV
         cell.configure()
         
         return cell
+    }
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        self.showViewController(PlansTableViewController(), sender: nil)
+print("select coll")
     }
 
 }

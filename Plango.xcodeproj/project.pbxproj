@@ -30,6 +30,11 @@
 		C3978CD61CB88602001028D5 /* Plan.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3978CD51CB88602001028D5 /* Plan.swift */; };
 		C3978CD81CB8860E001028D5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3978CD71CB8860E001028D5 /* User.swift */; };
 		C3978CDA1CB889DF001028D5 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3978CD91CB889DF001028D5 /* Tag.swift */; };
+		C3ACD7FF1CDC1487000B2399 /* ItineraryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3ACD7FE1CDC1487000B2399 /* ItineraryTableViewController.swift */; };
+		C3ACD8011CDC14ED000B2399 /* ItineraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3ACD8001CDC14ED000B2399 /* ItineraryViewController.swift */; };
+		C3ACD8031CDC182A000B2399 /* EventTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3ACD8021CDC182A000B2399 /* EventTableViewController.swift */; };
+		C3ACD8051CDC22DA000B2399 /* SummaryHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3ACD8041CDC22DA000B2399 /* SummaryHeader.xib */; };
+		C3ACD8091CDC2CB9000B2399 /* PlanSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3ACD8081CDC2CB9000B2399 /* PlanSummaryViewController.swift */; };
 		C3B150601CB4DD00008E6A4E /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B1505F1CB4DD00008E6A4E /* SettingsTableViewController.swift */; };
 		C3B150621CB4DD73008E6A4E /* DiscoverTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B150611CB4DD73008E6A4E /* DiscoverTableViewController.swift */; };
 		C3B150641CB4DDAE008E6A4E /* PlansTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B150631CB4DDAE008E6A4E /* PlansTableViewController.swift */; };
@@ -70,6 +75,11 @@
 		C3978CD51CB88602001028D5 /* Plan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plan.swift; sourceTree = "<group>"; };
 		C3978CD71CB8860E001028D5 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C3978CD91CB889DF001028D5 /* Tag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		C3ACD7FE1CDC1487000B2399 /* ItineraryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItineraryTableViewController.swift; sourceTree = "<group>"; };
+		C3ACD8001CDC14ED000B2399 /* ItineraryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItineraryViewController.swift; sourceTree = "<group>"; };
+		C3ACD8021CDC182A000B2399 /* EventTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTableViewController.swift; sourceTree = "<group>"; };
+		C3ACD8041CDC22DA000B2399 /* SummaryHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SummaryHeader.xib; sourceTree = "<group>"; };
+		C3ACD8081CDC2CB9000B2399 /* PlanSummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanSummaryViewController.swift; sourceTree = "<group>"; };
 		C3B1505F1CB4DD00008E6A4E /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		C3B150611CB4DD73008E6A4E /* DiscoverTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewController.swift; sourceTree = "<group>"; };
 		C3B150631CB4DDAE008E6A4E /* PlansTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlansTableViewController.swift; sourceTree = "<group>"; };
@@ -145,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				C3B150651CB4DDEE008E6A4E /* Main Scene */,
+				C3ACD7FD1CDC1311000B2399 /* Plan Scene */,
 				C3B1506C1CB4E09A008E6A4E /* Utilities Scene */,
 				C3B1506D1CB4E0A5008E6A4E /* Data Model */,
 				C31AC4221CADD84C0032230E /* Helpers */,
@@ -156,6 +167,18 @@
 				C3237E311CADC402008293D6 /* Info.plist */,
 			);
 			path = Plango;
+			sourceTree = "<group>";
+		};
+		C3ACD7FD1CDC1311000B2399 /* Plan Scene */ = {
+			isa = PBXGroup;
+			children = (
+				C3ACD8041CDC22DA000B2399 /* SummaryHeader.xib */,
+				C3ACD7FE1CDC1487000B2399 /* ItineraryTableViewController.swift */,
+				C3ACD8081CDC2CB9000B2399 /* PlanSummaryViewController.swift */,
+				C3ACD8001CDC14ED000B2399 /* ItineraryViewController.swift */,
+				C3ACD8021CDC182A000B2399 /* EventTableViewController.swift */,
+			);
+			name = "Plan Scene";
 			sourceTree = "<group>";
 		};
 		C3B150651CB4DDEE008E6A4E /* Main Scene */ = {
@@ -267,6 +290,7 @@
 				C33A700E1CC04A9D00B8313C /* TopCollectionsCell.xib in Resources */,
 				C3978CD21CB85B38001028D5 /* PlansCell.xib in Resources */,
 				C3237E2D1CADC402008293D6 /* Assets.xcassets in Resources */,
+				C3ACD8051CDC22DA000B2399 /* SummaryHeader.xib in Resources */,
 				C3EC02791CC18FF200CAC4C1 /* ProfileHeader.xib in Resources */,
 				C3237E2B1CADC402008293D6 /* Main.storyboard in Resources */,
 				C3B1506F1CB4E0F2008E6A4E /* Utilities.storyboard in Resources */,
@@ -337,16 +361,20 @@
 				C33A70141CC05DF400B8313C /* PlanTypesTableViewCell.swift in Sources */,
 				C3B150641CB4DDAE008E6A4E /* PlansTableViewController.swift in Sources */,
 				C31AC4211CADD7520032230E /* SelectionLayer.swift in Sources */,
+				C3ACD8011CDC14ED000B2399 /* ItineraryViewController.swift in Sources */,
 				C31AC41C1CADD7150032230E /* Plango.swift in Sources */,
 				C3237E261CADC402008293D6 /* AppDelegate.swift in Sources */,
 				C3978CDA1CB889DF001028D5 /* Tag.swift in Sources */,
+				C3ACD8091CDC2CB9000B2399 /* PlanSummaryViewController.swift in Sources */,
 				C33A70101CC04C2000B8313C /* TopCollectionsTableViewCell.swift in Sources */,
 				C3B150621CB4DD73008E6A4E /* DiscoverTableViewController.swift in Sources */,
 				C3978CD81CB8860E001028D5 /* User.swift in Sources */,
+				C3ACD7FF1CDC1487000B2399 /* ItineraryTableViewController.swift in Sources */,
 				C3978CCE1CB6FC4C001028D5 /* MyPlansViewController.swift in Sources */,
 				C3B150671CB4DE8E008E6A4E /* LoginTableViewController.swift in Sources */,
 				C31AC41E1CADD7150032230E /* GlobalEnums.swift in Sources */,
 				C3978CD01CB70118001028D5 /* SearchViewController.swift in Sources */,
+				C3ACD8031CDC182A000B2399 /* EventTableViewController.swift in Sources */,
 				C31AC41D1CADD7150032230E /* Extensions.swift in Sources */,
 				C31AC41F1CADD7150032230E /* Helper.swift in Sources */,
 				C3CD5BE61CB5D4AB0079C0E7 /* PlansTableViewCell.swift in Sources */,

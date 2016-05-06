@@ -123,17 +123,18 @@ extension NSIndexSet {
 }
 
 extension UITableView {
-    public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        self.endEditing(true)
-        super.touchesBegan(touches, withEvent: event)
-    }
+    // breaks tableview ability to recognize select
+//    public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+//        super.touchesBegan(touches, withEvent: event)
+//        self.endEditing(true)
+//    }
 }
 
 extension UICollectionView {
-    public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        self.endEditing(true)
-        super.touchesBegan(touches, withEvent: event)
-    }
+//    public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+//        super.touchesBegan(touches, withEvent: event)
+//        self.endEditing(true)
+//    }
     
     //### returns empty Array, rather than nil, when no elements in rect.
     func aapl_indexPathsForElementsInRect(rect: CGRect) -> [NSIndexPath] {
@@ -169,8 +170,8 @@ extension UICollectionViewFlowLayout {
 
 extension UIView {
     public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        self.endEditing(true)
         super.touchesBegan(touches, withEvent: event)
+        self.endEditing(true)
     }
     
     func makeCircle() {

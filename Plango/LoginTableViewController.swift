@@ -106,6 +106,12 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     func didChangeLoginSegment() {
         tableView.reloadData()
     }
+
+    // doesnt work because need to override the tableView touches began, not the controller touches began, but then that will break ability to select cells
+//    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+//        super.touchesBegan(touches, withEvent: event)
+//        self.tableView.endEditing(true)
+//    }
     
     func didTapLogin(button: UIButton) {
         if loginSegment.selectedSegmentIndex == 0 {

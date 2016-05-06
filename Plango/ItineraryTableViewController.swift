@@ -1,14 +1,14 @@
 //
-//  SideMenuTableViewController.swift
+//  ItineraryTableViewController.swift
 //  Plango
 //
-//  Created by Douglas Hewitt on 4/5/16.
+//  Created by Douglas Hewitt on 5/5/16.
 //  Copyright © 2016 madebydouglas. All rights reserved.
 //
 
 import UIKit
 
-class SettingsTableViewController: UITableViewController {
+class ItineraryTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,9 +18,6 @@ class SettingsTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "test")
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,27 +29,23 @@ class SettingsTableViewController: UITableViewController {
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        return 0
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 1
+        return 0
     }
 
-    
+    /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("test", forIndexPath: indexPath)
-        cell.textLabel?.text = "Hello"
+        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
+
         // Configure the cell...
 
         return cell
     }
-    
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        print("hi")
-    }
-    
+    */
 
     /*
     // Override to support conditional editing of the table view.

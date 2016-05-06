@@ -19,13 +19,18 @@ class TypeCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         coverImageView.makeRoundCorners(32)
-        titleLabel.layer.frame = CGRect(x: titleLabel.layer.frame.origin.x - 10, y: titleLabel.layer.frame.origin.y - 3, width: titleLabel.layer.frame.size.width + 6, height: titleLabel.layer.frame.size.height + 6)
-        titleLabel.layer.borderColor = UIColor.whiteColor().CGColor
-        titleLabel.layer.borderWidth = 1
+
     }
     
     func configure() {
         layoutIfNeeded()
+        
+//        let borderLayer = CALayer(layer: titleLabel.layer)
+//        borderLayer.frame = CGRect(x: titleLabel.layer.frame.origin.x - 3, y: titleLabel.layer.frame.origin.y - 3, width: titleLabel.layer.frame.size.width + 6, height: titleLabel.layer.frame.size.height + 6)
+//        borderLayer.borderColor = UIColor.whiteColor().CGColor
+//        borderLayer.borderWidth = 1
+//        self.contentView.layer.addSublayer(borderLayer)
+        
         if let plangoTag = plangoTag {
             titleLabel.text = plangoTag.name
             guard let endPoint = plangoTag.avatar else {
@@ -42,6 +47,7 @@ class TypeCollectionViewCell: UICollectionViewCell {
     
     func reset() {
         coverImageView.af_cancelImageRequest()
+        coverImageView.image = nil
     }
     
     override func prepareForReuse() {
