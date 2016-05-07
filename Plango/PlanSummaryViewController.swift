@@ -7,41 +7,62 @@
 //
 
 import UIKit
+import SnapKit
 
 class PlanSummaryViewController: UIViewController {
 
     var scrollView: UIScrollView!
     var stackView: UIStackView!
     
+    lazy var downloadButton: UIButton = {
+        let button = UIButton()
+        button.snp_makeConstraints(closure: { (make) in
+            make.size.equalTo(100)
+        })
+        button.backgroundColor = UIColor.plangoOrange()
+        button.tintColor = UIColor.whiteColor()
+        button.setTitle("Log In", forState: UIControlState.Normal)
+        button.makeRoundCorners(64)
+        button.addTarget(self, action: #selector(didTapDownload), forControlEvents: .TouchUpInside)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.backgroundColor = UIColor.plangoCream()
         view.addSubview(scrollView)
-        
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[scrollView]|", options: .AlignAllCenterX, metrics: nil, views: ["scrollView": scrollView]))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[scrollView]|", options: .AlignAllCenterX, metrics: nil, views: ["scrollView": scrollView]))
-        
         
         stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .Vertical
         scrollView.addSubview(stackView)
         
-        scrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[stackView]|", options: NSLayoutFormatOptions.AlignAllCenterX, metrics: nil, views: ["stackView": stackView]))
-        scrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[stackView]", options: NSLayoutFormatOptions.AlignAllCenterX, metrics: nil, views: ["stackView": stackView]))
+        scrollView.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor).active = true
+        scrollView.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor).active = true
+        scrollView.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor).active = true
+        scrollView.topAnchor.constraintEqualToAnchor(view.topAnchor).active = true
+        scrollView.widthAnchor.constraintEqualToAnchor(view.widthAnchor).active = true
         
-        for _ in 1 ..< 100 {
-            let vw = UIButton(type: UIButtonType.System)
-            vw.setTitle("Button", forState: .Normal)
-            stackView.addArrangedSubview(vw)
-        }
+        stackView.leadingAnchor.constraintEqualToAnchor(scrollView.leadingAnchor).active = true
+        stackView.trailingAnchor.constraintEqualToAnchor(scrollView.trailingAnchor).active = true
+        stackView.bottomAnchor.constraintEqualToAnchor(scrollView.bottomAnchor).active = true
+        stackView.topAnchor.constraintEqualToAnchor(scrollView.topAnchor).active = true
+        stackView.widthAnchor.constraintEqualToAnchor(scrollView.widthAnchor).active = true
+
+        stackView.addArrangedSubview(downloadButton)
+
     }
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        scrollView.contentSize = CGSize(width: stackView.frame.width, height: stackView.frame.height)		
+        scrollView.contentSize = stackView.frame.size
     }
 
+    func didTapDownload() {
+        //TODO: - download info to device
+    }
 }

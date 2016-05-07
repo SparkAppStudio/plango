@@ -69,14 +69,16 @@ class PlansTableViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if let parent = parentViewController {
-            parent.view.endEditing(true)
-        }
-        self.view.endEditing(true)
-        self.tableView.endEditing(true)
-        super.touchesBegan(touches, withEvent: event)
-    }
+    // MARK: - Touch Gestures
+    //not getting called, override in extension
+//    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+//        if let parent = parentViewController {
+//            parent.view.endEditing(true)
+//        }
+//        self.view.endEditing(true)
+//        self.tableView.endEditing(true)
+//        super.touchesBegan(touches, withEvent: event)
+//    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
