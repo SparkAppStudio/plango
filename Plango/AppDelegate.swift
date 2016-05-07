@@ -83,6 +83,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         for nav in navControllers {
             nav.navigationBar.barTintColor = UIColor.plangoTeal()
             nav.navigationBar.tintColor = UIColor.whiteColor()
+            nav.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
             nav.navigationBar.translucent = false
         }
     }

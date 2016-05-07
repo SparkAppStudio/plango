@@ -5,29 +5,40 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PlanSummaryViewController" customModule="Plango" customModuleProvider="target">
+            <connections>
+                <outlet property="coverImageView" destination="TBH-KG-z7k" id="bQB-sE-Rrb"/>
+                <outlet property="dateLabel" destination="hWo-78-1yy" id="2XT-E0-Sph"/>
+                <outlet property="dayLabel" destination="DbG-7Q-HNv" id="ohX-al-os9"/>
+                <outlet property="durationLabel" destination="Ukt-BV-T8w" id="ekB-mS-8lA"/>
+                <outlet property="locationNameLabel" destination="1N0-ex-4qa" id="G6k-ja-JV7"/>
+                <outlet property="temperatureLabel" destination="Nti-0F-Ygm" id="bXH-cO-yPr"/>
+                <outlet property="weatherImageView" destination="ZqJ-WP-iSP" id="bxJ-Dt-ngl"/>
+                <outlet property="weatherLabel" destination="yVV-DK-7nl" id="BIj-7E-gVi"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="hKf-Tg-Mmz">
             <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TBH-KG-z7k">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TBH-KG-z7k">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sydney, Australia" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1N0-ex-4qa">
-                    <rect key="frame" x="8" y="63" width="131" height="21"/>
+                    <rect key="frame" x="8" y="53" width="131" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="May 30, 2016" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hWo-78-1yy">
-                    <rect key="frame" x="8" y="88" width="93" height="18"/>
+                    <rect key="frame" x="8" y="78" width="93" height="18"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="84" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nti-0F-Ygm">
-                    <rect key="frame" x="62" y="111" width="50" height="43"/>
+                    <rect key="frame" x="72" y="111" width="60" height="43"/>
                     <fontDescription key="fontDescription" type="system" pointSize="36"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
@@ -44,15 +55,15 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZqJ-WP-iSP">
-                    <rect key="frame" x="8" y="122" width="50" height="50"/>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZqJ-WP-iSP">
+                    <rect key="frame" x="8" y="112" width="60" height="60"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="50" id="2Iz-qF-L4o"/>
-                        <constraint firstAttribute="width" constant="50" id="Oj8-ke-9yn"/>
+                        <constraint firstAttribute="height" constant="60" id="2Iz-qF-L4o"/>
+                        <constraint firstAttribute="width" constant="60" id="Oj8-ke-9yn"/>
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sunny" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yVV-DK-7nl">
-                    <rect key="frame" x="62" y="154" width="50" height="18"/>
+                    <rect key="frame" x="72" y="154" width="60" height="18"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>

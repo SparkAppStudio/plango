@@ -22,7 +22,7 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3VT-BI-j2P">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3VT-BI-j2P">
                         <rect key="frame" x="188" y="0.0" width="132" height="99"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="3VT-BI-j2P" secondAttribute="height" multiplier="4:3" id="UwD-p2-ItI"/>
@@ -84,7 +84,7 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GtO-8n-Yba">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GtO-8n-Yba">
                         <rect key="frame" x="8" y="8" width="41" height="41"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="GtO-8n-Yba" secondAttribute="height" multiplier="1:1" id="Xeh-28-ell"/>

@@ -17,10 +17,10 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg-light" translatesAutoresizingMaskIntoConstraints="NO" id="KHQ-80-fCQ">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg-light" translatesAutoresizingMaskIntoConstraints="NO" id="KHQ-80-fCQ">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Gok-qh-UGN">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Gok-qh-UGN">
                     <rect key="frame" x="120" y="50" width="80" height="80"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="80" id="3aM-gW-lsR"/>
