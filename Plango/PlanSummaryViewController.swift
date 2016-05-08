@@ -24,10 +24,17 @@ class PlanSummaryViewController: UIViewController {
     @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var dayLabel: UILabel!
     
+    @IBOutlet weak var startDaysLabel: UILabel!
+    @IBOutlet weak var startHoursLabel: UILabel!
+    @IBOutlet weak var startSecondsLabel: UILabel!
+    
+    
     
     var headerView: UIView!
+    var startView: UIView!
     var scrollView: UIScrollView!
     var stackView: UIStackView!
+    var buttonStackView: UIStackView!
     
     var plan: Plan!
     
@@ -44,14 +51,59 @@ class PlanSummaryViewController: UIViewController {
         return button
     }()
     
+    lazy var itineraryButton: UIButton = {
+       let button = UIButton()
+        button.backgroundColor = UIColor.whiteColor()
+        button.layer.borderColor = UIColor.plangoBrown().CGColor
+        button.layer.borderWidth = 1
+        button.tintColor = UIColor.plangoBrown()
+        button.setTitleColor(UIColor.plangoBrown(), forState: .Normal)
+        button.setTitle("Itinerary", forState: .Normal)
+        button.addTarget(self, action: #selector(didTapItinerary), forControlEvents: .TouchUpInside)
+        return button
+    }()
+    
+    lazy var mapButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = UIColor.whiteColor()
+        button.layer.borderColor = UIColor.plangoBrown().CGColor
+        button.layer.borderWidth = 1
+
+        button.tintColor = UIColor.plangoBrown()
+        button.setTitleColor(UIColor.plangoBrown(), forState: .Normal)
+        button.setTitle("Map", forState: .Normal)
+        button.addTarget(self, action: #selector(didTapMap), forControlEvents: .TouchUpInside)
+        return button
+    }()
+    
+    lazy var friendsButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = UIColor.whiteColor()
+        button.layer.borderColor = UIColor.plangoBrown().CGColor
+        button.layer.borderWidth = 1
+
+        button.tintColor = UIColor.plangoBrown()
+        button.setTitleColor(UIColor.plangoBrown(), forState: .Normal)
+        button.setTitle("Friends", forState: .Normal)
+        button.addTarget(self, action: #selector(didTapFriends), forControlEvents: .TouchUpInside)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let bundle = NSBundle(forClass: self.dynamicType)
-        let nib = UINib(nibName: "SummaryHeader", bundle: bundle)
-        headerView = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        
+        let nibHeader = UINib(nibName: "SummaryHeader", bundle: bundle)
+        headerView = nibHeader.instantiateWithOwner(self, options: nil)[0] as! UIView
         headerView.snp_makeConstraints { (make) in
             make.height.equalTo(180)
+        }
+        
+        let nibStart = UINib(nibName: "SummaryStart", bundle: bundle)
+        startView = nibStart.instantiateWithOwner(self, options: nil)[0] as! UIView
+        startView.snp_makeConstraints { (make) in
+            make.height.equalTo(240)
         }
 
         scrollView = UIScrollView()
@@ -63,6 +115,7 @@ class PlanSummaryViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .Vertical
         scrollView.addSubview(stackView)
+        
         
         scrollView.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor).active = true
         scrollView.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor).active = true
@@ -78,11 +131,32 @@ class PlanSummaryViewController: UIViewController {
 
         stackView.addArrangedSubview(downloadButton)
         stackView.addArrangedSubview(headerView)
+        
+        buttonStackView = UIStackView()
+        buttonStackView.translatesAutoresizingMaskIntoConstraints = false
+        buttonStackView.axis = .Horizontal
+        buttonStackView.distribution = .FillEqually
+//        buttonStackView.spacing = 4
+        buttonStackView.snp_makeConstraints { (make) in
+            make.height.equalTo(50)
+        }
+        
+        buttonStackView.addArrangedSubview(itineraryButton)
+        buttonStackView.addArrangedSubview(mapButton)
+        buttonStackView.addArrangedSubview(friendsButton)
+        
+        stackView.addArrangedSubview(buttonStackView)
+        stackView.addArrangedSubview(startView)
 
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        configureLabel(startDaysLabel)
+        configureLabel(startHoursLabel)
+        configureLabel(startSecondsLabel)
+        
         if let plan = self.plan {
             self.navigationItem.title = plan.name
             
@@ -93,6 +167,11 @@ class PlanSummaryViewController: UIViewController {
         }
     }
     
+    func configureLabel(label: UILabel) {
+        label.layer.borderColor = UIColor.plangoBrown().CGColor
+        label.layer.borderWidth = 1
+        
+    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -101,5 +180,20 @@ class PlanSummaryViewController: UIViewController {
 
     func didTapDownload() {
         //TODO: - download info to device
+    }
+    
+    func didTapItinerary() {
+        //TODO: - load itinerary
+
+    }
+    
+    func didTapMap() {
+        //TODO: - load map
+
+    }
+    
+    func didTapFriends() {
+        //TODO: - load friends
+
     }
 }
