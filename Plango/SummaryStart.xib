@@ -70,8 +70,8 @@
                     <nil key="highlightedColor"/>
                     <variation key="default">
                         <mask key="constraints">
-                            <exclude reference="xDI-eM-LtA"/>
                             <exclude reference="G3w-L1-aQr"/>
+                            <exclude reference="xDI-eM-LtA"/>
                         </mask>
                     </variation>
                 </label>

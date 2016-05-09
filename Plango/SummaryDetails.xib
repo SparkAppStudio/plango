@@ -5,7 +5,15 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PlanSummaryViewController" customModule="Plango" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PlanSummaryViewController" customModule="Plango" customModuleProvider="target">
+            <connections>
+                <outlet property="detailsCitiesLabel" destination="Sse-JT-ori" id="qsz-8g-VCj"/>
+                <outlet property="detailsDescriptionLabel" destination="yDY-tl-AU3" id="sWw-m0-frF"/>
+                <outlet property="detailsEndDateLabel" destination="w9l-XO-J6b" id="4Mu-p2-qur"/>
+                <outlet property="detailsStartDateLabel" destination="jeO-jP-ZSD" id="0gF-Hl-4LV"/>
+                <outlet property="detailsTagsLabel" destination="dx0-mR-vob" id="r8B-mZ-jRW"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>

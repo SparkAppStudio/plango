@@ -12,6 +12,7 @@ import AlamofireImage
 
 class PlanSummaryViewController: UIViewController {
 
+    // SummaryHeader xib
     @IBOutlet weak var coverImageView: UIImageView!
     
     @IBOutlet weak var locationNameLabel: UILabel!
@@ -24,10 +25,17 @@ class PlanSummaryViewController: UIViewController {
     @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var dayLabel: UILabel!
     
+    // SummaryStart xib
     @IBOutlet weak var startDaysLabel: UILabel!
     @IBOutlet weak var startHoursLabel: UILabel!
     @IBOutlet weak var startSecondsLabel: UILabel!
     
+    // SummaryDetails xib
+    @IBOutlet weak var detailsStartDateLabel: UILabel!
+    @IBOutlet weak var detailsEndDateLabel: UILabel!
+    @IBOutlet weak var detailsDescriptionLabel: UILabel!
+    @IBOutlet weak var detailsTagsLabel: UILabel!
+    @IBOutlet weak var detailsCitiesLabel: UILabel!
     
     
     var headerView: UIView!
@@ -169,10 +177,23 @@ class PlanSummaryViewController: UIViewController {
         if let plan = self.plan {
             self.navigationItem.title = plan.name
             
-            guard let endPoint = plan.avatar else {coverImageView.backgroundColor = UIColor.plangoTeal(); return}
-            print(endPoint)
-            let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
-            coverImageView.af_setImageWithURL(cleanURL!)
+            if let endPoint = plan.avatar {
+                print(endPoint)
+                let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
+                coverImageView.af_setImageWithURL(cleanURL!)
+            } else {coverImageView.backgroundColor = UIColor.plangoTeal()}
+            
+            detailsDescriptionLabel.text = plan.planDescription
+                        
+            var allTags = ""
+            guard let planTags = plan.tags else {
+                return
+            }
+            for tagName in planTags {
+                allTags = allTags.stringByAppendingString("\(tagName), ")
+            }
+            let cleanedTags = String(allTags.characters.dropLast(2))
+            detailsTagsLabel.text = cleanedTags
         }
     }
     
