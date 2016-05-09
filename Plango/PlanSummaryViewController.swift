@@ -32,6 +32,8 @@ class PlanSummaryViewController: UIViewController {
     
     var headerView: UIView!
     var startView: UIView!
+    var detailsView: UIView!
+    
     var scrollView: UIScrollView!
     var stackView: UIStackView!
     var buttonStackView: UIStackView!
@@ -105,6 +107,12 @@ class PlanSummaryViewController: UIViewController {
         startView.snp_makeConstraints { (make) in
             make.height.equalTo(240)
         }
+        
+        let nibDetails = UINib(nibName: "SummaryDetails", bundle: bundle)
+        detailsView = nibDetails.instantiateWithOwner(self, options: nil)[0] as! UIView
+        detailsView.snp_makeConstraints { (make) in
+            make.height.equalTo(320)
+        }
 
         scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -146,8 +154,9 @@ class PlanSummaryViewController: UIViewController {
         buttonStackView.addArrangedSubview(friendsButton)
         
         stackView.addArrangedSubview(buttonStackView)
+        
         stackView.addArrangedSubview(startView)
-
+        stackView.addArrangedSubview(detailsView)
     }
     
     override func viewWillAppear(animated: Bool) {

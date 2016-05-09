@@ -33,7 +33,7 @@ class PlansTableViewController: UITableViewController {
             } else if let users = receivedUsers {
                 self.usersDictionary[indexPath] = users.first!
                 //TODO: - update tableView
-                let cell = self.tableView.cellForRowAtIndexPath(indexPath) as! PlansTableViewCell
+                let cell = self.tableView.cellForRowAtIndexPath(indexPath) as! PlansTableViewCell //crashed here when messing around scrolling up and down
                 cell.user = users.first!
                 print("\(cell.user?.displayName) has \(cell.user?.invites?.description) invites")
                 cell.configure()

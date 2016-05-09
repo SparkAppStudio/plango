@@ -19,6 +19,7 @@
 		C3237E2D1CADC402008293D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3237E2C1CADC402008293D6 /* Assets.xcassets */; };
 		C3237E301CADC402008293D6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3237E2E1CADC402008293D6 /* LaunchScreen.storyboard */; };
 		C33730391CDFFE3000F57B47 /* SummaryStart.xib in Resources */ = {isa = PBXBuildFile; fileRef = C33730381CDFFE3000F57B47 /* SummaryStart.xib */; };
+		C337303B1CE06C9C00F57B47 /* SummaryDetails.xib in Resources */ = {isa = PBXBuildFile; fileRef = C337303A1CE06C9C00F57B47 /* SummaryDetails.xib */; };
 		C33A700E1CC04A9D00B8313C /* TopCollectionsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C33A700D1CC04A9D00B8313C /* TopCollectionsCell.xib */; };
 		C33A70101CC04C2000B8313C /* TopCollectionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33A700F1CC04C2000B8313C /* TopCollectionsTableViewCell.swift */; };
 		C33A70141CC05DF400B8313C /* PlanTypesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33A70131CC05DF400B8313C /* PlanTypesTableViewCell.swift */; };
@@ -65,6 +66,7 @@
 		C3237E2F1CADC402008293D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C3237E311CADC402008293D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C33730381CDFFE3000F57B47 /* SummaryStart.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SummaryStart.xib; sourceTree = "<group>"; };
+		C337303A1CE06C9C00F57B47 /* SummaryDetails.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SummaryDetails.xib; sourceTree = "<group>"; };
 		C33A700D1CC04A9D00B8313C /* TopCollectionsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TopCollectionsCell.xib; sourceTree = "<group>"; };
 		C33A700F1CC04C2000B8313C /* TopCollectionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopCollectionsTableViewCell.swift; sourceTree = "<group>"; };
 		C33A70131CC05DF400B8313C /* PlanTypesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanTypesTableViewCell.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				C3ACD8041CDC22DA000B2399 /* SummaryHeader.xib */,
 				C3ACD7FE1CDC1487000B2399 /* ItineraryTableViewController.swift */,
 				C3ACD8081CDC2CB9000B2399 /* PlanSummaryViewController.swift */,
+				C337303A1CE06C9C00F57B47 /* SummaryDetails.xib */,
 				C33730381CDFFE3000F57B47 /* SummaryStart.xib */,
 				C3ACD8001CDC14ED000B2399 /* ItineraryViewController.swift */,
 				C3ACD8021CDC182A000B2399 /* EventTableViewController.swift */,
@@ -295,6 +298,7 @@
 				C33730391CDFFE3000F57B47 /* SummaryStart.xib in Resources */,
 				C3237E2D1CADC402008293D6 /* Assets.xcassets in Resources */,
 				C3ACD8051CDC22DA000B2399 /* SummaryHeader.xib in Resources */,
+				C337303B1CE06C9C00F57B47 /* SummaryDetails.xib in Resources */,
 				C3EC02791CC18FF200CAC4C1 /* ProfileHeader.xib in Resources */,
 				C3237E2B1CADC402008293D6 /* Main.storyboard in Resources */,
 				C3B1506F1CB4E0F2008E6A4E /* Utilities.storyboard in Resources */,
