@@ -63,6 +63,9 @@ class PlansTableViewCell: UITableViewCell {
         coverImageView.af_cancelImageRequest()
         profileImageView.af_cancelImageRequest()
 //        self.request?.cancel() //for when using my own method and request manager
+        
+//        coverImageView.image = nil
+//        profileImageView.image = nil
     }
     
     //my own method for image handling, currently just using alamofire extension method so this may be unneccesarry
@@ -78,6 +81,7 @@ class PlansTableViewCell: UITableViewCell {
             if let error = error {
                 print(Helper.errorMessage(self, error: error, message: nil))
             } else if let image = image {
+                //hypothetically check for new cell with tableView.cellForRowAtIndexPath, if its nill cell no longer on screen, dont set image, if its there ok to set downloaded image. however this requires me to either pass in the tableView to the method or type this method in the controller instead of the cell. Also i wonder if the alamofire method somehow addresses this anyway
                 imageView.image = image
             }
         })

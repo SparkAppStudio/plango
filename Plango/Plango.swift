@@ -30,6 +30,7 @@ class Plango: NSObject {
     
     var currentUser: User?
     let alamoManager = Alamofire.Manager.sharedInstance
+//    let decoder = ImageDecoder()
     
     
     typealias UsersResponse = ([User]?, NSError?) -> Void
