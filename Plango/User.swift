@@ -10,7 +10,7 @@ import UIKit
 import SwiftyJSON
 import Alamofire
 
-class User: NSObject {
+class User: NSObject, NSCoding {
     var id: String!
     var userName: String?
     var displayName: String?
@@ -29,6 +29,21 @@ class User: NSObject {
     var showPlan: Bool?
     var showSum: Bool?
     
+    init(id: String) {
+        self.id = id
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+       let tempID = aDecoder.decodeObjectForKey("id") as! String
+        self.init(id: tempID)
+        self.userName = aDecoder.decodeObjectForKey("userName") as? String
+    }
+    
+    func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeObject(id, forKey: "id")
+        aCoder.encodeObject(userName, forKey: "userName")
+    }
+    
     class func getUsersFromJSON(objectJSON: JSON) -> [User] {
         var tempUsers = [User?]()
 
@@ -43,8 +58,9 @@ class User: NSObject {
     }
     
     class func createUser(dictionary: NSDictionary) -> User? {
-        let newUser = User()
-        newUser.id = dictionary["_id"] as! String
+        let tempID = dictionary["_id"] as! String
+        let newUser = User(id: tempID)
+        
         newUser.userName = dictionary["username"] as? String
         newUser.displayName = dictionary["displayname"] as? String
         newUser.email = dictionary["email"] as? String

@@ -124,27 +124,12 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
             } else if password.isEmpty {
                 self.tableView.quickToast("Please Enter your Password")
             } else {
-                loginWithPassword(userEmail, password: password)
-//                NSNotificationCenter.defaultCenter().postNotificationName(<#T##aName: String##String#>, object: <#T##AnyObject?#>)
+                let userInfo = ["controller" : self, "userEmail" : userEmail, "password" : password]
+                NSNotificationCenter.defaultCenter().postNotificationName(Notify.Login.rawValue, object: nil, userInfo: userInfo)
             }
             
         } else {
             //TODO: - create user
-        }
-    }
-    
-    func loginWithPassword(userEmail: String, password: String) {
-        self.tableView.showSimpleLoading()
-        Plango.sharedInstance.loginUserWithPassword(Plango.EndPoint.Login.rawValue, email: userEmail, password: password) { (user, error) in
-            self.tableView.hideSimpleLoading()
-            self.tableView.imageToast(nil, image: UIImage(named: "whiteCheck")!)
-            if error != nil {
-                print(Helper.errorMessage(self, error: nil, message: error))
-            } else {
-                Plango.sharedInstance.currentUser = user
-                //TODO: save currentUser to disk
-                self.navigationController?.popViewControllerAnimated(true)
-            }
         }
     }
 

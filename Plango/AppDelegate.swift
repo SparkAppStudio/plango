@@ -17,11 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.        
         NSNotificationCenter.defaultCenter().addObserverForName(Notify.Login.rawValue, object: nil, queue: nil) { (notification) -> Void in
-            self.appLogin()
+            self.appLogin(notification)
         }
         
         NSNotificationCenter.defaultCenter().addObserverForName(Notify.Logout.rawValue, object: nil, queue: nil) { (notification) -> Void in
-            self.appLogout()
+            self.appLogout(notification)
         }
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         configureTabController()
@@ -31,15 +31,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     
-    func appLogin() {
+    func appLogin(notification: NSNotification) {
+        let controller = notification.userInfo!["controller"] as! UITableViewController
+        let userEmail = notification.userInfo!["userEmail"] as! String
+        let password = notification.userInfo!["password"] as! String
+        
+        controller.tableView.showSimpleLoading()
+        Plango.sharedInstance.loginUserWithPassword(Plango.EndPoint.Login.rawValue, email: userEmail, password: password) { (user, error) in
+            controller.tableView.hideSimpleLoading()
+            controller.tableView.imageToast(nil, image: UIImage(named: "whiteCheck")!) //TODO: should have completion handler to dismis VC in so user sees the check, then controller pops
+            if error != nil {
+                print(Helper.errorMessage(self, error: nil, message: error))
+            } else {
+                Plango.sharedInstance.currentUser = user
+                
+                NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(user!), forKey: UserDefaultsKeys.currentUser.rawValue)
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    controller.navigationController?.popViewControllerAnimated(true)
+                })
+            }
+        }
+
     }
     
-    func appLogout() {
+    func appLogout(notification: NSNotification) {
+        let controller = notification.userInfo!["controller"] as! UITableViewController
+        controller.tableView.showSimpleLoading()
         Plango.sharedInstance.currentUser = nil
-        //TODO: remove from disk after its been saved to disk
-        
-        Plango.sharedInstance.alamoManager.session.resetWithCompletionHandler { 
+        NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKeys.currentUser.rawValue)
+        Plango.sharedInstance.alamoManager.session.resetWithCompletionHandler {
             print("logged out")
+            controller.tableView.hideSimpleLoading()
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                controller.viewWillAppear(true)
+            })
         }
     }
     
@@ -73,6 +98,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func syncAuthStatus() {
+        if let userData = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKeys.currentUser.rawValue) as? NSData {
+            let user = NSKeyedUnarchiver.unarchiveObjectWithData(userData) as! User
+            Plango.sharedInstance.currentUser = user
+        }
+        
         if Plango.sharedInstance.alamoManager.session.configuration.HTTPCookieStorage?.cookies == nil && Plango.sharedInstance.currentUser != nil {
             Plango.sharedInstance.currentUser = nil
         }

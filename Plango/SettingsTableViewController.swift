@@ -19,7 +19,7 @@ class SettingsTableViewController: UITableViewController {
         if Plango.sharedInstance.currentUser == nil {
             self.showViewController(LoginTableViewController(), sender: nil)
         } else {
-            NSNotificationCenter.defaultCenter().postNotificationName(Notify.Logout.rawValue, object: self)
+            NSNotificationCenter.defaultCenter().postNotificationName(Notify.Logout.rawValue, object: nil, userInfo: ["controller": self])
         }
     }
 
