@@ -9,9 +9,24 @@
 import UIKit
 
 class SettingsTableViewController: UITableViewController {
+    
+    lazy var accountBarButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "LOGOUT", style: .Plain, target: self, action: #selector(didTapAccountButton))
+        return button
+    }()
+    
+    func didTapAccountButton() {
+        if Plango.sharedInstance.currentUser == nil {
+            self.showViewController(LoginTableViewController(), sender: nil)
+        } else {
+            NSNotificationCenter.defaultCenter().postNotificationName(Notify.Logout.rawValue, object: self)
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.navigationItem.rightBarButtonItem = accountBarButton
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -22,10 +37,33 @@ class SettingsTableViewController: UITableViewController {
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "test")
 
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        checkForCurrentUserCookies()
+        if Plango.sharedInstance.currentUser == nil {
+            accountBarButton.title = "LOGIN"
+        } else {
+            accountBarButton.title = "LOGOUT"
+        }
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func checkForCurrentUserCookies() {
+        print(Plango.sharedInstance.currentUser?.userName)
+        
+        print(Plango.sharedInstance.alamoManager.session.configuration.HTTPCookieStorage?.cookies?.count)
+
+        guard let storage = Plango.sharedInstance.alamoManager.session.configuration.HTTPCookieStorage else {return}
+        if let cookies = storage.cookies {
+            for aCookie in cookies {
+                print(aCookie.description)
+            }
+        }
     }
 
     // MARK: - Table view data source

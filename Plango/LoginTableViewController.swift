@@ -98,11 +98,6 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
 
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        checkForCurrentUser()
-    }
-    
     func didChangeLoginSegment() {
         tableView.reloadData()
     }
@@ -130,20 +125,12 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
                 self.tableView.quickToast("Please Enter your Password")
             } else {
                 loginWithPassword(userEmail, password: password)
+//                NSNotificationCenter.defaultCenter().postNotificationName(<#T##aName: String##String#>, object: <#T##AnyObject?#>)
             }
             
         } else {
             //TODO: - create user
         }
-    }
-    
-    func checkForCurrentUser() {
-        print(Plango.sharedInstance.currentUser?.userName)
-        
-        let aCookie = Plango.sharedInstance.alamoManager.session.configuration.HTTPCookieStorage?.cookies?.first
-        print(Plango.sharedInstance.alamoManager.session.configuration.HTTPCookieStorage?.cookies?.count)
-        print(aCookie)
-        print("\(aCookie?.name) \(aCookie?.comment) \(aCookie?.commentURL) \(aCookie?.description)")
     }
     
     func loginWithPassword(userEmail: String, password: String) {
@@ -155,7 +142,8 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
                 print(Helper.errorMessage(self, error: nil, message: error))
             } else {
                 Plango.sharedInstance.currentUser = user
-                self.checkForCurrentUser()
+                //TODO: save currentUser to disk
+                self.navigationController?.popViewControllerAnimated(true)
             }
         }
     }

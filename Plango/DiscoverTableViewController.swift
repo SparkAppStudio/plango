@@ -35,24 +35,11 @@ class DiscoverTableViewController: UITableViewController {
     lazy var usersDictionary = [NSIndexPath:User]()
     lazy var popularPlansArray = [Plan]?()
     lazy var favoritePlansArray = [Plan]?()
-    
-
-    
-    lazy var logoutBarButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "LOGOUT", style: .Plain, target: self, action: #selector(DiscoverTableViewController.logout))
-        return button
-    }()
-    
-    func logout() {
-        self.showViewController(LoginTableViewController(), sender: nil)
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.backgroundColor = UIColor.plangoCream()
-        
-        self.navigationItem.rightBarButtonItem = logoutBarButton
-        
+                
         let plansNib = UINib(nibName: "PlansCell", bundle: nil)
         self.tableView.registerNib(plansNib, forCellReuseIdentifier: CellID.Plans.rawValue)
         

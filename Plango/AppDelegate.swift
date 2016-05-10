@@ -24,25 +24,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.appLogout()
         }
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        handleAuth()
+        configureTabController()
+        syncAuthStatus()
         window?.makeKeyAndVisible()
         return true
     }
     
     
     func appLogin() {
-        handleAuth()
     }
     
     func appLogout() {
-        handleAuth()
+        Plango.sharedInstance.currentUser = nil
+        //TODO: remove from disk after its been saved to disk
+        
+        Plango.sharedInstance.alamoManager.session.resetWithCompletionHandler { 
+            print("logged out")
+        }
     }
     
-    func handleAuth() {
-//        let homeController = UIStoryboard(name: StoryboardID.Main.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.Discover.rawValue)
+    func configureTabController() {
         let tabOne = UINavigationController(rootViewController: DiscoverTableViewController())
         
-//        let searchController = UIStoryboard(name: StoryboardID.Utilities.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.Search.rawValue)
         let tabTwo = UINavigationController(rootViewController: SearchViewController())
         
         let tabThree = UINavigationController(rootViewController: MyPlansViewController())
@@ -65,19 +68,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabTwo.tabBarItem = UITabBarItem(title: "SEARCH", image: searchImage, tag: 2)
         tabThree.tabBarItem = UITabBarItem(title: "MY PLANS", image: myImage, tag: 3)
         tabFour.tabBarItem = UITabBarItem(title: "SETTINGS", image: gearImage, tag: 4)
-
         
-        if Plango.sharedInstance.currentUser == nil {
-            //login root
-//            window?.rootViewController = UIStoryboard(name: StoryboardID.Utilities.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.Login.rawValue)
-            
-            window?.rootViewController = tabController
-
-        } else {
-            //main root
-            window?.rootViewController = tabController
+        window?.rootViewController = tabController
+    }
+    
+    func syncAuthStatus() {
+        if Plango.sharedInstance.alamoManager.session.configuration.HTTPCookieStorage?.cookies == nil && Plango.sharedInstance.currentUser != nil {
+            Plango.sharedInstance.currentUser = nil
+        }
+        
+        if Plango.sharedInstance.currentUser == nil && Plango.sharedInstance.alamoManager.session.configuration.HTTPCookieStorage?.cookies != nil {
+            Plango.sharedInstance.alamoManager.session.resetWithCompletionHandler({})
         }
     }
+    
+//    func handleAuth() {
+//        
+//        
+//        if Plango.sharedInstance.currentUser == nil {
+//            
+//
+//        } else {
+//            
+//        }
+//    }
     
     func plangoNav(navControllers: [UINavigationController]) {
         for nav in navControllers {
