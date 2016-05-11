@@ -135,24 +135,6 @@ class Plango: NSObject {
         }
     }
     
-    func logoutRequest(success: LogoutResponse) {
-        Alamofire.request(.POST, Plango.EndPoint.Logout.rawValue).validate().responseJSON { response in
-            switch response.result {
-            case .Success(let value):
-                let dataJSON = JSON(value)
-                if dataJSON["status"].stringValue == "success" || dataJSON["status"].intValue == 200 {
-                    print("yay logged out")
-                } else {
-                    print("failed for some reason")
-                }
-                success(true)
-            case .Failure(let error):
-                print("no connection")
-                success(false)
-            }
-        }
-    }
-    
     func loginUserWithPassword(endPoint: String, email: String, password: String, onCompletion: LoginResponse) -> Void {
         let parameters = ["email" : email, "password" : password]
         

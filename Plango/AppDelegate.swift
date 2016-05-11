@@ -57,22 +57,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func appLogout(notification: NSNotification) {
         let controller = notification.userInfo!["controller"] as! UITableViewController
         controller.tableView.showSimpleLoading()
-        Plango.sharedInstance.logoutRequest { (success) in
-            if success == true {
-                Plango.sharedInstance.currentUser = nil
-                NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKeys.currentUser.rawValue)
-                Plango.sharedInstance.alamoManager.session.resetWithCompletionHandler {
-                    print("logged out")
-                    controller.tableView.hideSimpleLoading()
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        controller.viewWillAppear(true)
-                    })
-                }
-
-            } else {
-                controller.tableView.hideSimpleLoading()
-                controller.tableView.quickToast("Unable to Reach the server")
-            }
+        
+        Plango.sharedInstance.currentUser = nil
+        NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKeys.currentUser.rawValue)
+        
+        Plango.sharedInstance.alamoManager.session.resetWithCompletionHandler {
+            print("logged out")
+            controller.tableView.hideSimpleLoading()
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                controller.viewWillAppear(true)
+            })
         }
     }
     
