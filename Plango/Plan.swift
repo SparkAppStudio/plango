@@ -53,6 +53,10 @@ class Plan: NSObject {
     }
     
     class func createPlan(dictionary: NSDictionary) -> Plan? {
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
 
         let newPlan = Plan()
         newPlan.id = dictionary["_id"] as! String
@@ -62,20 +66,29 @@ class Plan: NSObject {
         newPlan.isPublic = dictionary["is_public"] as? Bool
         newPlan.authorID = dictionary["created_by"] as! String
         
-        newPlan.startDate = dictionary["start"] as? NSDate
-        let date = NSDateFormatter()
-        date.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        if let startDate = dictionary["start"] as? String {
+            newPlan.startDate = dateFormatter.dateFromString(startDate)
+        }
         
-        newPlan.endDate = dictionary["end"] as? NSDate
+        if let endDate = dictionary["end"] as? String {
+            newPlan.endDate = dateFormatter.dateFromString(endDate)
+        }
         
         if let duration = dictionary["duration"] as? String {
             newPlan.durationDays = Int32(duration)
         }
-    
         
-        newPlan.lastViewedDate = dictionary["last_viewed"] as? NSDate
-        newPlan.lastUpdatedDate = dictionary["last_updated"] as? NSDate
-        newPlan.createdDate = dictionary["created_date"] as? NSDate
+        if let lastViewed = dictionary["last_viewed"] as? String {
+            newPlan.lastViewedDate = dateFormatter.dateFromString(lastViewed)
+        }
+        
+        if let lastUpdated = dictionary["last_updated"] as? String {
+            newPlan.lastUpdatedDate = dateFormatter.dateFromString(lastUpdated)
+        }
+        
+        if let createdDate = dictionary["created_date"] as? String {
+            newPlan.createdDate = dateFormatter.dateFromString(createdDate)
+        }
         
         newPlan.spamReported = dictionary["spamReported"] as? NSArray
         newPlan.members = dictionary["members"] as? NSArray

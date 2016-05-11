@@ -16,9 +16,6 @@ class User: NSObject, NSCoding {
     var displayName: String?
     var email: String?
     
-//    var password: String!
-//    var authToken: String!
-    
     var avatar: String?
     
     var plans: NSArray?
@@ -37,11 +34,39 @@ class User: NSObject, NSCoding {
        let tempID = aDecoder.decodeObjectForKey("id") as! String
         self.init(id: tempID)
         self.userName = aDecoder.decodeObjectForKey("userName") as? String
+        self.displayName = aDecoder.decodeObjectForKey("displayName") as? String
+        self.email = aDecoder.decodeObjectForKey("email") as? String
+        self.avatar = aDecoder.decodeObjectForKey("avatar") as? String
+        self.plans = aDecoder.decodeObjectForKey("plans") as? NSArray
+        self.invites = aDecoder.decodeInt32ForKey("invites")
+        self.admin = aDecoder.decodeBoolForKey("admin")
+        self.confirmed = aDecoder.decodeBoolForKey("confirmed")
+        self.showPlan = aDecoder.decodeBoolForKey("showPlan")
+        self.showSum = aDecoder.decodeBoolForKey("showSum")
     }
     
     func encodeWithCoder(aCoder: NSCoder) {
         aCoder.encodeObject(id, forKey: "id")
         aCoder.encodeObject(userName, forKey: "userName")
+        aCoder.encodeObject(displayName, forKey: "displayName")
+        aCoder.encodeObject(email, forKey: "email")
+        aCoder.encodeObject(avatar, forKey: "avatar")
+        aCoder.encodeObject(plans, forKey: "plans")
+        if let invites = invites {
+            aCoder.encodeInt32(invites, forKey: "invites")
+        }
+        if let admin = admin {
+            aCoder.encodeBool(admin, forKey: "admin")
+        }
+        if let confirmed = confirmed {
+            aCoder.encodeBool(confirmed, forKey: "confirmed")
+        }
+        if let showPlan = showPlan {
+            aCoder.encodeBool(showPlan, forKey: "showPlan")
+        }
+        if let showSum = showSum {
+            aCoder.encodeBool(showSum, forKey: "showSum")
+        }
     }
     
     class func getUsersFromJSON(objectJSON: JSON) -> [User] {
@@ -64,8 +89,6 @@ class User: NSObject, NSCoding {
         newUser.userName = dictionary["username"] as? String
         newUser.displayName = dictionary["displayname"] as? String
         newUser.email = dictionary["email"] as? String
-//        newUser.password = dictionary["password"] as! String
-//        newUser.authToken = dictionary["auth_token"] as! String
         newUser.avatar = dictionary["avatar"] as? String
         newUser.plans = dictionary["plans"] as? NSArray
         

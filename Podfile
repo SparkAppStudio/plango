@@ -23,5 +23,6 @@ target 'Plango' do
     pod 'Hue'
     pod 'ChameleonFramework/Swift'
     pod 'Spring', :git => 'https://github.com/MengTo/Spring.git', :branch => 'master'
+    pod 'CZWeatherKit'
 
 end

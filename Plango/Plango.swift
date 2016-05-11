@@ -20,8 +20,8 @@ class Plango: NSObject {
         case FindPlans = "http://www.plango.us/findplans/"
         case AllTags = "http://dev.plango.us/tags"
         case Login = "http://dev.plango.us/login"
-        case NewAccount = "https://www.plango.us/createuser"
-        case Logout = "https://www.plango.us/logout"
+        case NewAccount = "http://www.plango.us/createuser"
+        case Logout = "http://www.plango.us/logout"
         case AmazonImageRoot = "https://plango-images.s3.amazonaws.com/"
         case Home = "http://www.plango.us/"
     }
@@ -37,6 +37,7 @@ class Plango: NSObject {
     typealias PlansResponse = ([Plan]?, NSError?) -> Void
     typealias TagsResponse = ([Tag]?, String?) -> Void
     typealias LoginResponse = (User?, String?) -> Void
+    typealias LogoutResponse = (Bool) -> Void
 //    typealias log = () throws -> User
     typealias ImageResponse = (UIImage?, NSError?) -> Void
     
@@ -130,6 +131,24 @@ class Plango: NSObject {
                 self.photoCache.addImage(image, withIdentifier: endPoint)
             case .Failure(let error):
                 onCompletion(nil, error)
+            }
+        }
+    }
+    
+    func logoutRequest(success: LogoutResponse) {
+        Alamofire.request(.POST, Plango.EndPoint.Logout.rawValue).validate().responseJSON { response in
+            switch response.result {
+            case .Success(let value):
+                let dataJSON = JSON(value)
+                if dataJSON["status"].stringValue == "success" || dataJSON["status"].intValue == 200 {
+                    print("yay logged out")
+                } else {
+                    print("failed for some reason")
+                }
+                success(true)
+            case .Failure(let error):
+                print("no connection")
+                success(false)
             }
         }
     }
