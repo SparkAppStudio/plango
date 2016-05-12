@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		773923E7BA495B6F2CBB3FDF /* Pods_Plango.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07F66FFA0D6649D033859149 /* Pods_Plango.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		B1BC5F3F9390FA6571B87A27 /* Pods_Plango.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EAE4A8321BC528617A5558B /* Pods_Plango.framework */; };
 		C30C2FE91CBAEF2C00411B8E /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30C2FE81CBAEF2C00411B8E /* Formatter.swift */; };
 		C31AC41C1CADD7150032230E /* Plango.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31AC4181CADD7150032230E /* Plango.swift */; };
 		C31AC41D1CADD7150032230E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31AC4191CADD7150032230E /* Extensions.swift */; };
@@ -50,9 +50,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		07F66FFA0D6649D033859149 /* Pods_Plango.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Plango.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0ABD3BA9FAE086705AB4EC92 /* Pods-Plango.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plango.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plango/Pods-Plango.debug.xcconfig"; sourceTree = "<group>"; };
-		1F4A5AC332A1F636F21CB6A8 /* Pods-Plango.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plango.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plango/Pods-Plango.release.xcconfig"; sourceTree = "<group>"; };
+		7C809CA33271A5989CE4861B /* Pods-Plango.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plango.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plango/Pods-Plango.release.xcconfig"; sourceTree = "<group>"; };
+		9EAE4A8321BC528617A5558B /* Pods_Plango.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Plango.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C30C2FE81CBAEF2C00411B8E /* Formatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		C31AC4181CADD7150032230E /* Plango.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plango.swift; sourceTree = "<group>"; };
 		C31AC4191CADD7150032230E /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -94,6 +93,7 @@
 		C3EC02781CC18FF200CAC4C1 /* ProfileHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileHeader.xib; sourceTree = "<group>"; };
 		C3EC027A1CC19ACF00CAC4C1 /* SearchHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchHeader.xib; sourceTree = "<group>"; };
 		C3F915231CCF3F32007B0D00 /* test.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test.json; sourceTree = "<group>"; };
+		D3C9D302F55D77443409D8D3 /* Pods-Plango.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plango.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plango/Pods-Plango.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,26 +101,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				773923E7BA495B6F2CBB3FDF /* Pods_Plango.framework in Frameworks */,
+				B1BC5F3F9390FA6571B87A27 /* Pods_Plango.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3614B3009E9E78119334399E /* Pods */ = {
+		4B35C87DADCBE42054F46394 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				0ABD3BA9FAE086705AB4EC92 /* Pods-Plango.debug.xcconfig */,
-				1F4A5AC332A1F636F21CB6A8 /* Pods-Plango.release.xcconfig */,
+				D3C9D302F55D77443409D8D3 /* Pods-Plango.debug.xcconfig */,
+				7C809CA33271A5989CE4861B /* Pods-Plango.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		BB15AB0DE01F8FF2EFBABFD1 /* Frameworks */ = {
+		91F5D24DF14142FC538102D6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				07F66FFA0D6649D033859149 /* Pods_Plango.framework */,
+				9EAE4A8321BC528617A5558B /* Pods_Plango.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -142,8 +142,8 @@
 			children = (
 				C3237E241CADC402008293D6 /* Plango */,
 				C3237E231CADC402008293D6 /* Products */,
-				3614B3009E9E78119334399E /* Pods */,
-				BB15AB0DE01F8FF2EFBABFD1 /* Frameworks */,
+				4B35C87DADCBE42054F46394 /* Pods */,
+				91F5D24DF14142FC538102D6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -237,12 +237,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C3237E341CADC402008293D6 /* Build configuration list for PBXNativeTarget "Plango" */;
 			buildPhases = (
-				FB667BC86AFA14F306E039F3 /* Check Pods Manifest.lock */,
+				40AD5ADD2EBA5365B15C7786 /* 📦 Check Pods Manifest.lock */,
 				C3237E1E1CADC402008293D6 /* Sources */,
 				C3237E1F1CADC402008293D6 /* Frameworks */,
 				C3237E201CADC402008293D6 /* Resources */,
-				3DB64F13452B2B13F56830FD /* Embed Pods Frameworks */,
-				E136669F479AEE79AA28F9B9 /* Copy Pods Resources */,
+				A41BF27B3ECEF17342B66556 /* 📦 Embed Pods Frameworks */,
+				0EEAEF76E76451CEDB0507AD /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -311,29 +311,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3DB64F13452B2B13F56830FD /* Embed Pods Frameworks */ = {
+		0EEAEF76E76451CEDB0507AD /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Plango/Pods-Plango-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E136669F479AEE79AA28F9B9 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
+			name = "📦 Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -341,19 +326,34 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Plango/Pods-Plango-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		FB667BC86AFA14F306E039F3 /* Check Pods Manifest.lock */ = {
+		40AD5ADD2EBA5365B15C7786 /* 📦 Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "📦 Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A41BF27B3ECEF17342B66556 /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Plango/Pods-Plango-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -498,7 +498,7 @@
 		};
 		C3237E351CADC402008293D6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0ABD3BA9FAE086705AB4EC92 /* Pods-Plango.debug.xcconfig */;
+			baseConfigurationReference = D3C9D302F55D77443409D8D3 /* Pods-Plango.debug.xcconfig */;
 			buildSettings = {
 				APP_DISPLAY_NAME = dev.Plango;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -512,7 +512,7 @@
 		};
 		C3237E361CADC402008293D6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1F4A5AC332A1F636F21CB6A8 /* Pods-Plango.release.xcconfig */;
+			baseConfigurationReference = 7C809CA33271A5989CE4861B /* Pods-Plango.release.xcconfig */;
 			buildSettings = {
 				APP_DISPLAY_NAME = Plango;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;

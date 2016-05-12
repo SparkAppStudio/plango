@@ -7,6 +7,8 @@ PODS:
   - ChameleonFramework/Default (2.1.0)
   - ChameleonFramework/Swift (2.1.0):
     - ChameleonFramework/Default
+  - CZWeatherKit (2.2.6):
+    - PINCache (~> 2.1)
   - HMSegmentedControl (1.5.2)
   - Hue (1.1)
   - Kingfisher (2.2.0)
@@ -17,6 +19,7 @@ PODS:
     - HMSegmentedControl (~> 1.5.2)
     - MXPagerView (~> 0.1.2)
     - MXParallaxHeader (~> 0.4.3)
+  - PINCache (2.2.2)
   - SnapKit (0.20.0)
   - Spring (1.0.3)
   - SwiftyJSON (2.3.2)
@@ -27,6 +30,7 @@ DEPENDENCIES:
   - AlamofireImage
   - AlamofireNetworkActivityIndicator
   - ChameleonFramework/Swift
+  - CZWeatherKit
   - Hue
   - Kingfisher
   - MBProgressHUD
@@ -51,6 +55,7 @@ SPEC CHECKSUMS:
   AlamofireImage: 87408b652e0f5ae5fe364035f15aea8b9b24c77e
   AlamofireNetworkActivityIndicator: 49a6e39afb947136f7b1872bae2d684957c26697
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
+  CZWeatherKit: 6da12bc33881dd9dd5cfe405bca82ce0fb1e739b
   HMSegmentedControl: 83b9686022d2176fb6457d2bdb61e5d6393fed7d
   Hue: ed6781be844b58b2a38150cfd4bf24c33449faf8
   Kingfisher: 350869ed88d6451803b390475d977abdd9f0a357
@@ -58,9 +63,12 @@ SPEC CHECKSUMS:
   MXPagerView: b0cc1695ff8470a1bb1628e25e8878eb94606a60
   MXParallaxHeader: 96d9e7c392a26b29b97ddc34bff904a9c0baef27
   MXSegmentedPager: 48a6129c823a3a5c6f5809c43463dbdf8351f528
+  PINCache: 078426d356ab95ef875e9e62e5c35a2ea3333c28
   SnapKit: 5fce3c1bbbf1fbd31de9aa92f33eb9fa03f15650
   Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
   Whisper: 18b574de21a089c0d664b115f26e0d9ccbbadbab
 
-COCOAPODS: 0.38.2
+PODFILE CHECKSUM: 31bff29994fde915cbc9552b1c37f740490115f3
+
+COCOAPODS: 1.0.0
