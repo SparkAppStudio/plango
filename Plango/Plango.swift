@@ -24,6 +24,7 @@ class Plango: NSObject {
         case Logout = "http://www.plango.us/logout"
         case AmazonImageRoot = "https://plango-images.s3.amazonaws.com/"
         case Home = "http://www.plango.us/"
+        case Report = "http://www.plango.us/reportSpam/"
     }
     
     let env = NSBundle.mainBundle().infoDictionary!["BASE_ENDPOINT"] as! String
@@ -37,8 +38,8 @@ class Plango: NSObject {
     typealias PlansResponse = ([Plan]?, NSError?) -> Void
     typealias TagsResponse = ([Tag]?, String?) -> Void
     typealias LoginResponse = (User?, String?) -> Void
-    typealias LogoutResponse = (Bool) -> Void
 //    typealias log = () throws -> User
+    typealias ReportSpamResponse = (String?) -> Void
     typealias ImageResponse = (UIImage?, NSError?) -> Void
     
     let photoCache = AutoPurgingImageCache(memoryCapacity: 100 * 1024 * 1024, preferredMemoryUsageAfterPurge: 60 * 1024 * 1024)
@@ -135,10 +136,33 @@ class Plango: NSObject {
         }
     }
     
+    func reportSpam(endPoint: String, planID: String, onCompletion: ReportSpamResponse) -> Void {
+        let spamEndPoint = "\(endPoint)\(planID)"
+        
+        Alamofire.request(.POST, spamEndPoint).validate().responseJSON { response in
+            switch response.result {
+            case .Success(let value):
+                let dataJSON = JSON(value)
+                if dataJSON["status"].stringValue == "success" || dataJSON["status"].intValue == 200 {
+                    onCompletion(nil)
+                } else {
+                    onCompletion("User does not exist")
+                }
+            case .Failure(let error):
+                onCompletion(error.localizedFailureReason)
+            }
+            
+//            guard let receivedValue = response.result.value else {
+//                onCompletion(receivedUsers, nil)
+//                return
+//            }
+        }
+    }
+    
     func loginUserWithPassword(endPoint: String, email: String, password: String, onCompletion: LoginResponse) -> Void {
         let parameters = ["email" : email, "password" : password]
         
-        Alamofire.request(.POST, endPoint, parameters: parameters).responseJSON { response in
+        Alamofire.request(.POST, endPoint, parameters: parameters).validate().responseJSON { response in
             
             switch response.result {
             case .Success(let value):

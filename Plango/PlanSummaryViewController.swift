@@ -9,6 +9,7 @@
 import UIKit
 import SnapKit
 import AlamofireImage
+import CZWeatherKit
 
 class PlanSummaryViewController: UIViewController {
 
@@ -21,6 +22,7 @@ class PlanSummaryViewController: UIViewController {
     @IBOutlet weak var weatherImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var weatherLabel: UILabel!
+    @IBOutlet weak var climaconLabel: UILabel!
     
     @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var dayLabel: UILabel!
@@ -98,6 +100,41 @@ class PlanSummaryViewController: UIViewController {
         button.addTarget(self, action: #selector(didTapFriends), forControlEvents: .TouchUpInside)
         return button
     }()
+    
+    func weather() {
+        
+        let date = NSDate()
+        let coordinate = CLLocationCoordinate2DMake(37.7749, -122.4194)
+//        let coordinate = CLLocationCoordinate2DMake(-33.867487, 151.206990)
+
+        let rounder = NSDecimalNumberHandler(roundingMode: .RoundBankers, scale: 0, raiseOnExactness: false, raiseOnOverflow: false, raiseOnUnderflow: false, raiseOnDivideByZero: true)
+
+        
+        let request = CZForecastioRequest.newForecastRequestWithDate(date)
+        request.key = "9c74ebb83e3387c347b8eb741b6402d5"
+//        request.location = CZWeatherLocation(fromCity: "Sydney", country: "Australia")
+//        request.location = CZWeatherLocation(fromCity: "Los Angeles", state: "CA")
+        request.location = CZWeatherLocation(fromCoordinate: coordinate)
+        request.sendWithCompletion { (data, error) -> Void in
+            if let error = error {
+                print(error)
+            } else if let weather = data {
+                let forecast = weather.dailyForecasts.first as! CZWeatherForecastCondition
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+
+                    print("high: \(forecast.highTemperature.f) low: \(forecast.lowTemperature.f)")
+                    let avgTempFloat = (forecast.highTemperature.f + forecast.lowTemperature.f) / 2
+                    let avgTemp = NSDecimalNumber(float: avgTempFloat).decimalNumberByRoundingAccordingToBehavior(rounder)
+                    
+                    self.temperatureLabel.text = String(avgTemp)
+                    self.weatherLabel.text = forecast.summary
+                    let climaChar = forecast.climacon.rawValue
+                    let climaString = NSString(format: "%c", climaChar)
+                    self.climaconLabel.text = String(climaString)
+                })
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -195,6 +232,9 @@ class PlanSummaryViewController: UIViewController {
             let cleanedTags = String(allTags.characters.dropLast(2))
             detailsTagsLabel.text = cleanedTags
         }
+        
+        weather()
+
     }
     
     func configureLabel(label: UILabel) {

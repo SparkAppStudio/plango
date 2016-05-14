@@ -225,13 +225,13 @@ extension UIView {
         })
     }
     
-    func imageToast(title: String?, image: UIImage) {
+    func imageToast(title: String?, image: UIImage, notify: Bool) {
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             let hud = MBProgressHUD.showHUDAddedTo(self, animated: true)
             hud.mode = MBProgressHUDMode.CustomView
             hud.labelText = title
             hud.customView = UIImageView(image: image)
-            NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(UIView.hudTimerDidFire(_:)), userInfo: hud, repeats: false)
+            NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(UIView.hudTimerDidFireAndNotify(_:notify:)), userInfo: hud, repeats: false)
         })
     }
     
@@ -271,6 +271,17 @@ extension UIView {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 hud.hide(true)
             })
+        }
+    }
+    
+    func hudTimerDidFireAndNotify(sender: NSTimer, notify: Bool) {
+        if let hud = sender.userInfo as? MBProgressHUD {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                hud.hide(true)
+            })
+            if notify == true {
+                NSNotificationCenter.defaultCenter().postNotificationName(Notify.Timer.rawValue, object: nil, userInfo: nil)
+            }
         }
     }
 }

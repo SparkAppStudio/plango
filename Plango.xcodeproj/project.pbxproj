@@ -43,6 +43,8 @@
 		C3B150671CB4DE8E008E6A4E /* LoginTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B150661CB4DE8E008E6A4E /* LoginTableViewController.swift */; };
 		C3B1506B1CB4E07D008E6A4E /* TripFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B1506A1CB4E07D008E6A4E /* TripFriendsViewController.swift */; };
 		C3B1506F1CB4E0F2008E6A4E /* Utilities.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3B1506E1CB4E0F2008E6A4E /* Utilities.storyboard */; };
+		C3BC14381CE5669100980093 /* Climacons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3BC14371CE5669100980093 /* Climacons.ttf */; };
+		C3C613F31CE65D8B00DEF329 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C613F21CE65D8B00DEF329 /* ReportViewController.swift */; };
 		C3CD5BE61CB5D4AB0079C0E7 /* PlansTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CD5BE51CB5D4AB0079C0E7 /* PlansTableViewCell.swift */; };
 		C3EC02791CC18FF200CAC4C1 /* ProfileHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3EC02781CC18FF200CAC4C1 /* ProfileHeader.xib */; };
 		C3EC027B1CC19ACF00CAC4C1 /* SearchHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3EC027A1CC19ACF00CAC4C1 /* SearchHeader.xib */; };
@@ -89,6 +91,8 @@
 		C3B150661CB4DE8E008E6A4E /* LoginTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTableViewController.swift; sourceTree = "<group>"; };
 		C3B1506A1CB4E07D008E6A4E /* TripFriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TripFriendsViewController.swift; sourceTree = "<group>"; };
 		C3B1506E1CB4E0F2008E6A4E /* Utilities.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Utilities.storyboard; sourceTree = "<group>"; };
+		C3BC14371CE5669100980093 /* Climacons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Climacons.ttf; sourceTree = "<group>"; };
+		C3C613F21CE65D8B00DEF329 /* ReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
 		C3CD5BE51CB5D4AB0079C0E7 /* PlansTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlansTableViewCell.swift; sourceTree = "<group>"; };
 		C3EC02781CC18FF200CAC4C1 /* ProfileHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileHeader.xib; sourceTree = "<group>"; };
 		C3EC027A1CC19ACF00CAC4C1 /* SearchHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchHeader.xib; sourceTree = "<group>"; };
@@ -164,6 +168,7 @@
 				C3B1506D1CB4E0A5008E6A4E /* Data Model */,
 				C31AC4221CADD84C0032230E /* Helpers */,
 				C3237E251CADC402008293D6 /* AppDelegate.swift */,
+				C3BC14371CE5669100980093 /* Climacons.ttf */,
 				C3237E2C1CADC402008293D6 /* Assets.xcassets */,
 				C34889451CC9A7650045EED4 /* top_foodie_plans.json */,
 				C3F915231CCF3F32007B0D00 /* test.json */,
@@ -212,6 +217,7 @@
 			children = (
 				C3B1506E1CB4E0F2008E6A4E /* Utilities.storyboard */,
 				C3B150661CB4DE8E008E6A4E /* LoginTableViewController.swift */,
+				C3C613F21CE65D8B00DEF329 /* ReportViewController.swift */,
 				C3978CCF1CB70118001028D5 /* SearchViewController.swift */,
 				C3EC027A1CC19ACF00CAC4C1 /* SearchHeader.xib */,
 				C3B1506A1CB4E07D008E6A4E /* TripFriendsViewController.swift */,
@@ -294,6 +300,7 @@
 				C3237E301CADC402008293D6 /* LaunchScreen.storyboard in Resources */,
 				C34889461CC9A7650045EED4 /* top_foodie_plans.json in Resources */,
 				C33A700E1CC04A9D00B8313C /* TopCollectionsCell.xib in Resources */,
+				C3BC14381CE5669100980093 /* Climacons.ttf in Resources */,
 				C3978CD21CB85B38001028D5 /* PlansCell.xib in Resources */,
 				C33730391CDFFE3000F57B47 /* SummaryStart.xib in Resources */,
 				C3237E2D1CADC402008293D6 /* Assets.xcassets in Resources */,
@@ -377,6 +384,7 @@
 				C33A70101CC04C2000B8313C /* TopCollectionsTableViewCell.swift in Sources */,
 				C3B150621CB4DD73008E6A4E /* DiscoverTableViewController.swift in Sources */,
 				C3978CD81CB8860E001028D5 /* User.swift in Sources */,
+				C3C613F31CE65D8B00DEF329 /* ReportViewController.swift in Sources */,
 				C3ACD7FF1CDC1487000B2399 /* ItineraryTableViewController.swift in Sources */,
 				C3978CCE1CB6FC4C001028D5 /* MyPlansViewController.swift in Sources */,
 				C3B150671CB4DE8E008E6A4E /* LoginTableViewController.swift in Sources */,

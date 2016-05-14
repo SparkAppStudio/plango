@@ -20,6 +20,7 @@ enum ViewControllerID: String {
     case Login = "LoginTableViewController"
     case Search = "SearchViewController"
     case TripFriends = "TripFriendsViewController"
+    case Report = "ReportViewController"
 }
 
 enum CellID: String {
@@ -32,6 +33,7 @@ enum CellID: String {
 enum Notify: String {
     case Login = "Login"
     case Logout = "Logout"
+    case Timer = "Timer"
 }
 
 enum App: String {

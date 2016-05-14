@@ -1,56 +1,70 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="dLZ-9G-neV">
+        <!--Report View Controller-->
+        <scene sceneID="XJa-ir-PxF">
             <objects>
-                <viewController id="63r-On-S7Y" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ReportViewController" id="dEP-3q-7z8" customClass="ReportViewController" customModule="Plango" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="yys-gF-eKc"/>
-                        <viewControllerLayoutGuide type="bottom" id="hES-In-Xqd"/>
+                        <viewControllerLayoutGuide type="top" id="vc3-ja-WNm"/>
+                        <viewControllerLayoutGuide type="bottom" id="Wlb-bo-eBv"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="O2S-vC-sAJ">
+                    <view key="view" contentMode="scaleToFill" id="Ovf-dX-lFu">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ezd-gk-JI8">
-                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="px7-yc-2nb">
-                                        <rect key="frame" x="0.0" y="0.0" width="46" height="30"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Sm-cd-9RV">
-                                                <rect key="frame" x="0.0" y="0.0" width="46" height="30"/>
-                                                <state key="normal" title="Button"/>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reason for Objection" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yBy-ru-0Kn">
+                                <rect key="frame" x="16" y="44" width="161" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="vfq-ft-7B0">
+                                <rect key="frame" x="16" y="73" width="288" height="128"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="px7-yc-2nb" secondAttribute="trailing" id="GrV-Tv-YvL"/>
-                                    <constraint firstItem="px7-yc-2nb" firstAttribute="top" secondItem="ezd-gk-JI8" secondAttribute="top" id="Khc-Ki-hk1"/>
-                                    <constraint firstAttribute="bottom" secondItem="px7-yc-2nb" secondAttribute="bottom" id="Q3O-Q0-PRJ"/>
-                                    <constraint firstItem="px7-yc-2nb" firstAttribute="leading" secondItem="ezd-gk-JI8" secondAttribute="leading" id="mfv-sd-dTB"/>
+                                    <constraint firstAttribute="height" constant="128" id="ATn-1H-PTm"/>
                                 </constraints>
-                            </scrollView>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <connections>
+                                    <outlet property="delegate" destination="dEP-3q-7z8" id="jp6-Kv-Oao"/>
+                                </connections>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vbr-uH-g4j">
+                                <rect key="frame" x="16" y="225" width="288" height="30"/>
+                                <state key="normal" title="Report"/>
+                                <connections>
+                                    <action selector="didTapReport:" destination="dEP-3q-7z8" eventType="touchUpInside" id="8A7-d0-xQ8"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="hES-In-Xqd" firstAttribute="top" secondItem="ezd-gk-JI8" secondAttribute="bottom" id="GqB-hF-bkf"/>
-                            <constraint firstItem="ezd-gk-JI8" firstAttribute="leading" secondItem="O2S-vC-sAJ" secondAttribute="leading" id="H4T-Q2-daq"/>
-                            <constraint firstItem="ezd-gk-JI8" firstAttribute="top" secondItem="yys-gF-eKc" secondAttribute="bottom" id="Tt7-6j-ae3"/>
-                            <constraint firstAttribute="trailing" secondItem="ezd-gk-JI8" secondAttribute="trailing" id="h2D-BG-elB"/>
+                            <constraint firstItem="Vbr-uH-g4j" firstAttribute="top" secondItem="vfq-ft-7B0" secondAttribute="bottom" constant="24" id="17e-df-pnj"/>
+                            <constraint firstItem="Vbr-uH-g4j" firstAttribute="leading" secondItem="vfq-ft-7B0" secondAttribute="leading" id="420-N0-Wez"/>
+                            <constraint firstItem="vfq-ft-7B0" firstAttribute="leading" secondItem="yBy-ru-0Kn" secondAttribute="leading" id="4dR-9b-JNd"/>
+                            <constraint firstItem="yBy-ru-0Kn" firstAttribute="top" secondItem="vc3-ja-WNm" secondAttribute="bottom" constant="24" id="Nve-TZ-GnD"/>
+                            <constraint firstItem="vfq-ft-7B0" firstAttribute="top" secondItem="yBy-ru-0Kn" secondAttribute="bottom" constant="8" id="PYq-t0-2E7"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="vfq-ft-7B0" secondAttribute="trailing" id="TSU-PG-pxY"/>
+                            <constraint firstItem="yBy-ru-0Kn" firstAttribute="leading" secondItem="Ovf-dX-lFu" secondAttribute="leadingMargin" id="W0a-u9-NcU"/>
+                            <constraint firstItem="Vbr-uH-g4j" firstAttribute="trailing" secondItem="vfq-ft-7B0" secondAttribute="trailing" id="pxh-3H-ndP"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="reportButton" destination="Vbr-uH-g4j" id="Z0y-TH-at7"/>
+                        <outlet property="reportTextView" destination="vfq-ft-7B0" id="vZl-sP-VhX"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="NIl-KT-0p3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="g6L-D5-AGV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="647" y="293"/>
+            <point key="canvasLocation" x="645" y="337"/>
         </scene>
     </scenes>
 </document>

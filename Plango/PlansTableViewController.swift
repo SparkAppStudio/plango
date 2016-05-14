@@ -120,5 +120,21 @@ class PlansTableViewController: UITableViewController {
         self.showViewController(planSummary, sender: nil)
     }
     
-
+   // i guess not needed
+//    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+//        return true
+//    }
+    
+    override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+        let report = UITableViewRowAction(style: .Destructive, title: "Report") { action, index in
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                tableView.setEditing(false, animated: true)
+                let reportVC = UIStoryboard(name: StoryboardID.Main.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.Report.rawValue) as! ReportViewController
+                let cell = tableView.cellForRowAtIndexPath(indexPath) as! PlansTableViewCell
+                reportVC.plan = cell.plan
+                self.showViewController(reportVC, sender: nil)
+            })
+        }
+        return [report]
+    }
 }

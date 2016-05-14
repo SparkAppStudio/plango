@@ -39,16 +39,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         controller.tableView.showSimpleLoading()
         Plango.sharedInstance.loginUserWithPassword(Plango.EndPoint.Login.rawValue, email: userEmail, password: password) { (user, error) in
             controller.tableView.hideSimpleLoading()
-            controller.tableView.imageToast(nil, image: UIImage(named: "whiteCheck")!) //TODO: should have completion handler to dismis VC in so user sees the check, then controller popstota
             if error != nil {
                 print(Helper.errorMessage(self, error: nil, message: error))
             } else {
                 Plango.sharedInstance.currentUser = user
                 
                 NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(user!), forKey: UserDefaultsKeys.currentUser.rawValue)
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    controller.navigationController?.popViewControllerAnimated(true)
-                })
+                
+                controller.tableView.imageToast(nil, image: UIImage(named: "whiteCheck")!, notify: true)
+
             }
         }
 
