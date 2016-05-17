@@ -231,7 +231,13 @@ extension UIView {
             hud.mode = MBProgressHUDMode.CustomView
             hud.labelText = title
             hud.customView = UIImageView(image: image)
-            NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(UIView.hudTimerDidFireAndNotify(_:notify:)), userInfo: hud, repeats: false)
+            
+            if notify == true {
+                NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: #selector(UIView.hudTimerDidFireAndNotify(_:)), userInfo: hud, repeats: false)
+            } else {
+                NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: #selector(UIView.hudTimerDidFire(_:)), userInfo: hud, repeats: false)
+            }
+            
         })
     }
     
@@ -274,14 +280,13 @@ extension UIView {
         }
     }
     
-    func hudTimerDidFireAndNotify(sender: NSTimer, notify: Bool) {
+    func hudTimerDidFireAndNotify(sender: NSTimer) {
         if let hud = sender.userInfo as? MBProgressHUD {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 hud.hide(true)
-            })
-            if notify == true {
                 NSNotificationCenter.defaultCenter().postNotificationName(Notify.Timer.rawValue, object: nil, userInfo: nil)
-            }
+            })
+
         }
     }
 }

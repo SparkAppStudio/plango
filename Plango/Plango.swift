@@ -24,7 +24,7 @@ class Plango: NSObject {
         case Logout = "http://www.plango.us/logout"
         case AmazonImageRoot = "https://plango-images.s3.amazonaws.com/"
         case Home = "http://www.plango.us/"
-        case Report = "http://www.plango.us/reportSpam/"
+        case Report = "http://dev.plango.us/reportSpam/"
     }
     
     let env = NSBundle.mainBundle().infoDictionary!["BASE_ENDPOINT"] as! String
@@ -98,6 +98,10 @@ class Plango: NSObject {
                 onCompletion(nil, error)
             }
         }
+    }
+    
+    func findPlans(endPoint: String, durationFrom: Int?, durationTo: Int?, tags: [Tag]?, selectedPlaces: [[String : String]]?, user: User?, isJapanSearch: Bool) {
+        
     }
     
     func fetchTags(endPoint: String, onCompletion: TagsResponse) -> Void {

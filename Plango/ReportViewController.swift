@@ -56,6 +56,7 @@ class ReportViewController: UIViewController {
                 return
             }
             self.reportTextView.quickToast(error)
+            print(error)
         }
     }
 
