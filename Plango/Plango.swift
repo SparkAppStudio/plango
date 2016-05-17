@@ -17,7 +17,7 @@ class Plango: NSObject {
     enum EndPoint: String {
         case UserByID = "http://www.plango.us/users/"
         case PlanByID = "http://www.plango.us/plans/"
-        case FindPlans = "http://www.plango.us/findplans/"
+        case FindPlans = "http://dev.plango.us/findplans/"
         case AllTags = "http://dev.plango.us/tags"
         case Login = "http://dev.plango.us/login"
         case NewAccount = "http://www.plango.us/createuser"
@@ -103,34 +103,25 @@ class Plango: NSObject {
     func findPlans(endPoint: String, durationFrom: Int?, durationTo: Int?, tags: [Tag]?, selectedPlaces: [[String : String]]?, user: User?, isJapanSearch: Bool?, onCompletion: PlansResponse) {
         
         var parameters: [String : AnyObject] = [:]
-        
-        let tempParams: [AnyObject?] = [durationFrom, durationTo, tags, selectedPlaces, user, isJapanSearch]
-        
-        for item in tempParams {
-            if let item = item {
-                print(item.description)
-                parameters[item.description] = item
-            }
+                    
+        if let item = durationFrom {
+            parameters["durationFrom"] = item
         }
-            
-//        if let item = durationFrom {
-//            parameters["durationFrom"] = item
-//        }
-//        if let item = durationTo {
-//            parameters["durationTo"] = item
-//        }
-//        if let item = tags {
-//            parameters["tags"] = item
-//        }
-//        if let item = selectedPlaces {
-//            parameters["selectedPlaces"] = item
-//        }
-//        if let item = user {
-//            parameters["user"] = item
-//        }
-//        if let item = isJapanSearch {
-//            parameters["isJapanSearch"] = item
-//        }
+        if let item = durationTo {
+            parameters["durationTo"] = item
+        }
+        if let item = tags {
+            parameters["tags"] = item
+        }
+        if let item = selectedPlaces {
+            parameters["selectedPlaces"] = item
+        }
+        if let item = user {
+            parameters["user"] = item
+        }
+        if let item = isJapanSearch {
+            parameters["isJapanSearch"] = item
+        }
         
         Alamofire.request(.GET, endPoint, parameters: parameters).validate().responseJSON { response in
             switch response.result {

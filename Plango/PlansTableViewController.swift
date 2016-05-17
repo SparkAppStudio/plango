@@ -44,26 +44,25 @@ class PlansTableViewController: UITableViewController {
     
     func fetchPlans(endPoint: String) {
         Plango.sharedInstance.fetchPlans(endPoint) {
-            (receivedPlans: [Plan]?, error: String?) in
-            if let error = error {
+            (receivedPlans: [Plan]?, errorString: String?) in
+            if let error = errorString {
                 print(error)
             } else if let plans = receivedPlans {
                 self.plansArray = plans
                 self.tableView.reloadData()
             }
         }
-        
-        //test implementation
-        guard let urlEndPoint = NSBundle.mainBundle().URLForResource("test", withExtension: "json") else {
-            return
+    }
+    
+    func findPlans(endPoint: String, durationFrom: Int?, durationTo: Int?, tags: [Tag]?, selectedPlaces: [[String : String]]?, user: User?, isJapanSearch: Bool?) {
+        Plango.sharedInstance.findPlans(endPoint, durationFrom: durationFrom, durationTo: durationTo, tags: tags, selectedPlaces: selectedPlaces, user: user, isJapanSearch: isJapanSearch) { (receivedPlans, errorString) in
+            if let error = errorString {
+                print(error)
+            } else if let plans = receivedPlans {
+                self.plansArray = plans
+                self.tableView.reloadData()
+            }
         }
-
-        let testData = try! NSData(contentsOfURL: urlEndPoint, options: .DataReadingMappedIfSafe)
-        
-        let testJSON = JSON(data: testData)
-        
-        self.plansArray = Plan.getPlansFromJSON(testJSON)
-        self.tableView.reloadData()
     }
     
     // MARK: - Touch Gestures

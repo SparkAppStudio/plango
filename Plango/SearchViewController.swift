@@ -18,6 +18,8 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
     @IBOutlet weak var searchButton: UIButton!
     
     @IBAction func didTapSearch(sender: UIButton) {
+        
+        plansController.findPlans(plansController.plansEndPoint, durationFrom: 1, durationTo: 14, tags: nil, selectedPlaces: [["city":"Sydney", "country":"Australia"]], user: nil, isJapanSearch: nil)
     }
     
     
@@ -30,14 +32,16 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         let controllers = NSMutableArray()
         return controllers
     }()
+    lazy var plansController: PlansTableViewController = {
+        let plansVC = PlansTableViewController()
+        plansVC.plansEndPoint = Plango.EndPoint.FindPlans.rawValue
+        return plansVC
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let plansVC = PlansTableViewController()
-        plansVC.plansEndPoint = Plango.EndPoint.FindPlans.rawValue
-        
-        addPage("Search Results", controller: plansVC)
+        addPage("Search Results", controller: plansController)
         
         // Parallax Header
         let bundle = NSBundle(forClass: self.dynamicType)
