@@ -35,7 +35,7 @@ class Plango: NSObject {
     
     
     typealias UsersResponse = ([User]?, NSError?) -> Void
-    typealias PlansResponse = ([Plan]?, NSError?) -> Void
+    typealias PlansResponse = ([Plan]?, String?) -> Void
     typealias TagsResponse = ([Tag]?, String?) -> Void
     typealias LoginResponse = (User?, String?) -> Void
 //    typealias log = () throws -> User
@@ -95,13 +95,63 @@ class Plango: NSObject {
 
                 onCompletion(Plan.getPlansFromJSON(dataJSON), nil)
             case .Failure(let error):
-                onCompletion(nil, error)
+                onCompletion(nil, error.localizedFailureReason)
             }
         }
     }
     
-    func findPlans(endPoint: String, durationFrom: Int?, durationTo: Int?, tags: [Tag]?, selectedPlaces: [[String : String]]?, user: User?, isJapanSearch: Bool) {
+    func findPlans(endPoint: String, durationFrom: Int?, durationTo: Int?, tags: [Tag]?, selectedPlaces: [[String : String]]?, user: User?, isJapanSearch: Bool?, onCompletion: PlansResponse) {
         
+        var parameters: [String : AnyObject] = [:]
+        
+        let tempParams: [AnyObject?] = [durationFrom, durationTo, tags, selectedPlaces, user, isJapanSearch]
+        
+        for item in tempParams {
+            if let item = item {
+                print(item.description)
+                parameters[item.description] = item
+            }
+        }
+            
+//        if let item = durationFrom {
+//            parameters["durationFrom"] = item
+//        }
+//        if let item = durationTo {
+//            parameters["durationTo"] = item
+//        }
+//        if let item = tags {
+//            parameters["tags"] = item
+//        }
+//        if let item = selectedPlaces {
+//            parameters["selectedPlaces"] = item
+//        }
+//        if let item = user {
+//            parameters["user"] = item
+//        }
+//        if let item = isJapanSearch {
+//            parameters["isJapanSearch"] = item
+//        }
+        
+        Alamofire.request(.GET, endPoint, parameters: parameters).validate().responseJSON { response in
+            switch response.result {
+            case .Success(let value):
+                let dataJSON = JSON(value)
+                if dataJSON["status"].stringValue == "success" {
+                    onCompletion(Plan.getPlansFromJSON(dataJSON), nil)
+                } else {
+                    var errorString = "failed to get proper error message"
+                    
+                    let message = dataJSON["message"].stringValue
+                    let status = dataJSON["status"].stringValue
+                    errorString = "Status: \(status) Message: \(message)"
+                    
+                    onCompletion(nil, errorString)
+                }
+            case .Failure(let error):
+                onCompletion(nil, error.localizedFailureReason)
+            }
+
+        }
     }
     
     func fetchTags(endPoint: String, onCompletion: TagsResponse) -> Void {
@@ -122,7 +172,7 @@ class Plango: NSObject {
                 }
                 
             case .Failure(let error):
-                onCompletion(nil, error.localizedDescription)
+                onCompletion(nil, error.localizedFailureReason)
             }
         }
     }

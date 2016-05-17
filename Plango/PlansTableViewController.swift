@@ -43,18 +43,15 @@ class PlansTableViewController: UITableViewController {
     }
     
     func fetchPlans(endPoint: String) {
-//        Plango.sharedInstance.fetchPlans(endPoint) {
-//            (receivedPlans: [Plan]?, error: NSError?) in
-//            if let error = error {
-//                print(error.description)
-//            } else if let plans = receivedPlans {
-//                self.plansArray = plans
-//                self.tableView.reloadData()
-//                for plan in plans {
-//                    self.fetchUsers("\(Plango.EndPoint.UserByID.rawValue)\(plan.authorID)")
-//                }
-//            }
-//        }
+        Plango.sharedInstance.fetchPlans(endPoint) {
+            (receivedPlans: [Plan]?, error: String?) in
+            if let error = error {
+                print(error)
+            } else if let plans = receivedPlans {
+                self.plansArray = plans
+                self.tableView.reloadData()
+            }
+        }
         
         //test implementation
         guard let urlEndPoint = NSBundle.mainBundle().URLForResource("test", withExtension: "json") else {
