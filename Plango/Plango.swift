@@ -15,16 +15,17 @@ class Plango: NSObject {
     static let sharedInstance = Plango()
     
     enum EndPoint: String {
-        case UserByID = "http://www.plango.us/users/"
-        case PlanByID = "http://www.plango.us/plans/"
-        case FindPlans = "http://dev.plango.us/findplans/"
+        case UserByID = "http://dev.plango.us/users/"
+        case PlanByID = "http://dev.plango.us/plans/"
+        case FindPlans = "http://dev.plango.us/findplans"
         case AllTags = "http://dev.plango.us/tags"
         case Login = "http://dev.plango.us/login"
-        case NewAccount = "http://www.plango.us/createuser"
-        case Logout = "http://www.plango.us/logout"
+        case NewAccount = "http://dev.plango.us/createuser"
+        case Logout = "http://dev.plango.us/logout"
         case AmazonImageRoot = "https://plango-images.s3.amazonaws.com/"
-        case Home = "http://www.plango.us/"
+        case Home = "http://dev.plango.us/"
         case Report = "http://dev.plango.us/reportSpam/"
+        case MyPlans = "http://dev.plango.us/me/myplans"
     }
     
     let env = NSBundle.mainBundle().infoDictionary!["BASE_ENDPOINT"] as! String
@@ -103,12 +104,12 @@ class Plango: NSObject {
     func findPlans(endPoint: String, durationFrom: Int?, durationTo: Int?, tags: [Tag]?, selectedPlaces: [[String : String]]?, user: User?, isJapanSearch: Bool?, onCompletion: PlansResponse) {
         
         var parameters: [String : AnyObject] = [:]
-                    
+                                            
         if let item = durationFrom {
-            parameters["durationFrom"] = item
+            parameters["durationFrom"] = String(item)
         }
         if let item = durationTo {
-            parameters["durationTo"] = item
+            parameters["durationTo"] = String(item)
         }
         if let item = tags {
             parameters["tags"] = item
@@ -117,7 +118,7 @@ class Plango: NSObject {
             parameters["selectedPlaces"] = item
         }
         if let item = user {
-            parameters["user"] = item
+            parameters["user"] = item.displayName
         }
         if let item = isJapanSearch {
             parameters["isJapanSearch"] = item

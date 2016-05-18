@@ -24,15 +24,17 @@ class MyPlansViewController: MXSegmentedPagerController {
         let controllers = NSMutableArray()
         return controllers
     }()
-    
+    lazy var plansController: PlansTableViewController = {
+        let plansVC = PlansTableViewController()
+        plansVC.plansEndPoint = Plango.EndPoint.MyPlans.rawValue
+        return plansVC
+    }()
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let plansVC = PlansTableViewController()
-        plansVC.plansEndPoint = Plango.EndPoint.FindPlans.rawValue
-        addPage("My Plans", controller: plansVC)
+        addPage("My Plans", controller: plansController)
         
         // Parallax Header
         let bundle = NSBundle(forClass: self.dynamicType)
@@ -57,9 +59,19 @@ class MyPlansViewController: MXSegmentedPagerController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        if let endPoint = Plango.sharedInstance.currentUser?.avatar {
-            let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
-            avatarImageView.af_setImageWithURL(cleanURL!)
+        if let user = Plango.sharedInstance.currentUser {
+            if let name = user.displayName {
+                userNameLabel.text = name
+            }
+            if let name = user.userName {
+                userNameLabel.text = name
+            }
+            
+            if let endPoint = user.avatar {
+                let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
+                avatarImageView.af_setImageWithURL(cleanURL!)
+            }
+            
         }
     }
     
@@ -91,6 +103,9 @@ class MyPlansViewController: MXSegmentedPagerController {
     
     override func segmentedPager(segmentedPager: MXSegmentedPager, didScrollWithParallaxHeader parallaxHeader: MXParallaxHeader) {
         //use or override for refresh effect
+        if parallaxHeader.progress > 0.8 {
+            plansController.fetchPlans(plansController.plansEndPoint)
+        }
     }
     
     // MARK: - MXSegmentedpagerDataSource

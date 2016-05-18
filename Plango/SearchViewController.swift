@@ -19,7 +19,7 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
     
     @IBAction func didTapSearch(sender: UIButton) {
         
-        plansController.findPlans(plansController.plansEndPoint, durationFrom: 1, durationTo: 14, tags: nil, selectedPlaces: [["city":"Sydney", "country":"Australia"]], user: nil, isJapanSearch: nil)
+        plansController.findPlans(plansController.plansEndPoint, durationFrom: 1, durationTo: 14, tags: nil, selectedPlaces: nil, user: nil, isJapanSearch: nil)
     }
     
     

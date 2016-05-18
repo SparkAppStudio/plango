@@ -9,6 +9,7 @@ PODS:
     - ChameleonFramework/Default
   - CZWeatherKit (2.2.6):
     - PINCache (~> 2.1)
+  - GoogleMaps (1.13.1)
   - HMSegmentedControl (1.5.2)
   - Hue (1.1)
   - Kingfisher (2.2.0)
@@ -31,6 +32,7 @@ DEPENDENCIES:
   - AlamofireNetworkActivityIndicator
   - ChameleonFramework/Swift
   - CZWeatherKit
+  - GoogleMaps
   - Hue
   - Kingfisher
   - MBProgressHUD
@@ -56,6 +58,7 @@ SPEC CHECKSUMS:
   AlamofireNetworkActivityIndicator: 49a6e39afb947136f7b1872bae2d684957c26697
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   CZWeatherKit: 6da12bc33881dd9dd5cfe405bca82ce0fb1e739b
+  GoogleMaps: 8935220056a6cc8e9ca298b4da4ae530620aa71b
   HMSegmentedControl: 83b9686022d2176fb6457d2bdb61e5d6393fed7d
   Hue: ed6781be844b58b2a38150cfd4bf24c33449faf8
   Kingfisher: 350869ed88d6451803b390475d977abdd9f0a357
@@ -69,6 +72,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
   Whisper: 18b574de21a089c0d664b115f26e0d9ccbbadbab
 
-PODFILE CHECKSUM: 31bff29994fde915cbc9552b1c37f740490115f3
+PODFILE CHECKSUM: c89085ca1418063e2a0a0f8c216319cc06f3c9b7
 
 COCOAPODS: 1.0.0

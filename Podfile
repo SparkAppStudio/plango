@@ -18,6 +18,9 @@ target 'Plango' do
 #    frontendNotifications
     pod 'MBProgressHUD'
     pod 'Whisper'
+    
+#    maps
+    pod 'GoogleMaps'
 
 #    frontendConvienence
     pod 'Hue'

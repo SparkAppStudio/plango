@@ -43,24 +43,34 @@ class PlansTableViewController: UITableViewController {
     }
     
     func fetchPlans(endPoint: String) {
+        self.tableView.showSimpleLoading()
         Plango.sharedInstance.fetchPlans(endPoint) {
             (receivedPlans: [Plan]?, errorString: String?) in
+            self.tableView.hideSimpleLoading()
+            
             if let error = errorString {
                 print(error)
             } else if let plans = receivedPlans {
-                self.plansArray = plans
-                self.tableView.reloadData()
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.plansArray = plans
+                    self.tableView.reloadData()
+                })
             }
         }
     }
     
     func findPlans(endPoint: String, durationFrom: Int?, durationTo: Int?, tags: [Tag]?, selectedPlaces: [[String : String]]?, user: User?, isJapanSearch: Bool?) {
+        self.tableView.showSimpleLoading()
         Plango.sharedInstance.findPlans(endPoint, durationFrom: durationFrom, durationTo: durationTo, tags: tags, selectedPlaces: selectedPlaces, user: user, isJapanSearch: isJapanSearch) { (receivedPlans, errorString) in
+            self.tableView.hideSimpleLoading()
+            
             if let error = errorString {
                 print(error)
             } else if let plans = receivedPlans {
-                self.plansArray = plans
-                self.tableView.reloadData()
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.plansArray = plans
+                    self.tableView.reloadData()
+                })
             }
         }
     }

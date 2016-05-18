@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GoogleMaps
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,6 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
+        GMSServices.provideAPIKey("AIzaSyA39ZWfxBR9I4VENEDuS53ivijYC_ZKvpY")
         // Override point for customization after application launch.        
         NSNotificationCenter.defaultCenter().addObserverForName(Notify.Login.rawValue, object: nil, queue: nil) { (notification) -> Void in
             self.appLogin(notification)
@@ -41,6 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             controller.tableView.hideSimpleLoading()
             if error != nil {
                 print(Helper.errorMessage(self, error: nil, message: error))
+                controller.tableView.quickToast("Incorrect Password")
             } else {
                 Plango.sharedInstance.currentUser = user
                 
