@@ -68,7 +68,10 @@ class MyPlansViewController: MXSegmentedPagerController {
             }
             
             if let endPoint = user.avatar {
+                print(endPoint)
                 let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
+                print(cleanURL?.absoluteString)
+                avatarImageView.makeCircle()
                 avatarImageView.af_setImageWithURL(cleanURL!)
             }
             

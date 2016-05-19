@@ -11,22 +11,22 @@ import UIKit
 class DiscoverTableViewController: UITableViewController {
     
     enum DiscoverTitles: String {
-        case TypeCollections = "Popular Plans by Type"
-        case TopCollections = "Top Collections"
-        case Popular = "Popular Plans"
-        case Favorite = "Favorite Destinations"
+        case TypeCollections = "What's Your Type?"
+        case PlangoCollections = "Plango Favorites"
+        case PopularPlans = "Popular Destinations"
+//        case Favorite = "Favorite Destinations"
         
         var section: Int {
             switch self {
             case .TypeCollections: return 0
-            case .TopCollections: return 1
-            case .Popular: return 2
-            case .Favorite: return 3
+            case .PlangoCollections: return 1
+            case .PopularPlans: return 2
+//            case .Favorite: return 3
             }
         }
         
         static var count: Int {
-            return DiscoverTitles.Favorite.hashValue + 1
+            return DiscoverTitles.PopularPlans.hashValue + 1
         }
     }
     
@@ -34,7 +34,7 @@ class DiscoverTableViewController: UITableViewController {
     
     lazy var usersDictionary = [NSIndexPath:User]()
     lazy var popularPlansArray = [Plan]?()
-    lazy var favoritePlansArray = [Plan]?()
+//    lazy var favoritePlansArray = [Plan]?()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +49,9 @@ class DiscoverTableViewController: UITableViewController {
         self.tableView.registerClass(PlanTypesTableViewCell.self, forCellReuseIdentifier: CellID.PlanTypes.rawValue)
         
         fetchTags(Plango.EndPoint.AllTags.rawValue)
-        //TODO: - fetchPlans, copy method or refactor
+
+        fetchPopularPlans()
+        
         //TODO: - fetchCollections, get title's from a list I guess
     }
 
@@ -62,13 +64,27 @@ class DiscoverTableViewController: UITableViewController {
         switch indexPath.section {
         case DiscoverTitles.TypeCollections.section:
             return Helper.CellHeight.superWide.value
-        case DiscoverTitles.TopCollections.section:
+        case DiscoverTitles.PlangoCollections.section:
             return Helper.CellHeight.superWide.value
         default:
             return Helper.CellHeight.plans.value
         }
     }
     
+    func fetchPopularPlans() {
+        let tag = Tag()
+        tag.id = "a;sdjklf"
+        tag.name = "Adventerous"
+        
+        Plango.sharedInstance.findPlans(Plango.EndPoint.FindPlans.rawValue, durationFrom: nil, durationTo: nil, tags: [tag], selectedPlaces: nil, user: nil, isJapanSearch: nil) { (receivedPlans, errorString) in
+            if let error = errorString {
+                print(error)
+            } else if let plans = receivedPlans {
+                self.popularPlansArray = plans
+                self.tableView.reloadData()
+            }
+        }
+    }
     
     // MARK: - Table view Delegate
     
@@ -87,8 +103,14 @@ class DiscoverTableViewController: UITableViewController {
         switch section {
         case DiscoverTitles.TypeCollections.section:
             return 1
-        default:
+        case DiscoverTitles.PlangoCollections.section:
             return 3
+        default:
+            if let count = popularPlansArray?.count {
+                return count
+            } else {
+               return 0
+            }
         }
     }
 
@@ -100,20 +122,17 @@ class DiscoverTableViewController: UITableViewController {
             cell.configureWithDataSourceDelegate(dataSourceDelegate: self)
             return cell
 
-        case DiscoverTitles.TopCollections.section:
+        case DiscoverTitles.PlangoCollections.section:
             let cell = tableView.dequeueReusableCellWithIdentifier(CellID.TopCollections.rawValue, forIndexPath: indexPath) as! TopCollectionsTableViewCell
             return cell
 
         default:
             let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Plans.rawValue, forIndexPath: indexPath) as! PlansTableViewCell
-            if indexPath.section == DiscoverTitles.Popular.section {
+            if indexPath.section == DiscoverTitles.PopularPlans.section {
                 if let plans = self.popularPlansArray {
                     cell.plan = plans[indexPath.row]
                 }
-            } else {
-                if let plans = self.favoritePlansArray {
-                    cell.plan = plans[indexPath.row]
-                }            }
+            }
             //TODO: - fetchUserForPlan copy method or refactor
             cell.configure()
             return cell
@@ -125,14 +144,14 @@ class DiscoverTableViewController: UITableViewController {
         case DiscoverTitles.TypeCollections.section:
             return DiscoverTitles.TypeCollections.rawValue
             
-        case DiscoverTitles.TopCollections.section:
-            return DiscoverTitles.TopCollections.rawValue
+        case DiscoverTitles.PlangoCollections.section:
+            return DiscoverTitles.PlangoCollections.rawValue
             
-        case DiscoverTitles.Popular.section:
-            return DiscoverTitles.Popular.rawValue
+        case DiscoverTitles.PopularPlans.section:
+            return DiscoverTitles.PopularPlans.rawValue
             
-        case DiscoverTitles.Favorite.section:
-            return DiscoverTitles.Favorite.rawValue
+//        case DiscoverTitles.Favorite.section:
+//            return DiscoverTitles.Favorite.rawValue
         
         default:
             return nil
@@ -173,7 +192,7 @@ extension DiscoverTableViewController: UICollectionViewDataSource, UICollectionV
         let plansVC = PlansTableViewController()
         plansVC.plansEndPoint = Plango.EndPoint.FindPlans.rawValue
         self.showViewController(plansVC, sender: nil)
-print("select coll")
+        print("select coll")
     }
 
 }

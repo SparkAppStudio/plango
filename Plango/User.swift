@@ -89,7 +89,7 @@ class User: NSObject, NSCoding {
         newUser.userName = dictionary["username"] as? String
         newUser.displayName = dictionary["displayname"] as? String
         newUser.email = dictionary["email"] as? String
-        newUser.avatar = dictionary["avatar"] as? String
+        newUser.avatar = dictionary["avatarUrl"] as? String
         newUser.plans = dictionary["plans"] as? NSArray
         
         if let invites = dictionary["num_invites"] as? String {

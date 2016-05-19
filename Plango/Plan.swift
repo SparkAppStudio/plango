@@ -36,16 +36,24 @@ class Plan: NSObject {
     var experiences: NSArray?
     
     
-    class func getPlansFromJSON(objectJSON: JSON) -> [Plan] {
+    class func getPlansFromJSON(objectJSON: JSON) -> [Plan]? {
         var tempUsers = [Plan?]()
         
-        guard let array = objectJSON["data"].arrayObject else {
-            return [Plan]()
-        }
-        
-        for item in array {
-            let dictionary = item as! NSDictionary
-            tempUsers.append(createPlan(dictionary))
+        if let array = objectJSON["data"].arrayObject {
+            for item in array {
+                let dictionary = item as! NSDictionary
+                tempUsers.append(createPlan(dictionary))
+            }
+        } else if let topDictionary = objectJSON["data"].dictionaryObject {
+            guard let array = topDictionary["plans"] as? [AnyObject] else {
+                print("In \(classForCoder()) failed to parse JSON")
+                return nil
+            }
+            
+            for item in array {
+                let dictionary = item as! NSDictionary
+                tempUsers.append(createPlan(dictionary))
+            }
         }
         
         //remote nil users

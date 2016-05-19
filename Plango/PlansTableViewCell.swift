@@ -35,6 +35,7 @@ class PlansTableViewCell: UITableViewCell {
             profileNameLabel.text = cellUser.userName
             guard let endPoint = cellUser.avatar else {return}
             let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
+            profileImageView.makeCircle()
             profileImageView.af_setImageWithURL(cleanURL!)
         }
         if let cellPlan = plan {
@@ -58,7 +59,7 @@ class PlansTableViewCell: UITableViewCell {
             //TODO: - plan length, views count and copies count
         }
     }
-    
+        
     func reset() {
         coverImageView.af_cancelImageRequest()
         profileImageView.af_cancelImageRequest()

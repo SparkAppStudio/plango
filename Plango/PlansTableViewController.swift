@@ -22,7 +22,7 @@ class PlansTableViewController: UITableViewController {
         let cellNib = UINib(nibName: "PlansCell", bundle: nil)
         self.tableView.registerNib(cellNib, forCellReuseIdentifier: CellID.Plans.rawValue)
         
-        fetchPlans(plansEndPoint)
+        fetchPlans(plansEndPoint)        
     }
     
     func fetchUserForPlan(endPoint: String, indexPath: NSIndexPath) {
@@ -57,6 +57,17 @@ class PlansTableViewController: UITableViewController {
                 })
             }
         }
+        
+//        guard let urlEndPoint = NSBundle.mainBundle().URLForResource("test", withExtension: "json") else {
+//            return
+//        }
+//        
+//        let testData = try! NSData(contentsOfURL: urlEndPoint, options: .DataReadingMappedIfSafe)
+//        
+//        let testJSON = JSON(data: testData)
+//        
+//        self.plansArray = Plan.getPlansFromJSON(testJSON)
+//        self.tableView.reloadData()
     }
     
     func findPlans(endPoint: String, durationFrom: Int?, durationTo: Int?, tags: [Tag]?, selectedPlaces: [[String : String]]?, user: User?, isJapanSearch: Bool?) {

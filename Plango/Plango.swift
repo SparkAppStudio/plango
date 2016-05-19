@@ -25,7 +25,7 @@ class Plango: NSObject {
         case AmazonImageRoot = "https://plango-images.s3.amazonaws.com/"
         case Home = "http://dev.plango.us/"
         case Report = "http://dev.plango.us/reportSpam/"
-        case MyPlans = "http://dev.plango.us/me/myplans"
+        case MyPlans = "http://dev.plango.us/me/plans"
     }
     
     let env = NSBundle.mainBundle().infoDictionary!["BASE_ENDPOINT"] as! String
@@ -111,8 +111,19 @@ class Plango: NSObject {
         if let item = durationTo {
             parameters["durationTo"] = String(item)
         }
-        if let item = tags {
-            parameters["tags"] = item
+        if let tags = tags {
+            
+            var tagString = ""
+            
+            for item in tags {
+                tagString.appendContentsOf("\(item.name!),")
+            }
+            
+            let cleanedTags = String(tagString.characters.dropLast())
+            
+            print(cleanedTags)
+            
+            parameters["tags"] = cleanedTags
         }
         if let item = selectedPlaces {
             parameters["selectedPlaces"] = item
