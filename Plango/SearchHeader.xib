@@ -7,10 +7,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchViewController" customModule="Plango" customModuleProvider="target">
             <connections>
-                <outlet property="durationButton" destination="HgT-XN-tZs" id="agu-lI-hFT"/>
+                <outlet property="locationSearchView" destination="KxO-3X-OXA" id="zeA-t8-PJS"/>
                 <outlet property="searchButton" destination="uBf-tW-gDy" id="MJ3-Zn-yT4"/>
-                <outlet property="searchTextField" destination="lh2-Uc-N7q" id="qZO-oI-wnp"/>
-                <outlet property="tagsButton" destination="XtS-gV-HR4" id="MvV-W6-jhW"/>
+                <outlet property="tagsSearchView" destination="utf-qD-WBS" id="mO7-2R-fbr"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -18,17 +17,12 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lh2-Uc-N7q">
-                    <rect key="frame" x="8" y="8" width="304" height="30"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits"/>
-                    <connections>
-                        <outlet property="delegate" destination="-1" id="EKP-5U-1VK"/>
-                    </connections>
-                </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uBf-tW-gDy">
                     <rect key="frame" x="8" y="142" width="304" height="30"/>
                     <color key="backgroundColor" red="1" green="0.47450980392156861" blue="0.086274509803921567" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="FYJ-RB-Nq8"/>
+                    </constraints>
                     <state key="normal" title="Search">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -36,50 +30,47 @@
                         <action selector="didTapSearch:" destination="-1" eventType="touchUpInside" id="jiX-8A-TTN"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HgT-XN-tZs">
-                    <rect key="frame" x="8" y="104" width="304" height="30"/>
-                    <color key="backgroundColor" red="1" green="0.47450980390000003" blue="0.086274509799999996" alpha="1" colorSpace="calibratedRGB"/>
-                    <state key="normal" title="Duration">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="didTapSearch:" destination="-1" eventType="touchUpInside" id="oL7-tf-JQk"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XtS-gV-HR4">
-                    <rect key="frame" x="8" y="66" width="304" height="30"/>
-                    <color key="backgroundColor" red="1" green="0.47450980390000003" blue="0.086274509799999996" alpha="1" colorSpace="calibratedRGB"/>
-                    <state key="normal" title="Tags">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="didTapSearch:" destination="-1" eventType="touchUpInside" id="kP6-iS-xCI"/>
-                    </connections>
-                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KxO-3X-OXA">
+                    <rect key="frame" x="0.0" y="24" width="320" height="30"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="7EF-wy-tOo"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="utf-qD-WBS">
+                    <rect key="frame" x="0.0" y="68" width="320" height="30"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="Fgp-gC-cMr"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="0.21176470588235294" green="0.75686274509803919" blue="0.80392156862745101" alpha="1" colorSpace="calibratedRGB"/>
             <accessibility key="accessibilityConfiguration">
                 <accessibilityTraits key="traits" header="YES"/>
             </accessibility>
             <constraints>
-                <constraint firstItem="HgT-XN-tZs" firstAttribute="leading" secondItem="XtS-gV-HR4" secondAttribute="leading" id="5EJ-Bk-tkf"/>
-                <constraint firstItem="uBf-tW-gDy" firstAttribute="top" secondItem="HgT-XN-tZs" secondAttribute="bottom" constant="8" id="74c-RO-y9a"/>
-                <constraint firstItem="lh2-Uc-N7q" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="7ur-hy-ITW"/>
-                <constraint firstItem="lh2-Uc-N7q" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="FKa-hp-IRK"/>
+                <constraint firstAttribute="trailing" secondItem="KxO-3X-OXA" secondAttribute="trailing" id="1vx-AA-rcX"/>
+                <constraint firstItem="KxO-3X-OXA" firstAttribute="leading" secondItem="uBf-tW-gDy" secondAttribute="leading" id="9Am-6l-B66"/>
+                <constraint firstAttribute="bottom" secondItem="uBf-tW-gDy" secondAttribute="bottom" constant="8" id="BaA-uC-5eR"/>
+                <constraint firstItem="KxO-3X-OXA" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="24" id="Deh-Pz-ZjO"/>
+                <constraint firstItem="uBf-tW-gDy" firstAttribute="top" secondItem="KxO-3X-OXA" secondAttribute="bottom" constant="6" id="DyS-Gp-Lfc"/>
+                <constraint firstAttribute="trailing" secondItem="utf-qD-WBS" secondAttribute="trailing" id="Fwm-mY-uLm"/>
                 <constraint firstAttribute="trailing" secondItem="uBf-tW-gDy" secondAttribute="trailing" constant="8" id="Gdx-XM-cDU"/>
-                <constraint firstItem="uBf-tW-gDy" firstAttribute="leading" secondItem="HgT-XN-tZs" secondAttribute="leading" id="Oak-Tr-rbz"/>
-                <constraint firstItem="HgT-XN-tZs" firstAttribute="top" secondItem="XtS-gV-HR4" secondAttribute="bottom" constant="8" id="ObD-74-GUI"/>
-                <constraint firstItem="XtS-gV-HR4" firstAttribute="leading" secondItem="lh2-Uc-N7q" secondAttribute="leading" id="aQm-9r-cpz"/>
+                <constraint firstItem="KxO-3X-OXA" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JYu-7X-VZx"/>
+                <constraint firstItem="KxO-3X-OXA" firstAttribute="trailing" secondItem="uBf-tW-gDy" secondAttribute="trailing" id="LRF-yY-dul"/>
+                <constraint firstItem="uBf-tW-gDy" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="Pcp-Ef-okY"/>
+                <constraint firstAttribute="trailing" secondItem="uBf-tW-gDy" secondAttribute="trailing" constant="8" id="U5H-6B-CDN"/>
                 <constraint firstItem="uBf-tW-gDy" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="aXq-u0-Ij9"/>
-                <constraint firstItem="XtS-gV-HR4" firstAttribute="trailing" secondItem="lh2-Uc-N7q" secondAttribute="trailing" id="auO-x5-c4p"/>
-                <constraint firstItem="uBf-tW-gDy" firstAttribute="trailing" secondItem="HgT-XN-tZs" secondAttribute="trailing" id="sko-dR-VXg"/>
-                <constraint firstItem="HgT-XN-tZs" firstAttribute="trailing" secondItem="XtS-gV-HR4" secondAttribute="trailing" id="uTT-eW-vxV"/>
-                <constraint firstAttribute="trailing" secondItem="lh2-Uc-N7q" secondAttribute="trailing" constant="8" id="ulg-nl-Sje"/>
-                <constraint firstItem="XtS-gV-HR4" firstAttribute="top" secondItem="lh2-Uc-N7q" secondAttribute="bottom" constant="28" id="yfY-VF-L3G"/>
+                <constraint firstItem="utf-qD-WBS" firstAttribute="top" secondItem="KxO-3X-OXA" secondAttribute="bottom" constant="14" id="tvk-7A-5XU"/>
+                <constraint firstItem="utf-qD-WBS" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="wOq-Z1-5e9"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <variation key="default">
                 <mask key="constraints">
+                    <exclude reference="9Am-6l-B66"/>
+                    <exclude reference="LRF-yY-dul"/>
+                    <exclude reference="DyS-Gp-Lfc"/>
                     <exclude reference="Gdx-XM-cDU"/>
                     <exclude reference="aXq-u0-Ij9"/>
                 </mask>

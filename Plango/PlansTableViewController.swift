@@ -22,7 +22,7 @@ class PlansTableViewController: UITableViewController {
         let cellNib = UINib(nibName: "PlansCell", bundle: nil)
         self.tableView.registerNib(cellNib, forCellReuseIdentifier: CellID.Plans.rawValue)
         
-        fetchPlans(plansEndPoint)        
+//        fetchPlans(plansEndPoint)        
     }
     
     func fetchUserForPlan(endPoint: String, indexPath: NSIndexPath) {

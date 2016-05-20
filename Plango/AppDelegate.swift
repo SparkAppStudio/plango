@@ -76,7 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func configureTabController() {
         let tabOne = UINavigationController(rootViewController: DiscoverTableViewController())
         
-        let tabTwo = UINavigationController(rootViewController: Search2ViewController())
+        let tabTwo = UINavigationController(rootViewController: SearchViewController())
         
         let tabThree = UINavigationController(rootViewController: MyPlansViewController())
         

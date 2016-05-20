@@ -17,6 +17,9 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
     @IBOutlet weak var durationButton: UIButton!
     @IBOutlet weak var searchButton: UIButton!
     
+    @IBOutlet weak var locationSearchView: UIView!
+    @IBOutlet weak var tagsSearchView: UIView!
+    
     @IBAction func didTapSearch(sender: UIButton) {
         //        plansController.findPlans(plansController.plansEndPoint, durationFrom: 1, durationTo: 14, tags: nil, selectedPlaces: nil, user: nil, isJapanSearch: nil)
     }
@@ -45,6 +48,7 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
     }()
     
     var searchController: UISearchController?
+    var tagsSearchController: UISearchController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,7 +87,16 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         // this view controller, not one further up the chain.
         self.definesPresentationContext = true
         
-        headerView.addSubview(searchController!.searchBar)
+        locationSearchView.addSubview(searchController!.searchBar)
+        
+        let tagsResultVC = Search2ViewController()
+        
+        tagsSearchController = UISearchController(searchResultsController: tagsResultVC)
+        tagsSearchController?.searchResultsUpdater = tagsResultVC
+        tagsSearchController?.searchBar.sizeToFit()
+        tagsSearchController?.hidesNavigationBarDuringPresentation = false
+        
+        tagsSearchView.addSubview(tagsSearchController!.searchBar)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -230,12 +243,10 @@ extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
             }
         }
         
-        let plansVC = PlansTableViewController()
-        plansVC.plansEndPoint = Plango.EndPoint.FindPlans.rawValue
         
-        plansVC.findPlans(plansVC.plansEndPoint, durationFrom: nil, durationTo: nil, tags: nil, selectedPlaces: [selectedPlace], user: nil, isJapanSearch: nil)
+        plansController.findPlans(plansController.plansEndPoint, durationFrom: nil, durationTo: nil, tags: nil, selectedPlaces: [selectedPlace], user: nil, isJapanSearch: nil)
         
-        self.showViewController(plansVC, sender: nil)
+//        self.showViewController(plansVC, sender: nil)
     }
     
     func resultsController(resultsController: GMSAutocompleteResultsViewController,

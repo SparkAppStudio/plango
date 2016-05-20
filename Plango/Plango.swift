@@ -136,6 +136,7 @@ class Plango: NSObject {
         }
         
         Alamofire.request(.GET, endPoint, parameters: parameters).validate().responseJSON { response in
+            print(response.request?.mainDocumentURL)
             switch response.result {
             case .Success(let value):
                 let dataJSON = JSON(value)
