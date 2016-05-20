@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (3.3.0)
+  - Alamofire (3.4.0)
   - AlamofireImage (2.4.0):
     - Alamofire (~> 3.3)
   - AlamofireNetworkActivityIndicator (1.0.1):
@@ -9,10 +9,10 @@ PODS:
     - ChameleonFramework/Default
   - CZWeatherKit (2.2.6):
     - PINCache (~> 2.1)
-  - GoogleMaps (1.13.1)
+  - GoogleMaps (1.13.2)
   - HMSegmentedControl (1.5.2)
   - Hue (1.1)
-  - Kingfisher (2.2.0)
+  - Kingfisher (2.4.1)
   - MBProgressHUD (0.9.2)
   - MXPagerView (0.1.2)
   - MXParallaxHeader (0.4.3)
@@ -21,10 +21,10 @@ PODS:
     - MXPagerView (~> 0.1.2)
     - MXParallaxHeader (~> 0.4.3)
   - PINCache (2.2.2)
-  - SnapKit (0.20.0)
+  - SnapKit (0.21.0)
   - Spring (1.0.3)
   - SwiftyJSON (2.3.2)
-  - Whisper (2.1)
+  - Whisper (3.0.0)
 
 DEPENDENCIES:
   - Alamofire
@@ -53,24 +53,24 @@ CHECKOUT OPTIONS:
     :git: https://github.com/MengTo/Spring.git
 
 SPEC CHECKSUMS:
-  Alamofire: 9054db4a1b1ca9e363223183e01cea380159a27c
+  Alamofire: c19a627cefd6a95f840401c49ab1f124e07f54ee
   AlamofireImage: 87408b652e0f5ae5fe364035f15aea8b9b24c77e
   AlamofireNetworkActivityIndicator: 49a6e39afb947136f7b1872bae2d684957c26697
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   CZWeatherKit: 6da12bc33881dd9dd5cfe405bca82ce0fb1e739b
-  GoogleMaps: 8935220056a6cc8e9ca298b4da4ae530620aa71b
+  GoogleMaps: b20a103ff307f58392e603cf142e59d7e30374c1
   HMSegmentedControl: 83b9686022d2176fb6457d2bdb61e5d6393fed7d
   Hue: ed6781be844b58b2a38150cfd4bf24c33449faf8
-  Kingfisher: 350869ed88d6451803b390475d977abdd9f0a357
+  Kingfisher: 41aed5b6c1ed8fa98cf6d75283ce89cf7890f517
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MXPagerView: b0cc1695ff8470a1bb1628e25e8878eb94606a60
   MXParallaxHeader: 96d9e7c392a26b29b97ddc34bff904a9c0baef27
   MXSegmentedPager: 48a6129c823a3a5c6f5809c43463dbdf8351f528
   PINCache: 078426d356ab95ef875e9e62e5c35a2ea3333c28
-  SnapKit: 5fce3c1bbbf1fbd31de9aa92f33eb9fa03f15650
+  SnapKit: 2756fe24b706367af224c9c508d2f9166d03354c
   Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
-  Whisper: 18b574de21a089c0d664b115f26e0d9ccbbadbab
+  Whisper: 42a3ee7c2936f861b23d41bd6cd7dfd22f102405
 
 PODFILE CHECKSUM: c89085ca1418063e2a0a0f8c216319cc06f3c9b7
 

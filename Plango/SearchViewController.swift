@@ -8,22 +8,22 @@
 
 import UIKit
 import MXSegmentedPager
+import GoogleMaps
 
 class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
 
     @IBOutlet weak var searchTextField: UITextField!
-    @IBOutlet weak var locationTextField: UITextField!
-    @IBOutlet weak var startTextField: UITextField!
-    @IBOutlet weak var endTextField: UITextField!
+    @IBOutlet weak var tagsButton: UIButton!
+    @IBOutlet weak var durationButton: UIButton!
     @IBOutlet weak var searchButton: UIButton!
     
     @IBAction func didTapSearch(sender: UIButton) {
-        
-        plansController.findPlans(plansController.plansEndPoint, durationFrom: 1, durationTo: 14, tags: nil, selectedPlaces: nil, user: nil, isJapanSearch: nil)
+        //        plansController.findPlans(plansController.plansEndPoint, durationFrom: 1, durationTo: 14, tags: nil, selectedPlaces: nil, user: nil, isJapanSearch: nil)
     }
     
     
     var headerView: UIView!
+    
     lazy var titlesArray: NSMutableArray = {
         let titles = NSMutableArray()
         return titles
@@ -37,6 +37,14 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         plansVC.plansEndPoint = Plango.EndPoint.FindPlans.rawValue
         return plansVC
     }()
+    
+    lazy var resultsViewController: GMSAutocompleteResultsViewController = {
+        let resultsVC  = GMSAutocompleteResultsViewController()
+        resultsVC.delegate = self
+        return resultsVC
+    }()
+    
+    var searchController: UISearchController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,6 +70,20 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         self.segmentedPager.segmentedControl.selectedTitleTextAttributes = [NSForegroundColorAttributeName : UIColor.plangoTeal()]
         self.segmentedPager.segmentedControl.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe
         self.segmentedPager.segmentedControl.selectionIndicatorColor = UIColor.plangoOrange()
+        
+        
+        //Search Controller
+        searchController = UISearchController(searchResultsController: resultsViewController)
+        searchController?.searchResultsUpdater = resultsViewController
+
+        searchController?.searchBar.sizeToFit()
+        searchController?.hidesNavigationBarDuringPresentation = false
+        
+        // When UISearchController presents the results view, present it in
+        // this view controller, not one further up the chain.
+        self.definesPresentationContext = true
+        
+        headerView.addSubview(searchController!.searchBar)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -183,5 +205,51 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
     
     override func segmentedPager(segmentedPager: MXSegmentedPager, viewControllerForPageAtIndex index: Int) -> UIViewController {
         return controllersArray[index] as! UIViewController
+    }
+}
+
+// Handle the user's selection.
+extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
+    func resultsController(resultsController: GMSAutocompleteResultsViewController,
+                           didAutocompleteWithPlace place: GMSPlace) {
+        searchController?.active = false
+        // Do something with the selected place.
+        print("Place name: ", place.name)
+        print("Place address: ", place.formattedAddress)
+        print("Place attributions: ", place.attributions)
+        
+        var selectedPlace: [String:String] = [:]
+        
+        for item in place.addressComponents! {
+            if item.type == kGMSPlaceTypeLocality { //city
+                selectedPlace["city"] = item.name
+            } else if item.type == kGMSPlaceTypeAdministrativeAreaLevel1 { //state
+                selectedPlace["state"] = item.name
+            } else if item.type == kGMSPlaceTypeCountry { //country
+                selectedPlace["country"] = item.name
+            }
+        }
+        
+        let plansVC = PlansTableViewController()
+        plansVC.plansEndPoint = Plango.EndPoint.FindPlans.rawValue
+        
+        plansVC.findPlans(plansVC.plansEndPoint, durationFrom: nil, durationTo: nil, tags: nil, selectedPlaces: [selectedPlace], user: nil, isJapanSearch: nil)
+        
+        self.showViewController(plansVC, sender: nil)
+    }
+    
+    func resultsController(resultsController: GMSAutocompleteResultsViewController,
+                           didFailAutocompleteWithError error: NSError){
+        // TODO: handle the error.
+        print("Error: ", error.description)
+    }
+    
+    // Turn the network activity indicator on and off again.
+    func didRequestAutocompletePredictionsForResultsController(resultsController: GMSAutocompleteResultsViewController) {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    }
+    
+    func didUpdateAutocompletePredictionsForResultsController(resultsController: GMSAutocompleteResultsViewController) {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
 }
