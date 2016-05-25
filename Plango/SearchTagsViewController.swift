@@ -8,9 +8,14 @@
 
 import UIKit
 
+protocol TagsResultsDelegate: class {
+    func didSelectTag(tag: Tag)
+}
+
 class TagsResultsViewController: UITableViewController {
+    weak var delegate: TagsResultsDelegate?
+
     var filteredTags = [Tag]()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,15 +35,29 @@ class TagsResultsViewController: UITableViewController {
         cell.textLabel!.text = tag.name
         return cell
     }
+    
+    // MARK: UITableViewDelegate
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        delegate?.didSelectTag(filteredTags[indexPath.row])
+    }
 }
 
-class SearchTagsViewController: UIViewController, UISearchResultsUpdating, UISearchBarDelegate, UISearchControllerDelegate {
+class SearchTagsViewController: UIViewController, UISearchResultsUpdating, UISearchBarDelegate, UISearchControllerDelegate, TagsResultsDelegate {
 
     lazy var tags = [Tag]()
+    var selectedTags = [Tag]() {
+        didSet {
+            if let parent = parentViewController as? SearchViewController {
+                parent.displaySelections(selectedTags, destinations: nil, duration: nil)
+            }
+        }
+    }
     var searchController: UISearchController?
 
     lazy var resultsViewController: TagsResultsViewController = {
        let controller = TagsResultsViewController()
+        controller.delegate = self
         return controller
     }()
 
@@ -64,7 +83,7 @@ class SearchTagsViewController: UIViewController, UISearchResultsUpdating, UISea
             }
         }
         
-        resultsViewController.tableView.delegate = self
+//        resultsViewController.tableView.delegate = self
         
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = self
@@ -103,6 +122,10 @@ class SearchTagsViewController: UIViewController, UISearchResultsUpdating, UISea
         }
     }
     
+    func didSelectTag(tag: Tag) {
+        selectedTags.append(tag)
+        searchController!.searchBar.resignFirstResponder()
+    }
 }
 
 extension SearchTagsViewController: UITableViewDelegate, UITableViewDataSource {
