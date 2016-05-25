@@ -13,8 +13,6 @@ class SearchDestinationViewController: UIViewController {
     
     var searchController: UISearchController?
     
-    var suggestions: [Destination]?
-    
     var tableView: UITableView!
     
     lazy var resultsViewController: GMSAutocompleteResultsViewController = {
@@ -25,25 +23,22 @@ class SearchDestinationViewController: UIViewController {
     
     var selectedDestinations = [Destination]() {
         didSet {
-            if let parent = parentViewController as? SearchViewController {
-                parent.displaySelections(nil, destinations: selectedDestinations, duration: nil)
-            }
+//            if let parent = parentViewController as? SearchViewController {
+//                parent.displaySelections(nil, destinations: selectedDestinations, duration: nil)
+//            }
+//            self.tableView.reloadData()
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let sydney = Destination(city: "Sydney", state: "NSW", country: "Australia")
-        let newYork = Destination(city: "New York", state: "NY", country: "United States")
-        
-        
-        suggestions = [sydney, newYork]
-        
         tableView = UITableView(frame: UIScreen.mainScreen().bounds)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "suggestion")
+        tableView.editing = true
+        
+        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "selection")
         self.view.addSubview(tableView)
         
         searchController = UISearchController(searchResultsController: resultsViewController)
@@ -58,35 +53,64 @@ class SearchDestinationViewController: UIViewController {
 //        self.definesPresentationContext = true
         
         // Prevent the navigation bar from being hidden when searching.
-//        searchController?.hidesNavigationBarDuringPresentation = false
-        searchController?.dimsBackgroundDuringPresentation = false
+        searchController?.hidesNavigationBarDuringPresentation = false
+//        searchController?.dimsBackgroundDuringPresentation = false
         
     }
 }
 
 extension SearchDestinationViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let suggestions = self.suggestions {
-            return suggestions.count
-        } else {
-            return 0
-        }
+        return selectedDestinations.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("suggestion", forIndexPath: indexPath)
-        cell.textLabel?.text = suggestions![indexPath.row].city
+        let cell = tableView.dequeueReusableCellWithIdentifier("selection", forIndexPath: indexPath)
+        if let city = selectedDestinations[indexPath.row].city {
+            cell.textLabel?.text = city
+        } else if let state = selectedDestinations[indexPath.row].state {
+            cell.textLabel?.text = state
+        } else if let country = selectedDestinations[indexPath.row].country {
+            cell.textLabel?.text = country
+        }
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .Checkmark
-        
+//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+//        tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .Checkmark
+//        
+//    }
+//    
+//    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+//        tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
+//        
+//    }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 0:
+            return "Your Selected Destinations"
+        default:
+            return "Your Selected Destinations"
+        }
     }
     
-    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
-        
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        return .Delete
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        switch editingStyle {
+        case .Delete:
+            selectedDestinations.removeAtIndex(indexPath.row)
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+        default:
+            break //do nothing
+        }
     }
 }
 
@@ -112,7 +136,14 @@ extension SearchDestinationViewController: GMSAutocompleteResultsViewControllerD
             }
         }
         
-        selectedDestinations.append(selectedPlace)
+        
+        dispatch_async(dispatch_get_main_queue()) {
+            self.tableView.beginUpdates()
+            self.selectedDestinations.append(selectedPlace)
+            let indexPath = NSIndexPath(forRow: self.selectedDestinations.endIndex - 1, inSection: 0)
+            self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Left)
+            self.tableView.endUpdates()
+        }
         
     }
     

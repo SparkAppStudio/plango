@@ -48,9 +48,10 @@ class SearchTagsViewController: UIViewController, UISearchResultsUpdating, UISea
     lazy var tags = [Tag]()
     var selectedTags = [Tag]() {
         didSet {
-            if let parent = parentViewController as? SearchViewController {
-                parent.displaySelections(selectedTags, destinations: nil, duration: nil)
-            }
+//            if let parent = parentViewController as? SearchViewController {
+//                parent.displaySelections(selectedTags, destinations: nil, duration: nil)
+//            }
+//            self.tableView.reloadData()
         }
     }
     var searchController: UISearchController?
@@ -62,8 +63,6 @@ class SearchTagsViewController: UIViewController, UISearchResultsUpdating, UISea
     }()
 
     var tableView: UITableView!
-    lazy var suggestions = [String](["Adventerous", "Foodie"])
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,7 +70,8 @@ class SearchTagsViewController: UIViewController, UISearchResultsUpdating, UISea
         tableView = UITableView(frame: UIScreen.mainScreen().bounds)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "suggestion")
+        tableView.editing = true
+        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "selection")
         self.view.addSubview(tableView)
         
         Plango.sharedInstance.fetchTags(Plango.EndPoint.AllTags.rawValue) { (receivedTags, errorString) in
@@ -82,8 +82,6 @@ class SearchTagsViewController: UIViewController, UISearchResultsUpdating, UISea
                 self.tableView.reloadData()
             }
         }
-        
-//        resultsViewController.tableView.delegate = self
         
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = self
@@ -123,33 +121,65 @@ class SearchTagsViewController: UIViewController, UISearchResultsUpdating, UISea
     }
     
     func didSelectTag(tag: Tag) {
-        selectedTags.append(tag)
-        searchController!.searchBar.resignFirstResponder()
+        
+        dispatch_async(dispatch_get_main_queue()) {
+            self.tableView.beginUpdates()
+            self.selectedTags.append(tag)
+            let indexPath = NSIndexPath(forRow: self.selectedTags.endIndex - 1, inSection: 0)
+            
+            self.searchController?.searchBar.text = nil
+            self.searchController!.searchResultsController?.dismissViewControllerAnimated(true, completion: nil)
+            self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Left)
+            self.tableView.endUpdates()
+        }
     }
 }
 
 extension SearchTagsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        if let suggestions = self.suggestions {
-            return suggestions.count
-//        } else {
-//            return 0
-//        }
+        return selectedTags.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("suggestion", forIndexPath: indexPath)
-        cell.textLabel?.text = suggestions[indexPath.row]
+        let cell = tableView.dequeueReusableCellWithIdentifier("selection", forIndexPath: indexPath)
+        cell.textLabel?.text = selectedTags[indexPath.row].name
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .Checkmark
-        
+//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+//        tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .Checkmark
+//        
+//    }
+//    
+//    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+//        tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
+//        
+//    }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 0:
+            return "Your Selected Tags"
+        default:
+            return "Your Selected Tags"
+        }
     }
     
-    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
-        
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        return .Delete
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        switch editingStyle {
+        case .Delete:
+            selectedTags.removeAtIndex(indexPath.row)
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+        default:
+            break //do nothing
+        }
     }
 }

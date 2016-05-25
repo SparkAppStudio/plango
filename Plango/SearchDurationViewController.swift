@@ -8,28 +8,57 @@
 
 import UIKit
 
-class SearchDurationViewController: UIViewController {
+class SearchDurationViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
+    lazy var minDays = [String](["Min Days"])
+    lazy var maxDays = [String](["Max Days"])
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        for item in 1...30 {
+            minDays.append(item.description)
+            maxDays.append(item.description)
+        }
 
-        // Do any additional setup after loading the view.
-    }
+        let pickerView = UIPickerView()
+        pickerView.dataSource = self
+        pickerView.delegate = self
+        
+        self.view.addSubview(pickerView)
+        
+//        pickerView.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor).active = true
+//        pickerView.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor).active = true
+//        pickerView.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor).active = true
+        pickerView.topAnchor.constraintEqualToAnchor(view.topAnchor).active = true
+        pickerView.widthAnchor.constraintEqualToAnchor(view.widthAnchor).active = true
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 2
     }
-    */
-
+    
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        switch component {
+        case 0:
+            return minDays.count
+        default:
+            return maxDays.count
+        }
+    }
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        switch component {
+        case 0:
+            return minDays[row]
+        default:
+            return maxDays[row]
+        }
+    }
+    
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        //TODO: Update Selected min max days
+    }
 }

@@ -16,7 +16,7 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
     @IBOutlet weak var selectedDurationLabel: UILabel!
     
     
-    var headerView: UIView!
+//    var headerView: UIView!
     
     lazy var titlesArray: NSMutableArray = {
         let titles = NSMutableArray()
@@ -38,10 +38,7 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         let tagsVC = SearchDurationViewController()
         return tagsVC
     }()
-    
-    var searchController: UISearchController?
-    var tagsSearchController: UISearchController?
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -50,16 +47,18 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         addPage("Duration", controller: durationController)
         
         // Parallax Header
-        let bundle = NSBundle(forClass: self.dynamicType)
-        let nib = UINib(nibName: "SearchHeader", bundle: bundle)
-        headerView = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+//        let bundle = NSBundle(forClass: self.dynamicType)
+//        let nib = UINib(nibName: "SearchHeader", bundle: bundle)
+//        headerView = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+//        
+//        // Parallax Header
+//        self.segmentedPager.parallaxHeader.view = headerView
+//        self.segmentedPager.parallaxHeader.mode = MXParallaxHeaderMode.Bottom
+//        self.segmentedPager.parallaxHeader.height = 60;
+//        self.segmentedPager.parallaxHeader.minimumHeight = 0;
+//        self.segmentedPager.parallaxHeader.contentView.backgroundColor = UIColor.plangoCream()
         
-        // Parallax Header
-        self.segmentedPager.parallaxHeader.view = headerView
-        self.segmentedPager.parallaxHeader.mode = MXParallaxHeaderMode.Bottom
-        self.segmentedPager.parallaxHeader.height = 60;
-        self.segmentedPager.parallaxHeader.minimumHeight = 0;
-        self.segmentedPager.parallaxHeader.contentView.backgroundColor = UIColor.plangoCream()
+        self.segmentedPager.backgroundColor = UIColor.plangoCream()
         
         // Segmented Control customization
         self.segmentedPager.segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
