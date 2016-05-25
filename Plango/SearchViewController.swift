@@ -8,21 +8,12 @@
 
 import UIKit
 import MXSegmentedPager
-import GoogleMaps
 
 class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
 
-    @IBOutlet weak var searchTextField: UITextField!
-    @IBOutlet weak var tagsButton: UIButton!
-    @IBOutlet weak var durationButton: UIButton!
-    @IBOutlet weak var searchButton: UIButton!
-    
-    @IBOutlet weak var locationSearchView: UIView!
-    @IBOutlet weak var tagsSearchView: UIView!
-    
-    @IBAction func didTapSearch(sender: UIButton) {
-        //        plansController.findPlans(plansController.plansEndPoint, durationFrom: 1, durationTo: 14, tags: nil, selectedPlaces: nil, user: nil, isJapanSearch: nil)
-    }
+    @IBOutlet weak var selectedTagsLabel: UILabel!
+    @IBOutlet weak var selectedDestinationsLabel: UILabel!
+    @IBOutlet weak var selectedDurationLabel: UILabel!
     
     
     var headerView: UIView!
@@ -35,16 +26,17 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         let controllers = NSMutableArray()
         return controllers
     }()
-    lazy var plansController: PlansTableViewController = {
-        let plansVC = PlansTableViewController()
-        plansVC.plansEndPoint = Plango.EndPoint.FindPlans.rawValue
-        return plansVC
+    lazy var destinationController: SearchDestinationViewController = {
+        let destinationVC = SearchDestinationViewController()
+        return destinationVC
     }()
-    
-    lazy var resultsViewController: GMSAutocompleteResultsViewController = {
-        let resultsVC  = GMSAutocompleteResultsViewController()
-        resultsVC.delegate = self
-        return resultsVC
+    lazy var tagsController: SearchTagsViewController = {
+        let tagsVC = SearchTagsViewController()
+        return tagsVC
+    }()
+    lazy var durationController: SearchDurationViewController = {
+        let tagsVC = SearchDurationViewController()
+        return tagsVC
     }()
     
     var searchController: UISearchController?
@@ -53,7 +45,9 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        addPage("Search Results", controller: plansController)
+        addPage("Tags", controller: tagsController)
+        addPage("Destination", controller: destinationController)
+        addPage("Duration", controller: durationController)
         
         // Parallax Header
         let bundle = NSBundle(forClass: self.dynamicType)
@@ -63,7 +57,7 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         // Parallax Header
         self.segmentedPager.parallaxHeader.view = headerView
         self.segmentedPager.parallaxHeader.mode = MXParallaxHeaderMode.Bottom
-        self.segmentedPager.parallaxHeader.height = 180;
+        self.segmentedPager.parallaxHeader.height = 60;
         self.segmentedPager.parallaxHeader.minimumHeight = 0;
         self.segmentedPager.parallaxHeader.contentView.backgroundColor = UIColor.plangoCream()
         
@@ -74,107 +68,13 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         self.segmentedPager.segmentedControl.selectedTitleTextAttributes = [NSForegroundColorAttributeName : UIColor.plangoTeal()]
         self.segmentedPager.segmentedControl.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe
         self.segmentedPager.segmentedControl.selectionIndicatorColor = UIColor.plangoOrange()
+//        self.segmentedPager.segmentedControl.selectedSegmentIndex = 1
         
-        
-        //Search Controller
-        searchController = UISearchController(searchResultsController: resultsViewController)
-        searchController?.searchResultsUpdater = resultsViewController
-
-        searchController?.searchBar.sizeToFit()
-        searchController?.hidesNavigationBarDuringPresentation = false
-        
-        // When UISearchController presents the results view, present it in
-        // this view controller, not one further up the chain.
-        self.definesPresentationContext = true
-        
-        locationSearchView.addSubview(searchController!.searchBar)
-        
-        let tagsResultVC = Search2ViewController()
-        
-        tagsSearchController = UISearchController(searchResultsController: tagsResultVC)
-        tagsSearchController?.searchResultsUpdater = tagsResultVC
-        tagsSearchController?.searchBar.sizeToFit()
-        tagsSearchController?.hidesNavigationBarDuringPresentation = false
-        
-        tagsSearchView.addSubview(tagsSearchController!.searchBar)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        searchButton.makeRoundCorners(64)
-    }
-    
-    // MARK: - Text Field
-    
-    func processTextField(textField: UITextField) {
-//        if let text = textField.text {
-//            if text.characters.count > 0 {
-//                if let currentProfile = self.profile {
-//                    if let handle = currentProfile.handle {
-//                        if handle != text {
-//                            RVFirebaseUserProfile.lookUpProfileViaHandle(text, callback: { (error, userProfiles) -> Void in
-//                                if let error = error {
-//                                    error.printError("\(self.classForCoder)", method: "processTextField", message: nil)
-//                                    
-//                                } else if userProfiles.count == 0 {
-//                                    currentProfile.handle = text
-//                                    currentProfile.save({ (error, ref) -> (Void) in
-//                                        self.view.quickToast("updated name")
-//                                    })
-//                                } else if userProfiles.count >= 1 {
-//                                    self.view.quickToast("sorry name already taken")
-//                                    
-//                                }
-//                            })
-//                        }
-//                    }
-//                } else {
-//                    print("In \(self.classForCoder).processTextField, no userProfile")
-//                }
-//                
-//                
-//            }
-//        }
-    }
-
-    func textFieldDidBeginEditing(textField: UITextField) {
-        
-    }
-    
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        textField.endEditing(true)
-        return true
-    }
-    
-    func textFieldShouldClear(textField: UITextField) -> Bool {
-        return true
-    }
-    
-    func textFieldDidEndEditing(textField: UITextField) {
-        textField.resignFirstResponder()
-        textField.layer.borderWidth = 0.0
-        
-        processTextField(textField)
-    }
-    
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        
-        //enable tab
-        if string == "\t" {
-            textField.endEditing(true)
-            return false
-        }
-        
-        // method checks and sanitizes text for search
-        if let textErrors = Helper.isValidSearchWithErrors(textField.text, possibleNewCharacter: string) {
-            self.view.quickToast(textErrors)
-            Helper.textIsValid(textField, sender: false)
-            return false
-        } else {
-            // textErrors = nil so NO ERRORS proceed with text
-            Helper.textIsValid(textField, sender: true)
-            return true
-        }
+//        searchButton.makeRoundCorners(64)
     }
     
     func addPage(title: String, controller: UIViewController) {
@@ -183,6 +83,40 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         titlesArray.addObject(title)
         controllersArray.addObject(controller)
         
+    }
+    
+    func displaySelections(tags: [Tag]?, destinations: [Destination]?, duration: Duration?) {
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            if let tags = tags {
+                var allTags = "Selected Tags: "
+                for item in tags {
+                    guard let name = item.name else {return}
+                    allTags.appendContentsOf("\(name), ")
+                }
+                let cleanedTags = String(allTags.characters.dropLast(2))
+                self.selectedTagsLabel.text = cleanedTags
+            }
+            
+            if let destinations = destinations {
+                var allDestinations = "Selected Destinations: "
+                for item in destinations {
+                    if let city = item.city {
+                        allDestinations.appendContentsOf("\(city), ")
+                    } else if let state = item.state {
+                        allDestinations.appendContentsOf("\(state), ")
+                    } else if let country = item.country {
+                        allDestinations.appendContentsOf("\(country), ")
+                    }
+                }
+                let cleanedDestinations = String(allDestinations.characters.dropLast(2))
+                self.selectedDestinationsLabel.text = cleanedDestinations
+            }
+            
+            if let duration = duration {
+                self.selectedDurationLabel.text = "Duration: \(duration.minimum) min \(duration.maximum) max"
+            }
+        })
+
     }
     
     // MARK: - Gesture Recognizers
@@ -218,49 +152,5 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
     
     override func segmentedPager(segmentedPager: MXSegmentedPager, viewControllerForPageAtIndex index: Int) -> UIViewController {
         return controllersArray[index] as! UIViewController
-    }
-}
-
-// Handle the user's selection.
-extension SearchViewController: GMSAutocompleteResultsViewControllerDelegate {
-    func resultsController(resultsController: GMSAutocompleteResultsViewController,
-                           didAutocompleteWithPlace place: GMSPlace) {
-        searchController?.active = false
-        // Do something with the selected place.
-        print("Place name: ", place.name)
-        print("Place address: ", place.formattedAddress)
-        print("Place attributions: ", place.attributions)
-        
-        var selectedPlace: [String:String] = [:]
-        
-        for item in place.addressComponents! {
-            if item.type == kGMSPlaceTypeLocality { //city
-                selectedPlace["city"] = item.name
-            } else if item.type == kGMSPlaceTypeAdministrativeAreaLevel1 { //state
-                selectedPlace["state"] = item.name
-            } else if item.type == kGMSPlaceTypeCountry { //country
-                selectedPlace["country"] = item.name
-            }
-        }
-        
-        
-        plansController.findPlans(plansController.plansEndPoint, durationFrom: nil, durationTo: nil, tags: nil, selectedPlaces: [selectedPlace], user: nil, isJapanSearch: nil)
-        
-//        self.showViewController(plansVC, sender: nil)
-    }
-    
-    func resultsController(resultsController: GMSAutocompleteResultsViewController,
-                           didFailAutocompleteWithError error: NSError){
-        // TODO: handle the error.
-        print("Error: ", error.description)
-    }
-    
-    // Turn the network activity indicator on and off again.
-    func didRequestAutocompletePredictionsForResultsController(resultsController: GMSAutocompleteResultsViewController) {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    }
-    
-    func didUpdateAutocompletePredictionsForResultsController(resultsController: GMSAutocompleteResultsViewController) {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
 }

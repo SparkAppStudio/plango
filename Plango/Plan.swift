@@ -109,3 +109,14 @@ class Plan: NSObject {
         return newPlan
     }
 }
+
+struct Destination {
+    var city: String?
+    var state: String?
+    var country: String?
+}
+
+struct Duration {
+    var minimum: Int
+    var maximum: Int
+}
