@@ -70,9 +70,9 @@ class PlansTableViewController: UITableViewController {
 //        self.tableView.reloadData()
     }
     
-    func findPlans(endPoint: String, durationFrom: Int?, durationTo: Int?, tags: [Tag]?, selectedPlaces: [[String : String]]?, user: User?, isJapanSearch: Bool?) {
+    func findPlans(endPoint: String, durationFrom: Int?, durationTo: Int?, tags: [Tag]?, selectedPlaces: [Destination]?, user: User?, isJapanSearch: Bool?) {
         self.tableView.showSimpleLoading()
-        Plango.sharedInstance.findPlans(endPoint, durationFrom: durationFrom, durationTo: durationTo, tags: tags, selectedPlaces: selectedPlaces, user: user, isJapanSearch: isJapanSearch) { (receivedPlans, errorString) in
+        Plango.sharedInstance.findPlans(endPoint, minDuration: durationFrom, maxDuration: durationTo, tags: tags, selectedDestinations: selectedPlaces, user: user, isJapanSearch: isJapanSearch) { (receivedPlans, errorString) in
             self.tableView.hideSimpleLoading()
             
             if let error = errorString {

@@ -76,7 +76,7 @@ class DiscoverTableViewController: UITableViewController {
         tag.id = "a;sdjklf"
         tag.name = "Adventerous"
         
-        Plango.sharedInstance.findPlans(Plango.EndPoint.FindPlans.rawValue, durationFrom: nil, durationTo: nil, tags: [tag], selectedPlaces: nil, user: nil, isJapanSearch: nil) { (receivedPlans, errorString) in
+        Plango.sharedInstance.findPlans(Plango.EndPoint.FindPlans.rawValue, minDuration: nil, maxDuration: nil, tags: [tag], selectedDestinations: nil, user: nil, isJapanSearch: nil) { (receivedPlans, errorString) in
             if let error = errorString {
                 print(error)
             } else if let plans = receivedPlans {
