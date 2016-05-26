@@ -15,6 +15,10 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
     @IBOutlet weak var selectedDestinationsLabel: UILabel!
     @IBOutlet weak var selectedDurationLabel: UILabel!
     
+    var minDuration: Int?
+    var maxDuration: Int?
+    var selectedTags: [Tag]?
+    var selectedDestinations: [Destination]?
     
 //    var headerView: UIView!
     
@@ -69,6 +73,17 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         self.segmentedPager.segmentedControl.selectionIndicatorColor = UIColor.plangoOrange()
 //        self.segmentedPager.segmentedControl.selectedSegmentIndex = 1
         
+    }
+    
+    func collectSearchParameters() {
+        if let min = durationController.selectedMin {
+            minDuration = Int(min)
+        }
+        if let max = durationController.selectedMax {
+            maxDuration = Int(max)
+        }
+        selectedTags = tagsController.selectedTags
+        selectedDestinations = destinationController.selectedDestinations
     }
     
     override func viewWillAppear(animated: Bool) {

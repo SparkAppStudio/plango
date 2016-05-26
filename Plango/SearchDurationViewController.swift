@@ -13,6 +13,8 @@ class SearchDurationViewController: UIViewController, UIPickerViewDelegate, UIPi
     lazy var minDays = [String](["Min Days"])
     lazy var maxDays = [String](["Max Days"])
 
+    var selectedMin: String?
+    var selectedMax: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +61,19 @@ class SearchDurationViewController: UIViewController, UIPickerViewDelegate, UIPi
     }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        //TODO: Update Selected min max days
+        switch component {
+        case 0:
+            if row == 0 {
+                selectedMin = nil
+            } else {
+                selectedMin = minDays[row]
+            }
+        default:
+            if row == 0 {
+                selectedMax = nil
+            } else {
+                selectedMax = maxDays[row]
+            }
+        }
     }
 }

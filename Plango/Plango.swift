@@ -101,14 +101,14 @@ class Plango: NSObject {
         }
     }
     
-    func findPlans(endPoint: String, durationFrom: Int?, durationTo: Int?, tags: [Tag]?, selectedPlaces: [[String : String]]?, user: User?, isJapanSearch: Bool?, onCompletion: PlansResponse) {
+    func findPlans(endPoint: String, minDuration: Int?, maxDuration: Int?, tags: [Tag]?, selectedDestinations: [Destination]?, user: User?, isJapanSearch: Bool?, onCompletion: PlansResponse) {
         
         var parameters: [String : AnyObject] = [:]
                                             
-        if let item = durationFrom {
+        if let item = minDuration {
             parameters["durationFrom"] = String(item)
         }
-        if let item = durationTo {
+        if let item = maxDuration {
             parameters["durationTo"] = String(item)
         }
         if let tags = tags {
@@ -125,8 +125,11 @@ class Plango: NSObject {
             
             parameters["tags"] = cleanedTags
         }
-        if let item = selectedPlaces {
-            parameters["selectedPlaces"] = item
+        if let destinations = selectedDestinations {
+            for item in destinations {
+                parameters["selectedPlaces"] = item.city
+                //todo
+            }
         }
         if let item = user {
             parameters["user"] = item.displayName

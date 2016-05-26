@@ -1,5 +1,5 @@
 //
-//  Search2ViewController.swift
+//  SearchDestinationViewController.swift
 //  Plango
 //
 //  Created by Douglas Hewitt on 5/19/16.
@@ -14,6 +14,8 @@ class SearchDestinationViewController: UIViewController {
     var searchController: UISearchController?
     
     var tableView: UITableView!
+    
+    var searchButton: UIButton!
     
     lazy var resultsViewController: GMSAutocompleteResultsViewController = {
        let resultsVC  = GMSAutocompleteResultsViewController()
@@ -30,8 +32,36 @@ class SearchDestinationViewController: UIViewController {
         }
     }
     
+    func didTapSearch(sender: UIButton) {
+        if let parent = parentViewController as? SearchViewController {
+            parent.collectSearchParameters()
+            Plango.sharedInstance.findPlans(Plango.EndPoint.FindPlans.rawValue, minDuration: parent.minDuration, maxDuration: parent.maxDuration, tags: parent.selectedTags, selectedDestinations: parent.selectedDestinations, user: nil, isJapanSearch: nil, onCompletion: { (receivedPlans, errorString) in
+                if let error = errorString {
+                    print(error)
+                } else if let plans = receivedPlans {
+                    let plansVC = PlansTableViewController()
+                    plansVC.plansArray = plans
+                    self.showViewController(plansVC, sender: nil)
+                }
+            })
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        searchButton = UIButton(type: .Custom)
+        searchButton.titleLabel?.text = "Get Plans"
+        searchButton.backgroundColor = UIColor.plangoOrange()
+        searchButton.makeRoundCorners(32)
+        searchButton.addTarget(self, action: #selector(didTapSearch), forControlEvents: .TouchUpInside)
+        
+        self.view.addSubview(searchButton)
+        
+        searchButton.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor).active = true
+        searchButton.widthAnchor.constraintEqualToAnchor(view.widthAnchor).active = true
+        searchButton.heightAnchor.constraintEqualToConstant(30)
+        
         
         tableView = UITableView(frame: UIScreen.mainScreen().bounds)
         tableView.delegate = self
