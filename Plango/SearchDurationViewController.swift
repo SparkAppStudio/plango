@@ -18,6 +18,7 @@ class SearchDurationViewController: UIViewController, UIPickerViewDelegate, UIPi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor.whiteColor()
         
         for item in 1...30 {
             minDays.append(item.description)

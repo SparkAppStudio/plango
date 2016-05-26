@@ -126,10 +126,22 @@ class Plango: NSObject {
             parameters["tags"] = cleanedTags
         }
         if let destinations = selectedDestinations {
+            var selectedPlaces: [[String:String]] = []
             for item in destinations {
-                parameters["selectedPlaces"] = item.city
-                //todo
+                var place: [String : String] = [:]
+                if let city = item.city {
+                    place["city"] = city
+                }
+                if let state = item.state {
+                    place["state"] = state
+                }
+                if let country = item.country {
+                    place["country"] = country
+                }
+                selectedPlaces.append(place)
             }
+            
+            parameters["selectedPlaces"] = selectedPlaces
         }
         if let item = user {
             parameters["user"] = item.displayName
@@ -138,8 +150,18 @@ class Plango: NSObject {
             parameters["isJapanSearch"] = item
         }
         
-        Alamofire.request(.GET, endPoint, parameters: parameters).validate().responseJSON { response in
-            print(response.request?.mainDocumentURL)
+        //encoding
+        let encodableURLRequest = NSURLRequest(URL: NSURL(string: endPoint)!)
+        let encodedURLRequest = ParameterEncoding.URL.encode(encodableURLRequest, parameters: parameters).0
+        
+        let mutableURLRequest = NSMutableURLRequest(URL: encodedURLRequest.URL!)
+        mutableURLRequest.HTTPMethod = "GET"
+        mutableURLRequest.setValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
+
+        print(mutableURLRequest.URLString)
+        
+        Alamofire.request(mutableURLRequest).validate().responseJSON { response in
+            print(response.request?.URLString)
             switch response.result {
             case .Success(let value):
                 let dataJSON = JSON(value)

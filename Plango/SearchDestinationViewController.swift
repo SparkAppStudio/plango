@@ -50,18 +50,6 @@ class SearchDestinationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        searchButton = UIButton(type: .Custom)
-        searchButton.titleLabel?.text = "Get Plans"
-        searchButton.backgroundColor = UIColor.plangoOrange()
-        searchButton.makeRoundCorners(32)
-        searchButton.addTarget(self, action: #selector(didTapSearch), forControlEvents: .TouchUpInside)
-        
-        self.view.addSubview(searchButton)
-        
-        searchButton.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor).active = true
-        searchButton.widthAnchor.constraintEqualToAnchor(view.widthAnchor).active = true
-        searchButton.heightAnchor.constraintEqualToConstant(30)
-        
         
         tableView = UITableView(frame: UIScreen.mainScreen().bounds)
         tableView.delegate = self
@@ -86,6 +74,23 @@ class SearchDestinationViewController: UIViewController {
         searchController?.hidesNavigationBarDuringPresentation = false
 //        searchController?.dimsBackgroundDuringPresentation = false
         
+        
+        searchButton = UIButton(type: .Custom)
+
+        searchButton.setTitle("Get Plans", forState: .Normal)
+        searchButton.backgroundColor = UIColor.plangoOrange()
+        searchButton.titleLabel?.textColor = UIColor.whiteColor()
+        searchButton.makeRoundCorners(32)
+        searchButton.addTarget(self, action: #selector(didTapSearch), forControlEvents: .TouchUpInside)
+        
+        self.view.addSubview(searchButton)
+        
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        searchButton.frame = CGRect(x: 0, y: self.view.frame.height - 100, width: self.view.frame.width, height: 50)
     }
 }
 
