@@ -53,6 +53,520 @@ extension String {
     {
         return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
     }
+    
+    func getStates(state: State) -> String {
+        switch state {
+        case .AL:
+            return "ALABAMA";
+            
+        case State.AK:
+            return "ALASKA";
+            
+        case State.AS:
+            return "AMERICAN SAMOA";
+            
+        case State.AZ:
+            return "ARIZONA";
+            
+        case State.AR:
+            return "ARKANSAS";
+            
+        case State.CA:
+            return "CALIFORNIA";
+            
+        case State.CO:
+            return "COLORADO";
+            
+        case State.CT:
+            return "CONNECTICUT";
+            
+        case State.DE:
+            return "DELAWARE";
+            
+        case State.DC:
+            return "DISTRICT OF COLUMBIA";
+            
+        case State.FM:
+            return "FEDERATED STATES OF MICRONESIA";
+            
+        case State.FL:
+            return "FLORIDA";
+            
+        case State.GA:
+            return "GEORGIA";
+            
+        case State.GU:
+            return "GUAM";
+            
+        case State.HI:
+            return "HAWAII";
+            
+        case State.ID:
+            return "IDAHO";
+            
+        case State.IL:
+            return "ILLINOIS";
+            
+        case State.IN:
+            return "INDIANA";
+            
+        case State.IA:
+            return "IOWA";
+            
+        case State.KS:
+            return "KANSAS";
+            
+        case State.KY:
+            return "KENTUCKY";
+            
+        case State.LA:
+            return "LOUISIANA";
+            
+        case State.ME:
+            return "MAINE";
+            
+        case State.MH:
+            return "MARSHALL ISLANDS";
+            
+        case State.MD:
+            return "MARYLAND";
+            
+        case State.MA:
+            return "MASSACHUSETTS";
+            
+        case State.MI:
+            return "MICHIGAN";
+            
+        case State.MN:
+            return "MINNESOTA";
+            
+        case State.MS:
+            return "MISSISSIPPI";
+            
+        case State.MO:
+            return "MISSOURI";
+            
+        case State.MT:
+            return "MONTANA";
+            
+        case State.NE:
+            return "NEBRASKA";
+            
+        case State.NV:
+            return "NEVADA";
+            
+        case State.NH:
+            return "NEW HAMPSHIRE";
+            
+        case State.NJ:
+            return "NEW JERSEY";
+            
+        case State.NM:
+            return "NEW MEXICO";
+            
+        case State.NY:
+            return "NEW YORK";
+            
+        case State.NC:
+            return "NORTH CAROLINA";
+            
+        case State.ND:
+            return "NORTH DAKOTA";
+            
+        case State.MP:
+            return "NORTHERN MARIANA ISLANDS";
+            
+        case State.OH:
+            return "OHIO";
+            
+        case State.OK:
+            return "OKLAHOMA";
+            
+        case State.OR:
+            return "OREGON";
+            
+        case State.PW:
+            return "PALAU";
+            
+        case State.PA:
+            return "PENNSYLVANIA";
+            
+        case State.PR:
+            return "PUERTO RICO";
+            
+        case State.RI:
+            return "RHODE ISLAND";
+            
+        case State.SC:
+            return "SOUTH CAROLINA";
+            
+        case State.SD:
+            return "SOUTH DAKOTA";
+            
+        case State.TN:
+            return "TENNESSEE";
+            
+        case State.TX:
+            return "TEXAS";
+            
+        case State.UT:
+            return "UTAH";
+            
+        case State.VT:
+            return "VERMONT";
+            
+        case State.VI:
+            return "VIRGIN ISLANDS";
+            
+        case State.VA:
+            return "VIRGINIA";
+            
+        case State.WA:
+            return "WASHINGTON";
+            
+        case State.WV:
+            return "WEST VIRGINIA";
+            
+        case State.WI:
+            return "WISCONSIN";
+            
+        case State.WY:
+            return "WYOMING";
+        }
+    }
+    
+    
+    func getShortState() -> State? {
+        switch (self.uppercaseString) {
+        case "ALABAMA":
+        return State.AL;
+        
+        case "ALASKA":
+        return State.AK;
+        
+        case "AMERICAN SAMOA":
+        return State.AS;
+        
+        case "ARIZONA":
+        return State.AZ;
+        
+        case "ARKANSAS":
+        return State.AR;
+        
+        case "CALIFORNIA":
+        return State.CA;
+        
+        case "COLORADO":
+        return State.CO;
+        
+        case "CONNECTICUT":
+        return State.CT;
+        
+        case "DELAWARE":
+        return State.DE;
+        
+        case "DISTRICT OF COLUMBIA":
+        return State.DC;
+        
+        case "FEDERATED STATES OF MICRONESIA":
+        return State.FM;
+        
+        case "FLORIDA":
+        return State.FL;
+        
+        case "GEORGIA":
+        return State.GA;
+        
+        case "GUAM":
+        return State.GU;
+        
+        case "HAWAII":
+        return State.HI;
+        
+        case "IDAHO":
+        return State.ID;
+        
+        case "ILLINOIS":
+        return State.IL;
+        
+        case "INDIANA":
+        return State.IN;
+        
+        case "IOWA":
+        return State.IA;
+        
+        case "KANSAS":
+        return State.KS;
+        
+        case "KENTUCKY":
+        return State.KY;
+        
+        case "LOUISIANA":
+        return State.LA;
+        
+        case "MAINE":
+        return State.ME;
+        
+        case "MARSHALL ISLANDS":
+        return State.MH;
+        
+        case "MARYLAND":
+        return State.MD;
+        
+        case "MASSACHUSETTS":
+        return State.MA;
+        
+        case "MICHIGAN":
+        return State.MI;
+        
+        case "MINNESOTA":
+        return State.MN;
+        
+        case "MISSISSIPPI":
+        return State.MS;
+        
+        case "MISSOURI":
+        return State.MO;
+        
+        case "MONTANA":
+        return State.MT;
+        
+        case "NEBRASKA":
+        return State.NE;
+        
+        case "NEVADA":
+        return State.NV;
+        
+        case "NEW HAMPSHIRE":
+        return State.NH;
+        
+        case "NEW JERSEY":
+        return State.NJ;
+        
+        case "NEW MEXICO":
+        return State.NM;
+        
+        case "NEW YORK":
+        return State.NY;
+        
+        case "NORTH CAROLINA":
+        return State.NC;
+        
+        case "NORTH DAKOTA":
+        return State.ND;
+        
+        case "NORTHERN MARIANA ISLANDS":
+        return State.MP;
+        
+        case "OHIO":
+        return State.OH;
+        
+        case "OKLAHOMA":
+        return State.OK;
+        
+        case "OREGON":
+        return State.OR;
+        
+        case "PALAU":
+        return State.PW;
+        
+        case "PENNSYLVANIA":
+        return State.PA;
+        
+        case "PUERTO RICO":
+        return State.PR;
+        
+        case "RHODE ISLAND":
+        return State.RI;
+        
+        case "SOUTH CAROLINA":
+        return State.SC;
+        
+        case "SOUTH DAKOTA":
+        return State.SD;
+        
+        case "TENNESSEE":
+        return State.TN;
+        
+        case "TEXAS":
+        return State.TX;
+        
+        case "UTAH":
+        return State.UT;
+        
+        case "VERMONT":
+        return State.VT;
+        
+        case "VIRGIN ISLANDS":
+            return State.VI;
+        
+        case "VIRGINIA":
+            return State.VA;
+        
+        case "WASHINGTON":
+            return State.WA;
+            
+        case "WEST VIRGINIA":
+            return State.WV;
+        
+        case "WISCONSIN":
+            return State.WI;
+        
+        case "WYOMING":
+            return State.WY;
+        
+        default:
+            return nil
+        }
+    }
+    
+    func getShortStateCanada() -> StateCanada? {
+        switch self.uppercaseString {
+        case "ALBERTA":
+            return StateCanada.AB
+        case "BRITISH COLUMBIA":
+            return StateCanada.BC
+        case "MANITOBA":
+            return StateCanada.MB
+            case "NEW BRUNSWICK":
+            return StateCanada.NB
+            case "NEWFOUNDLAND AND LABRADOR":
+            return StateCanada.NL
+            case "NORTHWEST TERRITORIES":
+            return StateCanada.NT
+            case "NOVA SCOTIA":
+            return StateCanada.NS
+            case "NUNAVUT":
+            return StateCanada.NU
+            case "ONTARIO":
+            return StateCanada.ON
+            case "PRINCE EDWARD ISLAND":
+            return StateCanada.PE
+            case "QUEBEC":
+            return StateCanada.QC
+            case "SASKATCHEWAN":
+            return StateCanada.SK
+            case "YUKON":
+            return StateCanada.YT
+        default:
+            return nil
+        }
+    }
+    
+    func getShortStateAustralia() -> StateAustralia? {
+        switch self.uppercaseString {
+        case "AUSTRALIAN CAPITAL TERRITORY":
+            return StateAustralia.ACT
+            case "NEW SOUTH WALES":
+            return StateAustralia.NSW
+            case "VICTORIA":
+            return StateAustralia.VIC
+            case "QUEENSLAND":
+            return StateAustralia.QLD
+            case "SOUTH AUSTRALIA":
+            return StateAustralia.SA
+            case "WESTERN AUSTRALIA":
+            return StateAustralia.WA
+            case "TASMANIA":
+            return StateAustralia.TAS
+            case "NORTHERN TERRITORY":
+            return StateAustralia.NT
+            case "AUSTRALIAN ANTARTIC TERRITORY":
+            return StateAustralia.AAT
+        default:
+            return nil
+        }
+    }
+    
+    enum StateCanada: String {
+        case AB = "AB"
+        case BC = "BC"
+        case MB = "MB"
+        case NB = "NB"
+        case NL = "NL"
+        case NT = "NT"
+        case NS = "NS"
+        case NU = "NU"
+        case ON = "ON"
+        case PE = "PE"
+        case QC = "QC"
+        case SK = "SK"
+        case YT = "YT"
+    }
+    
+    enum StateAustralia: String {
+        case ACT = "ACT"
+        case NSW = "NSW"
+        case VIC = "VIC"
+        case QLD = "QLD"
+        case SA = "SA"
+        case WA = "WA"
+        case TAS = "TAS"
+        case NT = "NT"
+        case AAT = "AAT"
+    }
+    
+    enum State: String {
+        case AL = "AL"
+        case AK = "AK"
+        case AS = "AS"
+        case AZ = "AZ"
+        case AR = "AR"
+        case CA = "CA"
+        case CO = "CO"
+        case CT = "CT"
+        case DE = "DE"
+        case DC = "DC"
+        case FM = "FM"
+        case FL = "FL"
+        case GA = "GA"
+        case GU = "GU"
+        case HI = "HI"
+        case ID = "ID"
+        case IL = "IL"
+        case IN = "IN"
+        case IA = "IA"
+        case KS = "KS"
+        case KY = "KY"
+        case LA = "LA"
+        case ME = "ME"
+        case MH = "MH"
+        case MD = "MD"
+        case MA = "MA"
+        case MI = "MI"
+        case MN = "MN"
+        case MS = "MS"
+        case MO = "MO"
+        case MT = "MT"
+        case NE = "NE"
+        case NV = "NV"
+        case NH = "NH"
+        case NJ = "NJ"
+        case NM = "NM"
+        case NY = "NY"
+        case NC = "NC"
+        case ND = "ND"
+        case MP = "MP"
+        case OH = "OH"
+        case OK = "OK"
+        case OR = "OR"
+        case PW = "PW"
+        case PA = "PA"
+        case PR = "PR"
+        case RI = "RI"
+        case SC = "SC"
+        case SD = "SD"
+        case TN = "TN"
+        case TX = "TX"
+        case UT = "UT"
+        case VT = "VT"
+        case VI = "VI"
+        case VA = "VA"
+        case WA = "WA"
+        case WV = "WV"
+        case WI = "WI"
+        case WY = "WY"
+    }
 }
 
 extension PHAsset {

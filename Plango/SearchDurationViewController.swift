@@ -20,7 +20,7 @@ class SearchDurationViewController: UIViewController, UIPickerViewDelegate, UIPi
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.whiteColor()
         
-        for item in 1...30 {
+        for item in 1...99 {
             minDays.append(item.description)
             maxDays.append(item.description)
         }
@@ -65,13 +65,13 @@ class SearchDurationViewController: UIViewController, UIPickerViewDelegate, UIPi
         switch component {
         case 0:
             if row == 0 {
-                selectedMin = nil
+                selectedMin = "1"
             } else {
                 selectedMin = minDays[row]
             }
         default:
             if row == 0 {
-                selectedMax = nil
+                selectedMax = "99"
             } else {
                 selectedMax = maxDays[row]
             }

@@ -50,7 +50,7 @@ class DiscoverTableViewController: UITableViewController {
         
         fetchTags(Plango.EndPoint.AllTags.rawValue)
 
-        fetchPopularPlans()
+//        fetchPopularPlans()
         
         //TODO: - fetchCollections, get title's from a list I guess
     }

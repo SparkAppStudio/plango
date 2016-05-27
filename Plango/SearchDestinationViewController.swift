@@ -39,6 +39,7 @@ class SearchDestinationViewController: UIViewController {
                 if let error = errorString {
                     print(error)
                 } else if let plans = receivedPlans {
+                    print(plans.count)
                     let plansVC = PlansTableViewController()
                     plansVC.plansArray = plans
                     self.showViewController(plansVC, sender: nil)
@@ -165,12 +166,31 @@ extension SearchDestinationViewController: GMSAutocompleteResultsViewControllerD
             if item.type == kGMSPlaceTypeLocality || item.type == kGMSPlaceTypeAdministrativeAreaLevel3 || item.type == kGMSPlaceTypeSublocalityLevel3 || item.type == kGMSPlaceTypeColloquialArea { //city
                 selectedPlace.city = item.name
             } else if item.type == kGMSPlaceTypeAdministrativeAreaLevel1 { //state
+                
                 selectedPlace.state = item.name
+                
             } else if item.type == kGMSPlaceTypeCountry { //country
                 selectedPlace.country = item.name
             }
         }
         
+        //abbreviate State for US
+        if selectedPlace.country == "United States" {
+            if let stateLong = selectedPlace.state {
+                selectedPlace.state = stateLong.getShortState()?.rawValue
+            }
+            
+        } else if selectedPlace.country == "Australia" {
+            if let stateLong = selectedPlace.state {
+                selectedPlace.state = stateLong.getShortStateAustralia()?.rawValue
+            }
+            
+        } else if selectedPlace.country == "Canada" {
+            if let stateLong = selectedPlace.state {
+                selectedPlace.state = stateLong.getShortStateCanada()?.rawValue
+            }
+            
+        }
         
         dispatch_async(dispatch_get_main_queue()) {
             self.tableView.beginUpdates()

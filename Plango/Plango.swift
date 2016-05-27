@@ -126,22 +126,22 @@ class Plango: NSObject {
             parameters["tags"] = cleanedTags
         }
         if let destinations = selectedDestinations {
-            var selectedPlaces: [[String:String]] = []
+            var placesString = ""
+            
             for item in destinations {
-                var place: [String : String] = [:]
                 if let city = item.city {
-                    place["city"] = city
+                    placesString.appendContentsOf("city:\(city),")
                 }
                 if let state = item.state {
-                    place["state"] = state
+                    placesString.appendContentsOf("state:\(state),")
                 }
                 if let country = item.country {
-                    place["country"] = country
+                    placesString.appendContentsOf("country:\(country)_")
                 }
-                selectedPlaces.append(place)
             }
-            
-            parameters["selectedPlaces"] = selectedPlaces
+        
+            let cleanedPlaces = String(placesString.characters.dropLast())
+            parameters["selectedPlaces"] = cleanedPlaces
         }
         if let item = user {
             parameters["user"] = item.displayName

@@ -78,9 +78,13 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
     func collectSearchParameters() {
         if let min = durationController.selectedMin {
             minDuration = Int(min)
+        } else {
+            minDuration = nil
         }
         if let max = durationController.selectedMax {
             maxDuration = Int(max)
+        } else {
+            maxDuration = nil
         }
         selectedTags = tagsController.selectedTags
         selectedDestinations = destinationController.selectedDestinations
