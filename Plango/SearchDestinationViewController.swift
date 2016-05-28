@@ -35,7 +35,9 @@ class SearchDestinationViewController: UIViewController {
     func didTapSearch(sender: UIButton) {
         if let parent = parentViewController as? SearchViewController {
             parent.collectSearchParameters()
+            self.tableView.showSimpleLoading()
             Plango.sharedInstance.findPlans(Plango.EndPoint.FindPlans.rawValue, minDuration: parent.minDuration, maxDuration: parent.maxDuration, tags: parent.selectedTags, selectedDestinations: parent.selectedDestinations, user: nil, isJapanSearch: nil, onCompletion: { (receivedPlans, errorString) in
+                self.tableView.hideSimpleLoading()
                 if let error = errorString {
                     print(error)
                 } else if let plans = receivedPlans {

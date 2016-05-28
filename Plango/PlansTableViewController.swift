@@ -11,7 +11,6 @@ import SwiftyJSON
 
 class PlansTableViewController: UITableViewController {
     
-    lazy var usersDictionary = [NSIndexPath:User]()
     lazy var plansArray = [Plan]()
     
     var plansEndPoint: String!
@@ -23,23 +22,6 @@ class PlansTableViewController: UITableViewController {
         self.tableView.registerNib(cellNib, forCellReuseIdentifier: CellID.Plans.rawValue)
         
 //        fetchPlans(plansEndPoint)        
-    }
-    
-    func fetchUserForPlan(endPoint: String, indexPath: NSIndexPath) {
-        Plango.sharedInstance.fetchUsers(endPoint) {
-            (receivedUsers: [User]?, error: NSError?) in
-            if let error = error {
-                print(error.description)
-            } else if let users = receivedUsers {
-                self.usersDictionary[indexPath] = users.first!
-                //TODO: - update tableView
-                let cell = self.tableView.cellForRowAtIndexPath(indexPath) as! PlansTableViewCell //crashed here when messing around scrolling up and down
-                cell.user = users.first!
-                print("\(cell.user?.displayName) has \(cell.user?.invites?.description) invites")
-                cell.configure()
-//                self.tableView.reloadData()
-            }
-        }
     }
     
     func fetchPlans(endPoint: String) {
@@ -119,8 +101,6 @@ class PlansTableViewController: UITableViewController {
         let plan = self.plansArray[indexPath.row]
         print("the plan duration is \(plan.durationDays?.description)")
         cell.plan = plan
-        self.fetchUserForPlan("\(Plango.EndPoint.UserByID.rawValue)\(plan.authorID)", indexPath: indexPath)
-
         
         cell.configure()
         return cell

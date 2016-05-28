@@ -57,8 +57,8 @@ class Plango: NSObject {
         return cleanedEndPoint
     }
     
-    func fetchUsers(endPoint: String, onCompletion: UsersResponse) {
-        Alamofire.request(.GET, endPoint).validate().responseJSON { response in
+    func fetchUsers(endPoint: String, onCompletion: UsersResponse) -> Request {
+        return Alamofire.request(.GET, endPoint).validate().responseJSON { response in
             var receivedUsers = [User]()
             
             switch response.result {

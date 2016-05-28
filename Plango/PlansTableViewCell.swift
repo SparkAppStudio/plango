@@ -27,18 +27,13 @@ class PlansTableViewCell: UITableViewCell {
     var user: User?
     var plan: Plan?
     var request: Request?
-    
+    var userRequest: Request?
     
     func configure() {
         self.layoutIfNeeded()
-        if let cellUser = user {
-            profileNameLabel.text = cellUser.userName
-            guard let endPoint = cellUser.avatar else {return}
-            let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
-            profileImageView.makeCircle()
-            profileImageView.af_setImageWithURL(cleanURL!)
-        }
         if let cellPlan = plan {
+            fetchUserForPlan("\(Plango.EndPoint.UserByID.rawValue)\(cellPlan.authorID)")
+
             planNameLabel.text = cellPlan.name
             
             guard let endPoint = cellPlan.avatar else {return}
@@ -59,15 +54,51 @@ class PlansTableViewCell: UITableViewCell {
             //TODO: - plan length, views count and copies count
         }
     }
-        
+    
+    func configureUser() {
+        if let cellUser = user {
+            profileNameLabel.text = cellUser.userName
+            guard let endPoint = cellUser.avatar else {return}
+            let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
+            profileImageView.makeCircle()
+            profileImageView.af_setImageWithURL(cleanURL!)
+        }
+    }
+    
     func reset() {
         coverImageView.af_cancelImageRequest()
         profileImageView.af_cancelImageRequest()
 //        self.request?.cancel() //for when using my own method and request manager
         
 //        coverImageView.image = nil
-//        profileImageView.image = nil
+        profileImageView.image = nil
+
+        userRequest?.cancel()
+        self.profileImageView.hideSimpleLoading()
+        profileNameLabel.text = nil
+        user = nil
+        
+        plan = nil
+        
     }
+    
+    func fetchUserForPlan(endPoint: String) {
+        self.profileImageView.showSimpleLoading()
+        self.userRequest = Plango.sharedInstance.fetchUsers(endPoint) {
+            (receivedUsers: [User]?, error: NSError?) in
+            self.profileImageView.hideSimpleLoading()
+            if let error = error {
+                print(error.description)
+            } else if let users = receivedUsers {
+                guard let user = users.first else {return}
+                self.user = user
+                dispatch_async(dispatch_get_main_queue(), { 
+                    self.configureUser()
+                })
+            }
+        }
+    }
+
     
     //my own method for image handling, currently just using alamofire extension method so this may be unneccesarry
     func loadImageForImageView(endPoint: String, imageView: UIImageView) {
@@ -89,8 +120,8 @@ class PlansTableViewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
-        reset()
         super.prepareForReuse()
+        reset()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

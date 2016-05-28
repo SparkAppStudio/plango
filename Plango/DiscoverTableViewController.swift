@@ -189,10 +189,19 @@ extension DiscoverTableViewController: UICollectionViewDataSource, UICollectionV
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let plansVC = PlansTableViewController()
-        plansVC.plansEndPoint = Plango.EndPoint.FindPlans.rawValue
-        self.showViewController(plansVC, sender: nil)
-        print("select coll")
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! TypeCollectionViewCell
+        guard let tag = cell.plangoTag else {return}
+        self.tableView.showSimpleLoading()
+        Plango.sharedInstance.findPlans(Plango.EndPoint.FindPlans.rawValue, minDuration: nil, maxDuration: nil, tags: [tag], selectedDestinations: nil, user: nil, isJapanSearch: nil) { (receivedPlans, errorString) in
+            self.tableView.hideSimpleLoading()
+            if let error = errorString {
+                print(error)
+            } else if let plans = receivedPlans {
+                let plansVC = PlansTableViewController()
+                plansVC.plansArray = plans
+                self.showViewController(plansVC, sender: nil)
+            }
+        }
     }
 
 }

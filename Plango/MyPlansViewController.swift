@@ -27,6 +27,7 @@ class MyPlansViewController: MXSegmentedPagerController {
     lazy var plansController: PlansTableViewController = {
         let plansVC = PlansTableViewController()
         plansVC.plansEndPoint = Plango.EndPoint.MyPlans.rawValue
+        plansVC.fetchPlans(plansVC.plansEndPoint)
         return plansVC
     }()
 
