@@ -8,6 +8,9 @@
 
 import UIKit
 import GoogleMaps
+import FBSDKCoreKit
+import FBSDKLoginKit
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         GMSServices.provideAPIKey("AIzaSyA39ZWfxBR9I4VENEDuS53ivijYC_ZKvpY")
         // Override point for customization after application launch.        
@@ -26,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NSNotificationCenter.defaultCenter().addObserverForName(Notify.Logout.rawValue, object: nil, queue: nil) { (notification) -> Void in
             self.appLogout(notification)
         }
+        
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         configureTabController()
         syncAuthStatus()
@@ -33,28 +39,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+        return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+    }
     
     func appLogin(notification: NSNotification) {
+        //every login notification should send controller so UI can be modified here loading screen etc.
         let controller = notification.userInfo!["controller"] as! UITableViewController
-        let userEmail = notification.userInfo!["userEmail"] as! String
-        let password = notification.userInfo!["password"] as! String
-        
         controller.tableView.showSimpleLoading()
-        Plango.sharedInstance.loginUserWithPassword(Plango.EndPoint.Login.rawValue, email: userEmail, password: password) { (user, error) in
-            controller.tableView.hideSimpleLoading()
-            if error != nil {
-                print(Helper.errorMessage(self, error: nil, message: error))
-                controller.tableView.quickToast("Incorrect Password")
-            } else {
-                Plango.sharedInstance.currentUser = user
-                
-                NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(user!), forKey: UserDefaultsKeys.currentUser.rawValue)
-                
-                controller.tableView.imageToast(nil, image: UIImage(named: "whiteCheck")!, notify: true)
 
+        //facebook login
+        if let result = notification.userInfo?["FBSDKLoginResult"] as? FBSDKLoginManagerLoginResult {
+            
+            //TODO: - Convert FB result to Plango User, query user based on email?
+            
+//            NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(user!), forKey: UserDefaultsKeys.currentUser.rawValue)
+
+            //be sure and hide loading, this doesnt work quite as well because of how facebook delegate is setup
+            controller.tableView.hideSimpleLoading()
+            controller.tableView.imageToast(nil, image: UIImage(named: "whiteCheck")!, notify: true)
+
+        
+        //regular login
+        } else if let userEmail = notification.userInfo?["userEmail"] as? String, let password = notification.userInfo?["password"] as? String {
+        
+            Plango.sharedInstance.loginUserWithPassword(Plango.EndPoint.Login.rawValue, email: userEmail, password: password) { (user, error) in
+                controller.tableView.hideSimpleLoading()
+                if error != nil {
+                    print(Helper.errorMessage(self, error: nil, message: error))
+                    controller.tableView.quickToast("Incorrect Password")
+                } else {
+                    Plango.sharedInstance.currentUser = user
+                    
+                    NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(user!), forKey: UserDefaultsKeys.currentUser.rawValue)
+                    
+                    controller.tableView.imageToast(nil, image: UIImage(named: "whiteCheck")!, notify: true)
+                    
+                }
             }
         }
-
     }
     
     func appLogout(notification: NSNotification) {
@@ -153,7 +176,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        FBSDKAppEvents.activateApp()
     }
 
     func applicationWillTerminate(application: UIApplication) {

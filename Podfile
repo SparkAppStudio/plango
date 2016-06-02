@@ -10,6 +10,12 @@ target 'Plango' do
 #    networkingImages
     pod 'AlamofireImage'
     pod 'Kingfisher'
+    
+#    socialMedia
+    pod 'Bolts'
+    pod 'FBSDKCoreKit'
+    pod 'FBSDKShareKit'
+    pod 'FBSDKLoginKit'
 
 #    frontendLayout
     pod 'SnapKit'

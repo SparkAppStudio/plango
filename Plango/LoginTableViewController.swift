@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FBSDKLoginKit
 
 class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     
@@ -25,16 +26,16 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         return text
     }()
     
-    lazy var userOrEmailTextField: UITextField = {
-        let text = UITextField()
-        text.borderStyle = .None
-        text.placeholder = "Username or Email"
-        text.keyboardType = .EmailAddress
-        text.autocorrectionType = .No
-        text.autocapitalizationType = .None
-        text.delegate = self
-        return text
-    }()
+//    lazy var userOrEmailTextField: UITextField = {
+//        let text = UITextField()
+//        text.borderStyle = .None
+//        text.placeholder = "Username or Email"
+//        text.keyboardType = .EmailAddress
+//        text.autocorrectionType = .No
+//        text.autocapitalizationType = .None
+//        text.delegate = self
+//        return text
+//    }()
     
     lazy var emailTextField: UITextField = {
         let text = UITextField()
@@ -60,11 +61,9 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     
     lazy var loginButton: UIButton = {
         let button = UIButton()
-        button.frame = CGRectMake(8, 8, self.tableView.frame.width - 16, 30)
         button.backgroundColor = UIColor.plangoOrange()
         button.tintColor = UIColor.whiteColor()
         button.setTitle("Log In", forState: UIControlState.Normal)
-        button.makeRoundCorners(64)
         button.addTarget(self, action: #selector(didTapLogin), forControlEvents: .TouchUpInside)
         return button
     }()
@@ -74,6 +73,19 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         return view
     }()
     
+    lazy var stackView: UIStackView = {
+        let view = UIStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.axis = .Vertical
+        return view
+    }()
+    
+    lazy var facebookButton: FBSDKLoginButton = {
+       let button = FBSDKLoginButton()
+        button.delegate = self
+        button.readPermissions = ["public_profile", "email", "user_friends"]
+        return button
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,7 +96,18 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
             })
         }
         
-        footerView.addSubview(loginButton)
+        facebookButton.titleLabel?.font = loginButton.titleLabel?.font
+        
+        stackView.spacing = 8
+        stackView.distribution = .EqualSpacing
+        stackView.alignment = .Center
+//        stackView.layoutMargins.left = 16
+//        stackView.layoutMargins.right = 16
+        
+        stackView.addArrangedSubview(loginButton)
+        stackView.addArrangedSubview(facebookButton)
+
+        footerView.addSubview(stackView)
         
         let titles = ["Login", "Signup"]
         loginSegment = UISegmentedControl(items: titles)
@@ -104,7 +127,27 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
 
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        stackView.leadingAnchor.constraintEqualToAnchor(footerView.leadingAnchor).active = true
+        stackView.trailingAnchor.constraintEqualToAnchor(footerView.trailingAnchor).active = true
+        stackView.bottomAnchor.constraintEqualToAnchor(footerView.bottomAnchor).active = true
+        stackView.topAnchor.constraintEqualToAnchor(footerView.topAnchor).active = true
+        
+        loginButton.heightAnchor.constraintEqualToConstant(30).active = true
+        loginButton.widthAnchor.constraintEqualToConstant(self.view.frame.width - 16).active = true
+        loginButton.makeRoundCorners(90)
+        facebookButton.heightAnchor.constraintEqualToAnchor(loginButton.heightAnchor).active = true
+        facebookButton.widthAnchor.constraintEqualToAnchor(loginButton.widthAnchor).active = true
+    }
+    
     func didChangeLoginSegment() {
+        if loginSegment.selectedSegmentIndex == 0 {
+            loginButton.setTitle("Log In", forState: .Normal)
+        } else {
+            loginButton.setTitle("Sign Up", forState: .Normal)
+        }
         tableView.reloadData()
     }
 
@@ -116,7 +159,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     
     func didTapLogin(button: UIButton) {
         if loginSegment.selectedSegmentIndex == 0 {
-            guard let userEmail = userOrEmailTextField.text else {
+            guard let userEmail = emailTextField.text else {
                 self.tableView.quickToast("Please Enter your Email")
                 return
             }
@@ -229,7 +272,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 60
+        return 68
     }
     
     override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -248,9 +291,9 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         if loginSegment.selectedSegmentIndex == 0 {
             switch indexPath.row {
             case 0:
-                let cell = tableView.dequeueReusableCellWithIdentifier("usernameemail", forIndexPath: indexPath)
-                userOrEmailTextField.frame = CGRectMake(8, 4, cell.contentView.frame.width - 16, cell.contentView.frame.height - 8)
-                cell.contentView.addSubview(userOrEmailTextField)
+                let cell = tableView.dequeueReusableCellWithIdentifier("email", forIndexPath: indexPath)
+                emailTextField.frame = CGRectMake(8, 4, cell.contentView.frame.width - 16, cell.contentView.frame.height - 8)
+                cell.contentView.addSubview(emailTextField)
                 return cell
             default:
                 let cell = tableView.dequeueReusableCellWithIdentifier("password", forIndexPath: indexPath)
@@ -279,5 +322,15 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         }
         
 
+    }
+}
+
+extension LoginTableViewController: FBSDKLoginButtonDelegate {
+    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+        NSNotificationCenter.defaultCenter().postNotificationName(Notify.Login.rawValue, object: nil, userInfo: ["controller" : self, "FBSDKLoginResult" : result])
+    }
+    
+    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+        NSNotificationCenter.defaultCenter().postNotificationName(Notify.Logout.rawValue, object: nil, userInfo: ["controller" : self])
     }
 }
