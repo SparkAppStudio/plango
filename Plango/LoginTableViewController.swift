@@ -179,6 +179,30 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
             
         } else {
             //TODO: - create user
+            guard let userEmail = emailTextField.text else {
+                self.tableView.quickToast("Please Enter a Email")
+                return
+            }
+            guard let password = passwordTextField.text else {
+                self.tableView.quickToast("Please Enter a Password")
+                return
+            }
+            guard let userName = usernameTextField.text else {
+                self.tableView.quickToast("We Need a Username")
+                return
+            }
+            
+            if userEmail.isEmpty {
+                self.tableView.quickToast("Please Enter your Email")
+            } else if password.isEmpty {
+                self.tableView.quickToast("Please Enter your Password")
+            } else if userName.isEmpty {
+                self.tableView.quickToast("We Need a Username")
+            } else {
+                let userInfo = ["controller" : self, "userEmail" : userEmail, "password" : password, "userName" : userName]
+                NSNotificationCenter.defaultCenter().postNotificationName(Notify.Login.rawValue, object: nil, userInfo: userInfo)
+            }
+
         }
     }
 

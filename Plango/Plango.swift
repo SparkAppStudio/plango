@@ -242,8 +242,7 @@ class Plango: NSObject {
         }
     }
     
-    func loginUserWithPassword(endPoint: String, email: String, password: String, onCompletion: LoginResponse) -> Void {
-        let parameters = ["email" : email, "password" : password]
+    func authPlangoUser(endPoint: String, parameters: [String:AnyObject], onCompletion: LoginResponse) -> Void {
         
         Alamofire.request(.POST, endPoint, parameters: parameters).validate().responseJSON { response in
             
@@ -277,4 +276,5 @@ class Plango: NSObject {
             }
         }
     }
+    
 }

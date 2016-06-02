@@ -59,11 +59,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             controller.tableView.hideSimpleLoading()
             controller.tableView.imageToast(nil, image: UIImage(named: "whiteCheck")!, notify: true)
 
-        
-        //regular login
+        // account creation, this as to be before regular login as far as if let statements are concerned 
+        } else if let userName = notification.userInfo?["userName"] as? String, let userEmail = notification.userInfo?["userEmail"] as? String, let password = notification.userInfo?["password"] as? String {
+            
+            let parameters = ["userName" : userName, "email" : userEmail, "password" : password]
+            
+            Plango.sharedInstance.authPlangoUser(Plango.EndPoint.NewAccount.rawValue, parameters: parameters, onCompletion: { (user, error) in
+                controller.tableView.hideSimpleLoading()
+                if error != nil {
+                    print(Helper.errorMessage(self, error: nil, message: error))
+                    controller.tableView.quickToast("Incorrect Password")
+                } else {
+                    Plango.sharedInstance.currentUser = user
+                    
+                    NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(user!), forKey: UserDefaultsKeys.currentUser.rawValue)
+                    
+                    controller.tableView.imageToast("Check your email", image: UIImage(named: "whiteCheck")!, notify: true)
+                    
+                }
+            })
+            //regular login
         } else if let userEmail = notification.userInfo?["userEmail"] as? String, let password = notification.userInfo?["password"] as? String {
         
-            Plango.sharedInstance.loginUserWithPassword(Plango.EndPoint.Login.rawValue, email: userEmail, password: password) { (user, error) in
+            let parameters = ["email" : userEmail, "password" : password]
+            
+            Plango.sharedInstance.authPlangoUser(Plango.EndPoint.Login.rawValue, parameters: parameters) { (user, error) in
                 controller.tableView.hideSimpleLoading()
                 if error != nil {
                     print(Helper.errorMessage(self, error: nil, message: error))
