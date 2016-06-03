@@ -50,9 +50,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         //facebook login
         if let result = notification.userInfo?["FBSDKLoginResult"] as? FBSDKLoginManagerLoginResult {
-            
+            let bla = result.token
             //TODO: - Convert FB result to Plango User, query user based on email?
-            
 //            NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(user!), forKey: UserDefaultsKeys.currentUser.rawValue)
 
             //be sure and hide loading, this doesnt work quite as well because of how facebook delegate is setup
@@ -62,17 +61,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // account creation, this as to be before regular login as far as if let statements are concerned 
         } else if let userName = notification.userInfo?["userName"] as? String, let userEmail = notification.userInfo?["userEmail"] as? String, let password = notification.userInfo?["password"] as? String {
             
-            let parameters = ["userName" : userName, "email" : userEmail, "password" : password]
+            let parameters = ["username" : userName, "email" : userEmail, "password" : password]
             
             Plango.sharedInstance.authPlangoUser(Plango.EndPoint.NewAccount.rawValue, parameters: parameters, onCompletion: { (user, error) in
                 controller.tableView.hideSimpleLoading()
-                if error != nil {
-                    print(Helper.errorMessage(self, error: nil, message: error))
-                    controller.tableView.quickToast("Incorrect Password")
-                } else {
+                if let error = error {
+                    controller.printPlangoError(error)
+                    if let message = error.message {
+                        controller.tableView.quickToast(message)
+                    }
+                } else if let user = user {
                     Plango.sharedInstance.currentUser = user
                     
-                    NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(user!), forKey: UserDefaultsKeys.currentUser.rawValue)
+                    NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(user), forKey: UserDefaultsKeys.currentUser.rawValue)
                     
                     controller.tableView.imageToast("Check your email", image: UIImage(named: "whiteCheck")!, notify: true)
                     
@@ -85,13 +86,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             Plango.sharedInstance.authPlangoUser(Plango.EndPoint.Login.rawValue, parameters: parameters) { (user, error) in
                 controller.tableView.hideSimpleLoading()
-                if error != nil {
-                    print(Helper.errorMessage(self, error: nil, message: error))
-                    controller.tableView.quickToast("Incorrect Password")
-                } else {
+                if let error = error {
+                    
+                    if error.statusCode == 403 {
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            let alert = UIAlertController(title: "Email Confirmation", message: error.message, preferredStyle: .Alert)
+                            let sendConfirmation = UIAlertAction(title: "Resend", style: .Default, handler: { (action) in
+                                //Plango send email
+                            })
+                            let cancel = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in }
+                            alert.addAction(cancel)
+                            alert.addAction(sendConfirmation)
+                            
+                            controller.presentViewController(alert, animated: true, completion: nil)
+                        })
+                    } else {
+                        if let message = error.message {
+                            controller.tableView.quickToast(message)
+                        }
+                    }
+                    controller.printPlangoError(error)
+                } else if let user = user {
                     Plango.sharedInstance.currentUser = user
                     
-                    NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(user!), forKey: UserDefaultsKeys.currentUser.rawValue)
+                    NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(user), forKey: UserDefaultsKeys.currentUser.rawValue)
                     
                     controller.tableView.imageToast(nil, image: UIImage(named: "whiteCheck")!, notify: true)
                     

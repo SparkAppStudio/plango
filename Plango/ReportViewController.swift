@@ -55,8 +55,10 @@ class ReportViewController: UIViewController {
                 self.reportTextView.imageToast("Successfully Sent", image: UIImage(named: "whiteCheck")!, notify: true)
                 return
             }
-            self.reportTextView.quickToast(error)
-            print(error)
+            if let message = error.message {
+                self.reportTextView.quickToast(message)
+            }
+            self.printPlangoError(error)
         }
     }
 

@@ -35,13 +35,13 @@ class Plango: NSObject {
 //    let decoder = ImageDecoder()
     
     
-    typealias UsersResponse = ([User]?, NSError?) -> Void
-    typealias PlansResponse = ([Plan]?, String?) -> Void
-    typealias TagsResponse = ([Tag]?, String?) -> Void
-    typealias LoginResponse = (User?, String?) -> Void
+    typealias UsersResponse = ([User]?, PlangoError?) -> Void
+    typealias PlansResponse = ([Plan]?, PlangoError?) -> Void
+    typealias TagsResponse = ([Tag]?, PlangoError?) -> Void
+    typealias LoginResponse = (User?, PlangoError?) -> Void
 //    typealias log = () throws -> User
-    typealias ReportSpamResponse = (String?) -> Void
-    typealias ImageResponse = (UIImage?, NSError?) -> Void
+    typealias ReportSpamResponse = (PlangoError?) -> Void
+    typealias ImageResponse = (UIImage?, PlangoError?) -> Void
     
     let photoCache = AutoPurgingImageCache(memoryCapacity: 100 * 1024 * 1024, preferredMemoryUsageAfterPurge: 60 * 1024 * 1024)
     
@@ -58,7 +58,7 @@ class Plango: NSObject {
     }
     
     func fetchUsers(endPoint: String, onCompletion: UsersResponse) -> Request {
-        return Alamofire.request(.GET, endPoint).validate().responseJSON { response in
+        return Alamofire.request(.GET, endPoint).responseJSON { response in
             var receivedUsers = [User]()
             
             switch response.result {
@@ -83,7 +83,8 @@ class Plango: NSObject {
                 onCompletion(receivedUsers, nil)
                 
             case .Failure(let error):
-                onCompletion(nil, error)
+                let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
+                onCompletion(nil, newError)
             }
         }
     }
@@ -96,7 +97,9 @@ class Plango: NSObject {
 
                 onCompletion(Plan.getPlansFromJSON(dataJSON), nil)
             case .Failure(let error):
-                onCompletion(nil, error.localizedFailureReason)
+                let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
+
+                onCompletion(nil, newError)
             }
         }
     }
@@ -168,16 +171,15 @@ class Plango: NSObject {
                 if dataJSON["status"].stringValue == "success" {
                     onCompletion(Plan.getPlansFromJSON(dataJSON), nil)
                 } else {
-                    var errorString = "failed to get proper error message"
                     
-                    let message = dataJSON["message"].stringValue
-                    let status = dataJSON["status"].stringValue
-                    errorString = "Status: \(status) Message: \(message)"
+                    let newError = PlangoError(statusCode: response.response?.statusCode, message: dataJSON["message"].stringValue)
                     
-                    onCompletion(nil, errorString)
+                    onCompletion(nil, newError)
                 }
             case .Failure(let error):
-                onCompletion(nil, error.localizedFailureReason)
+                let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
+
+                onCompletion(nil, newError)
             }
 
         }
@@ -191,17 +193,15 @@ class Plango: NSObject {
                 if dataJSON["status"].stringValue == "success" {
                     onCompletion(Tag.getTagsFromJSON(dataJSON), nil)
                 } else {
-                    var errorString = "failed to get proper error message"
+                    let newError = PlangoError(statusCode: response.response?.statusCode, message: dataJSON["message"].stringValue)
                     
-                    let message = dataJSON["message"].stringValue
-                    let status = dataJSON["status"].stringValue
-                    errorString = "Status: \(status) Message: \(message)"
-                    
-                    onCompletion(nil, errorString)
+                    onCompletion(nil, newError)
                 }
                 
             case .Failure(let error):
-                onCompletion(nil, error.localizedFailureReason)
+                let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
+
+                onCompletion(nil, newError)
             }
         }
     }
@@ -214,7 +214,9 @@ class Plango: NSObject {
                 onCompletion(image, nil)
                 self.photoCache.addImage(image, withIdentifier: endPoint)
             case .Failure(let error):
-                onCompletion(nil, error)
+                let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
+
+                onCompletion(nil, newError)
             }
         }
     }
@@ -229,22 +231,21 @@ class Plango: NSObject {
                 if dataJSON["status"].stringValue == "success" || dataJSON["status"].intValue == 200 {
                     onCompletion(nil)
                 } else {
-                    onCompletion("User does not exist")
+                    let newError = PlangoError(statusCode: response.response?.statusCode, message: dataJSON["message"].stringValue)
+                    
+                    onCompletion(newError)
                 }
             case .Failure(let error):
-                onCompletion(error.localizedFailureReason)
+                let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
+                
+                onCompletion(newError)
             }
-            
-//            guard let receivedValue = response.result.value else {
-//                onCompletion(receivedUsers, nil)
-//                return
-//            }
         }
     }
     
     func authPlangoUser(endPoint: String, parameters: [String:AnyObject], onCompletion: LoginResponse) -> Void {
         
-        Alamofire.request(.POST, endPoint, parameters: parameters).validate().responseJSON { response in
+        Alamofire.request(.POST, endPoint, parameters: parameters).responseJSON { response in
             
             switch response.result {
             case .Success(let value):
@@ -262,19 +263,21 @@ class Plango: NSObject {
                     
                     onCompletion(User.getUsersFromJSON(dataJSON).first, nil)
                 } else {
-                    var errorString = "failed to get proper error message"
-                    
-                    let message = dataJSON["message"].stringValue
-                    let status = dataJSON["status"].stringValue
-                    errorString = "Status: \(status) Message: \(message)"
-                    
-                    onCompletion(nil, errorString)
+                    let newError = PlangoError(statusCode: response.response?.statusCode, message: dataJSON["message"].stringValue)
+                    onCompletion(nil, newError)
                 }
                 
             case .Failure(let error):
-                onCompletion(nil, error.localizedFailureReason)
+                let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
+                
+                onCompletion(nil, newError)
             }
         }
     }
     
+}
+
+struct PlangoError {
+    var statusCode: Int?
+    var message: String?
 }

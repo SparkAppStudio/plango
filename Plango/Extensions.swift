@@ -682,6 +682,14 @@ extension UICollectionViewFlowLayout {
     }
 }
 
+extension UIResponder {
+    func printPlangoError(error: PlangoError) {
+        if let status = error.statusCode, message = error.message {
+            print("In \(self) Status Code: \(status) Message: \(message)")
+        }
+    }
+}
+
 extension UIView {
     public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesBegan(touches, withEvent: event)

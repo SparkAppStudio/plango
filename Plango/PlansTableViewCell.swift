@@ -85,10 +85,10 @@ class PlansTableViewCell: UITableViewCell {
     func fetchUserForPlan(endPoint: String) {
         self.profileImageView.showSimpleLoading()
         self.userRequest = Plango.sharedInstance.fetchUsers(endPoint) {
-            (receivedUsers: [User]?, error: NSError?) in
+            (receivedUsers: [User]?, error: PlangoError?) in
             self.profileImageView.hideSimpleLoading()
             if let error = error {
-                print(error.description)
+                self.printPlangoError(error)
             } else if let users = receivedUsers {
                 guard let user = users.first else {return}
                 self.user = user
@@ -111,7 +111,7 @@ class PlansTableViewCell: UITableViewCell {
         
         self.request = Plango.sharedInstance.fetchImage(cleanedEndPoint, onCompletion: { (image, error) in
             if let error = error {
-                print(Helper.errorMessage(self, error: error, message: nil))
+                self.printPlangoError(error)
             } else if let image = image {
                 //hypothetically check for new cell with tableView.cellForRowAtIndexPath, if its nill cell no longer on screen, dont set image, if its there ok to set downloaded image. however this requires me to either pass in the tableView to the method or type this method in the controller instead of the cell. Also i wonder if the alamofire method somehow addresses this anyway
                 imageView.image = image

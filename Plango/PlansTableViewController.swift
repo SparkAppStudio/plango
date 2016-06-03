@@ -27,11 +27,11 @@ class PlansTableViewController: UITableViewController {
     func fetchPlans(endPoint: String) {
         self.tableView.showSimpleLoading()
         Plango.sharedInstance.fetchPlans(endPoint) {
-            (receivedPlans: [Plan]?, errorString: String?) in
+            (receivedPlans: [Plan]?, error: PlangoError?) in
             self.tableView.hideSimpleLoading()
             
-            if let error = errorString {
-                print(error)
+            if let error = error {
+                print(error.message)
             } else if let plans = receivedPlans {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.plansArray = plans

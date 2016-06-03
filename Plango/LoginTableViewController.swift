@@ -98,6 +98,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         
         facebookButton.titleLabel?.font = loginButton.titleLabel?.font
         
+        
         stackView.spacing = 8
         stackView.distribution = .EqualSpacing
         stackView.alignment = .Center

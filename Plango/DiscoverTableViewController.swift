@@ -163,9 +163,9 @@ class DiscoverTableViewController: UITableViewController {
 extension DiscoverTableViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func fetchTags(endPoint: String) {
-        Plango.sharedInstance.fetchTags(endPoint) { (receivedTags, errorString) in
-            if let errorMessage = errorString {
-                print(Helper.errorMessage(self, error: nil, message: errorMessage))
+        Plango.sharedInstance.fetchTags(endPoint) { (receivedTags, error) in
+            if let error = error {
+                self.printPlangoError(error)
             } else if let tags = receivedTags {
                 self.tagsArray = tags
                 print(self.tagsArray.count.description)
