@@ -24,9 +24,10 @@ class Plango: NSObject {
         case Logout = "http://dev.plango.us/logout"
         case AmazonImageRoot = "https://plango-images.s3.amazonaws.com/"
         case Home = "http://dev.plango.us/"
-        case Report = "http://dev.plango.us/reportSpam/"
+        case Report = "http://dev.plango.us/plan/reportSpam/"
         case MyPlans = "http://dev.plango.us/me/plans"
         case SendConfirmation = "http://dev.plango.us/resendconfirmation"
+        case FacebookLogin = "http://dev.plango.us/user/Facebook/"
     }
     
     let env = NSBundle.mainBundle().infoDictionary!["BASE_ENDPOINT"] as! String
@@ -226,6 +227,7 @@ class Plango: NSObject {
         let spamEndPoint = "\(endPoint)\(planID)"
         
         Alamofire.request(.POST, spamEndPoint).validate().responseJSON { response in
+            print(response.request)
             switch response.result {
             case .Success(let value):
                 let dataJSON = JSON(value)
@@ -265,10 +267,10 @@ class Plango: NSObject {
         }
     }
     
-    func authPlangoUser(endPoint: String, parameters: [String:AnyObject], onCompletion: LoginResponse) -> Void {
+    func authPlangoUser(endPoint: String, parameters: [String:AnyObject]?, onCompletion: LoginResponse) -> Void {
         
         Alamofire.request(.POST, endPoint, parameters: parameters).responseJSON { response in
-            
+            print("The request is \(response.request)")
             switch response.result {
             case .Success(let value):
                 let dataJSON = JSON(value)

@@ -68,105 +68,97 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
     }
     
+    func getParametersFromFacebook(result: AnyObject) -> [String:AnyObject] {
+        var plangoParameters = [String:AnyObject]()
+        var socialConnects = [[String:AnyObject]]()
+        
+        let email = result.valueForKey("email")
+        let userName = result.valueForKey("name")?.lowercaseString
+        let displayName = "\(result.valueForKey("first_name")) \(result.valueForKey("last_name"))"
+        let userID = result.valueForKey("id")
+        
+        
+        plangoParameters["email"] = email
+        plangoParameters["username"] = userName!
+        
+        socialConnects.append(["network" : "Facebook", "socialId" : userID!, "displayName" : displayName, "email" : email!])
+        
+        plangoParameters["socialConnects"] = socialConnects
+        plangoParameters["fbSignup"] = true
+        return plangoParameters
+    }
+    
+    func handlePlangoAuth(controller: LoginTableViewController, endPoint: String, email: String?, completionMessage: String?, parameters: [String:AnyObject]?) {
+        Plango.sharedInstance.authPlangoUser(endPoint, parameters: parameters, onCompletion: { (user, error) in
+            controller.tableView.hideSimpleLoading()
+            
+            if let error = error {
+                controller.printPlangoError(error)
+                if error.statusCode == 403 {
+                    guard let email = email else {return}
+                    self.presentEmailConfirmation(controller, email: email, error: error)
+                } else {
+                    if let message = error.message {
+                        controller.tableView.quickToast(message)
+                    }
+                }
+            } else if let user = user {
+                Plango.sharedInstance.currentUser = user
+                
+                NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(user), forKey: UserDefaultsKeys.currentUser.rawValue)
+                
+                controller.tableView.imageToast(completionMessage, image: UIImage(named: "whiteCheck")!, notify: true)
+                
+            }
+        })
+    }
+
     func appLogin(notification: NSNotification) {
         //every login notification should send controller so UI can be modified here loading screen etc.
         let controller = notification.userInfo!["controller"] as! LoginTableViewController
         controller.tableView.showSimpleLoading()
 
-        //facebook login
+        //facebook auth
         if let _ = notification.userInfo?["FBSDKLoginResult"] as? FBSDKLoginManagerLoginResult {
-//            FBSDKProfile.currentProfile().userID
+            
+            //this should work but is not set in time, loginButton completion handler gets here before it sets the userID var
+            //                let userID = FBSDKProfile.currentProfile().userID
             
             let parameters = ["fields":"id, name, email"]
             FBSDKGraphRequest.init(graphPath: "me", parameters: parameters).startWithCompletionHandler({ (connection, result, error) in
                 if let error = error {
                     controller.printError(error)
                 } else {
-                    var plangoParameters = [String:AnyObject]()
-                    var socialConnects = [[String:AnyObject]]()
+                    let email = result.valueForKey("email") as! String
+                    let userID = result.valueForKey("id") as! String
                     
-                    let email = result.valueForKey("email")
-                    let userName = result.valueForKey("name")?.lowercaseString
-                    let displayName = "\(result.valueForKey("first_name")) \(result.valueForKey("last_name"))"
-                    let userID = result.valueForKey("id")
-                    
+                    if controller.loginSegment.selectedSegmentIndex == 0 { //login via facebook
+                        
+                        let endPoint = "\(Plango.EndPoint.FacebookLogin.rawValue)\(userID)"
+                        self.handlePlangoAuth(controller, endPoint: endPoint, email: nil, completionMessage: nil, parameters: nil)
+                        
+                    } else { //new account via facebook
+                        self.handlePlangoAuth(controller, endPoint: Plango.EndPoint.NewAccount.rawValue, email: email, completionMessage: nil, parameters: self.getParametersFromFacebook(result))
 
-                    plangoParameters["email"] = email
-                    plangoParameters["username"] = userName!
-                    
-                    socialConnects.append(["network" : "Facebook", "socialId" : userID!, "displayName" : displayName, "email" : email!])
-                    
-                    plangoParameters["socialConnects"] = socialConnects
-                    plangoParameters["fbSignup"] = true
-                    
-                    Plango.sharedInstance.authPlangoUser(Plango.EndPoint.NewAccount.rawValue, parameters: plangoParameters, onCompletion: { (user, error) in
-                        controller.tableView.hideSimpleLoading()
-
-                        if let error = error {
-                            controller.printPlangoError(error)
-                            if let message = error.message {
-                                controller.tableView.quickToast(message)
-                            }
-                        } else if let user = user {
-                            Plango.sharedInstance.currentUser = user
-                            
-                            NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(user), forKey: UserDefaultsKeys.currentUser.rawValue)
-                            
-                            controller.tableView.imageToast("Check your email", image: UIImage(named: "whiteCheck")!, notify: true)
-                            
-                        }
-                    })
+                    }
 
                 }
             })
+            
+
         // account creation, this has to be before regular login as far as if let statements are concerned
         } else if let userName = notification.userInfo?["userName"] as? String, let userEmail = notification.userInfo?["userEmail"] as? String, let password = notification.userInfo?["password"] as? String {
             
             let parameters = ["username" : userName, "email" : userEmail, "password" : password]
             
-            Plango.sharedInstance.authPlangoUser(Plango.EndPoint.NewAccount.rawValue, parameters: parameters, onCompletion: { (user, error) in
-                controller.tableView.hideSimpleLoading()
-                
-                if let error = error {
-                    controller.printPlangoError(error)
-                    if let message = error.message {
-                        controller.tableView.quickToast(message)
-                    }
-                } else if let user = user {
-                    Plango.sharedInstance.currentUser = user
-                    
-                    NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(user), forKey: UserDefaultsKeys.currentUser.rawValue)
-                    
-                    controller.tableView.imageToast("Check your email", image: UIImage(named: "whiteCheck")!, notify: true)
-                    
-                }
-            })
+            self.handlePlangoAuth(controller, endPoint: Plango.EndPoint.NewAccount.rawValue, email: userEmail, completionMessage: "Check your Email", parameters: parameters)
+            
             //regular login
         } else if let userEmail = notification.userInfo?["userEmail"] as? String, let password = notification.userInfo?["password"] as? String {
         
             let parameters = ["email" : userEmail, "password" : password]
             
-            Plango.sharedInstance.authPlangoUser(Plango.EndPoint.Login.rawValue, parameters: parameters) { (user, error) in
-                controller.tableView.hideSimpleLoading()
-                if let error = error {
-                    
-                    if error.statusCode == 403 {
-                        self.presentEmailConfirmation(controller, email: userEmail, error: error)
-                    } else {
-                        if let message = error.message {
-                            controller.tableView.quickToast(message)
-                        }
-                    }
-                    controller.printPlangoError(error)
-                } else if let user = user {
-                    Plango.sharedInstance.currentUser = user
-                    
-                    NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(user), forKey: UserDefaultsKeys.currentUser.rawValue)
-                    
-                    controller.tableView.imageToast(nil, image: UIImage(named: "whiteCheck")!, notify: true)
-                    
-                }
-            }
+            self.handlePlangoAuth(controller, endPoint: Plango.EndPoint.Login.rawValue, email: userEmail, completionMessage: nil, parameters: parameters)
         }
     }
     
@@ -174,6 +166,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let controller = notification.userInfo!["controller"] as! UITableViewController
         controller.tableView.showSimpleLoading()
         
+        FBSDKLoginManager().logOut()
+
         Plango.sharedInstance.currentUser = nil
         NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKeys.currentUser.rawValue)
         

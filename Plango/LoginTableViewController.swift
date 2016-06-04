@@ -11,8 +11,6 @@ import FBSDKLoginKit
 
 class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     
-
-    
     var loginSegment: UISegmentedControl!
     
     lazy var usernameTextField: UITextField = {
@@ -352,6 +350,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
 extension LoginTableViewController: FBSDKLoginButtonDelegate {
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
         NSNotificationCenter.defaultCenter().postNotificationName(Notify.Login.rawValue, object: nil, userInfo: ["controller" : self, "FBSDKLoginResult" : result])
+
     }
     
     func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {

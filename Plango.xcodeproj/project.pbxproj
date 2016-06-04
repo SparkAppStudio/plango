@@ -202,7 +202,6 @@
 			isa = PBXGroup;
 			children = (
 				C3237E291CADC402008293D6 /* Main.storyboard */,
-				C3B1505F1CB4DD00008E6A4E /* SettingsTableViewController.swift */,
 				C3978CCD1CB6FC4C001028D5 /* MyPlansViewController.swift */,
 				C3EC02781CC18FF200CAC4C1 /* ProfileHeader.xib */,
 				C3B150611CB4DD73008E6A4E /* DiscoverTableViewController.swift */,
@@ -222,6 +221,7 @@
 			isa = PBXGroup;
 			children = (
 				C3B1506E1CB4E0F2008E6A4E /* Utilities.storyboard */,
+				C3B1505F1CB4DD00008E6A4E /* SettingsTableViewController.swift */,
 				C3B150661CB4DE8E008E6A4E /* LoginTableViewController.swift */,
 				C3C613F21CE65D8B00DEF329 /* ReportViewController.swift */,
 				C3978CCF1CB70118001028D5 /* SearchViewController.swift */,
