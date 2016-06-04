@@ -126,10 +126,26 @@ class PlansTableViewController: UITableViewController {
         let report = UITableViewRowAction(style: .Destructive, title: "Report") { action, index in
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 tableView.setEditing(false, animated: true)
-                let reportVC = UIStoryboard(name: StoryboardID.Main.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.Report.rawValue) as! ReportViewController
+                
                 let cell = tableView.cellForRowAtIndexPath(indexPath) as! PlansTableViewCell
-                reportVC.plan = cell.plan
-                self.showViewController(reportVC, sender: nil)
+                cell.contentView.showSimpleLoading()
+                if let plan = cell.plan {
+                    Plango.sharedInstance.reportSpam(Plango.EndPoint.Report.rawValue, planID: plan.id, onCompletion: { (error) in
+                        cell.contentView.hideSimpleLoading()
+                        if let error = error {
+                            self.printPlangoError(error)
+                            guard let message = error.message else {return}
+                            cell.contentView.quickToast(message)
+                        } else {
+                            cell.contentView.imageToast("Successfully Sent", image: UIImage(named: "whiteCheck")!, notify: true)
+                        }
+                    })
+                }
+                
+                //NOTE: - hide this for now, but would let user type in message saying why they object
+//                let reportVC = UIStoryboard(name: StoryboardID.Main.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.Report.rawValue) as! ReportViewController
+//                reportVC.plan = cell.plan
+//                self.showViewController(reportVC, sender: nil)
             })
         }
         return [report]
