@@ -26,6 +26,7 @@ class Plango: NSObject {
         case Home = "http://dev.plango.us/"
         case Report = "http://dev.plango.us/reportSpam/"
         case MyPlans = "http://dev.plango.us/me/plans"
+        case SendConfirmation = "http://dev.plango.us/resendconfirmation"
     }
     
     let env = NSBundle.mainBundle().infoDictionary!["BASE_ENDPOINT"] as! String
@@ -225,6 +226,27 @@ class Plango: NSObject {
         let spamEndPoint = "\(endPoint)\(planID)"
         
         Alamofire.request(.POST, spamEndPoint).validate().responseJSON { response in
+            switch response.result {
+            case .Success(let value):
+                let dataJSON = JSON(value)
+                if dataJSON["status"].stringValue == "success" || dataJSON["status"].intValue == 200 {
+                    onCompletion(nil)
+                } else {
+                    let newError = PlangoError(statusCode: response.response?.statusCode, message: dataJSON["message"].stringValue)
+                    
+                    onCompletion(newError)
+                }
+            case .Failure(let error):
+                let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
+                
+                onCompletion(newError)
+            }
+        }
+    }
+    
+    func confirmEmail(endPoint: String, email: String, onCompletion: ReportSpamResponse) -> Void {
+        let parameters = ["email" : email]
+        Alamofire.request(.POST, endPoint, parameters: parameters).validate().responseJSON { response in
             switch response.result {
             case .Success(let value):
                 let dataJSON = JSON(value)

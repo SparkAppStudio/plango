@@ -179,7 +179,6 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
             }
             
         } else {
-            //TODO: - create user
             guard let userEmail = emailTextField.text else {
                 self.tableView.quickToast("Please Enter a Email")
                 return

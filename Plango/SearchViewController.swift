@@ -93,6 +93,14 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 //        searchButton.makeRoundCorners(64)
+
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.segmentedPager.pager.showPageAtIndex(1, animated: false)
+
     }
     
     func addPage(title: String, controller: UIViewController) {

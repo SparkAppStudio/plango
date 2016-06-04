@@ -688,6 +688,10 @@ extension UIResponder {
             print("In \(self) Status Code: \(status) Message: \(message)")
         }
     }
+    
+    func printError(error: NSError) {
+        print("In \(self) Code: \(error.code) Failure Reason: \(error.localizedFailureReason)")
+    }
 }
 
 extension UIView {

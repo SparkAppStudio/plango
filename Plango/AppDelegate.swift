@@ -43,28 +43,90 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
     }
     
+    func presentEmailConfirmation(controller: UIViewController, email: String, error: PlangoError) {
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            let alert = UIAlertController(title: "Email Confirmation", message: error.message, preferredStyle: .Alert)
+            let sendConfirmation = UIAlertAction(title: "Resend", style: .Default, handler: { (action) in
+                //Plango send email
+                Plango.sharedInstance.confirmEmail(Plango.EndPoint.SendConfirmation.rawValue, email: email, onCompletion: { (error) in
+                    if let error = error {
+                        controller.printPlangoError(error)
+                        if let message = error.message {
+                            controller.view.quickToast(message)
+                        }
+                        
+                    } else {
+                        controller.view.imageToast("Email Sent", image: UIImage(named: "whiteCheck")!, notify: false)
+                    }
+                })
+            })
+            let cancel = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in }
+            alert.addAction(cancel)
+            alert.addAction(sendConfirmation)
+            
+            controller.presentViewController(alert, animated: true, completion: nil)
+        })
+    }
+    
     func appLogin(notification: NSNotification) {
         //every login notification should send controller so UI can be modified here loading screen etc.
-        let controller = notification.userInfo!["controller"] as! UITableViewController
+        let controller = notification.userInfo!["controller"] as! LoginTableViewController
         controller.tableView.showSimpleLoading()
 
         //facebook login
-        if let result = notification.userInfo?["FBSDKLoginResult"] as? FBSDKLoginManagerLoginResult {
-            let bla = result.token
-            //TODO: - Convert FB result to Plango User, query user based on email?
-//            NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(user!), forKey: UserDefaultsKeys.currentUser.rawValue)
+        if let _ = notification.userInfo?["FBSDKLoginResult"] as? FBSDKLoginManagerLoginResult {
+//            FBSDKProfile.currentProfile().userID
+            
+            let parameters = ["fields":"id, name, email"]
+            FBSDKGraphRequest.init(graphPath: "me", parameters: parameters).startWithCompletionHandler({ (connection, result, error) in
+                if let error = error {
+                    controller.printError(error)
+                } else {
+                    var plangoParameters = [String:AnyObject]()
+                    var socialConnects = [[String:AnyObject]]()
+                    
+                    let email = result.valueForKey("email")
+                    let userName = result.valueForKey("name")?.lowercaseString
+                    let displayName = "\(result.valueForKey("first_name")) \(result.valueForKey("last_name"))"
+                    let userID = result.valueForKey("id")
+                    
 
-            //be sure and hide loading, this doesnt work quite as well because of how facebook delegate is setup
-            controller.tableView.hideSimpleLoading()
-            controller.tableView.imageToast(nil, image: UIImage(named: "whiteCheck")!, notify: true)
+                    plangoParameters["email"] = email
+                    plangoParameters["username"] = userName!
+                    
+                    socialConnects.append(["network" : "Facebook", "socialId" : userID!, "displayName" : displayName, "email" : email!])
+                    
+                    plangoParameters["socialConnects"] = socialConnects
+                    plangoParameters["fbSignup"] = true
+                    
+                    Plango.sharedInstance.authPlangoUser(Plango.EndPoint.NewAccount.rawValue, parameters: plangoParameters, onCompletion: { (user, error) in
+                        controller.tableView.hideSimpleLoading()
 
-        // account creation, this as to be before regular login as far as if let statements are concerned 
+                        if let error = error {
+                            controller.printPlangoError(error)
+                            if let message = error.message {
+                                controller.tableView.quickToast(message)
+                            }
+                        } else if let user = user {
+                            Plango.sharedInstance.currentUser = user
+                            
+                            NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(user), forKey: UserDefaultsKeys.currentUser.rawValue)
+                            
+                            controller.tableView.imageToast("Check your email", image: UIImage(named: "whiteCheck")!, notify: true)
+                            
+                        }
+                    })
+
+                }
+            })
+        // account creation, this has to be before regular login as far as if let statements are concerned
         } else if let userName = notification.userInfo?["userName"] as? String, let userEmail = notification.userInfo?["userEmail"] as? String, let password = notification.userInfo?["password"] as? String {
             
             let parameters = ["username" : userName, "email" : userEmail, "password" : password]
             
             Plango.sharedInstance.authPlangoUser(Plango.EndPoint.NewAccount.rawValue, parameters: parameters, onCompletion: { (user, error) in
                 controller.tableView.hideSimpleLoading()
+                
                 if let error = error {
                     controller.printPlangoError(error)
                     if let message = error.message {
@@ -89,17 +151,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let error = error {
                     
                     if error.statusCode == 403 {
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            let alert = UIAlertController(title: "Email Confirmation", message: error.message, preferredStyle: .Alert)
-                            let sendConfirmation = UIAlertAction(title: "Resend", style: .Default, handler: { (action) in
-                                //Plango send email
-                            })
-                            let cancel = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in }
-                            alert.addAction(cancel)
-                            alert.addAction(sendConfirmation)
-                            
-                            controller.presentViewController(alert, animated: true, completion: nil)
-                        })
+                        self.presentEmailConfirmation(controller, email: userEmail, error: error)
                     } else {
                         if let message = error.message {
                             controller.tableView.quickToast(message)
