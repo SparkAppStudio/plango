@@ -81,7 +81,6 @@ class Plan: NSObject {
 
         if let startDate = dictionary["start"] as? String {
             newPlan.startDate = dateFormatter.dateFromString(startDate)
-            print(dateFormatter.dateFromString(startDate))
         }
         
         if let endDate = dictionary["end"] as? String {

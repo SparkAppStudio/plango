@@ -31,7 +31,7 @@
                         <constraint firstAttribute="height" constant="60" id="0s4-Qe-mni"/>
                         <constraint firstAttribute="width" constant="60" id="gtH-ht-eq1"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="38"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                     <variation key="default">
@@ -49,7 +49,7 @@
                         <constraint firstAttribute="height" constant="60" id="cTL-9C-oZL"/>
                         <constraint firstAttribute="width" secondItem="xNC-WH-GYZ" secondAttribute="height" multiplier="1:1" id="vEY-FT-AG9"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="38"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                     <variation key="default">
@@ -58,14 +58,14 @@
                         </mask>
                     </variation>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ami-Kq-cPc">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="999" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ami-Kq-cPc">
                     <rect key="frame" x="223" y="94" width="70" height="70"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="60" id="G3w-L1-aQr"/>
                         <constraint firstAttribute="height" constant="60" id="xDI-eM-LtA"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="38"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                     <variation key="default">

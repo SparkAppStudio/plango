@@ -36,12 +36,11 @@ class SearchDestinationViewController: UIViewController {
         if let parent = parentViewController as? SearchViewController {
             parent.collectSearchParameters()
             self.tableView.showSimpleLoading()
-            Plango.sharedInstance.findPlans(Plango.EndPoint.FindPlans.rawValue, minDuration: parent.minDuration, maxDuration: parent.maxDuration, tags: parent.selectedTags, selectedDestinations: parent.selectedDestinations, user: nil, isJapanSearch: nil, onCompletion: { (receivedPlans, errorString) in
+            Plango.sharedInstance.findPlans(Plango.EndPoint.FindPlans.rawValue, minDuration: parent.minDuration, maxDuration: parent.maxDuration, tags: parent.selectedTags, selectedDestinations: parent.selectedDestinations, user: nil, isJapanSearch: nil, onCompletion: { (receivedPlans, error) in
                 self.tableView.hideSimpleLoading()
-                if let error = errorString {
-                    print(error)
+                if let error = error {
+                    self.printPlangoError(error)
                 } else if let plans = receivedPlans {
-                    print(plans.count)
                     let plansVC = PlansTableViewController()
                     plansVC.plansArray = plans
                     self.showViewController(plansVC, sender: nil)
@@ -207,7 +206,7 @@ extension SearchDestinationViewController: GMSAutocompleteResultsViewControllerD
     func resultsController(resultsController: GMSAutocompleteResultsViewController,
                            didFailAutocompleteWithError error: NSError){
         // TODO: handle the error.
-        print("Error: ", error.description)
+        self.printError(error)
     }
     
     // Turn the network activity indicator on and off again.

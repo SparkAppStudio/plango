@@ -14,11 +14,6 @@ import SwiftyJSON
 class Plango: NSObject {
     static let sharedInstance = Plango()
     
-    func readLine(a: Int, b: Int) {
-        let sum = a + b
-        print(sum)
-    }
-    
     enum EndPoint: String {
         case UserByID = "http://dev.plango.us/users/"
         case PlanByID = "http://dev.plango.us/plans/"
@@ -134,8 +129,6 @@ class Plango: NSObject {
             }
             
             let cleanedTags = String(tagString.characters.dropLast())
-            
-            print(cleanedTags)
             
             parameters["tags"] = cleanedTags
         }

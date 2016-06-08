@@ -73,9 +73,7 @@ class MyPlansViewController: MXSegmentedPagerController {
 //            }
             
             if let endPoint = user.avatar {
-                print(endPoint)
                 let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
-                print(cleanURL?.absoluteString)
                 avatarImageView.makeCircle()
                 avatarImageView.af_setImageWithURL(cleanURL!)
             }
@@ -115,7 +113,6 @@ class MyPlansViewController: MXSegmentedPagerController {
     }
     
     override func segmentedPager(segmentedPager: MXSegmentedPager, didScrollWithParallaxHeader parallaxHeader: MXParallaxHeader) {
-        print(parallaxHeader.progress)
         //use or override for refresh effect
         if parallaxHeader.progress > 0.2 {
             if plansController.fetchRequest == nil {

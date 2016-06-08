@@ -40,7 +40,7 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        checkForCurrentUserCookies()
+//        checkForCurrentUserCookies()
         if Plango.sharedInstance.currentUser == nil {
             accountBarButton.title = "LOGIN"
         } else {
@@ -88,7 +88,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        print("hi")
+        
     }
     
 

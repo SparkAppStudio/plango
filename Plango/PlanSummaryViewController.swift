@@ -50,6 +50,11 @@ class PlanSummaryViewController: UIViewController {
     
     var plan: Plan!
     
+    let calendar = NSCalendar.currentCalendar()
+    var days = 0
+    var hours = 0
+    var seconds = 0
+    
     lazy var downloadButton: UIButton = {
         let button = UIButton()
 //        button.snp_makeConstraints(closure: { (make) in
@@ -117,7 +122,7 @@ class PlanSummaryViewController: UIViewController {
         request.location = CZWeatherLocation(fromCoordinate: coordinate)
         request.sendWithCompletion { (data, error) -> Void in
             if let error = error {
-                print(error)
+                self.printError(error)
             } else if let weather = data {
                 let forecast = weather.dailyForecasts.first as! CZWeatherForecastCondition
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -139,7 +144,7 @@ class PlanSummaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let timer = NSTimer.scheduledTimerWithTimeInterval(1, target: <#T##AnyObject#>, selector: <#T##Selector#>, userInfo: <#T##AnyObject?#>, repeats: <#T##Bool#>)
+        let _ = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(timerDidFire), userInfo: nil, repeats: true)
         
         let bundle = NSBundle(forClass: self.dynamicType)
         
@@ -217,7 +222,6 @@ class PlanSummaryViewController: UIViewController {
             self.navigationItem.title = plan.name
             
             if let endPoint = plan.avatar {
-                print(endPoint)
                 let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
                 coverImageView.af_setImageWithURL(cleanURL!)
             } else {coverImageView.backgroundColor = UIColor.plangoTeal()}
@@ -251,7 +255,7 @@ class PlanSummaryViewController: UIViewController {
 
 //            viewsCountLabel.text = "\(views) Inspired"
 //            usedCountLabel.text = "\(used) Used"
-            print(plan.startDate)
+            
             guard let startDate = plan.startDate else {return}
             guard let endDate = plan.endDate else {return}
             let formatter = NSDateFormatter()
@@ -264,22 +268,31 @@ class PlanSummaryViewController: UIViewController {
             detailsEndDateLabel.text = endDateString
             
             startTimer(startDate)
-
         }
         weather()
 
     }
     
+    func timerDidFire() {
+        if let startDate = plan.startDate {
+            startTimer(startDate)
+        }
+    }
+    
     func startTimer(startDate: NSDate) {
         let today = NSDate()
-        let calendar = NSCalendar.currentCalendar()
-        var days = 0
-        var hours = 0
-        var seconds = 0
         
         days = calendar.components(.Day, fromDate: today, toDate: startDate, options: []).day
-        hours = calendar.components(.Hour, fromDate: today, toDate: startDate, options: []).hour
-        seconds = calendar.components(.Second, fromDate: today, toDate: startDate, options: []).second
+        
+        let startMinusDays = calendar.dateByAddingUnit(.Day, value: -days, toDate: startDate, options: [])
+        
+        hours = calendar.components(.Hour, fromDate: today, toDate: startMinusDays!, options: []).hour
+        
+        let startMinusHours = calendar.dateByAddingUnit(.Hour, value: -hours, toDate: startMinusDays!, options: [])
+
+        
+        seconds = calendar.components(.Second, fromDate: today, toDate: startMinusHours!, options: []).second
+        
         
         startDaysLabel.text = days.description
         startHoursLabel.text = hours.description

@@ -283,7 +283,6 @@ extension DiscoverTableViewController: UICollectionViewDataSource, UICollectionV
                 self.printPlangoError(error)
             } else if let tags = receivedTags {
                 self.tagsArray = tags
-                print(self.tagsArray.count.description)
                 self.tableView.reloadData()
             }
         }
@@ -307,10 +306,10 @@ extension DiscoverTableViewController: UICollectionViewDataSource, UICollectionV
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! TypeCollectionViewCell
         guard let tag = cell.plangoTag else {return}
         self.tableView.showSimpleLoading()
-        Plango.sharedInstance.findPlans(Plango.EndPoint.FindPlans.rawValue, minDuration: nil, maxDuration: nil, tags: [tag], selectedDestinations: nil, user: nil, isJapanSearch: nil) { (receivedPlans, errorString) in
+        Plango.sharedInstance.findPlans(Plango.EndPoint.FindPlans.rawValue, minDuration: nil, maxDuration: nil, tags: [tag], selectedDestinations: nil, user: nil, isJapanSearch: nil) { (receivedPlans, error) in
             self.tableView.hideSimpleLoading()
-            if let error = errorString {
-                print(error)
+            if let error = error {
+                self.printPlangoError(error)
             } else if let plans = receivedPlans {
                 let plansVC = PlansTableViewController()
                 plansVC.plansArray = plans

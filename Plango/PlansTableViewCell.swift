@@ -37,7 +37,6 @@ class PlansTableViewCell: UITableViewCell {
             planNameLabel.text = cellPlan.name
             
             guard let endPoint = cellPlan.avatar else {return}
-            print(endPoint)
             let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
             coverImageView.af_setImageWithURL(cleanURL!)
             

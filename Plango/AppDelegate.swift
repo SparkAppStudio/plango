@@ -172,7 +172,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKeys.currentUser.rawValue)
         
         Plango.sharedInstance.alamoManager.session.resetWithCompletionHandler {
-            print("logged out")
             controller.tableView.hideSimpleLoading()
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 controller.viewWillAppear(true)

@@ -38,7 +38,7 @@ class PlansTableViewController: UITableViewController {
             self.tableView.hideSimpleLoading()
             self.fetchRequest = nil
             if let error = error {
-                print(error.message)
+                self.printPlangoError(error)
             } else if let plans = receivedPlans {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.plansArray = plans
@@ -61,11 +61,11 @@ class PlansTableViewController: UITableViewController {
     
     func findPlans(endPoint: String, durationFrom: Int?, durationTo: Int?, tags: [Tag]?, selectedPlaces: [Destination]?, user: User?, isJapanSearch: Bool?) {
         self.tableView.showSimpleLoading()
-        Plango.sharedInstance.findPlans(endPoint, minDuration: durationFrom, maxDuration: durationTo, tags: tags, selectedDestinations: selectedPlaces, user: user, isJapanSearch: isJapanSearch) { (receivedPlans, errorString) in
+        Plango.sharedInstance.findPlans(endPoint, minDuration: durationFrom, maxDuration: durationTo, tags: tags, selectedDestinations: selectedPlaces, user: user, isJapanSearch: isJapanSearch) { (receivedPlans, error) in
             self.tableView.hideSimpleLoading()
             
-            if let error = errorString {
-                print(error)
+            if let error = error {
+                self.printPlangoError(error)
             } else if let plans = receivedPlans {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.plansArray = plans
@@ -106,7 +106,6 @@ class PlansTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Plans.rawValue, forIndexPath: indexPath) as! PlansTableViewCell
         
         let plan = self.plansArray[indexPath.row]
-        print("the plan duration is \(plan.durationDays?.description)")
         cell.plan = plan
         
         cell.configure()
