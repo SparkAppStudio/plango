@@ -19,13 +19,16 @@ class Plan: NSObject {
 
     var authorID: String!
     
+    var durationDays: Int?
     var startDate: NSDate?
     var endDate: NSDate?
-    var durationDays: Int32?
     
     var lastViewedDate: NSDate?
     var lastUpdatedDate: NSDate?
     var createdDate: NSDate?
+    
+    var viewCount: Int?
+    var usedCount: Int?
     
     var spamReported: NSArray?
     var members: NSArray?
@@ -74,17 +77,14 @@ class Plan: NSObject {
         newPlan.planDescription = dictionary["description"] as? String
         newPlan.isPublic = dictionary["is_public"] as? Bool
         newPlan.authorID = dictionary["created_by"] as! String
-        
+        newPlan.durationDays = dictionary["duration"] as? Int
+
         if let startDate = dictionary["start"] as? String {
             newPlan.startDate = dateFormatter.dateFromString(startDate)
         }
         
         if let endDate = dictionary["end"] as? String {
             newPlan.endDate = dateFormatter.dateFromString(endDate)
-        }
-        
-        if let duration = dictionary["duration"] as? String {
-            newPlan.durationDays = Int32(duration)
         }
         
         if let lastViewed = dictionary["last_viewed"] as? String {
@@ -98,6 +98,9 @@ class Plan: NSObject {
         if let createdDate = dictionary["created_date"] as? String {
             newPlan.createdDate = dateFormatter.dateFromString(createdDate)
         }
+        
+        newPlan.viewCount = dictionary["viewCount"] as? Int
+        newPlan.usedCount = dictionary["usedCount"] as? Int
         
         newPlan.spamReported = dictionary["spamReported"] as? NSArray
         newPlan.members = dictionary["members"] as? NSArray

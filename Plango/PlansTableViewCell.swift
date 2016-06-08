@@ -13,15 +13,15 @@ class PlansTableViewCell: UITableViewCell {
     
     @IBOutlet weak var coverImageView: UIImageView!
     @IBOutlet weak var profileImageView: UIImageView!
-    @IBOutlet weak var viewsIconImageView: UIImageView!
-    @IBOutlet weak var copiesIconImageView: UIImageView!
+//    @IBOutlet weak var viewsIconImageView: UIImageView!
+//    @IBOutlet weak var copiesIconImageView: UIImageView!
     
     @IBOutlet weak var profileNameLabel: UILabel!
     @IBOutlet weak var planNameLabel: UILabel!
     @IBOutlet weak var planTagsLabel: UILabel!
     @IBOutlet weak var planLengthLabel: UILabel!
     @IBOutlet weak var viewsCountLabel: UILabel!
-    @IBOutlet weak var copiesCountLabel: UILabel!
+    @IBOutlet weak var usedCountLabel: UILabel!
     
     
     var user: User?
@@ -51,7 +51,19 @@ class PlansTableViewCell: UITableViewCell {
             let cleanedTags = String(allTags.characters.dropLast(2))
             planTagsLabel.text = cleanedTags
             
-            //TODO: - plan length, views count and copies count
+            guard let days = cellPlan.durationDays else {return}
+            
+            if days == 1 {
+                planLengthLabel.text = "\(days) Day"
+            } else {
+                planLengthLabel.text = "\(days) Days"
+            }
+            
+            guard let views = cellPlan.viewCount else {return}
+            guard let used = cellPlan.usedCount else {return}
+            
+            viewsCountLabel.text = "\(views) Inspired"
+            usedCountLabel.text = "\(used) Used"
         }
     }
     
