@@ -231,6 +231,36 @@ class PlanSummaryViewController: UIViewController {
             }
             let cleanedTags = String(allTags.characters.dropLast(2))
             detailsTagsLabel.text = cleanedTags
+            
+            guard let days = plan.durationDays else {return}
+            
+            if days == 1 {
+                dayLabel.text = "Day"
+                durationLabel.text = days.description
+            } else {
+                dayLabel.text = "Days"
+                durationLabel.text = days.description
+            }
+            
+            //TODO: - Add this to xib
+
+//            guard let views = plan.viewCount else {return}
+//            guard let used = plan.usedCount else {return}
+
+//            viewsCountLabel.text = "\(views) Inspired"
+//            usedCountLabel.text = "\(used) Used"
+            
+            guard let startDate = plan.startDate else {return}
+            guard let endDate = plan.endDate else {return}
+            let formatter = NSDateFormatter()
+            formatter.dateStyle = NSDateFormatterStyle.LongStyle
+            let dateString = formatter.stringFromDate(startDate)
+            let endDateString = formatter.stringFromDate(endDate)
+            dateLabel.text = dateString
+            
+            detailsStartDateLabel.text = dateString
+            detailsEndDateLabel.text = endDateString
+
         }
         
         weather()
