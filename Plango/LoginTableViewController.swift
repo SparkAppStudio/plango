@@ -61,7 +61,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         let button = UIButton()
         button.backgroundColor = UIColor.plangoOrange()
         button.tintColor = UIColor.whiteColor()
-        button.setTitle("Log In", forState: UIControlState.Normal)
+        button.setTitle("Log in", forState: UIControlState.Normal)
         button.addTarget(self, action: #selector(didTapLogin), forControlEvents: .TouchUpInside)
         return button
     }()
@@ -134,7 +134,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         stackView.bottomAnchor.constraintEqualToAnchor(footerView.bottomAnchor).active = true
         stackView.topAnchor.constraintEqualToAnchor(footerView.topAnchor).active = true
         
-        loginButton.heightAnchor.constraintEqualToConstant(30).active = true
+        loginButton.heightAnchor.constraintEqualToConstant(50).active = true
         loginButton.widthAnchor.constraintEqualToConstant(self.view.frame.width - 16).active = true
         loginButton.makeRoundCorners(90)
         facebookButton.heightAnchor.constraintEqualToAnchor(loginButton.heightAnchor).active = true
@@ -143,9 +143,12 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     
     func didChangeLoginSegment() {
         if loginSegment.selectedSegmentIndex == 0 {
-            loginButton.setTitle("Log In", forState: .Normal)
+            loginButton.setTitle("Log in", forState: .Normal)
+            facebookButton.setAttributedTitle(NSAttributedString(string: "Log in with Facebook"), forState: .Normal)
         } else {
-            loginButton.setTitle("Sign Up", forState: .Normal)
+            loginButton.setTitle("Sign up", forState: .Normal)
+            facebookButton.setAttributedTitle(NSAttributedString(string: "Sign up with Facebook"), forState: .Normal)
+
         }
         tableView.reloadData()
     }
@@ -294,7 +297,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 68
+        return 108
     }
     
     override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -349,7 +352,14 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
 
 extension LoginTableViewController: FBSDKLoginButtonDelegate {
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
-        NSNotificationCenter.defaultCenter().postNotificationName(Notify.Login.rawValue, object: nil, userInfo: ["controller" : self, "FBSDKLoginResult" : result])
+        if error != nil {
+            printError(error)
+            self.tableView.quickToast(error.localizedFailureReason!)
+        } else if result.isCancelled == false {
+            NSNotificationCenter.defaultCenter().postNotificationName(Notify.Login.rawValue, object: nil, userInfo: ["controller" : self, "FBSDKLoginResult" : result])
+        } else {
+            //user cancelled fb login
+        }
 
     }
     

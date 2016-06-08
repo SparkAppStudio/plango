@@ -27,7 +27,10 @@ class MyPlansViewController: MXSegmentedPagerController {
     lazy var plansController: PlansTableViewController = {
         let plansVC = PlansTableViewController()
         plansVC.plansEndPoint = Plango.EndPoint.MyPlans.rawValue
-        plansVC.fetchPlans(plansVC.plansEndPoint)
+        if Plango.sharedInstance.currentUser != nil {
+            plansVC.fetchPlans(plansVC.plansEndPoint)
+        }
+
         return plansVC
     }()
 
@@ -61,12 +64,13 @@ class MyPlansViewController: MXSegmentedPagerController {
         super.viewWillAppear(animated)
         
         if let user = Plango.sharedInstance.currentUser {
+            
             if let name = user.displayName {
                 userNameLabel.text = name
             }
-            if let name = user.userName {
-                userNameLabel.text = name
-            }
+//            if let name = user.userName {
+//                userNameLabel.text = name
+//            }
             
             if let endPoint = user.avatar {
                 print(endPoint)
@@ -76,6 +80,11 @@ class MyPlansViewController: MXSegmentedPagerController {
                 avatarImageView.af_setImageWithURL(cleanURL!)
             }
             
+        } else {
+            userNameLabel.text = nil
+            avatarImageView.af_cancelImageRequest()
+            avatarImageView.image = nil
+            plansController.clearTable()
         }
     }
     
@@ -106,9 +115,12 @@ class MyPlansViewController: MXSegmentedPagerController {
     }
     
     override func segmentedPager(segmentedPager: MXSegmentedPager, didScrollWithParallaxHeader parallaxHeader: MXParallaxHeader) {
+        print(parallaxHeader.progress)
         //use or override for refresh effect
-        if parallaxHeader.progress > 0.8 {
-            plansController.fetchPlans(plansController.plansEndPoint)
+        if parallaxHeader.progress > 0.2 {
+            if plansController.fetchRequest == nil {
+                plansController.fetchPlans(plansController.plansEndPoint)
+            }
         }
     }
     

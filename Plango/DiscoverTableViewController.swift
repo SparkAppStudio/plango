@@ -33,8 +33,9 @@ class DiscoverTableViewController: UITableViewController {
     lazy var tagsArray = [Tag]()
     
     lazy var usersDictionary = [NSIndexPath:User]()
-    lazy var popularPlansArray = [Plan]?()
-//    lazy var favoritePlansArray = [Plan]?()
+    lazy var popularDestinationsPlansArray = [Plan]?()
+    lazy var plangoFavoriteCollectionsArray = [PlangoCollection]?()
+    var plangoFavoritesDictionary: [String:[Plan]]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,9 +51,9 @@ class DiscoverTableViewController: UITableViewController {
         
         fetchTags(Plango.EndPoint.AllTags.rawValue)
 
-//        fetchPopularPlans()
+        fetchPopularDestinations()
         
-        //TODO: - fetchCollections, get title's from a list I guess
+        fetchPlangoFavMeta()
     }
 
     override func didReceiveMemoryWarning() {
@@ -71,16 +72,52 @@ class DiscoverTableViewController: UITableViewController {
         }
     }
     
-    func fetchPopularPlans() {
-        let tag = Tag()
-        tag.id = "a;sdjklf"
-        tag.name = "Adventerous"
-        
-        Plango.sharedInstance.findPlans(Plango.EndPoint.FindPlans.rawValue, minDuration: nil, maxDuration: nil, tags: [tag], selectedDestinations: nil, user: nil, isJapanSearch: nil) { (receivedPlans, errorString) in
-            if let error = errorString {
-                print(error)
-            } else if let plans = receivedPlans {
-                self.popularPlansArray = plans
+    func fetchPopularDestinations() {
+        Plango.sharedInstance.findPlans(Plango.EndPoint.PopularDestination.rawValue, minDuration: nil, maxDuration: nil, tags: nil, selectedDestinations: nil, user: nil, isJapanSearch: nil) { (plans, error) in
+            if let error = error {
+                self.printPlangoError(error)
+            } else if let plans = plans {
+                self.popularDestinationsPlansArray = plans
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    func fetchPlangoFavMeta() {
+        Plango.sharedInstance.fetchPlangoFavoritesMeta(Plango.EndPoint.PlangoFavsMeta.rawValue) { (plangoCollections, error) in
+            if let error = error {
+                self.printPlangoError(error)
+            } else if let collections = plangoCollections {
+                
+                //meta data set
+                self.plangoFavoriteCollectionsArray = collections
+
+                //now get plans and then reload tableView
+                self.fetchPlangoFavorites()
+            }
+        }
+    }
+    
+    func fetchPlangoFavorites() {
+        Plango.sharedInstance.findPlans(Plango.EndPoint.PlangoFavorites.rawValue, minDuration: nil, maxDuration: nil, tags: nil, selectedDestinations: nil, user: nil, isJapanSearch: nil) { (plans, error) in
+            if let error = error {
+                self.printPlangoError(error)
+            } else if let plans = plans {
+                self.plangoFavoritesDictionary = [String:[Plan]]()
+
+                for collection in self.plangoFavoriteCollectionsArray! {
+                    var plansArray = [Plan]()
+                    
+                    for plan in plans {
+                        if plan.plangoFavorite == collection.name {
+                            plansArray.append(plan)
+                        }
+                    }
+                    
+                    self.plangoFavoritesDictionary![collection.name!] = plansArray
+                }
+//                self.plangoFavoritesDictionary = tempDictionary
+                //reload table after all favorites data is set
                 self.tableView.reloadData()
             }
         }
@@ -89,8 +126,72 @@ class DiscoverTableViewController: UITableViewController {
     // MARK: - Table view Delegate
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.showViewController(PlansTableViewController(), sender: nil)
-        print("select table")
+        
+        switch indexPath.section {
+        case DiscoverTitles.TypeCollections.section: break
+            
+        case DiscoverTitles.PlangoCollections.section:
+            let cell = tableView.cellForRowAtIndexPath(indexPath) as! TopCollectionsTableViewCell
+            if let plans = cell.plans {
+                let plansVC = PlansTableViewController()
+                plansVC.plansArray = plans
+                self.showViewController(plansVC, sender: nil)
+            }
+
+        default:
+            let cell = tableView.cellForRowAtIndexPath(indexPath) as! PlansTableViewCell
+            let planSummary = PlanSummaryViewController()
+            planSummary.plan = cell.plan
+            self.showViewController(planSummary, sender: nil)
+        }
+    }
+    
+    override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+        
+        switch indexPath.section {
+            
+        case DiscoverTitles.PopularPlans.section:
+            
+            let report = UITableViewRowAction(style: .Destructive, title: "Report") { action, index in
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    tableView.setEditing(false, animated: true)
+                    
+                    let cell = tableView.cellForRowAtIndexPath(indexPath) as! PlansTableViewCell
+                    cell.contentView.showSimpleLoading()
+                    if let plan = cell.plan {
+                        Plango.sharedInstance.reportSpam(Plango.EndPoint.Report.rawValue, planID: plan.id, onCompletion: { (error) in
+                            cell.contentView.hideSimpleLoading()
+                            if let error = error {
+                                self.printPlangoError(error)
+                                guard let message = error.message else {return}
+                                cell.contentView.quickToast(message)
+                            } else {
+                                cell.contentView.imageToast("Successfully Sent", image: UIImage(named: "whiteCheck")!, notify: true)
+                            }
+                        })
+                    }
+                    
+                    //NOTE: - hide this for now, but would let user type in message saying why they object
+                    //                let reportVC = UIStoryboard(name: StoryboardID.Main.rawValue, bundle: nil).instantiateViewControllerWithIdentifier(ViewControllerID.Report.rawValue) as! ReportViewController
+                    //                reportVC.plan = cell.plan
+                    //                self.showViewController(reportVC, sender: nil)
+                })
+            }
+            return [report]
+            
+        default:
+            return nil
+        }
+    }
+    
+    override func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        
+        switch indexPath.section {
+        case DiscoverTitles.PopularPlans.section:
+            return .Delete
+        default:
+            return .None
+        }
     }
     
     // MARK: - Table view data source
@@ -104,9 +205,13 @@ class DiscoverTableViewController: UITableViewController {
         case DiscoverTitles.TypeCollections.section:
             return 1
         case DiscoverTitles.PlangoCollections.section:
-            return 3
+            if let count = plangoFavoriteCollectionsArray?.count {
+                return count
+            } else {
+                return 0
+            }
         default:
-            if let count = popularPlansArray?.count {
+            if let count = popularDestinationsPlansArray?.count {
                 return count
             } else {
                return 0
@@ -124,12 +229,22 @@ class DiscoverTableViewController: UITableViewController {
 
         case DiscoverTitles.PlangoCollections.section:
             let cell = tableView.dequeueReusableCellWithIdentifier(CellID.TopCollections.rawValue, forIndexPath: indexPath) as! TopCollectionsTableViewCell
+            if let collections = self.plangoFavoriteCollectionsArray {
+                let collection = collections[indexPath.row]
+                cell.plangoCollection = collection
+                
+                guard let favorites = self.plangoFavoritesDictionary else { return cell }
+                guard let plans = favorites[collection.name!] else { return cell }
+                cell.plans = plans
+                cell.configure()
+            }
+            
             return cell
 
         default:
             let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Plans.rawValue, forIndexPath: indexPath) as! PlansTableViewCell
             if indexPath.section == DiscoverTitles.PopularPlans.section {
-                if let plans = self.popularPlansArray {
+                if let plans = self.popularDestinationsPlansArray {
                     cell.plan = plans[indexPath.row]
                 }
             }

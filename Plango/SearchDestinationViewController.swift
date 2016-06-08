@@ -83,7 +83,6 @@ class SearchDestinationViewController: UIViewController {
         searchButton.setTitle("Get Plans", forState: .Normal)
         searchButton.backgroundColor = UIColor.plangoOrange()
         searchButton.titleLabel?.textColor = UIColor.whiteColor()
-        searchButton.makeRoundCorners(32)
         searchButton.addTarget(self, action: #selector(didTapSearch), forControlEvents: .TouchUpInside)
         
         self.view.addSubview(searchButton)
@@ -93,7 +92,8 @@ class SearchDestinationViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        searchButton.frame = CGRect(x: 0, y: self.view.frame.height - 100, width: self.view.frame.width, height: 50)
+        searchButton.frame = CGRect(x: 8, y: self.view.frame.height - 108, width: self.view.frame.width - 16, height: 50)
+        searchButton.makeRoundCorners(90)
     }
 }
 

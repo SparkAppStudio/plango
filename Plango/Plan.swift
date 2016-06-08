@@ -34,6 +34,7 @@ class Plan: NSObject {
     var events: NSArray?
     var places: NSArray?
     var experiences: NSArray?
+    var plangoFavorite: String?
     
     
     class func getPlansFromJSON(objectJSON: JSON) -> [Plan]? {
@@ -105,6 +106,7 @@ class Plan: NSObject {
         newPlan.events = dictionary["events"] as? NSArray
         newPlan.places = dictionary["places"] as? NSArray
         newPlan.experiences = dictionary["experiences"] as? NSArray
+        newPlan.plangoFavorite = dictionary["plango_favorite"] as? String
         
         return newPlan
     }

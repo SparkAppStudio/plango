@@ -42,3 +42,36 @@ class Tag: NSObject {
         return newTag
     }
 }
+
+struct PlangoCollection {
+    var id: String
+    var name: String?
+    var avatar: String?
+    
+    static func getPlangoCollectionsFromJSON(objectJSON: JSON) -> [PlangoCollection] {
+        var tempTags = [PlangoCollection?]()
+        
+        guard let array = objectJSON["data"].arrayObject else {
+            return [PlangoCollection]()
+        }
+        
+        for item in array {
+            let dictionary = item as! NSDictionary
+            tempTags.append(createPlangoCollection(dictionary))
+        }
+        
+        return tempTags.flatMap { $0 }
+    }
+    
+    static func createPlangoCollection(dictionary: NSDictionary) -> PlangoCollection? {
+        
+        let id = dictionary["_id"] as! String
+        let name = dictionary["name"] as? String
+        let image = dictionary["image"] as? String
+        
+        let newCollection = PlangoCollection(id: id, name: name, avatar: image)
+
+        return newCollection
+    }
+
+}

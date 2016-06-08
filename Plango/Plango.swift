@@ -14,6 +14,11 @@ import SwiftyJSON
 class Plango: NSObject {
     static let sharedInstance = Plango()
     
+    func readLine(a: Int, b: Int) {
+        let sum = a + b
+        print(sum)
+    }
+    
     enum EndPoint: String {
         case UserByID = "http://dev.plango.us/users/"
         case PlanByID = "http://dev.plango.us/plans/"
@@ -28,6 +33,9 @@ class Plango: NSObject {
         case MyPlans = "http://dev.plango.us/me/plans"
         case SendConfirmation = "http://dev.plango.us/resendconfirmation"
         case FacebookLogin = "http://dev.plango.us/user/Facebook/"
+        case PopularDestination = "http://dev.plango.us/findplans?popular_destination=true"
+        case PlangoFavorites = "http://dev.plango.us/findplans?plango_favorite=true"
+        case PlangoFavsMeta = "http://dev.plango.us/plangofavorites"
     }
     
     let env = NSBundle.mainBundle().infoDictionary!["BASE_ENDPOINT"] as! String
@@ -41,6 +49,7 @@ class Plango: NSObject {
     typealias PlansResponse = ([Plan]?, PlangoError?) -> Void
     typealias TagsResponse = ([Tag]?, PlangoError?) -> Void
     typealias LoginResponse = (User?, PlangoError?) -> Void
+    typealias PlangoCollectionResponse = ([PlangoCollection]?, PlangoError?) -> Void
 //    typealias log = () throws -> User
     typealias ReportSpamResponse = (PlangoError?) -> Void
     typealias ImageResponse = (UIImage?, PlangoError?) -> Void
@@ -91,8 +100,8 @@ class Plango: NSObject {
         }
     }
     
-    func fetchPlans(endPoint: String, onCompletion: PlansResponse) -> Void {
-        Alamofire.request(.GET, endPoint).validate().responseJSON { response in
+    func fetchPlans(endPoint: String, onCompletion: PlansResponse) -> Request {
+        return Alamofire.request(.GET, endPoint).validate().responseJSON { response in
             switch response.result {
             case .Success(let value):
                 let dataJSON = JSON(value)
@@ -184,6 +193,27 @@ class Plango: NSObject {
                 onCompletion(nil, newError)
             }
 
+        }
+    }
+    
+    func fetchPlangoFavoritesMeta(endPoint: String, onCompletion: PlangoCollectionResponse) {
+        Alamofire.request(.GET, endPoint).validate().responseJSON { response in
+            switch response.result {
+            case .Success(let value):
+                let dataJSON = JSON(value)
+                if dataJSON["status"].stringValue == "success" {
+                    onCompletion(PlangoCollection.getPlangoCollectionsFromJSON(dataJSON), nil)
+                } else {
+                    let newError = PlangoError(statusCode: response.response?.statusCode, message: dataJSON["message"].stringValue)
+                    
+                    onCompletion(nil, newError)
+                }
+                
+            case .Failure(let error):
+                let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
+                
+                onCompletion(nil, newError)
+            }
         }
     }
     

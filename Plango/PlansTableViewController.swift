@@ -8,10 +8,13 @@
 
 import UIKit
 import SwiftyJSON
+import Alamofire
 
 class PlansTableViewController: UITableViewController {
     
     lazy var plansArray = [Plan]()
+    
+    var fetchRequest: Request?
     
     var plansEndPoint: String!
 
@@ -21,15 +24,19 @@ class PlansTableViewController: UITableViewController {
         let cellNib = UINib(nibName: "PlansCell", bundle: nil)
         self.tableView.registerNib(cellNib, forCellReuseIdentifier: CellID.Plans.rawValue)
         
-//        fetchPlans(plansEndPoint)        
+    }
+    
+    func clearTable() {
+        plansArray.removeAll()
+        tableView.reloadData()
     }
     
     func fetchPlans(endPoint: String) {
         self.tableView.showSimpleLoading()
-        Plango.sharedInstance.fetchPlans(endPoint) {
+        self.fetchRequest = Plango.sharedInstance.fetchPlans(endPoint) {
             (receivedPlans: [Plan]?, error: PlangoError?) in
             self.tableView.hideSimpleLoading()
-            
+            self.fetchRequest = nil
             if let error = error {
                 print(error.message)
             } else if let plans = receivedPlans {
