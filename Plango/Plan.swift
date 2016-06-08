@@ -68,7 +68,7 @@ class Plan: NSObject {
         
         let dateFormatter = NSDateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ" //possibly "yyyy-MM-dd'T'HH:mm:ss.SSSZ" or "yyyy-MM-dd'T'HH:mm:SSSZ"
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
 
         let newPlan = Plan()
         newPlan.id = dictionary["_id"] as! String
@@ -81,6 +81,7 @@ class Plan: NSObject {
 
         if let startDate = dictionary["start"] as? String {
             newPlan.startDate = dateFormatter.dateFromString(startDate)
+            print(dateFormatter.dateFromString(startDate))
         }
         
         if let endDate = dictionary["end"] as? String {

@@ -139,6 +139,8 @@ class PlanSummaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let timer = NSTimer.scheduledTimerWithTimeInterval(1, target: <#T##AnyObject#>, selector: <#T##Selector#>, userInfo: <#T##AnyObject?#>, repeats: <#T##Bool#>)
+        
         let bundle = NSBundle(forClass: self.dynamicType)
         
         let nibHeader = UINib(nibName: "SummaryHeader", bundle: bundle)
@@ -249,22 +251,39 @@ class PlanSummaryViewController: UIViewController {
 
 //            viewsCountLabel.text = "\(views) Inspired"
 //            usedCountLabel.text = "\(used) Used"
-            
+            print(plan.startDate)
             guard let startDate = plan.startDate else {return}
             guard let endDate = plan.endDate else {return}
             let formatter = NSDateFormatter()
             formatter.dateStyle = NSDateFormatterStyle.LongStyle
-            let dateString = formatter.stringFromDate(startDate)
+            let startDateString = formatter.stringFromDate(startDate)
             let endDateString = formatter.stringFromDate(endDate)
-            dateLabel.text = dateString
+            dateLabel.text = startDateString
             
-            detailsStartDateLabel.text = dateString
+            detailsStartDateLabel.text = startDateString
             detailsEndDateLabel.text = endDateString
+            
+            startTimer(startDate)
 
         }
-        
         weather()
 
+    }
+    
+    func startTimer(startDate: NSDate) {
+        let today = NSDate()
+        let calendar = NSCalendar.currentCalendar()
+        var days = 0
+        var hours = 0
+        var seconds = 0
+        
+        days = calendar.components(.Day, fromDate: today, toDate: startDate, options: []).day
+        hours = calendar.components(.Hour, fromDate: today, toDate: startDate, options: []).hour
+        seconds = calendar.components(.Second, fromDate: today, toDate: startDate, options: []).second
+        
+        startDaysLabel.text = days.description
+        startHoursLabel.text = hours.description
+        startSecondsLabel.text = seconds.description
     }
     
     func configureLabel(label: UILabel) {
