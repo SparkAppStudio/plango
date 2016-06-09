@@ -74,9 +74,50 @@ class Helper: NSObject {
     
     static func isValidSearchWithErrors(existingText: String?, possibleNewCharacter: String) -> String? {
         if let text = existingText {
-            if text.characters.count + possibleNewCharacter.characters.count > 100 {
+            if text.characters.count + possibleNewCharacter.characters.count > 50 {
                 return "Search is too long"
             }
+        }
+        return nil
+    }
+    
+    static func isValidEmailWithErrors(existingText: String?, possibleNewCharacter: String) -> String? {
+        if let text = existingText {
+            if text.characters.count + possibleNewCharacter.characters.count > 30 {
+                return "Email is too long"
+            }
+        }
+        if possibleNewCharacter == " " {
+            return "No spaces allowed"
+        }
+        
+        return nil
+    }
+    
+    static func isValidPasswordWithErrors(existingText: String?, possibleNewCharacter: String) -> String? {
+        if let text = existingText {
+            if text.characters.count + possibleNewCharacter.characters.count > 20 {
+                return "Password is too long"
+            }
+        }
+//        if possibleNewCharacter == " " {
+//            return "No spaces allowed"
+//        }
+        
+        return nil
+    }
+    
+    static func isValidUserNameWithErrors(existingText: String?, possibleNewCharacter: String) -> String? {
+        if let text = existingText {
+            if text.characters.count + possibleNewCharacter.characters.count > 20 {
+                return "Username is too long"
+            }
+        }
+        if possibleNewCharacter == " " {
+            return "No spaces allowed"
+        }
+        if possibleNewCharacter == "!" || possibleNewCharacter == "@" || possibleNewCharacter == "#" || possibleNewCharacter == "$" || possibleNewCharacter == "%" || possibleNewCharacter == "^" || possibleNewCharacter == "&" || possibleNewCharacter == "*" || possibleNewCharacter == "(" || possibleNewCharacter == ")" || possibleNewCharacter == "-" || possibleNewCharacter == "+" || possibleNewCharacter == "=" || possibleNewCharacter == "." || possibleNewCharacter == "," || possibleNewCharacter == "<" || possibleNewCharacter == ">" || possibleNewCharacter == "/" || possibleNewCharacter == "{" || possibleNewCharacter == "}" || possibleNewCharacter == "|" || possibleNewCharacter == "`" || possibleNewCharacter == "~" || possibleNewCharacter == "?" || possibleNewCharacter == "'" || possibleNewCharacter == "\"" {
+            return invalidCharacterMessage(possibleNewCharacter)
         }
         return nil
     }

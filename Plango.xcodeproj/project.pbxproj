@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		B1BC5F3F9390FA6571B87A27 /* Pods_Plango.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EAE4A8321BC528617A5558B /* Pods_Plango.framework */; };
 		C30C2FE91CBAEF2C00411B8E /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30C2FE81CBAEF2C00411B8E /* Formatter.swift */; };
+		C316D4AE1D08C4A4008B244E /* LoginConfirmTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C316D4AD1D08C4A4008B244E /* LoginConfirmTableViewController.swift */; };
 		C31AC41C1CADD7150032230E /* Plango.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31AC4181CADD7150032230E /* Plango.swift */; };
 		C31AC41D1CADD7150032230E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31AC4191CADD7150032230E /* Extensions.swift */; };
 		C31AC41E1CADD7150032230E /* GlobalEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31AC41A1CADD7150032230E /* GlobalEnums.swift */; };
@@ -58,6 +59,7 @@
 		7C809CA33271A5989CE4861B /* Pods-Plango.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plango.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plango/Pods-Plango.release.xcconfig"; sourceTree = "<group>"; };
 		9EAE4A8321BC528617A5558B /* Pods_Plango.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Plango.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C30C2FE81CBAEF2C00411B8E /* Formatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
+		C316D4AD1D08C4A4008B244E /* LoginConfirmTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginConfirmTableViewController.swift; sourceTree = "<group>"; };
 		C31AC4181CADD7150032230E /* Plango.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plango.swift; sourceTree = "<group>"; };
 		C31AC4191CADD7150032230E /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C31AC41A1CADD7150032230E /* GlobalEnums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalEnums.swift; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 				C3B1506E1CB4E0F2008E6A4E /* Utilities.storyboard */,
 				C3B1505F1CB4DD00008E6A4E /* SettingsTableViewController.swift */,
 				C3B150661CB4DE8E008E6A4E /* LoginTableViewController.swift */,
+				C316D4AD1D08C4A4008B244E /* LoginConfirmTableViewController.swift */,
 				C3C613F21CE65D8B00DEF329 /* ReportViewController.swift */,
 				C3978CCF1CB70118001028D5 /* SearchViewController.swift */,
 				C3A7D4041CF515D6009D82F2 /* SearchTagsViewController.swift */,
@@ -403,6 +406,7 @@
 				C3978CD01CB70118001028D5 /* SearchViewController.swift in Sources */,
 				C3ACD8031CDC182A000B2399 /* EventTableViewController.swift in Sources */,
 				C31AC41D1CADD7150032230E /* Extensions.swift in Sources */,
+				C316D4AE1D08C4A4008B244E /* LoginConfirmTableViewController.swift in Sources */,
 				C31AC41F1CADD7150032230E /* Helper.swift in Sources */,
 				C3CD5BE61CB5D4AB0079C0E7 /* PlansTableViewCell.swift in Sources */,
 				C3B150601CB4DD00008E6A4E /* SettingsTableViewController.swift in Sources */,

@@ -28,6 +28,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.appLogin(notification)
         }
         
+        NSNotificationCenter.defaultCenter().addObserverForName(Notify.NewUser.rawValue, object: nil, queue: nil) { (notification) in
+            self.appNewUser(notification)
+        }
+        
         NSNotificationCenter.defaultCenter().addObserverForName(Notify.Logout.rawValue, object: nil, queue: nil) { (notification) -> Void in
             self.appLogout(notification)
         }
@@ -88,7 +92,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return plangoParameters
     }
     
-    func handlePlangoAuth(controller: LoginTableViewController, endPoint: String, email: String?, completionMessage: String?, parameters: [String:AnyObject]?) {
+    func handlePlangoAuth(controller: UITableViewController, endPoint: String, email: String?, completionMessage: String?, parameters: [String:AnyObject]?) {
         Plango.sharedInstance.authPlangoUser(endPoint, parameters: parameters, onCompletion: { (user, error) in
             controller.tableView.hideSimpleLoading()
             
@@ -112,48 +116,64 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         })
     }
+    
+    func appNewUser(notification: NSNotification) {
+        //every login notification should send controller so UI can be modified here loading screen etc.
+        let controller = notification.userInfo!["controller"] as! UITableViewController
+        controller.tableView.showSimpleLoading()
+        
+        //facebook newuser
+        if let _ = notification.userInfo?["FBSDKLoginResult"] as? FBSDKLoginManagerLoginResult, userName = notification.userInfo?["userName"] as? String, let userEmail = notification.userInfo?["userEmail"] as? String, let userID = notification.userInfo?["userID"] as? String {
+            
+            var plangoParameters = [String:AnyObject]()
+            var socialConnects = [[String:AnyObject]]()
+
+            plangoParameters["email"] = userEmail
+            plangoParameters["username"] = userName
+            
+            socialConnects.append(["network" : "Facebook", "socialId" : userID, "displayName" : userName, "email" : userEmail])
+            
+            plangoParameters["socialConnects"] = socialConnects
+            plangoParameters["fbSignup"] = true
+
+            self.handlePlangoAuth(controller, endPoint: Plango.EndPoint.NewAccount.rawValue, email: userEmail, completionMessage: nil, parameters: plangoParameters)
+
+        }
+        
+
+
+        //email newuser
+        if let userName = notification.userInfo?["userName"] as? String, let userEmail = notification.userInfo?["userEmail"] as? String, let password = notification.userInfo?["password"] as? String {
+            
+            let parameters = ["username" : userName, "email" : userEmail, "password" : password]
+            
+            self.handlePlangoAuth(controller, endPoint: Plango.EndPoint.NewAccount.rawValue, email: userEmail, completionMessage: "Check your Email", parameters: parameters)
+            
+        }
+    }
 
     func appLogin(notification: NSNotification) {
         //every login notification should send controller so UI can be modified here loading screen etc.
         let controller = notification.userInfo!["controller"] as! LoginTableViewController
         controller.tableView.showSimpleLoading()
 
-        //facebook auth
+        //facebook login
         if let _ = notification.userInfo?["FBSDKLoginResult"] as? FBSDKLoginManagerLoginResult {
-            
-            //this should work but is not set in time, loginButton completion handler gets here before it sets the userID var
-            //                let userID = FBSDKProfile.currentProfile().userID
             
             let parameters = ["fields":"id, name, email"]
             FBSDKGraphRequest.init(graphPath: "me", parameters: parameters).startWithCompletionHandler({ (connection, result, error) in
                 if let error = error {
                     controller.printError(error)
                 } else {
-                    let email = result.valueForKey("email") as! String
+//                    let email = result.valueForKey("email") as! String
                     let userID = result.valueForKey("id") as! String
                     
-                    if controller.loginSegment.selectedSegmentIndex == 0 { //login via facebook
-                        
-                        let endPoint = "\(Plango.EndPoint.FacebookLogin.rawValue)\(userID)"
-                        self.handlePlangoAuth(controller, endPoint: endPoint, email: nil, completionMessage: nil, parameters: nil)
-                        
-                    } else { //new account via facebook
-                        self.handlePlangoAuth(controller, endPoint: Plango.EndPoint.NewAccount.rawValue, email: email, completionMessage: nil, parameters: self.getParametersFromFacebook(result))
-
-                    }
+                    let endPoint = "\(Plango.EndPoint.FacebookLogin.rawValue)\(userID)"
+                    self.handlePlangoAuth(controller, endPoint: endPoint, email: nil, completionMessage: nil, parameters: nil)
 
                 }
             })
-            
-
-        // account creation, this has to be before regular login as far as if let statements are concerned
-        } else if let userName = notification.userInfo?["userName"] as? String, let userEmail = notification.userInfo?["userEmail"] as? String, let password = notification.userInfo?["password"] as? String {
-            
-            let parameters = ["username" : userName, "email" : userEmail, "password" : password]
-            
-            self.handlePlangoAuth(controller, endPoint: Plango.EndPoint.NewAccount.rawValue, email: userEmail, completionMessage: "Check your Email", parameters: parameters)
-            
-            //regular login
+        //email login
         } else if let userEmail = notification.userInfo?["userEmail"] as? String, let password = notification.userInfo?["password"] as? String {
         
             let parameters = ["email" : userEmail, "password" : password]
@@ -163,8 +183,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func appLogout(notification: NSNotification) {
-        let controller = notification.userInfo!["controller"] as! UITableViewController
-        controller.tableView.showSimpleLoading()
+        let controller = notification.userInfo!["controller"] as! UIViewController
+        controller.view.showSimpleLoading()
         
         FBSDKLoginManager().logOut()
 
@@ -172,7 +192,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKeys.currentUser.rawValue)
         
         Plango.sharedInstance.alamoManager.session.resetWithCompletionHandler {
-            controller.tableView.hideSimpleLoading()
+            controller.view.hideSimpleLoading()
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 controller.viewWillAppear(true)
             })
@@ -186,24 +206,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let tabThree = UINavigationController(rootViewController: MyPlansViewController())
         
-        let tabFour = UINavigationController(rootViewController: SettingsTableViewController())
+//        let tabFour = UINavigationController(rootViewController: SettingsTableViewController())
         
-        plangoNav([tabOne, tabTwo, tabThree, tabFour])
+        plangoNav([tabOne, tabTwo, tabThree])
         
         let tabController = UITabBarController()
-        tabController.viewControllers = [tabOne, tabTwo, tabThree, tabFour]
+        tabController.viewControllers = [tabOne, tabTwo, tabThree]
         tabController.tabBar.barTintColor = UIColor.plangoCream()
         tabController.tabBar.tintColor = UIColor.plangoTeal()
         
         let starImage = UIImage(named: "star")
-        let gearImage = UIImage(named: "gear")
-        let myImage = UIImage(named: "my")
         let searchImage = UIImage(named: "search")
+        let myImage = UIImage(named: "my")
+//        let gearImage = UIImage(named: "gear")
+
         
         tabOne.tabBarItem = UITabBarItem(title: "DISCOVER", image: starImage, tag: 1)
         tabTwo.tabBarItem = UITabBarItem(title: "SEARCH", image: searchImage, tag: 2)
         tabThree.tabBarItem = UITabBarItem(title: "MY PLANS", image: myImage, tag: 3)
-        tabFour.tabBarItem = UITabBarItem(title: "SETTINGS", image: gearImage, tag: 4)
+//        tabFour.tabBarItem = UITabBarItem(title: "SETTINGS", image: gearImage, tag: 4)
         
         window?.rootViewController = tabController
     }

@@ -32,6 +32,7 @@ enum CellID: String {
 
 enum Notify: String {
     case Login = "Login"
+    case NewUser = "NewUser"
     case Logout = "Logout"
     case Timer = "Timer"
 }

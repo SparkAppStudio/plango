@@ -13,11 +13,16 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     
     var loginSegment: UISegmentedControl!
     
+    lazy var cancelBarButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "CANCEL", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(didTapCancel))
+        return button
+    }()
+    
     lazy var usernameTextField: UITextField = {
         let text = UITextField()
         text.borderStyle = .None
         text.placeholder = "Username"
-        text.keyboardType = .EmailAddress
+        text.keyboardType = .Default
         text.autocorrectionType = .No
         text.autocapitalizationType = .None
         text.delegate = self
@@ -90,7 +95,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         
         NSNotificationCenter.defaultCenter().addObserverForName(Notify.Timer.rawValue, object: nil, queue: nil) { (notification) in
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.navigationController?.popViewControllerAnimated(true)
+                self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
             })
         }
         
@@ -114,6 +119,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         loginSegment.addTarget(self, action: #selector(LoginTableViewController.didChangeLoginSegment), forControlEvents: .ValueChanged)
         loginSegment.sizeToFit()
         navigationItem.titleView = loginSegment
+        navigationItem.leftBarButtonItem = cancelBarButton
         
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "username")
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "usernameemail")
@@ -139,6 +145,10 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         loginButton.makeRoundCorners(90)
         facebookButton.heightAnchor.constraintEqualToAnchor(loginButton.heightAnchor).active = true
         facebookButton.widthAnchor.constraintEqualToAnchor(loginButton.widthAnchor).active = true
+    }
+    
+    func didTapCancel() {
+        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func didChangeLoginSegment() {
@@ -201,7 +211,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
                 self.tableView.quickToast("We Need a Username")
             } else {
                 let userInfo = ["controller" : self, "userEmail" : userEmail, "password" : password, "userName" : userName]
-                NSNotificationCenter.defaultCenter().postNotificationName(Notify.Login.rawValue, object: nil, userInfo: userInfo)
+                NSNotificationCenter.defaultCenter().postNotificationName(Notify.NewUser.rawValue, object: nil, userInfo: userInfo)
             }
 
         }
@@ -211,34 +221,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     // MARK: - Text Field
     
     func processTextField(textField: UITextField) {
-        //        if let text = textField.text {
-        //            if text.characters.count > 0 {
-        //                if let currentProfile = self.profile {
-        //                    if let handle = currentProfile.handle {
-        //                        if handle != text {
-        //                            RVFirebaseUserProfile.lookUpProfileViaHandle(text, callback: { (error, userProfiles) -> Void in
-        //                                if let error = error {
-        //                                    error.printError("\(self.classForCoder)", method: "processTextField", message: nil)
-        //
-        //                                } else if userProfiles.count == 0 {
-        //                                    currentProfile.handle = text
-        //                                    currentProfile.save({ (error, ref) -> (Void) in
-        //                                        self.view.quickToast("updated name")
-        //                                    })
-        //                                } else if userProfiles.count >= 1 {
-        //                                    self.view.quickToast("sorry name already taken")
-        //
-        //                                }
-        //                            })
-        //                        }
-        //                    }
-        //                } else {
-        //                    print("In \(self.classForCoder).processTextField, no userProfile")
-        //                }
-        //
-        //
-        //            }
-        //        }
+        textField.text?.trimWhiteSpace()
     }
     
     func textFieldDidBeginEditing(textField: UITextField) {
@@ -269,17 +252,43 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
             return false
         }
         
-        // method checks and sanitizes text for search
-        if let textErrors = Helper.isValidSearchWithErrors(textField.text, possibleNewCharacter: string) {
-            self.view.quickToast(textErrors)
-            Helper.textIsValid(textField, sender: false)
-            return false
-        } else {
-            // textErrors = nil so NO ERRORS proceed with text
-            Helper.textIsValid(textField, sender: true)
+        switch textField {
+        case usernameTextField:
+            // method checks and sanitizes text for search
+            if let textErrors = Helper.isValidUserNameWithErrors(textField.text, possibleNewCharacter: string) {
+                self.view.quickToast(textErrors)
+                return false
+            } else {
+                // textErrors = nil so NO ERRORS proceed with text
+                
+                return true
+            }
 
-            return true
+        case emailTextField:
+            // method checks and sanitizes text for search
+            if let textErrors = Helper.isValidEmailWithErrors(textField.text, possibleNewCharacter: string) {
+                self.view.quickToast(textErrors)
+                return false
+            } else {
+                // textErrors = nil so NO ERRORS proceed with text
+                
+                return true
+            }
+
+        default:
+            // method checks and sanitizes text for search
+            if let textErrors = Helper.isValidPasswordWithErrors(textField.text, possibleNewCharacter: string) {
+                self.view.quickToast(textErrors)
+                return false
+            } else {
+                // textErrors = nil so NO ERRORS proceed with text
+                
+                return true
+            }
+
         }
+        
+        
     }
 
     // MARK: - Table view data source
@@ -356,7 +365,13 @@ extension LoginTableViewController: FBSDKLoginButtonDelegate {
             printError(error)
             self.tableView.quickToast(error.localizedFailureReason!)
         } else if result.isCancelled == false {
-            NSNotificationCenter.defaultCenter().postNotificationName(Notify.Login.rawValue, object: nil, userInfo: ["controller" : self, "FBSDKLoginResult" : result])
+            let confirmVC = LoginConfirmTableViewController()
+            confirmVC.facebookResult = result
+            if loginSegment.selectedSegmentIndex == 0 {
+                NSNotificationCenter.defaultCenter().postNotificationName(Notify.Login.rawValue, object: nil, userInfo: ["controller" : self, "FBSDKLoginResult":result])
+            } else {
+                self.showViewController(confirmVC, sender: nil)
+            }
         } else {
             //user cancelled fb login
         }

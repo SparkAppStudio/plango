@@ -33,10 +33,34 @@ class MyPlansViewController: MXSegmentedPagerController {
 
         return plansVC
     }()
+    
+    //account login logout
+    
+    lazy var accountBarButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "LOGOUT", style: .Plain, target: self, action: #selector(didTapAccountButton))
+        return button
+    }()
+    
+    func didTapAccountButton() {
+        if Plango.sharedInstance.currentUser == nil {
+            let nav = UINavigationController(rootViewController: LoginTableViewController())
+            nav.navigationBar.barTintColor = UIColor.plangoTeal()
+            nav.navigationBar.tintColor = UIColor.whiteColor()
+            nav.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+            nav.navigationBar.translucent = false
+            
+            self.presentViewController(nav, animated: true, completion: nil)
+        } else {
+            NSNotificationCenter.defaultCenter().postNotificationName(Notify.Logout.rawValue, object: nil, userInfo: ["controller": self])
+        }
+    }
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationItem.rightBarButtonItem = accountBarButton
+
         
         addPage("My Plans", controller: plansController)
         
@@ -65,12 +89,11 @@ class MyPlansViewController: MXSegmentedPagerController {
         
         if let user = Plango.sharedInstance.currentUser {
             
+            accountBarButton.title = "LOGOUT"
+            
             if let name = user.displayName {
                 userNameLabel.text = name
             }
-//            if let name = user.userName {
-//                userNameLabel.text = name
-//            }
             
             if let endPoint = user.avatar {
                 let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
@@ -79,6 +102,8 @@ class MyPlansViewController: MXSegmentedPagerController {
             }
             
         } else {
+            accountBarButton.title = "LOGIN"
+
             userNameLabel.text = nil
             avatarImageView.af_cancelImageRequest()
             avatarImageView.image = nil
