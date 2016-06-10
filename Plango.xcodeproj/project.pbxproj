@@ -283,6 +283,7 @@
 				TargetAttributes = {
 					C3237E211CADC402008293D6 = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = 9EHR5UBH5H;
 					};
 				};
 			};
@@ -527,9 +528,10 @@
 				APP_DISPLAY_NAME = dev.Plango;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BASE_ENDPOINT = dev.plango.us;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Plango/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.madebydouglas.Plango.Dev;
+				PRODUCT_BUNDLE_IDENTIFIER = us.plango.Plango.Dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -541,9 +543,10 @@
 				APP_DISPLAY_NAME = Plango;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BASE_ENDPOINT = www.plango.us;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Plango/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.madebydouglas.Plango;
+				PRODUCT_BUNDLE_IDENTIFIER = us.plango.Plango.Dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
