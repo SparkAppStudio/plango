@@ -86,13 +86,14 @@ class MyPlansViewController: MXSegmentedPagerController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
+        self.navigationItem.title = "MY PLANS"
         if let user = Plango.sharedInstance.currentUser {
             
             accountBarButton.title = "LOGOUT"
             
             if let name = user.displayName {
                 userNameLabel.text = name
+                self.navigationItem.title = "\(name.uppercaseString)'S PLANS"
             }
             
             if let endPoint = user.avatar {

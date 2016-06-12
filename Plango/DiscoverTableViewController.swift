@@ -40,6 +40,7 @@ class DiscoverTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.backgroundColor = UIColor.plangoCream()
+        self.navigationItem.title = "DISCOVER"
                 
         let plansNib = UINib(nibName: "PlansCell", bundle: nil)
         self.tableView.registerNib(plansNib, forCellReuseIdentifier: CellID.Plans.rawValue)
@@ -135,6 +136,7 @@ class DiscoverTableViewController: UITableViewController {
             if let plans = cell.plans {
                 let plansVC = PlansTableViewController()
                 plansVC.plansArray = plans
+                plansVC.navigationItem.title = cell.plangoCollection?.name?.uppercaseString
                 self.showViewController(plansVC, sender: nil)
             }
 
@@ -313,6 +315,7 @@ extension DiscoverTableViewController: UICollectionViewDataSource, UICollectionV
             } else if let plans = receivedPlans {
                 let plansVC = PlansTableViewController()
                 plansVC.plansArray = plans
+                plansVC.navigationItem.title = tag.name?.uppercaseString
                 self.showViewController(plansVC, sender: nil)
             }
         }

@@ -116,8 +116,9 @@ class Plan: NSObject {
         }
         
         newPlan.tags = dictionary["tags"] as? [String]
-        
+                
         if let todos = dictionary["todos"] as? [[String:AnyObject]] {
+            newPlan.todos = [Todo]()
             for todo in todos {
                 let id = todo["_id"] as! String
                 let item = todo["todoitem"] as! String
@@ -129,31 +130,42 @@ class Plan: NSObject {
         }
         
         if let events = dictionary["events"] as? [[String:AnyObject]] {
+            newPlan.events = [Event]()
             for event in events {
                 let id = event["_id"] as! String
                 let experienceID = event["experience_id"] as! String
-                let duration = event["duration"] as! Int
-                let start = event["start"] as! String
-                let startDate = dateFormatter.dateFromString(start)
-                let allDay = event["all_day"] as! Bool
+                let duration = event["duration"] as? Int
+                let allDay = event["all_day"] as? Bool
+
+                var startDate: NSDate? = nil
+                if let start = event["start"] as? String {
+                    startDate = dateFormatter.dateFromString(start)
+                }
                 
-                let anEvent = Event(id: id, experienceID: experienceID, duration: duration, startDate: startDate!, allDay: allDay)
+                let anEvent = Event(id: id, experienceID: experienceID, duration: duration, startDate: startDate, allDay: allDay)
                 newPlan.events?.append(anEvent)
             }
         }
         
         if let places = dictionary["places"] as? [[String:AnyObject]] {
+            newPlan.places = [Place]()
             for place in places {
                 let id = place["_id"] as! String
                 let city = place["city"] as? String
                 let state = place["state"] as? String
                 let country = place["country"] as? String
                 let notes = place["notes"] as? String
-                let start = place["start"] as! String
-                let startDate = dateFormatter.dateFromString(start)
-                let end = place["end"] as! String
-                let endDate = dateFormatter.dateFromString(end)
                 let duration = place["duration"] as? Int
+
+                var startDate: NSDate? = nil
+                if let start = place["start"] as? String {
+                    startDate = dateFormatter.dateFromString(start)
+                }
+        
+                var endDate: NSDate? = nil
+                if let end = place["end"] as? String {
+                    endDate = dateFormatter.dateFromString(end)
+                }
                 
                 let aPlace = Place(id: id, city: city, state: state, country: country, notes: notes, startDate: startDate, endDate: endDate, durationDays: duration)
                 newPlan.places?.append(aPlace)
@@ -161,12 +173,13 @@ class Plan: NSObject {
         }
         
         if let experiences = dictionary["experiences"] as? [[String:AnyObject]] {
+            newPlan.experiences = [Experience]()
             for experience in experiences {
                 let id = experience["_id"] as! String
-                let placeID = experience["place_id"] as! String
-                let authorID = experience["created_by"] as! String
-                let name = experience["name"] as! String
-                let avatar = experience["thumb"] as! String
+                let placeID = experience["place_id"] as? String
+                let authorID = experience["created_by"] as? String
+                let name = experience["name"] as? String
+                let avatar = experience["thumb"] as? String
                 let address = experience["address"] as? String
                 let city = experience["city"] as? String
                 let state = experience["state"] as? String
@@ -180,8 +193,8 @@ class Plan: NSObject {
                 let price = experience["price"] as? Int
                 let likes = experience["likes"] as? Int
                 let locationType = experience["location_type"] as? String
-                let isPublic = experience["is_public"] as! Bool
-                let isCustom = experience["isCustom"] as! Bool
+                let isPublic = experience["is_public"] as? Bool
+                let isCustom = experience["isCustom"] as? Bool
                 let photos = experience["photos"] as? NSArray
                 let hours = experience["hours"] as? NSArray
                 let reviews = experience["reviews"] as? NSArray
@@ -211,10 +224,10 @@ struct Todo { //"done":false,"todoitem":"book hotels/hostels","_id":"56131ece0fd
 
 struct Event { //"experience_id":"560de35905c85ada730e7f14","start":"2015-11-21T13:00:00.000Z","all_day":false,"_id":"560f546f0fdcab250243f6f7","duration":5400
     var id: String
-    var experienceID: String
-    var duration: Int
-    var startDate: NSDate
-    var allDay: Bool
+    var experienceID: String?
+    var duration: Int?
+    var startDate: NSDate?
+    var allDay: Bool?
 }
 
 struct Place { //"state":"Alajuela","country":"Costa Rica","_id":"560de21405c85ada730e7f04","city":"La Fortuna","notes":"Volcano and hot springs. Book a boat taxi to and from Monteverde because there is no direct driving route.","start":"2015-11-21T08:00:00.000Z","end":"2015-11-22T08:00:00.000Z","duration":2
@@ -230,10 +243,10 @@ struct Place { //"state":"Alajuela","country":"Costa Rica","_id":"560de21405c85a
 
 struct Experience { //"name":"PRO rafting Costa Rica","thumb":"http://placehold.it/160x100&text=image","address":"","city":"","state":"","country":"Costa Rica","created_by":"558b8126817ff2433428d992","url":"","rating":"","description":"","notes":"http://www.anywherecostarica.com/destinations/manuel-antonio/tours/whitewater-rafting-savegre\n                        \n                        ","phone":"","tip_count":0,"price":null,"likes":0,"place_id":"5221f7ac11d2c4664aafcbc7","_id":"56131b390fdcab250243fb1c","location_type":"River","is_public":true,"isCustom":false,"photos":[],"hours":[],"reviews":[],"geocode":[9.426961611091167,-84.1584320386772]
     var id: String
-    var placeID: String
-    var authorID: String
-    var name: String
-    var avatar: String
+    var placeID: String?
+    var authorID: String?
+    var name: String?
+    var avatar: String?
     var address: String?
     var city: String?
     var state: String?
@@ -247,8 +260,8 @@ struct Experience { //"name":"PRO rafting Costa Rica","thumb":"http://placehold.
     var price: Int?
     var likes: Int?
     var locationType: String?
-    var isPublic: Bool
-    var isCustom: Bool
+    var isPublic: Bool?
+    var isCustom: Bool?
     var photos: NSArray?
     var hours: NSArray?
     var reviews: NSArray?

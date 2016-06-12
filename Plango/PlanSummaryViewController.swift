@@ -49,6 +49,7 @@ class PlanSummaryViewController: UIViewController {
     var buttonStackView: UIStackView!
     
     var plan: Plan!
+    var myPlan: Bool!
     
     let calendar = NSCalendar.currentCalendar()
     var days = 0
@@ -144,6 +145,16 @@ class PlanSummaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if let plan = self.plan {
+            if let user = Plango.sharedInstance.currentUser {
+                if plan.authorID == user.id {
+                    myPlan = true
+                } else {
+                    myPlan = false
+                }
+            }
+        }
+        
         let _ = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(timerDidFire), userInfo: nil, repeats: true)
         
         let bundle = NSBundle(forClass: self.dynamicType)
@@ -189,7 +200,9 @@ class PlanSummaryViewController: UIViewController {
         stackView.topAnchor.constraintEqualToAnchor(scrollView.topAnchor).active = true
         stackView.widthAnchor.constraintEqualToAnchor(scrollView.widthAnchor).active = true
 
-        stackView.addArrangedSubview(downloadButton)
+        if myPlan == true {
+            stackView.addArrangedSubview(downloadButton)
+        }
         stackView.addArrangedSubview(headerView)
         
         buttonStackView = UIStackView()
@@ -203,11 +216,16 @@ class PlanSummaryViewController: UIViewController {
         
         buttonStackView.addArrangedSubview(itineraryButton)
         buttonStackView.addArrangedSubview(mapButton)
-        buttonStackView.addArrangedSubview(friendsButton)
+        if myPlan == true {
+            buttonStackView.addArrangedSubview(friendsButton)
+        }
         
         stackView.addArrangedSubview(buttonStackView)
         
-        stackView.addArrangedSubview(startView)
+        if myPlan == true {
+            stackView.addArrangedSubview(startView)
+        }
+        
         stackView.addArrangedSubview(detailsView)
     }
     
@@ -219,7 +237,7 @@ class PlanSummaryViewController: UIViewController {
         configureLabel(startSecondsLabel)
         
         if let plan = self.plan {
-            self.navigationItem.title = plan.name
+            self.navigationItem.title = plan.name?.uppercaseString
             
             if let endPoint = plan.avatar {
                 let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
@@ -268,8 +286,22 @@ class PlanSummaryViewController: UIViewController {
             detailsEndDateLabel.text = endDateString
             
             startTimer(startDate)
+            
+            if let places = plan.places {
+                
+                locationNameLabel.text = "\(places.first!.city!), \(places.first!.country!)"
+                
+                var allPlaces = ""
+                for place in places {
+                    allPlaces = allPlaces.stringByAppendingString("\(place.city!), ")
+                }
+                let cleanedPlaces = String(allPlaces.characters.dropLast(2))
+                detailsCitiesLabel.text = cleanedPlaces
+            }
+
+            
         }
-        weather()
+//        weather()
 
     }
     

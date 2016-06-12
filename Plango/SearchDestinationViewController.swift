@@ -43,6 +43,7 @@ class SearchDestinationViewController: UIViewController {
                 } else if let plans = receivedPlans {
                     let plansVC = PlansTableViewController()
                     plansVC.plansArray = plans
+                    plansVC.navigationItem.title = "RESULTS"
                     self.showViewController(plansVC, sender: nil)
                 }
             })

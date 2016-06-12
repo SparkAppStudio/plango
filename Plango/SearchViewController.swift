@@ -93,6 +93,7 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 //        searchButton.makeRoundCorners(64)
+        self.navigationItem.title = "SEARCH"
 
     }
     
