@@ -29,8 +29,8 @@ class PlansTableViewCell: UITableViewCell {
     var request: Request?
     var userRequest: Request?
     
+    
     func configure() {
-        self.layoutIfNeeded()
         if let cellPlan = plan {
             fetchUserForPlan("\(Plango.EndPoint.UserByID.rawValue)\(cellPlan.authorID)")
 

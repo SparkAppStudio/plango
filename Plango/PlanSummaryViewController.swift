@@ -49,7 +49,7 @@ class PlanSummaryViewController: UIViewController {
     var buttonStackView: UIStackView!
     
     var plan: Plan!
-    var myPlan: Bool!
+    var myPlan: Bool! = false
     
     let calendar = NSCalendar.currentCalendar()
     var days = 0
@@ -347,8 +347,9 @@ class PlanSummaryViewController: UIViewController {
     }
     
     func didTapItinerary() {
-        //TODO: - load itinerary
-
+        let itineraryVC = ItineraryViewController()
+        itineraryVC.plan = self.plan
+        self.showViewController(itineraryVC, sender: nil)
     }
     
     func didTapMap() {

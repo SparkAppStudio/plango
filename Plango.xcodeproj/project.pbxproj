@@ -27,6 +27,8 @@
 		C33A70181CC07A1C00B8313C /* TypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33A70171CC07A1C00B8313C /* TypeCollectionViewCell.swift */; };
 		C33A701A1CC07A4900B8313C /* TypeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C33A70191CC07A4900B8313C /* TypeCell.xib */; };
 		C34889461CC9A7650045EED4 /* top_foodie_plans.json in Resources */ = {isa = PBXBuildFile; fileRef = C34889451CC9A7650045EED4 /* top_foodie_plans.json */; };
+		C36C6F7E1D18AB4000A51253 /* EventCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C36C6F7D1D18AB4000A51253 /* EventCell.xib */; };
+		C36C6F801D18B28100A51253 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36C6F7F1D18B28100A51253 /* EventTableViewCell.swift */; };
 		C3978CCE1CB6FC4C001028D5 /* MyPlansViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3978CCD1CB6FC4C001028D5 /* MyPlansViewController.swift */; };
 		C3978CD01CB70118001028D5 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3978CCF1CB70118001028D5 /* SearchViewController.swift */; };
 		C3978CD21CB85B38001028D5 /* PlansCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3978CD11CB85B38001028D5 /* PlansCell.xib */; };
@@ -79,6 +81,8 @@
 		C33A70171CC07A1C00B8313C /* TypeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeCollectionViewCell.swift; sourceTree = "<group>"; };
 		C33A70191CC07A4900B8313C /* TypeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TypeCell.xib; sourceTree = "<group>"; };
 		C34889451CC9A7650045EED4 /* top_foodie_plans.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = top_foodie_plans.json; sourceTree = "<group>"; };
+		C36C6F7D1D18AB4000A51253 /* EventCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventCell.xib; sourceTree = "<group>"; };
+		C36C6F7F1D18B28100A51253 /* EventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
 		C3978CCD1CB6FC4C001028D5 /* MyPlansViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPlansViewController.swift; sourceTree = "<group>"; };
 		C3978CCF1CB70118001028D5 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		C3978CD11CB85B38001028D5 /* PlansCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlansCell.xib; sourceTree = "<group>"; };
@@ -195,6 +199,8 @@
 				C337303A1CE06C9C00F57B47 /* SummaryDetails.xib */,
 				C33730381CDFFE3000F57B47 /* SummaryStart.xib */,
 				C3ACD8001CDC14ED000B2399 /* ItineraryViewController.swift */,
+				C36C6F7D1D18AB4000A51253 /* EventCell.xib */,
+				C36C6F7F1D18B28100A51253 /* EventTableViewCell.swift */,
 				C3ACD8021CDC182A000B2399 /* EventTableViewController.swift */,
 			);
 			name = "Plan Scene";
@@ -322,6 +328,7 @@
 				C3EC02791CC18FF200CAC4C1 /* ProfileHeader.xib in Resources */,
 				C3237E2B1CADC402008293D6 /* Main.storyboard in Resources */,
 				C3B1506F1CB4E0F2008E6A4E /* Utilities.storyboard in Resources */,
+				C36C6F7E1D18AB4000A51253 /* EventCell.xib in Resources */,
 				C33A701A1CC07A4900B8313C /* TypeCell.xib in Resources */,
 				C3F915241CCF3F32007B0D00 /* test.json in Resources */,
 				C3EC027B1CC19ACF00CAC4C1 /* SearchHeader.xib in Resources */,
@@ -404,6 +411,7 @@
 				C3978CCE1CB6FC4C001028D5 /* MyPlansViewController.swift in Sources */,
 				C3B150671CB4DE8E008E6A4E /* LoginTableViewController.swift in Sources */,
 				C31AC41E1CADD7150032230E /* GlobalEnums.swift in Sources */,
+				C36C6F801D18B28100A51253 /* EventTableViewCell.swift in Sources */,
 				C3978CD01CB70118001028D5 /* SearchViewController.swift in Sources */,
 				C3ACD8031CDC182A000B2399 /* EventTableViewController.swift in Sources */,
 				C31AC41D1CADD7150032230E /* Extensions.swift in Sources */,

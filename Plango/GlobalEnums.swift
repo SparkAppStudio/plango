@@ -28,6 +28,11 @@ enum CellID: String {
     case PlanTypes = "PlanTypesTableViewCell"
     case TopCollections = "TopCollectionsTableViewCell"
     case SpecificType = "TypeCollectionViewCell"
+    case Event = "EventTableViewCell"
+}
+
+enum PageID: String {
+    case Days = "ItineraryDays"
 }
 
 enum Notify: String {
