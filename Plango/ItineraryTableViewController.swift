@@ -22,6 +22,12 @@ class ItineraryTableViewController: UITableViewController {
 
 
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.tableView.clipsToBounds = true
+    }
 
 
 

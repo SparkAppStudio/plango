@@ -47,8 +47,6 @@ class EventTableViewCell: UITableViewCell {
         guard let endPoint = experience.avatar else {return}
         let theURL = NSURL(string: endPoint) //no need to clean for experiences
         coverImageView.af_setImageWithURL(theURL!)
-        
-        
     }
     
     override func prepareForReuse() {

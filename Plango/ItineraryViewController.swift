@@ -100,6 +100,9 @@ class ItineraryViewController: MXSegmentedPagerController {
         
         let eventsTableViewController = ItineraryTableViewController()
         
+        self.addChildViewController(eventsTableViewController)
+        eventsTableViewController.didMoveToParentViewController(self)
+
         guard let plan = plan else {return eventsTableViewController}
         guard let events = plan.events else {return eventsTableViewController}
         guard let experiences = plan.experiences else {return eventsTableViewController}
