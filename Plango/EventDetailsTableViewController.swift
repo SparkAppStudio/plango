@@ -14,8 +14,8 @@ class EventDetailsTableViewController: UITableViewController {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
-    
     @IBOutlet weak var reviewLabel: UILabel!
+    
     enum EventTitles: String {
         case MyNotes = "My Notes"
         case Tips = "Tips and Reviews"
@@ -43,10 +43,40 @@ class EventDetailsTableViewController: UITableViewController {
         self.tableView.backgroundColor = UIColor.plangoCream()
         self.navigationItem.title = experience.name
         
+        let reviewNib = UINib(nibName: "ReviewCell", bundle: nil)
+        self.tableView.registerNib(reviewNib, forCellReuseIdentifier: CellID.Review.rawValue)
+        
+        let notesNib = UINib(nibName: "NotesCell", bundle: nil)
+        self.tableView.registerNib(notesNib, forCellReuseIdentifier: CellID.Notes.rawValue)
+
+        
+        let bundle = NSBundle(forClass: self.dynamicType)
+        let nib = UINib(nibName: "EventDetailsHeader", bundle: bundle)
+        headerView = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        
         tableView.tableHeaderView = headerView
+
 
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        headerView.setNeedsLayout()
+        headerView.layoutIfNeeded()
+        let height = headerView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize).height
+        var frame = headerView.frame
+        frame.size.height = height
+        headerView.frame = frame
+        tableView.tableHeaderView = headerView
+        
+        titleLabel.text = experience.name
+        addressLabel.text = experience.address
+        reviewLabel.text = experience.rating
+        
+        guard let endPoint = experience.avatar else {return}
+        coverImageView.af_setImageWithURL(NSURL(string: endPoint)!)
+    }
     
     // MARK: - Table view Delegate
     
@@ -55,9 +85,9 @@ class EventDetailsTableViewController: UITableViewController {
         case EventTitles.MyNotes.section:
             return Helper.CellHeight.superWide.value
         case EventTitles.Tips.section:
-            return Helper.CellHeight.superWide.value
+            return Helper.CellHeight.reviews.value
         default:
-            return Helper.CellHeight.plans.value
+            return Helper.CellHeight.reviews.value
         }
     }
     
@@ -83,7 +113,11 @@ class EventDetailsTableViewController: UITableViewController {
         case EventTitles.MyNotes.section:
             return 1
         case EventTitles.Tips.section:
-            return (experience.reviews?.count)!
+            if let reviews = experience.reviews {
+                return reviews.count
+            } else {
+            return 0
+            }
         default:
             return 0
         }
@@ -92,12 +126,18 @@ class EventDetailsTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch indexPath.section {
         case EventTitles.MyNotes.section:
-            let cell = tableView.dequeueReusableCellWithIdentifier(<#T##identifier: String##String#>, forIndexPath: <#T##NSIndexPath#>)
+            let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Notes.rawValue, forIndexPath: indexPath) as! NotesTableViewCell
+            
+            cell.experience = experience
+            cell.configure()
             
             return cell
             
         case EventTitles.Tips.section:
-            let cell = tableView.dequeueReusableCellWithIdentifier(<#T##identifier: String##String#>, forIndexPath: <#T##NSIndexPath#>)
+            let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Review.rawValue, forIndexPath: indexPath) as! ReviewTableViewCell
+            
+            cell.review = experience.reviews![indexPath.row]
+            cell.configure()
             
             return cell
             

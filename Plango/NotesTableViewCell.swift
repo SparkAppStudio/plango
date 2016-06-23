@@ -12,15 +12,10 @@ class NotesTableViewCell: UITableViewCell {
 
     @IBOutlet weak var notesLabel: UILabel!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    var experience: Experience!
+    
+    func configure() {
+        notesLabel.text = experience.notes
     }
 
 }

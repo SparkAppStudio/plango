@@ -26,11 +26,13 @@ class Helper: NSObject {
         case wideScreen
         case superWide
         case plans
+        case reviews
         var value: CGFloat {
             switch self {
             case .wideScreen: return UIScreen.mainScreen().bounds.size.width * (9/16)
             case .superWide: return UIScreen.mainScreen().bounds.size.width * (9/21)
             case .plans: return 100
+            case .reviews: return 80
             }
         }
     }

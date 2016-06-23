@@ -52,6 +52,15 @@ class ItineraryTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as! EventTableViewCell
+        let eventDetails = EventDetailsTableViewController()
+        eventDetails.event = cell.event
+        eventDetails.experience = cell.experience
+        
+        showViewController(eventDetails, sender: nil)
+    }
+    
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if experiences[indexPath.row].avatar != nil {
             return 180

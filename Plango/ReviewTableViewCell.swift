@@ -16,15 +16,21 @@ class ReviewTableViewCell: UITableViewCell {
     
     @IBOutlet weak var authorLabel: UILabel!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    var review: Review!
+    
+    func configure() {
+        print(review.name)
+        reviewLabel.text = review.name
+        authorLabel.text = review.author
+        
+        guard let endPoint = review.authorAvatar else {return}
+        coverImageView.af_setImageWithURL(NSURL(string: endPoint)!)
     }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        coverImageView.af_cancelImageRequest()
+        review = nil
     }
 
 }
