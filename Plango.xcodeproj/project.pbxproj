@@ -54,6 +54,11 @@
 		C3DBCA661CEE70E000E0F746 /* SearchDestinationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DBCA651CEE70E000E0F746 /* SearchDestinationViewController.swift */; };
 		C3EC02791CC18FF200CAC4C1 /* ProfileHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3EC02781CC18FF200CAC4C1 /* ProfileHeader.xib */; };
 		C3EC027B1CC19ACF00CAC4C1 /* SearchHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3EC027A1CC19ACF00CAC4C1 /* SearchHeader.xib */; };
+		C3F5E05D1D1B901700F1D2A0 /* ReviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3F5E05C1D1B901700F1D2A0 /* ReviewCell.xib */; };
+		C3F5E05F1D1B902A00F1D2A0 /* NotesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3F5E05E1D1B902A00F1D2A0 /* NotesCell.xib */; };
+		C3F5E0611D1B93D200F1D2A0 /* EventDetailsHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3F5E0601D1B93D200F1D2A0 /* EventDetailsHeader.xib */; };
+		C3F5E0631D1B96A600F1D2A0 /* ReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F5E0621D1B96A600F1D2A0 /* ReviewTableViewCell.swift */; };
+		C3F5E0651D1B96AD00F1D2A0 /* NotesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F5E0641D1B96AD00F1D2A0 /* NotesTableViewCell.swift */; };
 		C3F915241CCF3F32007B0D00 /* test.json in Resources */ = {isa = PBXBuildFile; fileRef = C3F915231CCF3F32007B0D00 /* test.json */; };
 /* End PBXBuildFile section */
 
@@ -108,6 +113,11 @@
 		C3DBCA651CEE70E000E0F746 /* SearchDestinationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchDestinationViewController.swift; sourceTree = "<group>"; };
 		C3EC02781CC18FF200CAC4C1 /* ProfileHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileHeader.xib; sourceTree = "<group>"; };
 		C3EC027A1CC19ACF00CAC4C1 /* SearchHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchHeader.xib; sourceTree = "<group>"; };
+		C3F5E05C1D1B901700F1D2A0 /* ReviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewCell.xib; sourceTree = "<group>"; };
+		C3F5E05E1D1B902A00F1D2A0 /* NotesCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotesCell.xib; sourceTree = "<group>"; };
+		C3F5E0601D1B93D200F1D2A0 /* EventDetailsHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventDetailsHeader.xib; sourceTree = "<group>"; };
+		C3F5E0621D1B96A600F1D2A0 /* ReviewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewTableViewCell.swift; sourceTree = "<group>"; };
+		C3F5E0641D1B96AD00F1D2A0 /* NotesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesTableViewCell.swift; sourceTree = "<group>"; };
 		C3F915231CCF3F32007B0D00 /* test.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test.json; sourceTree = "<group>"; };
 		D3C9D302F55D77443409D8D3 /* Pods-Plango.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plango.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plango/Pods-Plango.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -194,14 +204,10 @@
 			isa = PBXGroup;
 			children = (
 				C3ACD8041CDC22DA000B2399 /* SummaryHeader.xib */,
-				C3ACD7FE1CDC1487000B2399 /* ItineraryTableViewController.swift */,
-				C3ACD8081CDC2CB9000B2399 /* PlanSummaryViewController.swift */,
 				C337303A1CE06C9C00F57B47 /* SummaryDetails.xib */,
 				C33730381CDFFE3000F57B47 /* SummaryStart.xib */,
-				C3ACD8001CDC14ED000B2399 /* ItineraryViewController.swift */,
-				C36C6F7D1D18AB4000A51253 /* EventCell.xib */,
-				C36C6F7F1D18B28100A51253 /* EventTableViewCell.swift */,
-				C3ACD8021CDC182A000B2399 /* EventDetailsTableViewController.swift */,
+				C3ACD8081CDC2CB9000B2399 /* PlanSummaryViewController.swift */,
+				C3F5E05B1D1B8F9600F1D2A0 /* Itinerary Scene */,
 			);
 			name = "Plan Scene";
 			sourceTree = "<group>";
@@ -210,17 +216,17 @@
 			isa = PBXGroup;
 			children = (
 				C3237E291CADC402008293D6 /* Main.storyboard */,
-				C3978CCD1CB6FC4C001028D5 /* MyPlansViewController.swift */,
 				C3EC02781CC18FF200CAC4C1 /* ProfileHeader.xib */,
+				C33A700D1CC04A9D00B8313C /* TopCollectionsCell.xib */,
+				C3978CD11CB85B38001028D5 /* PlansCell.xib */,
+				C33A70191CC07A4900B8313C /* TypeCell.xib */,
+				C3978CCD1CB6FC4C001028D5 /* MyPlansViewController.swift */,
 				C3B150611CB4DD73008E6A4E /* DiscoverTableViewController.swift */,
 				C33A700F1CC04C2000B8313C /* TopCollectionsTableViewCell.swift */,
-				C33A700D1CC04A9D00B8313C /* TopCollectionsCell.xib */,
 				C3B150631CB4DDAE008E6A4E /* PlansTableViewController.swift */,
 				C3CD5BE51CB5D4AB0079C0E7 /* PlansTableViewCell.swift */,
-				C3978CD11CB85B38001028D5 /* PlansCell.xib */,
 				C33A70131CC05DF400B8313C /* PlanTypesTableViewCell.swift */,
 				C33A70171CC07A1C00B8313C /* TypeCollectionViewCell.swift */,
-				C33A70191CC07A4900B8313C /* TypeCell.xib */,
 			);
 			name = "Main Scene";
 			sourceTree = "<group>";
@@ -229,6 +235,7 @@
 			isa = PBXGroup;
 			children = (
 				C3B1506E1CB4E0F2008E6A4E /* Utilities.storyboard */,
+				C3EC027A1CC19ACF00CAC4C1 /* SearchHeader.xib */,
 				C3B1505F1CB4DD00008E6A4E /* SettingsTableViewController.swift */,
 				C3B150661CB4DE8E008E6A4E /* LoginTableViewController.swift */,
 				C316D4AD1D08C4A4008B244E /* LoginConfirmTableViewController.swift */,
@@ -237,7 +244,6 @@
 				C3A7D4041CF515D6009D82F2 /* SearchTagsViewController.swift */,
 				C3A7D4061CF515E5009D82F2 /* SearchDurationViewController.swift */,
 				C3DBCA651CEE70E000E0F746 /* SearchDestinationViewController.swift */,
-				C3EC027A1CC19ACF00CAC4C1 /* SearchHeader.xib */,
 				C3B1506A1CB4E07D008E6A4E /* TripFriendsViewController.swift */,
 			);
 			name = "Utilities Scene";
@@ -252,6 +258,23 @@
 				C31AC4181CADD7150032230E /* Plango.swift */,
 			);
 			name = "Data Model";
+			sourceTree = "<group>";
+		};
+		C3F5E05B1D1B8F9600F1D2A0 /* Itinerary Scene */ = {
+			isa = PBXGroup;
+			children = (
+				C36C6F7D1D18AB4000A51253 /* EventCell.xib */,
+				C3F5E05C1D1B901700F1D2A0 /* ReviewCell.xib */,
+				C3F5E05E1D1B902A00F1D2A0 /* NotesCell.xib */,
+				C3F5E0601D1B93D200F1D2A0 /* EventDetailsHeader.xib */,
+				C3F5E0621D1B96A600F1D2A0 /* ReviewTableViewCell.swift */,
+				C3F5E0641D1B96AD00F1D2A0 /* NotesTableViewCell.swift */,
+				C3ACD8001CDC14ED000B2399 /* ItineraryViewController.swift */,
+				C3ACD7FE1CDC1487000B2399 /* ItineraryTableViewController.swift */,
+				C36C6F7F1D18B28100A51253 /* EventTableViewCell.swift */,
+				C3ACD8021CDC182A000B2399 /* EventDetailsTableViewController.swift */,
+			);
+			name = "Itinerary Scene";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -316,7 +339,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3F5E0611D1B93D200F1D2A0 /* EventDetailsHeader.xib in Resources */,
 				C3237E301CADC402008293D6 /* LaunchScreen.storyboard in Resources */,
+				C3F5E05D1D1B901700F1D2A0 /* ReviewCell.xib in Resources */,
 				C34889461CC9A7650045EED4 /* top_foodie_plans.json in Resources */,
 				C33A700E1CC04A9D00B8313C /* TopCollectionsCell.xib in Resources */,
 				C3BC14381CE5669100980093 /* Climacons.ttf in Resources */,
@@ -332,6 +357,7 @@
 				C33A701A1CC07A4900B8313C /* TypeCell.xib in Resources */,
 				C3F915241CCF3F32007B0D00 /* test.json in Resources */,
 				C3EC027B1CC19ACF00CAC4C1 /* SearchHeader.xib in Resources */,
+				C3F5E05F1D1B902A00F1D2A0 /* NotesCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,6 +425,7 @@
 				C3ACD8011CDC14ED000B2399 /* ItineraryViewController.swift in Sources */,
 				C3DBCA661CEE70E000E0F746 /* SearchDestinationViewController.swift in Sources */,
 				C31AC41C1CADD7150032230E /* Plango.swift in Sources */,
+				C3F5E0631D1B96A600F1D2A0 /* ReviewTableViewCell.swift in Sources */,
 				C3A7D4051CF515D6009D82F2 /* SearchTagsViewController.swift in Sources */,
 				C3237E261CADC402008293D6 /* AppDelegate.swift in Sources */,
 				C3978CDA1CB889DF001028D5 /* Tag.swift in Sources */,
@@ -415,6 +442,7 @@
 				C3978CD01CB70118001028D5 /* SearchViewController.swift in Sources */,
 				C3ACD8031CDC182A000B2399 /* EventDetailsTableViewController.swift in Sources */,
 				C31AC41D1CADD7150032230E /* Extensions.swift in Sources */,
+				C3F5E0651D1B96AD00F1D2A0 /* NotesTableViewCell.swift in Sources */,
 				C316D4AE1D08C4A4008B244E /* LoginConfirmTableViewController.swift in Sources */,
 				C31AC41F1CADD7150032230E /* Helper.swift in Sources */,
 				C3CD5BE61CB5D4AB0079C0E7 /* PlansTableViewCell.swift in Sources */,

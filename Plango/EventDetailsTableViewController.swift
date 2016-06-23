@@ -10,6 +10,12 @@ import UIKit
 
 class EventDetailsTableViewController: UITableViewController {
     
+    @IBOutlet weak var coverImageView: UIImageView!
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var addressLabel: UILabel!
+    
+    @IBOutlet weak var reviewLabel: UILabel!
     enum EventTitles: String {
         case MyNotes = "My Notes"
         case Tips = "Tips and Reviews"
@@ -29,12 +35,15 @@ class EventDetailsTableViewController: UITableViewController {
     
     var event: Event!
     var experience: Experience!
+    var headerView: UIView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.tableView.backgroundColor = UIColor.plangoCream()
         self.navigationItem.title = experience.name
+        
+        tableView.tableHeaderView = headerView
 
     }
     
@@ -51,6 +60,17 @@ class EventDetailsTableViewController: UITableViewController {
             return Helper.CellHeight.plans.value
         }
     }
+    
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case EventTitles.MyNotes.section:
+            return "My Notes"
+        case EventTitles.Tips.section:
+            return "Tips and Reviews"
+        default:
+            return nil
+        }
+    }
 
     // MARK: - Table view data source
 
@@ -63,17 +83,29 @@ class EventDetailsTableViewController: UITableViewController {
         case EventTitles.MyNotes.section:
             return 1
         case EventTitles.Tips.section:
-            return experience.tipCount!
+            return (experience.reviews?.count)!
         default:
             return 0
         }
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
-
-        // Configure the cell...
-
-        return cell
+        switch indexPath.section {
+        case EventTitles.MyNotes.section:
+            let cell = tableView.dequeueReusableCellWithIdentifier(<#T##identifier: String##String#>, forIndexPath: <#T##NSIndexPath#>)
+            
+            return cell
+            
+        case EventTitles.Tips.section:
+            let cell = tableView.dequeueReusableCellWithIdentifier(<#T##identifier: String##String#>, forIndexPath: <#T##NSIndexPath#>)
+            
+            return cell
+            
+        default:
+            let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
+            
+            
+            return cell
+        }
     }
 }

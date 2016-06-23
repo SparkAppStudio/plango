@@ -29,6 +29,8 @@ enum CellID: String {
     case TopCollections = "TopCollectionsTableViewCell"
     case SpecificType = "TypeCollectionViewCell"
     case Event = "EventTableViewCell"
+    case Notes = "NotesTableViewCell"
+    case Review = "ReviewTableViewCell"
 }
 
 enum PageID: String {
