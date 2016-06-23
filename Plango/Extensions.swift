@@ -49,9 +49,13 @@ extension NSDateFormatter {
 }
 
 extension String {
-    func trimWhiteSpace() -> String
-    {
+    func trimWhiteSpace() -> String {
         return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+    }
+    
+    //This is necessary because the JSON object actually has timezone data '.SSSZ' which we dont want
+    func trimDateTimeZone() -> String {
+        return String(self.characters.dropLast(5))
     }
     
     func getStates(state: State) -> String {

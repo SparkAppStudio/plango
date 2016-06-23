@@ -16,6 +16,7 @@ class EventTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var coverImageView: UIImageView!
     @IBOutlet weak var directionsButton: UIButton!
+    @IBOutlet weak var coverView: UIView!
     
     //IBActions
     @IBAction func didTapDirections(sender: UIButton) {
@@ -30,18 +31,40 @@ class EventTableViewCell: UITableViewCell {
 
     func configure() {
         self.contentView.backgroundColor = UIColor.plangoCream()
-        directionsButton.setTitleColor(UIColor.plangoBrown(), forState: .Normal)
+        
+        coverView.layer.borderColor = UIColor.plangoBrown().CGColor
+        coverView.layer.borderWidth = 1
+        coverView.makeRoundCorners(64)
+        
+        directionsButton.layer.borderColor = UIColor.plangoBrown().CGColor
+        directionsButton.layer.borderWidth = 2
+        directionsButton.makeRoundCorners(32)
+        
         guard let experience = experience, event = event else {return}
         
-        let formatter = NSDateFormatter()
-        formatter.dateStyle = .ShortStyle
-        
         let calendar = NSCalendar.currentCalendar()
-        let components = calendar.components([.Hour, .Minute], fromDate: event.startDate!)
+        calendar.timeZone = NSTimeZone.defaultTimeZone()
         
-//        startTimeLabel.text = formatter.stringFromDate(event.startDate!)
-        startTimeLabel.text = "\(components.hour):\(components.minute)"
         
+        let formatter = NSDateFormatter()
+        formatter.locale = NSLocale.systemLocale()
+        formatter.calendar = calendar
+        formatter.timeZone = calendar.timeZone
+        formatter.dateStyle = .ShortStyle
+        formatter.timeStyle = .ShortStyle
+        formatter.dateFormat = "h:mm a"
+        
+        
+        let components = calendar.components([.Day, .Hour, .Minute], fromDate: event.startDate!)
+        let todayComponents = calendar.components([.Day, .Hour], fromDate: NSDate())
+        
+        if components.hour == todayComponents.hour && components.day == todayComponents.day {
+            startTimeLabel.textColor = UIColor.plangoOrange()
+        } else {
+            startTimeLabel.textColor = UIColor.plangoBrown()
+        }
+        startTimeLabel.text = formatter.stringFromDate(event.startDate!)
+//        print(event.startDate)
         titleLabel.text = experience.name
         
         guard let endPoint = experience.avatar else {return}

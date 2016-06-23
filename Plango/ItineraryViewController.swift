@@ -111,6 +111,7 @@ class ItineraryViewController: MXSegmentedPagerController {
         var experiencesForTheDay = [Experience]()
 
         let calendar = NSCalendar.currentCalendar()
+        calendar.timeZone = NSTimeZone.localTimeZone()
         let indexDate = calendar.dateByAddingUnit(.Day, value: index, toDate: plan.startDate!, options: [])
         
         let indexDay = calendar.component(.Day, fromDate: indexDate!)

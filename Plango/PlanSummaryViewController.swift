@@ -277,6 +277,7 @@ class PlanSummaryViewController: UIViewController {
             guard let startDate = plan.startDate else {return}
             guard let endDate = plan.endDate else {return}
             let formatter = NSDateFormatter()
+            formatter.timeZone = NSTimeZone.defaultTimeZone()
             formatter.dateStyle = NSDateFormatterStyle.LongStyle
             let startDateString = formatter.stringFromDate(startDate)
             let endDateString = formatter.stringFromDate(endDate)
@@ -313,6 +314,7 @@ class PlanSummaryViewController: UIViewController {
     
     func startTimer(startDate: NSDate) {
         let today = NSDate()
+        calendar.timeZone = NSTimeZone.localTimeZone()
         
         days = calendar.components(.Day, fromDate: today, toDate: startDate, options: []).day
         
@@ -325,10 +327,16 @@ class PlanSummaryViewController: UIViewController {
         
         seconds = calendar.components(.Second, fromDate: today, toDate: startMinusHours!, options: []).second
         
-        
-        startDaysLabel.text = days.description
-        startHoursLabel.text = hours.description
-        startSecondsLabel.text = seconds.description
+        if days > 0 || hours > 0 || seconds > 0 {
+            startDaysLabel.text = days.description
+            startHoursLabel.text = hours.description
+            startSecondsLabel.text = seconds.description
+
+        } else {
+            startDaysLabel.text = "0"
+            startHoursLabel.text = "0"
+            startSecondsLabel.text = "0"
+        }
     }
     
     func configureLabel(label: UILabel) {

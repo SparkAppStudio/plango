@@ -139,7 +139,12 @@ class MyPlansViewController: MXSegmentedPagerController {
     }
     
     override func segmentedPager(segmentedPager: MXSegmentedPager, didScrollWithParallaxHeader parallaxHeader: MXParallaxHeader) {
+
+        //no need to query if not logged in
+        guard let _ = Plango.sharedInstance.currentUser else {return}
+        
         //use or override for refresh effect
+
         if parallaxHeader.progress > 0.2 {
             if plansController.fetchRequest == nil {
                 plansController.fetchPlans(plansController.plansEndPoint)

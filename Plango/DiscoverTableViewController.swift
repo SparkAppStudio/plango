@@ -26,6 +26,7 @@ class DiscoverTableViewController: UITableViewController {
         }
         
         static var count: Int {
+            //whatever the last case in the enum is, then plus 1 gives you the count
             return DiscoverTitles.PopularPlans.hashValue + 1
         }
     }
@@ -60,17 +61,6 @@ class DiscoverTableViewController: UITableViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-        
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        switch indexPath.section {
-        case DiscoverTitles.TypeCollections.section:
-            return Helper.CellHeight.superWide.value
-        case DiscoverTitles.PlangoCollections.section:
-            return Helper.CellHeight.superWide.value
-        default:
-            return Helper.CellHeight.plans.value
-        }
     }
     
     func fetchPopularDestinations() {
@@ -125,6 +115,17 @@ class DiscoverTableViewController: UITableViewController {
     }
     
     // MARK: - Table view Delegate
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        switch indexPath.section {
+        case DiscoverTitles.TypeCollections.section:
+            return Helper.CellHeight.superWide.value
+        case DiscoverTitles.PlangoCollections.section:
+            return Helper.CellHeight.superWide.value
+        default:
+            return Helper.CellHeight.plans.value
+        }
+    }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
