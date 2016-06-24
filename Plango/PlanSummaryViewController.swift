@@ -355,9 +355,14 @@ class PlanSummaryViewController: UIViewController {
     }
     
     func didTapItinerary() {
-        let itineraryVC = ItineraryViewController()
-        itineraryVC.plan = self.plan
-        self.showViewController(itineraryVC, sender: nil)
+        if plan.durationDays != nil && plan.durationDays != 0 && plan.startDate != nil && plan.endDate != nil {
+            
+            let itineraryVC = ItineraryViewController()
+            itineraryVC.plan = self.plan
+            self.showViewController(itineraryVC, sender: nil)
+        } else {
+            self.view.quickToast("No itinerary info for this plan")
+        }
     }
     
     func didTapMap() {

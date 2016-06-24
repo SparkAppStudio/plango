@@ -89,11 +89,19 @@ class ItineraryViewController: MXSegmentedPagerController {
     // MARK: - MXSegmentedpagerDataSource
     
     override func numberOfPagesInSegmentedPager(segmentedPager: MXSegmentedPager) -> Int {
-        return titlesArray.count
+        if titlesArray.count == 0 {
+            return 1
+        } else {
+            return titlesArray.count            
+        }
     }
     
     override func segmentedPager(segmentedPager: MXSegmentedPager, titleForSectionAtIndex index: Int) -> String {
-        return titlesArray[index] as! String
+        if titlesArray.count == 0 {
+            return "Unknown"
+        } else {
+            return titlesArray[index] as! String            
+        }
     }
     
     override func segmentedPager(segmentedPager: MXSegmentedPager, viewControllerForPageAtIndex index: Int) -> UIViewController {

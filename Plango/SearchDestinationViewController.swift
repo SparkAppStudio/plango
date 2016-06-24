@@ -75,7 +75,7 @@ class SearchDestinationViewController: UIViewController {
         
         // Prevent the navigation bar from being hidden when searching.
         searchController?.hidesNavigationBarDuringPresentation = false
-//        searchController?.dimsBackgroundDuringPresentation = false
+        searchController?.dimsBackgroundDuringPresentation = false
         
         
         searchButton = UIButton(type: .Custom)
