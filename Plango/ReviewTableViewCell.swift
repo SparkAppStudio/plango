@@ -10,7 +10,7 @@ import UIKit
 
 class ReviewTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var coverImageView: UIImageView!
+    @IBOutlet weak var authorImageView: UIImageView!
     
     @IBOutlet weak var reviewLabel: UILabel!
     
@@ -24,12 +24,13 @@ class ReviewTableViewCell: UITableViewCell {
         authorLabel.text = review.author
         
         guard let endPoint = review.authorAvatar else {return}
-        coverImageView.af_setImageWithURL(NSURL(string: endPoint)!)
+        authorImageView.af_setImageWithURL(NSURL(string: endPoint)!)
+        authorImageView.makeCircle()
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        coverImageView.af_cancelImageRequest()
+        authorImageView.af_cancelImageRequest()
         review = nil
     }
 

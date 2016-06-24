@@ -16,19 +16,19 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="e8M-tZ-2Yq">
-                        <rect key="frame" x="8" y="8" width="63.5" height="63.5"/>
+                        <rect key="frame" x="8" y="8" width="64" height="64"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="e8M-tZ-2Yq" secondAttribute="height" multiplier="1:1" id="yaT-8u-u7C"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DB9-Wc-k11">
-                        <rect key="frame" x="79.5" y="51.5" width="232.5" height="19.5"/>
+                        <rect key="frame" x="80" y="52" width="232" height="19"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z2V-v9-22G">
-                        <rect key="frame" x="79" y="8" width="232.5" height="43.5"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z2V-v9-22G">
+                        <rect key="frame" x="79" y="8" width="233" height="44"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -49,8 +49,8 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="authorImageView" destination="e8M-tZ-2Yq" id="VYR-y7-f99"/>
                 <outlet property="authorLabel" destination="DB9-Wc-k11" id="Vp6-gY-Qx7"/>
-                <outlet property="coverImageView" destination="e8M-tZ-2Yq" id="oXa-7w-VcE"/>
                 <outlet property="reviewLabel" destination="z2V-v9-22G" id="f9C-OE-eTH"/>
             </connections>
             <point key="canvasLocation" x="389" y="416"/>

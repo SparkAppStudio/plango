@@ -54,7 +54,10 @@ class EventDetailsTableViewController: UITableViewController {
         let nib = UINib(nibName: "EventDetailsHeader", bundle: bundle)
         headerView = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
         
-        tableView.tableHeaderView = headerView
+        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.size.width, height: 180))
+        
+        containerView.addSubview(headerView)
+        tableView.tableHeaderView = containerView
 
 
     }
@@ -62,19 +65,14 @@ class EventDetailsTableViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        headerView.setNeedsLayout()
-        headerView.layoutIfNeeded()
-        let height = headerView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize).height
-        var frame = headerView.frame
-        frame.size.height = height
-        headerView.frame = frame
-        tableView.tableHeaderView = headerView
-        
         titleLabel.text = experience.name
         addressLabel.text = experience.address
         reviewLabel.text = experience.rating
         
-        guard let endPoint = experience.avatar else {return}
+        guard let endPoint = experience.avatar else {
+            coverImageView.backgroundColor = UIColor.plangoBrown()
+            return
+        }
         coverImageView.af_setImageWithURL(NSURL(string: endPoint)!)
     }
     
