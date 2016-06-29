@@ -97,6 +97,8 @@ class Plango: NSObject {
     
     func fetchPlans(endPoint: String, onCompletion: PlansResponse) -> Request {
         return Alamofire.request(.GET, endPoint).validate().responseJSON { response in
+            print(response.request?.URLString)
+
             switch response.result {
             case .Success(let value):
                 let dataJSON = JSON(value)
@@ -200,6 +202,8 @@ class Plango: NSObject {
     
     func fetchPlangoFavoritesMeta(endPoint: String, onCompletion: PlangoCollectionResponse) {
         Alamofire.request(.GET, endPoint).validate().responseJSON { response in
+            print(response.request?.URLString)
+
             switch response.result {
             case .Success(let value):
                 let dataJSON = JSON(value)
