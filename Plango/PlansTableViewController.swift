@@ -15,7 +15,11 @@ class PlansTableViewController: UITableViewController {
     lazy var plansArray = [Plan]()
     
     var fetchRequest: Request?
-    
+    var currentFetchPage: Int = 0
+    var endReached = false
+
+    var findPlansParameters: [String:AnyObject]?
+
     var plansEndPoint: String!
 
     override func viewDidLoad() {
@@ -24,6 +28,8 @@ class PlansTableViewController: UITableViewController {
         let cellNib = UINib(nibName: "PlansCell", bundle: nil)
         self.tableView.registerNib(cellNib, forCellReuseIdentifier: CellID.Plans.rawValue)
         
+        getPlans()
+        
     }
     
     func clearTable() {
@@ -31,9 +37,22 @@ class PlansTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    func fetchPlans(endPoint: String) {
-        self.tableView.showSimpleLoading()
-        self.fetchRequest = Plango.sharedInstance.fetchPlans(endPoint) {
+    //wrapper because depending on parent or instantiating controller, may need to call find plans or fetch plans, for example search vs my plans parents, this wrapper should be called which checks if there are parameters present and decides the correct fetch method that way
+    func getPlans() {
+        if fetchRequest == nil {
+            if let parameters = findPlansParameters {
+                findPlans(plansEndPoint, page: currentFetchPage + 1, parameters: parameters)
+            } else {
+                if Plango.sharedInstance.currentUser != nil {
+                    fetchPlans(plansEndPoint) //this method only used to find current user plans it seems
+                }
+            }
+        }
+    }
+    
+    private func fetchPlans(endPoint: String) {
+        tableView.showSimpleLoading()
+        fetchRequest = Plango.sharedInstance.fetchPlans(endPoint) {
             (receivedPlans: [Plan]?, error: PlangoError?) in
             self.tableView.hideSimpleLoading()
             self.fetchRequest = nil
@@ -59,16 +78,46 @@ class PlansTableViewController: UITableViewController {
 //        self.tableView.reloadData()
     }
     
-    func findPlans(endPoint: String, durationFrom: Int?, durationTo: Int?, tags: [Tag]?, selectedPlaces: [Destination]?, user: User?, isJapanSearch: Bool?) {
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
+        checkAndAppendMorePlans()
+    }
+    
+//    override func scrollViewWillBeginDecelerating(scrollView: UIScrollView) {
+//        checkAndAppendMorePlans()
+//    }
+    
+    func checkAndAppendMorePlans() {
+        let lastRow = tableView.indexPathsForVisibleRows?.last?.row
+        print("last row \(lastRow)")
+        print("array count \(plansArray.count - 8)")
+
+        if lastRow == plansArray.count - 8 && endReached == false {
+            //request additional items as long as we are scrolled toward bottom and aren't already at the end of plango source
+            getPlans()
+        }
+        
+    }
+    
+    private func findPlans(endPoint: String, page: Int, parameters: [String : AnyObject]) {
         self.tableView.showSimpleLoading()
-        Plango.sharedInstance.findPlans(endPoint, minDuration: durationFrom, maxDuration: durationTo, tags: tags, selectedDestinations: selectedPlaces, user: user, isJapanSearch: isJapanSearch) { (receivedPlans, error) in
+        fetchRequest = Plango.sharedInstance.findPlans(endPoint, page: page, parameters: parameters) { (receivedPlans, error) in
             self.tableView.hideSimpleLoading()
-            
+            self.currentFetchPage = page
+            self.fetchRequest = nil
+
             if let error = error {
                 self.printPlangoError(error)
             } else if let plans = receivedPlans {
+                if plans.count == 0 { //empty array means end of pagination
+                    self.endReached = true
+                }
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.plansArray = plans
+                    
+//                    if self.plansArray.count == 0 {
+//                        self.plansArray = plans
+//                    } else {
+                        self.plansArray.appendContentsOf(plans)
+//                    }
                     self.tableView.reloadData()
                 })
             }

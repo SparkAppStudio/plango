@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MapKit
 
-class ItineraryTableViewController: UITableViewController {
+class ItineraryTableViewController: UITableViewController, EventTableViewCellDelegate {
     
     var events: [Event]!
     var experiences: [Experience]!
@@ -30,6 +31,24 @@ class ItineraryTableViewController: UITableViewController {
     }
 
 
+    func displayMapForExperience(experience: Experience) {
+        
+        guard let latitute: CLLocationDegrees = experience.geocode?.first else {return}
+        guard let longitute: CLLocationDegrees = experience.geocode?.last else {return}
+                
+        let regionDistance:CLLocationDistance = 10000
+        let coordinates = CLLocationCoordinate2DMake(latitute, longitute)
+        let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, regionDistance, regionDistance)
+        
+        let options = [
+            MKLaunchOptionsMapCenterKey: NSValue(MKCoordinate: regionSpan.center),
+            MKLaunchOptionsMapSpanKey: NSValue(MKCoordinateSpan: regionSpan.span)
+        ]
+        let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
+        let mapItem = MKMapItem(placemark: placemark)
+        mapItem.name = "\(experience.name)"
+        mapItem.openInMapsWithLaunchOptions(options)
+    }
 
     // MARK: - Table view data source
 
@@ -46,7 +65,7 @@ class ItineraryTableViewController: UITableViewController {
         
         cell.event = events[indexPath.row]
         cell.experience = experiences[indexPath.row]
-        
+        cell.delegate = self
         cell.configure()
         
         return cell

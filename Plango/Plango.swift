@@ -110,10 +110,48 @@ class Plango: NSObject {
         }
     }
     
-    func findPlans(endPoint: String, minDuration: Int?, maxDuration: Int?, tags: [Tag]?, selectedDestinations: [Destination]?, user: User?, isJapanSearch: Bool?, onCompletion: PlansResponse) {
+    func findPlans(endPoint: String, page: Int, parameters: [String : AnyObject], onCompletion: PlansResponse) -> Request {
         
+        //pagination
+        var newParameters = parameters
+        newParameters["maxResults"] = 14
+        newParameters["pageNum"] = page
+        
+        //encoding
+        let encodableURLRequest = NSURLRequest(URL: NSURL(string: endPoint)!)
+        let encodedURLRequest = ParameterEncoding.URL.encode(encodableURLRequest, parameters: newParameters).0
+        
+        let mutableURLRequest = NSMutableURLRequest(URL: encodedURLRequest.URL!)
+        mutableURLRequest.HTTPMethod = "GET"
+        mutableURLRequest.setValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
+
+        print(mutableURLRequest.URLString)
+        
+        return Alamofire.request(mutableURLRequest).validate().responseJSON { response in
+            print(response.request?.URLString)
+            switch response.result {
+            case .Success(let value):
+                let dataJSON = JSON(value)
+                if dataJSON["status"].stringValue == "success" {
+                    onCompletion(Plan.getPlansFromJSON(dataJSON), nil)
+                } else {
+                    
+                    let newError = PlangoError(statusCode: response.response?.statusCode, message: dataJSON["message"].stringValue)
+                    
+                    onCompletion(nil, newError)
+                }
+            case .Failure(let error):
+                let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
+
+                onCompletion(nil, newError)
+            }
+
+        }
+    }
+    
+    func buildParameters(minDuration: Int?, maxDuration: Int?, tags: [Tag]?, selectedDestinations: [Destination]?, user: User?, isJapanSearch: Bool?) -> [String:AnyObject] {
         var parameters: [String : AnyObject] = [:]
-                                            
+        
         if let item = minDuration {
             parameters["durationFrom"] = String(item)
         }
@@ -146,7 +184,7 @@ class Plango: NSObject {
                     placesString.appendContentsOf("country:\(country)_")
                 }
             }
-        
+            
             let cleanedPlaces = String(placesString.characters.dropLast())
             parameters["selectedPlaces"] = cleanedPlaces
         }
@@ -157,36 +195,7 @@ class Plango: NSObject {
             parameters["isJapanSearch"] = item
         }
         
-        //encoding
-        let encodableURLRequest = NSURLRequest(URL: NSURL(string: endPoint)!)
-        let encodedURLRequest = ParameterEncoding.URL.encode(encodableURLRequest, parameters: parameters).0
-        
-        let mutableURLRequest = NSMutableURLRequest(URL: encodedURLRequest.URL!)
-        mutableURLRequest.HTTPMethod = "GET"
-        mutableURLRequest.setValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
-
-        print(mutableURLRequest.URLString)
-        
-        Alamofire.request(mutableURLRequest).validate().responseJSON { response in
-            print(response.request?.URLString)
-            switch response.result {
-            case .Success(let value):
-                let dataJSON = JSON(value)
-                if dataJSON["status"].stringValue == "success" {
-                    onCompletion(Plan.getPlansFromJSON(dataJSON), nil)
-                } else {
-                    
-                    let newError = PlangoError(statusCode: response.response?.statusCode, message: dataJSON["message"].stringValue)
-                    
-                    onCompletion(nil, newError)
-                }
-            case .Failure(let error):
-                let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
-
-                onCompletion(nil, newError)
-            }
-
-        }
+        return parameters
     }
     
     func fetchPlangoFavoritesMeta(endPoint: String, onCompletion: PlangoCollectionResponse) {

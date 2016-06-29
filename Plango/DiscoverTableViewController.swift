@@ -64,7 +64,7 @@ class DiscoverTableViewController: UITableViewController {
     }
     
     func fetchPopularDestinations() {
-        Plango.sharedInstance.findPlans(Plango.EndPoint.PopularDestination.rawValue, minDuration: nil, maxDuration: nil, tags: nil, selectedDestinations: nil, user: nil, isJapanSearch: nil) { (plans, error) in
+        Plango.sharedInstance.fetchPlans(Plango.EndPoint.PopularDestination.rawValue) { (plans, error) in
             if let error = error {
                 self.printPlangoError(error)
             } else if let plans = plans {
@@ -90,7 +90,7 @@ class DiscoverTableViewController: UITableViewController {
     }
     
     func fetchPlangoFavorites() {
-        Plango.sharedInstance.findPlans(Plango.EndPoint.PlangoFavorites.rawValue, minDuration: nil, maxDuration: nil, tags: nil, selectedDestinations: nil, user: nil, isJapanSearch: nil) { (plans, error) in
+        Plango.sharedInstance.fetchPlans(Plango.EndPoint.PlangoFavorites.rawValue) { (plans, error) in
             if let error = error {
                 self.printPlangoError(error)
             } else if let plans = plans {
@@ -308,18 +308,15 @@ extension DiscoverTableViewController: UICollectionViewDataSource, UICollectionV
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! TypeCollectionViewCell
         guard let tag = cell.plangoTag else {return}
-        self.tableView.showSimpleLoading()
-        Plango.sharedInstance.findPlans(Plango.EndPoint.FindPlans.rawValue, minDuration: nil, maxDuration: nil, tags: [tag], selectedDestinations: nil, user: nil, isJapanSearch: nil) { (receivedPlans, error) in
-            self.tableView.hideSimpleLoading()
-            if let error = error {
-                self.printPlangoError(error)
-            } else if let plans = receivedPlans {
-                let plansVC = PlansTableViewController()
-                plansVC.plansArray = plans
-                plansVC.navigationItem.title = tag.name?.uppercaseString
-                self.showViewController(plansVC, sender: nil)
-            }
-        }
+        
+        let parameters = Plango.sharedInstance.buildParameters(nil, maxDuration: nil, tags: [tag], selectedDestinations: nil, user: nil, isJapanSearch: nil)
+        
+        let plansVC = PlansTableViewController()
+        plansVC.plansEndPoint = Plango.EndPoint.FindPlans.rawValue
+        plansVC.findPlansParameters = parameters
+        plansVC.navigationItem.title = tag.name?.uppercaseString
+        self.showViewController(plansVC, sender: nil)
+
     }
 
 }

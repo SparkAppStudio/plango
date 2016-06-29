@@ -43,15 +43,24 @@ class Plan: NSObject {
     class func getPlansFromJSON(objectJSON: JSON) -> [Plan]? {
         var tempUsers = [Plan?]()
         
-        if let array = objectJSON["data"].arrayObject {
+        if let array = objectJSON["data"].arrayObject { //sometimes plango server sends array in top level
+            
+            if array.count == 0 {
+                return tempUsers.flatMap { $0 } //end of pagination, found empty array
+            }
+            
             for item in array {
                 let dictionary = item as! NSDictionary
                 tempUsers.append(createPlan(dictionary))
             }
-        } else if let topDictionary = objectJSON["data"].dictionaryObject {
+        } else if let topDictionary = objectJSON["data"].dictionaryObject { //sometimes plango server sends a dictionary with the array nested one more level
             guard let array = topDictionary["plans"] as? [AnyObject] else {
-                print("In \(classForCoder()) failed to parse JSON")
+                print("In \(classForCoder()) failed to parse JSON this shouldn't happen, check data from server")
                 return nil
+            }
+            
+            if array.count == 0 {
+                return tempUsers.flatMap { $0 } //end of pagination, found empty array
             }
             
             for item in array {
@@ -141,7 +150,7 @@ class Plan: NSObject {
             newPlan.events = [Event]()
             for event in events {
                 let id = event["_id"] as! String
-                let experienceID = event["experience_id"] as! String
+                let experienceID = event["experience_id"] as? String
                 let duration = event["duration"] as? Int
                 let allDay = event["all_day"] as? Bool
 
@@ -235,7 +244,7 @@ class Plan: NSObject {
                     reviews = tempReviews
                 }
                 
-                let geoArr = experience["geocode"] as? [Float]
+                let geoArr = experience["geocode"] as? [Double]
                 
                 let anExperience = Experience(id: id, placeID: placeID, authorID: authorID, name: name, avatar: avatar, address: address, city: city, state: state, country: country, url: url, rating: rating, experienceDescription: description, notes: notes, phone: phone, tipCount: tipCount, price: price, likes: likes, locationType: locationType, isPublic: isPublic, isCustom: isCustom, photos: photos, hours: hours, reviews: reviews, geocode: geoArr)
                 newPlan.experiences?.append(anExperience)
@@ -302,7 +311,7 @@ struct Experience { //"name":"PRO rafting Costa Rica","thumb":"http://placehold.
     var photos: NSArray?
     var hours: NSArray?
     var reviews: [Review]?
-    var geocode: [Float]?
+    var geocode: [Double]?
     
 }
 

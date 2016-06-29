@@ -27,9 +27,6 @@ class MyPlansViewController: MXSegmentedPagerController {
     lazy var plansController: PlansTableViewController = {
         let plansVC = PlansTableViewController()
         plansVC.plansEndPoint = Plango.EndPoint.MyPlans.rawValue
-        if Plango.sharedInstance.currentUser != nil {
-            plansVC.fetchPlans(plansVC.plansEndPoint)
-        }
 
         return plansVC
     }()
@@ -146,9 +143,7 @@ class MyPlansViewController: MXSegmentedPagerController {
         //use or override for refresh effect
 
         if parallaxHeader.progress > 0.2 {
-            if plansController.fetchRequest == nil {
-                plansController.fetchPlans(plansController.plansEndPoint)
-            }
+            plansController.getPlans() //this method checks if current user is there and that request is nill before activating
         }
     }
     

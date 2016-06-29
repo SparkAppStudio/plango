@@ -35,18 +35,14 @@ class SearchDestinationViewController: UIViewController {
     func didTapSearch(sender: UIButton) {
         if let parent = parentViewController as? SearchViewController {
             parent.collectSearchParameters()
-            self.tableView.showSimpleLoading()
-            Plango.sharedInstance.findPlans(Plango.EndPoint.FindPlans.rawValue, minDuration: parent.minDuration, maxDuration: parent.maxDuration, tags: parent.selectedTags, selectedDestinations: parent.selectedDestinations, user: nil, isJapanSearch: nil, onCompletion: { (receivedPlans, error) in
-                self.tableView.hideSimpleLoading()
-                if let error = error {
-                    self.printPlangoError(error)
-                } else if let plans = receivedPlans {
-                    let plansVC = PlansTableViewController()
-                    plansVC.plansArray = plans
-                    plansVC.navigationItem.title = "RESULTS"
-                    self.showViewController(plansVC, sender: nil)
-                }
-            })
+            let parameters = Plango.sharedInstance.buildParameters(parent.minDuration, maxDuration: parent.maxDuration, tags: parent.selectedTags, selectedDestinations: parent.selectedDestinations, user: nil, isJapanSearch: nil)
+            
+            let plansVC = PlansTableViewController()
+            plansVC.plansEndPoint = Plango.EndPoint.FindPlans.rawValue
+            plansVC.findPlansParameters = parameters
+            plansVC.navigationItem.title = "RESULTS"
+            self.showViewController(plansVC, sender: nil)
+
         }
     }
     
