@@ -124,6 +124,7 @@ class Plan: NSObject {
         
         if let members = dictionary["members"] as? [[String:AnyObject]] {
             for member in members {
+                //possibly change this to optional
                 let userID = member["_id"] as! String
                 let confirmed = member["confirmed"] as! Bool
                 

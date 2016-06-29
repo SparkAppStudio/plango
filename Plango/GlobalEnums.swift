@@ -27,6 +27,7 @@ enum CellID: String {
     case Plans = "PlansTableViewCell"
     case PlanTypes = "PlanTypesTableViewCell"
     case TopCollections = "TopCollectionsTableViewCell"
+    case TopCollectionsMiddle = "TopCollectionsMiddleTableViewCell"
     case SpecificType = "TypeCollectionViewCell"
     case Event = "EventTableViewCell"
     case Notes = "NotesTableViewCell"

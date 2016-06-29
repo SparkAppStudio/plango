@@ -42,14 +42,21 @@ class DiscoverTableViewController: UITableViewController {
         super.viewDidLoad()
         self.tableView.backgroundColor = UIColor.plangoCream()
         self.navigationItem.title = "DISCOVER"
-                
+        
+        
+        // MARK: - Cell Types ------------------------------------------------------------------------
         let plansNib = UINib(nibName: "PlansCell", bundle: nil)
         self.tableView.registerNib(plansNib, forCellReuseIdentifier: CellID.Plans.rawValue)
         
         let topCollectionsNib = UINib(nibName: "TopCollectionsCell", bundle: nil)
         self.tableView.registerNib(topCollectionsNib, forCellReuseIdentifier: CellID.TopCollections.rawValue)
         
+        let topCollectionsMiddleNib = UINib(nibName: "TopCollectionsMiddleCell", bundle: nil)
+        self.tableView.registerNib(topCollectionsMiddleNib, forCellReuseIdentifier: CellID.TopCollectionsMiddle.rawValue)
+        
         self.tableView.registerClass(PlanTypesTableViewCell.self, forCellReuseIdentifier: CellID.PlanTypes.rawValue)
+        
+        //------------------------------------------------------------------------
         
         fetchTags(Plango.EndPoint.AllTags.rawValue)
 
@@ -121,7 +128,11 @@ class DiscoverTableViewController: UITableViewController {
         case DiscoverTitles.TypeCollections.section:
             return Helper.CellHeight.superWide.value
         case DiscoverTitles.PlangoCollections.section:
-            return Helper.CellHeight.superWide.value
+            if indexPath.row == 1 {
+                return Helper.CellHeight.superWide.value + 8
+            } else {
+                return Helper.CellHeight.superWide.value
+            }
         default:
             return Helper.CellHeight.plans.value
         }
@@ -231,18 +242,35 @@ class DiscoverTableViewController: UITableViewController {
             return cell
 
         case DiscoverTitles.PlangoCollections.section:
-            let cell = tableView.dequeueReusableCellWithIdentifier(CellID.TopCollections.rawValue, forIndexPath: indexPath) as! TopCollectionsTableViewCell
-            if let collections = self.plangoFavoriteCollectionsArray {
-                let collection = collections[indexPath.row]
-                cell.plangoCollection = collection
+            if indexPath.row == 1 {
+                let cell = tableView.dequeueReusableCellWithIdentifier(CellID.TopCollectionsMiddle.rawValue, forIndexPath: indexPath) as! TopCollectionsMiddleTableViewCell
                 
-                guard let favorites = self.plangoFavoritesDictionary else { return cell }
-                guard let plans = favorites[collection.name!] else { return cell }
-                cell.plans = plans
-                cell.configure()
+                if let collections = self.plangoFavoriteCollectionsArray {
+                    let collection = collections[indexPath.row]
+                    cell.plangoCollection = collection
+                    
+                    guard let favorites = self.plangoFavoritesDictionary else { return cell }
+                    guard let plans = favorites[collection.name!] else { return cell }
+                    cell.plans = plans
+                    cell.configure()
+                }
+                
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCellWithIdentifier(CellID.TopCollections.rawValue, forIndexPath: indexPath) as! TopCollectionsTableViewCell
+                
+                if let collections = self.plangoFavoriteCollectionsArray {
+                    let collection = collections[indexPath.row]
+                    cell.plangoCollection = collection
+                    
+                    guard let favorites = self.plangoFavoritesDictionary else { return cell }
+                    guard let plans = favorites[collection.name!] else { return cell }
+                    cell.plans = plans
+                    cell.configure()
+                }
+                
+                return cell
             }
-            
-            return cell
 
         default:
             let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Plans.rawValue, forIndexPath: indexPath) as! PlansTableViewCell

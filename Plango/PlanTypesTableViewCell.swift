@@ -26,7 +26,7 @@ class PlanTypesTableViewCell: UITableViewCell {
         
         let typeNib = UINib(nibName: "TypeCell", bundle: nil)
         collectionView?.registerNib(typeNib, forCellWithReuseIdentifier: CellID.SpecificType.rawValue)
-        
+        collectionView.showsHorizontalScrollIndicator = false
         contentView.addSubview(collectionView)
     }
     
