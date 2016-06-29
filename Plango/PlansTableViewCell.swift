@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import AlamofireImage
 
 class PlansTableViewCell: UITableViewCell {
     
@@ -32,13 +33,23 @@ class PlansTableViewCell: UITableViewCell {
     
     func configure() {
         if let cellPlan = plan {
-            fetchUserForPlan("\(Plango.EndPoint.UserByID.rawValue)\(cellPlan.authorID)")
+            fetchUserForPlan(cellPlan, endPoint: "\(Plango.EndPoint.UserByID.rawValue)\(cellPlan.authorID)")
 
             planNameLabel.text = cellPlan.name
             
             guard let endPoint = cellPlan.avatar else {return}
             let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
+            
+            let downloader = ImageDownloader(
+                configuration: ImageDownloader.defaultURLSessionConfiguration(),
+                downloadPrioritization: .FIFO,
+                maximumActiveDownloads: 10,
+                imageCache: Plango.sharedInstance.photoCache
+            )
+            coverImageView.af_imageDownloader = downloader
+            
             coverImageView.af_setImageWithURL(cleanURL!)
+
             
             var allTags = ""
             guard let planTags = cellPlan.tags else {
@@ -81,7 +92,7 @@ class PlansTableViewCell: UITableViewCell {
         profileImageView.af_cancelImageRequest()
 //        self.request?.cancel() //for when using my own method and request manager
         
-//        coverImageView.image = nil
+        coverImageView.image = nil
         profileImageView.image = nil
 
         userRequest?.cancel()
@@ -93,7 +104,17 @@ class PlansTableViewCell: UITableViewCell {
         
     }
     
-    func fetchUserForPlan(endPoint: String) {
+    func fetchUserForPlan(plan: Plan, endPoint: String) {
+        
+        if let user = Plango.sharedInstance.userCache[plan.authorID] {
+            self.user = user
+            dispatch_async(dispatch_get_main_queue(), {
+                self.configureUser()
+            })
+            return
+        }
+        
+        
         self.profileImageView.showSimpleLoading()
         self.userRequest = Plango.sharedInstance.fetchUsers(endPoint) {
             (receivedUsers: [User]?, error: PlangoError?) in
@@ -103,6 +124,7 @@ class PlansTableViewCell: UITableViewCell {
             } else if let users = receivedUsers {
                 guard let user = users.first else {return}
                 self.user = user
+                Plango.sharedInstance.userCache[user.id] = user
                 dispatch_async(dispatch_get_main_queue(), { 
                     self.configureUser()
                 })

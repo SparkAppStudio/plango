@@ -49,8 +49,9 @@ class Plango: NSObject {
     typealias ReportSpamResponse = (PlangoError?) -> Void
     typealias ImageResponse = (UIImage?, PlangoError?) -> Void
     
-    let photoCache = AutoPurgingImageCache(memoryCapacity: 100 * 1024 * 1024, preferredMemoryUsageAfterPurge: 60 * 1024 * 1024)
-    
+    //memory usage scales to physical memory available on device
+    let photoCache = AutoPurgingImageCache(memoryCapacity: NSProcessInfo.processInfo().physicalMemory/5, preferredMemoryUsageAfterPurge: NSProcessInfo.processInfo().physicalMemory/10)
+    var userCache = [String : User]()
     
     func cleanEndPoint(endPoint: String) -> String {
         var cleanedEndPoint = endPoint

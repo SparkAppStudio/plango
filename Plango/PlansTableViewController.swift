@@ -32,6 +32,10 @@ class PlansTableViewController: UITableViewController {
         
     }
     
+    deinit {
+        Plango.sharedInstance.userCache = [String : User]()
+    }
+    
     func clearTable() {
         plansArray.removeAll()
         tableView.reloadData()
