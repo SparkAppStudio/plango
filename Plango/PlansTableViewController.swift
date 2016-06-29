@@ -28,7 +28,9 @@ class PlansTableViewController: UITableViewController {
         let cellNib = UINib(nibName: "PlansCell", bundle: nil)
         self.tableView.registerNib(cellNib, forCellReuseIdentifier: CellID.Plans.rawValue)
         
-        getPlans()
+        if plansArray.count == 0 { //make sure data is not preloaded as in top collections case
+            getPlans()
+        }
         
     }
     
@@ -44,12 +46,10 @@ class PlansTableViewController: UITableViewController {
     //wrapper because depending on parent or instantiating controller, may need to call find plans or fetch plans, for example search vs my plans parents, this wrapper should be called which checks if there are parameters present and decides the correct fetch method that way
     func getPlans() {
         if fetchRequest == nil {
-            if let parameters = findPlansParameters {
+            if let parameters = findPlansParameters { //for search and categories
                 findPlans(plansEndPoint, page: currentFetchPage + 1, parameters: parameters)
-            } else {
-                if Plango.sharedInstance.currentUser != nil {
-                    fetchPlans(plansEndPoint) //this method only used to find current user plans it seems
-                }
+            } else if Plango.sharedInstance.currentUser != nil { //will come here on my plans page only, as categories and top collections have parameters or are preloaded
+                fetchPlans(plansEndPoint)
             }
         }
     }
@@ -69,17 +69,6 @@ class PlansTableViewController: UITableViewController {
                 })
             }
         }
-        
-//        guard let urlEndPoint = NSBundle.mainBundle().URLForResource("test", withExtension: "json") else {
-//            return
-//        }
-//        
-//        let testData = try! NSData(contentsOfURL: urlEndPoint, options: .DataReadingMappedIfSafe)
-//        
-//        let testJSON = JSON(data: testData)
-//        
-//        self.plansArray = Plan.getPlansFromJSON(testJSON)
-//        self.tableView.reloadData()
     }
     
     override func scrollViewDidScroll(scrollView: UIScrollView) {
@@ -91,14 +80,18 @@ class PlansTableViewController: UITableViewController {
 //    }
     
     func checkAndAppendMorePlans() {
-        let lastRow = tableView.indexPathsForVisibleRows?.last?.row
-        print("last row \(lastRow)")
-        print("array count \(plansArray.count - 8)")
-
-        if lastRow == plansArray.count - 8 && endReached == false {
-            //request additional items as long as we are scrolled toward bottom and aren't already at the end of plango source
-            getPlans()
+        
+        if findPlansParameters != nil { //check make sure supports pagination by seeing if parameters were set
+            let lastRow = tableView.indexPathsForVisibleRows?.last?.row
+            print("last row \(lastRow)")
+            print("array count \(plansArray.count - 8)")
+            
+            if lastRow == plansArray.count - 8 && endReached == false {
+                //request additional items as long as we are scrolled toward bottom and aren't already at the end of plango source
+                getPlans()
+            }
         }
+
         
     }
     
