@@ -75,7 +75,7 @@ class SearchDestinationViewController: UIViewController {
         // Prevent the navigation bar from being hidden when searching.
         searchController?.hidesNavigationBarDuringPresentation = false
         searchController?.dimsBackgroundDuringPresentation = false
-
+        
         
         
         searchButton = UIButton(type: .Custom)
@@ -83,6 +83,7 @@ class SearchDestinationViewController: UIViewController {
         searchButton.setTitle("Get Plans", forState: .Normal)
         searchButton.backgroundColor = UIColor.plangoOrange()
         searchButton.titleLabel?.textColor = UIColor.whiteColor()
+        searchButton.titleLabel?.font = UIFont.plangoButton()
         searchButton.addTarget(self, action: #selector(didTapSearch), forControlEvents: .TouchUpInside)
         
         self.view.addSubview(searchButton)

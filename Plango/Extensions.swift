@@ -626,10 +626,13 @@ extension UIFont {
         return UIFont(name: "Lato-Regular", size: 12)!
     }
     static func plangoButton() -> UIFont {
-        return UIFont(name: "Lato-Regular", size: 16)!
+        return UIFont(name: "Lato-Bold", size: 16)!
     }
     static func plangoPlaceholder() -> UIFont {
         return UIFont(name: "Lato-Regular", size: 10)!
+    }
+    static func plangoSmallButton() -> UIFont {
+        return UIFont(name: "Lato-Bold", size: 14)!
     }
 }
 
