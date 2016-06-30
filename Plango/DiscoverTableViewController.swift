@@ -43,6 +43,14 @@ class DiscoverTableViewController: UITableViewController {
         self.tableView.backgroundColor = UIColor.plangoCream()
         self.navigationItem.title = "DISCOVER"
         
+        for family: String in UIFont.familyNames()
+        {
+            print("\(family)")
+            for names: String in UIFont.fontNamesForFamilyName(family)
+            {
+                print("== \(names)")
+            }
+        }
         
         // MARK: - Cell Types ------------------------------------------------------------------------
         let plansNib = UINib(nibName: "PlansCell", bundle: nil)
@@ -152,6 +160,7 @@ class DiscoverTableViewController: UITableViewController {
                 let plansVC = PlansTableViewController()
                 plansVC.plansArray = plans
                 plansVC.navigationItem.title = cell.plangoCollection?.name?.uppercaseString
+                plansVC.hidesBottomBarWhenPushed = true
                 self.showViewController(plansVC, sender: nil)
             }
 
@@ -159,6 +168,7 @@ class DiscoverTableViewController: UITableViewController {
             let cell = tableView.cellForRowAtIndexPath(indexPath) as! PlansTableViewCell
             let planSummary = PlanSummaryViewController()
             planSummary.plan = cell.plan
+            planSummary.hidesBottomBarWhenPushed = true
             self.showViewController(planSummary, sender: nil)
         }
     }
@@ -374,6 +384,7 @@ extension DiscoverTableViewController: UICollectionViewDataSource, UICollectionV
         plansVC.plansEndPoint = Plango.EndPoint.FindPlans.rawValue
         plansVC.findPlansParameters = parameters
         plansVC.navigationItem.title = tag.name?.uppercaseString
+        plansVC.hidesBottomBarWhenPushed = true
         self.showViewController(plansVC, sender: nil)
 
     }

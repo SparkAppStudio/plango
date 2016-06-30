@@ -48,9 +48,9 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         self.extendedLayoutIncludesOpaqueBars = false
         self.edgesForExtendedLayout = .None
 
-        addPage("Tags", controller: tagsController)
-        addPage("Destination", controller: destinationController)
-        addPage("Duration", controller: durationController)
+        addPage("TAGS", controller: tagsController)
+        addPage("DESTINATION", controller: destinationController)
+        addPage("DURATION", controller: durationController)
         
         // Parallax Header
 //        let bundle = NSBundle(forClass: self.dynamicType)
@@ -69,8 +69,8 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         // Segmented Control customization
         self.segmentedPager.segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
         self.segmentedPager.segmentedControl.backgroundColor = UIColor.whiteColor()
-        self.segmentedPager.segmentedControl.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.darkTextColor()];
-        self.segmentedPager.segmentedControl.selectedTitleTextAttributes = [NSForegroundColorAttributeName : UIColor.darkTextColor()]
+        self.segmentedPager.segmentedControl.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.darkTextColor(), NSFontAttributeName: UIFont.plangoSearchPager()];
+        self.segmentedPager.segmentedControl.selectedTitleTextAttributes = [NSForegroundColorAttributeName : UIColor.darkTextColor(), NSFontAttributeName: UIFont.plangoSearchPager()]
         self.segmentedPager.segmentedControl.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe
         self.segmentedPager.segmentedControl.selectionIndicatorColor = UIColor.plangoOrange()
         

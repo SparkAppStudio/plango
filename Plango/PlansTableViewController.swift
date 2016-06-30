@@ -166,6 +166,7 @@ class PlansTableViewController: UITableViewController {
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! PlansTableViewCell
         let planSummary = PlanSummaryViewController()
         planSummary.plan = cell.plan
+        planSummary.hidesBottomBarWhenPushed = true
         self.showViewController(planSummary, sender: nil)
     }
     

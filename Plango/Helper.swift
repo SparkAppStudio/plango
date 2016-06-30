@@ -27,8 +27,8 @@ class Helper: NSObject {
         case section
         var value: CGFloat {
             switch self {
-            case .pager: return 40
-            case .section: return 30
+            case .pager: return 44
+            case .section: return 36
             }
         }
     }
