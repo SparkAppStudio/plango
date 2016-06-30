@@ -52,6 +52,8 @@ class SearchDestinationViewController: UIViewController {
         
         
         tableView = UITableView(frame: UIScreen.mainScreen().bounds)
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+
         tableView.delegate = self
         tableView.dataSource = self
         tableView.editing = true

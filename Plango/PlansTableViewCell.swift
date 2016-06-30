@@ -24,6 +24,7 @@ class PlansTableViewCell: UITableViewCell {
     @IBOutlet weak var viewsCountLabel: UILabel!
     @IBOutlet weak var usedCountLabel: UILabel!
     
+    @IBOutlet weak var backdropView: UIView!
     
     var user: User?
     var plan: Plan?
@@ -32,6 +33,9 @@ class PlansTableViewCell: UITableViewCell {
     
     
     func configure() {
+        backdropView.layer.borderWidth = 0.5
+        backdropView.layer.borderColor = UIColor.plangoBrown().CGColor
+        
         if let cellPlan = plan {
             fetchUserForPlan(cellPlan, endPoint: "\(Plango.EndPoint.UserByID.rawValue)\(cellPlan.authorID)")
 

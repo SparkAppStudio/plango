@@ -40,6 +40,8 @@ class DiscoverTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+
         self.tableView.backgroundColor = UIColor.plangoCream()
         self.navigationItem.title = "DISCOVER"
         
@@ -167,6 +169,7 @@ class DiscoverTableViewController: UITableViewController {
         default:
             let cell = tableView.cellForRowAtIndexPath(indexPath) as! PlansTableViewCell
             let planSummary = PlanSummaryViewController()
+            print(cell.plan?.id)
             planSummary.plan = cell.plan
             planSummary.hidesBottomBarWhenPushed = true
             self.showViewController(planSummary, sender: nil)

@@ -7,6 +7,15 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <mutableArray key="Lato-Light.ttf">
+            <string>Lato-Light</string>
+            <string>Lato-Light</string>
+            <string>Lato-Light</string>
+        </mutableArray>
+        <mutableArray key="Lato-Regular.ttf">
+            <string>Lato-Regular</string>
+            <string>Lato-Regular</string>
+        </mutableArray>
         <mutableArray key="Raleway-Light.ttf">
             <string>Raleway-Light</string>
         </mutableArray>
@@ -15,15 +24,19 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlansTableViewCell" id="kIR-JE-xW6" customClass="PlansTableViewCell" customModule="Plango" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="104"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kIR-JE-xW6" id="kbz-Z1-aFe">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="99"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="103"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Plan name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aGh-gF-Vsc">
-                        <rect key="frame" x="8" y="64" width="176" height="18"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0wv-GH-912">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="99"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Plan name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aGh-gF-Vsc">
+                        <rect key="frame" x="8" y="63" width="176" height="18"/>
+                        <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="15"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -32,44 +45,50 @@
                         <constraints>
                             <constraint firstAttribute="width" secondItem="3VT-BI-j2P" secondAttribute="height" multiplier="4:3" id="UwD-p2-ItI"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="UwD-p2-ItI"/>
+                            </mask>
+                        </variation>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LO9-X2-Lwc">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Days" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LO9-X2-Lwc">
                         <rect key="frame" x="196" y="73" width="116" height="18"/>
                         <fontDescription key="fontDescription" name="Raleway-Light" family="Raleway" pointSize="15"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7JP-ZV-AcH">
-                        <rect key="frame" x="60" y="33" width="124" height="12"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="inspired" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7JP-ZV-AcH">
+                        <rect key="frame" x="59" y="32" width="125" height="12"/>
+                        <fontDescription key="fontDescription" name="Lato-Light" family="Lato" pointSize="10"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WSh-qu-GVG">
-                        <rect key="frame" x="8" y="86" width="176" height="12"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="tags" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WSh-qu-GVG">
+                        <rect key="frame" x="8" y="85" width="176" height="12"/>
+                        <fontDescription key="fontDescription" name="Lato-Light" family="Lato" pointSize="10"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GtO-8n-Yba">
-                        <rect key="frame" x="8" y="8" width="48" height="48"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="views" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xZw-V4-ugd">
+                        <rect key="frame" x="59" y="45" width="125" height="12"/>
+                        <fontDescription key="fontDescription" name="Lato-Light" family="Lato" pointSize="10"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Author name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BBR-eV-E4N">
+                        <rect key="frame" x="59" y="8" width="125" height="16"/>
+                        <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="13"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GtO-8n-Yba">
+                        <rect key="frame" x="8" y="8" width="47" height="47"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="GtO-8n-Yba" secondAttribute="height" multiplier="1:1" id="Xeh-28-ell"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xZw-V4-ugd">
-                        <rect key="frame" x="60" y="46" width="124" height="12"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Author name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BBR-eV-E4N">
-                        <rect key="frame" x="60" y="8" width="124" height="16"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstItem="3VT-BI-j2P" firstAttribute="leading" secondItem="7JP-ZV-AcH" secondAttribute="trailing" constant="4" id="1ie-F5-urO"/>
                     <constraint firstItem="3VT-BI-j2P" firstAttribute="leading" secondItem="WSh-qu-GVG" secondAttribute="trailing" constant="4" id="5BL-Mt-Gnb"/>
@@ -80,7 +99,10 @@
                     <constraint firstItem="BBR-eV-E4N" firstAttribute="top" secondItem="kbz-Z1-aFe" secondAttribute="top" constant="8" id="EMr-lc-aoK"/>
                     <constraint firstItem="7JP-ZV-AcH" firstAttribute="leading" secondItem="GtO-8n-Yba" secondAttribute="trailing" constant="4" id="Ecw-bE-UNK"/>
                     <constraint firstItem="LO9-X2-Lwc" firstAttribute="bottom" secondItem="3VT-BI-j2P" secondAttribute="bottom" constant="8" id="F21-yf-03r"/>
-                    <constraint firstAttribute="bottom" secondItem="3VT-BI-j2P" secondAttribute="bottom" id="F5Z-Te-2sd"/>
+                    <constraint firstAttribute="bottom" secondItem="3VT-BI-j2P" secondAttribute="bottom" constant="4" id="F5Z-Te-2sd"/>
+                    <constraint firstAttribute="bottom" secondItem="0wv-GH-912" secondAttribute="bottom" constant="4" id="FYQ-ae-r3l"/>
+                    <constraint firstAttribute="trailing" secondItem="0wv-GH-912" secondAttribute="trailing" id="Gqy-ut-bQp"/>
+                    <constraint firstItem="0wv-GH-912" firstAttribute="leading" secondItem="kbz-Z1-aFe" secondAttribute="leading" id="GvM-KZ-3NQ"/>
                     <constraint firstItem="xZw-V4-ugd" firstAttribute="leading" secondItem="GtO-8n-Yba" secondAttribute="trailing" constant="4" id="Kqx-iU-jqN"/>
                     <constraint firstItem="aGh-gF-Vsc" firstAttribute="top" secondItem="GtO-8n-Yba" secondAttribute="bottom" constant="8" id="LRN-Ck-7bT"/>
                     <constraint firstItem="BBR-eV-E4N" firstAttribute="leading" secondItem="GtO-8n-Yba" secondAttribute="trailing" constant="4" id="Lad-rw-P6j"/>
@@ -96,12 +118,13 @@
                     <constraint firstItem="WSh-qu-GVG" firstAttribute="leading" secondItem="aGh-gF-Vsc" secondAttribute="leading" id="dET-Fb-XVD"/>
                     <constraint firstItem="3VT-BI-j2P" firstAttribute="top" secondItem="kbz-Z1-aFe" secondAttribute="top" id="dfC-vc-M1r"/>
                     <constraint firstItem="LO9-X2-Lwc" firstAttribute="trailing" secondItem="3VT-BI-j2P" secondAttribute="trailing" id="grV-gq-60b"/>
-                    <constraint firstAttribute="bottom" secondItem="LO9-X2-Lwc" secondAttribute="bottom" constant="8" id="hMV-m7-rsi"/>
+                    <constraint firstAttribute="bottom" secondItem="LO9-X2-Lwc" secondAttribute="bottom" constant="12" id="hMV-m7-rsi"/>
                     <constraint firstItem="LO9-X2-Lwc" firstAttribute="top" secondItem="3VT-BI-j2P" secondAttribute="bottom" constant="-25" id="jt6-s8-M23"/>
                     <constraint firstItem="LO9-X2-Lwc" firstAttribute="leading" secondItem="3VT-BI-j2P" secondAttribute="leading" constant="8" id="rTf-iE-Kuw"/>
+                    <constraint firstItem="0wv-GH-912" firstAttribute="top" secondItem="kbz-Z1-aFe" secondAttribute="top" id="raW-AZ-XWd"/>
                     <constraint firstItem="WSh-qu-GVG" firstAttribute="top" secondItem="aGh-gF-Vsc" secondAttribute="bottom" constant="4" id="tjn-Nx-Qzc"/>
                     <constraint firstItem="GtO-8n-Yba" firstAttribute="top" secondItem="kbz-Z1-aFe" secondAttribute="top" constant="8" id="tpS-Fj-IYh"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="GtO-8n-Yba" secondAttribute="bottom" constant="36" id="zPa-Ra-T9W"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="GtO-8n-Yba" secondAttribute="bottom" constant="40" id="zPa-Ra-T9W"/>
                 </constraints>
                 <variation key="default">
                     <mask key="constraints">
@@ -114,7 +137,9 @@
                     </mask>
                 </variation>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
+                <outlet property="backdropView" destination="0wv-GH-912" id="YLW-mI-Wa4"/>
                 <outlet property="coverImageView" destination="3VT-BI-j2P" id="bbu-OR-t18"/>
                 <outlet property="planLengthLabel" destination="LO9-X2-Lwc" id="9eH-DB-Cmb"/>
                 <outlet property="planNameLabel" destination="aGh-gF-Vsc" id="8dx-j6-Hbq"/>

@@ -68,6 +68,8 @@ class SearchTagsViewController: UIViewController, UISearchResultsUpdating, UISea
         super.viewDidLoad()
 
         tableView = UITableView(frame: UIScreen.mainScreen().bounds)
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+
         tableView.delegate = self
         tableView.dataSource = self
         tableView.editing = true

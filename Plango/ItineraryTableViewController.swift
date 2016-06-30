@@ -16,7 +16,8 @@ class ItineraryTableViewController: UITableViewController, EventTableViewCellDel
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+
         self.tableView.backgroundColor = UIColor.plangoCream()
         let cellNib = UINib(nibName: "EventCell", bundle: nil)
         self.tableView.registerNib(cellNib, forCellReuseIdentifier: CellID.Event.rawValue)
