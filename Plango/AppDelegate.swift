@@ -220,11 +220,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let myImage = UIImage(named: "my")
 //        let gearImage = UIImage(named: "gear")
 
-        
         tabOne.tabBarItem = UITabBarItem(title: "DISCOVER", image: starImage, tag: 1)
         tabTwo.tabBarItem = UITabBarItem(title: "SEARCH", image: searchImage, tag: 2)
         tabThree.tabBarItem = UITabBarItem(title: "MY PLANS", image: myImage, tag: 3)
 //        tabFour.tabBarItem = UITabBarItem(title: "SETTINGS", image: gearImage, tag: 4)
+        
+        plangoTabBarItem([tabOne.tabBarItem, tabTwo.tabBarItem, tabThree.tabBarItem])
         
         window?.rootViewController = tabController
     }
@@ -255,11 +256,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        }
 //    }
     
+    func plangoTabBarItem(tabBarItems: [UITabBarItem]) {
+        for tab in tabBarItems {
+            tab.setTitleTextAttributes([NSFontAttributeName: UIFont.plangoTabBar()], forState: .Normal)
+        }
+    }
+    
     func plangoNav(navControllers: [UINavigationController]) {
         for nav in navControllers {
             nav.navigationBar.barTintColor = UIColor.plangoTeal()
             nav.navigationBar.tintColor = UIColor.whiteColor()
-            nav.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+            nav.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.plangoNav()]
             nav.navigationBar.translucent = false
         }
     }

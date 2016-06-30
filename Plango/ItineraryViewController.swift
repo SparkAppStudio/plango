@@ -28,7 +28,8 @@ class ItineraryViewController: MXSegmentedPagerController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.extendedLayoutIncludesOpaqueBars = false
+        self.edgesForExtendedLayout = .None
         self.navigationItem.title = "Itinerary"
         
         // Parallax Header
@@ -78,7 +79,7 @@ class ItineraryViewController: MXSegmentedPagerController {
     // MARK: - MXSegmentedPagerDelegate
     
     override func heightForSegmentedControlInSegmentedPager(segmentedPager: MXSegmentedPager) -> CGFloat {
-        return 30
+        return Helper.HeaderHeight.pager.value
     }
     
     override func segmentedPager(segmentedPager: MXSegmentedPager, didScrollWithParallaxHeader parallaxHeader: MXParallaxHeader) {

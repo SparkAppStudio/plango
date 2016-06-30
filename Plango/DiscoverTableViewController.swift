@@ -56,6 +56,9 @@ class DiscoverTableViewController: UITableViewController {
         
         self.tableView.registerClass(PlanTypesTableViewCell.self, forCellReuseIdentifier: CellID.PlanTypes.rawValue)
         
+        // headerfooter view is like a cell
+        self.tableView.registerClass(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: CellID.Header.rawValue)
+        
         //------------------------------------------------------------------------
         
         fetchTags(Plango.EndPoint.AllTags.rawValue)
@@ -285,24 +288,52 @@ class DiscoverTableViewController: UITableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return Helper.HeaderHeight.section.value
+    }
+    
+    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(CellID.Header.rawValue)
+        
+        
+        headerView?.textLabel?.font = UIFont.plangoHeader()
+        
         switch section {
         case DiscoverTitles.TypeCollections.section:
-            return DiscoverTitles.TypeCollections.rawValue
+            headerView?.textLabel?.text = DiscoverTitles.TypeCollections.rawValue
             
         case DiscoverTitles.PlangoCollections.section:
-            return DiscoverTitles.PlangoCollections.rawValue
+            headerView?.textLabel?.text = DiscoverTitles.PlangoCollections.rawValue
             
         case DiscoverTitles.PopularPlans.section:
-            return DiscoverTitles.PopularPlans.rawValue
+            headerView?.textLabel?.text = DiscoverTitles.PopularPlans.rawValue
             
-//        case DiscoverTitles.Favorite.section:
-//            return DiscoverTitles.Favorite.rawValue
-        
+            
         default:
-            return nil
+            headerView?.textLabel?.text = nil
         }
+
+        return headerView
     }
+    
+//    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        switch section {
+//        case DiscoverTitles.TypeCollections.section:
+//            return DiscoverTitles.TypeCollections.rawValue
+//            
+//        case DiscoverTitles.PlangoCollections.section:
+//            return DiscoverTitles.PlangoCollections.rawValue
+//            
+//        case DiscoverTitles.PopularPlans.section:
+//            return DiscoverTitles.PopularPlans.rawValue
+//            
+////        case DiscoverTitles.Favorite.section:
+////            return DiscoverTitles.Favorite.rawValue
+//        
+//        default:
+//            return nil
+//        }
+//    }
 
 }
 

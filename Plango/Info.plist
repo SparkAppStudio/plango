@@ -54,6 +54,9 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>climacons.ttf</string>
+		<string>lato-regular.ttf</string>
+		<string>raleway-regular.ttf</string>
+		<string>raleway-light.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

@@ -609,6 +609,18 @@ extension UIImage {
     }
 }
 
+extension UIFont {
+    static func plangoHeader() -> UIFont {
+        return UIFont(name: "Raleway-Light", size: 16)!
+    }
+    static func plangoNav() -> UIFont {
+        return UIFont(name: "Raleway-Light", size: 24)!
+    }
+    static func plangoTabBar() -> UIFont {
+        return UIFont(name: "Raleway-Light", size: 10)!
+    }
+}
+
 extension UIColor {
     static func plangoTeal() -> UIColor {
         return UIColor.hex("#36C1CD")

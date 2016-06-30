@@ -15,6 +15,9 @@ class SearchDurationViewController: UIViewController, UIPickerViewDelegate, UIPi
 
     var selectedMin: String?
     var selectedMax: String?
+    var didUpdateConstraints = false
+    let pickerView = UIPickerView()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,19 +28,31 @@ class SearchDurationViewController: UIViewController, UIPickerViewDelegate, UIPi
             maxDays.append(item.description)
         }
 
-        let pickerView = UIPickerView()
         pickerView.dataSource = self
         pickerView.delegate = self
+//        pickerView.frame = UIScreen.mainScreen().bounds
         
         self.view.addSubview(pickerView)
-        
-//        pickerView.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor).active = true
-//        pickerView.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor).active = true
-//        pickerView.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor).active = true
-        pickerView.topAnchor.constraintEqualToAnchor(view.topAnchor).active = true
-        pickerView.widthAnchor.constraintEqualToAnchor(view.widthAnchor).active = true
 
+        self.view.setNeedsUpdateConstraints()
     }
+    
+    override func updateViewConstraints() {
+        if didUpdateConstraints == false {
+//            guard let parent = parentViewController else {return}
+            pickerView.snp_makeConstraints { (make) in
+                make.width.equalTo(UIScreen.mainScreen().bounds.width)
+                make.top.equalTo(self.topLayoutGuide)
+                make.height.equalTo(UIScreen.mainScreen().bounds.height - 220)
+            }
+            didUpdateConstraints = true
+        }
+
+        
+        super.updateViewConstraints()
+    }
+    
+    
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
         return 2

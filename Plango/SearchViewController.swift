@@ -45,7 +45,9 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.extendedLayoutIncludesOpaqueBars = false
+        self.edgesForExtendedLayout = .None
+
         addPage("Tags", controller: tagsController)
         addPage("Destination", controller: destinationController)
         addPage("Duration", controller: durationController)
@@ -68,10 +70,9 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         self.segmentedPager.segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
         self.segmentedPager.segmentedControl.backgroundColor = UIColor.whiteColor()
         self.segmentedPager.segmentedControl.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.darkTextColor()];
-        self.segmentedPager.segmentedControl.selectedTitleTextAttributes = [NSForegroundColorAttributeName : UIColor.plangoTeal()]
+        self.segmentedPager.segmentedControl.selectedTitleTextAttributes = [NSForegroundColorAttributeName : UIColor.darkTextColor()]
         self.segmentedPager.segmentedControl.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe
         self.segmentedPager.segmentedControl.selectionIndicatorColor = UIColor.plangoOrange()
-//        self.segmentedPager.segmentedControl.selectedSegmentIndex = 1
         
     }
     
@@ -92,9 +93,9 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-//        searchButton.makeRoundCorners(64)
         self.navigationItem.title = "SEARCH"
-
+        
+        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -161,7 +162,7 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
     
     // MARK: - MXSegmentedPagerDelegate
     override func heightForSegmentedControlInSegmentedPager(segmentedPager: MXSegmentedPager) -> CGFloat {
-        return 30
+        return Helper.HeaderHeight.pager.value
     }
     
     override func segmentedPager(segmentedPager: MXSegmentedPager, didScrollWithParallaxHeader parallaxHeader: MXParallaxHeader) {

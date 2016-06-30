@@ -88,8 +88,7 @@ class SearchDestinationViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        searchButton.frame = CGRect(x: 8, y: self.view.frame.height - 108, width: self.view.frame.width - 16, height: 50)
-        searchButton.makeRoundCorners(90)
+        searchButton.frame = CGRect(x: 0, y: self.view.frame.height - 50, width: self.view.frame.width, height: 50)
     }
 }
 

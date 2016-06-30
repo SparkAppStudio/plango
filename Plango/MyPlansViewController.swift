@@ -57,6 +57,8 @@ class MyPlansViewController: MXSegmentedPagerController {
         super.viewDidLoad()
         
         self.navigationItem.rightBarButtonItem = accountBarButton
+        self.extendedLayoutIncludesOpaqueBars = false
+        self.edgesForExtendedLayout = .None
 
         
         addPage("My Plans", controller: plansController)
@@ -132,7 +134,7 @@ class MyPlansViewController: MXSegmentedPagerController {
     
     // MARK: - MXSegmentedPagerDelegate
     override func heightForSegmentedControlInSegmentedPager(segmentedPager: MXSegmentedPager) -> CGFloat {
-        return 30
+        return Helper.HeaderHeight.pager.value
     }
     
     override func segmentedPager(segmentedPager: MXSegmentedPager, didScrollWithParallaxHeader parallaxHeader: MXParallaxHeader) {

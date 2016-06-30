@@ -22,6 +22,17 @@ class Helper: NSObject {
         }
     }
     
+    enum HeaderHeight: Int {
+        case pager
+        case section
+        var value: CGFloat {
+            switch self {
+            case .pager: return 40
+            case .section: return 30
+            }
+        }
+    }
+    
     enum CellHeight: Int {
         case wideScreen
         case superWide

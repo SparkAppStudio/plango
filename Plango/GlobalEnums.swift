@@ -32,6 +32,7 @@ enum CellID: String {
     case Event = "EventTableViewCell"
     case Notes = "NotesTableViewCell"
     case Review = "ReviewTableViewCell"
+    case Header = "Header"
 }
 
 enum PageID: String {
@@ -54,4 +55,3 @@ enum UserDefaultsKeys: String {
     case firstView = "firstView"
     case currentUser = "currentUser"
 }
-
