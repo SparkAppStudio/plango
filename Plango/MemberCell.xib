@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Lato-Regular.ttf">
+            <string>Lato-Regular</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MemberTableViewCell" rowHeight="80" id="LEq-yk-0fr" customClass="MemberTableViewCell" customModule="Plango" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LEq-yk-0fr" id="lF4-Ig-kqj">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="79"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eM2-c2-Fpf">
+                        <rect key="frame" x="28" y="16" width="47" height="47"/>
+                        <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="50" id="B3I-Z9-Am0"/>
+                            <constraint firstAttribute="width" secondItem="eM2-c2-Fpf" secondAttribute="height" multiplier="1:1" id="WPm-4W-1zQ"/>
+                            <constraint firstAttribute="height" constant="50" id="unp-kv-wem"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="B3I-Z9-Am0"/>
+                                <exclude reference="unp-kv-wem"/>
+                            </mask>
+                        </variation>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0C7-VY-zap">
+                        <rect key="frame" x="87" y="30" width="197" height="20"/>
+                        <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
+                        <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailingMargin" secondItem="0C7-VY-zap" secondAttribute="trailing" constant="28" id="I17-r7-E5X"/>
+                    <constraint firstAttribute="bottom" secondItem="eM2-c2-Fpf" secondAttribute="bottom" constant="16" id="PU4-8j-4bI"/>
+                    <constraint firstItem="eM2-c2-Fpf" firstAttribute="leading" secondItem="lF4-Ig-kqj" secondAttribute="leading" constant="28" id="guy-pR-EXM"/>
+                    <constraint firstItem="eM2-c2-Fpf" firstAttribute="top" secondItem="lF4-Ig-kqj" secondAttribute="top" constant="16" id="icb-3i-bjH"/>
+                    <constraint firstItem="0C7-VY-zap" firstAttribute="leading" secondItem="eM2-c2-Fpf" secondAttribute="trailing" constant="12" id="m5E-B6-EWY"/>
+                    <constraint firstItem="0C7-VY-zap" firstAttribute="centerY" secondItem="eM2-c2-Fpf" secondAttribute="centerY" id="zGC-5A-sTU"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="nameLabel" destination="0C7-VY-zap" id="UvG-by-OP9"/>
+                <outlet property="profileImageView" destination="eM2-c2-Fpf" id="hqy-Ta-WfK"/>
+            </connections>
+            <point key="canvasLocation" x="319" y="260"/>
+        </tableViewCell>
+    </objects>
+</document>

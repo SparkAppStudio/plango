@@ -62,7 +62,7 @@ class LoginConfirmTableViewController: UITableViewController, UITextFieldDelegat
         footerView.addSubview(loginButton)
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "username")
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "email")
-        self.tableView.backgroundColor = UIColor.plangoCream()
+        self.tableView.backgroundColor = UIColor.plangoBackgroundGray()
 
         
         let parameters = ["fields":"id, name, email"]

@@ -6,8 +6,8 @@
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <customFonts key="customFonts">
-        <mutableArray key="Raleway-Light.ttf">
-            <string>Raleway-Light</string>
+        <mutableArray key="Raleway-Bold.ttf">
+            <string>Raleway-Bold</string>
         </mutableArray>
     </customFonts>
     <objects>
@@ -27,11 +27,11 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
                 </imageView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Gok-qh-UGN">
-                    <rect key="frame" x="110" y="40" width="100" height="100"/>
+                    <rect key="frame" x="120" y="50" width="80" height="80"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="80" id="3aM-gW-lsR"/>
                         <constraint firstAttribute="width" secondItem="Gok-qh-UGN" secondAttribute="height" multiplier="1:1" id="G3c-cG-wL7"/>
-                        <constraint firstAttribute="width" constant="100" id="sCd-VW-7Nu"/>
+                        <constraint firstAttribute="width" constant="80" id="sCd-VW-7Nu"/>
                     </constraints>
                     <variation key="default">
                         <mask key="constraints">
@@ -40,10 +40,11 @@
                     </variation>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w2E-8i-Hgi">
-                    <rect key="frame" x="129" y="148" width="62" height="29"/>
-                    <fontDescription key="fontDescription" name="Raleway-Light" family="Raleway" pointSize="24"/>
+                    <rect key="frame" x="128" y="138" width="65" height="29"/>
+                    <fontDescription key="fontDescription" name="Raleway-Bold" family="Raleway" pointSize="24"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
+                    <size key="shadowOffset" width="0.0" height="0.0"/>
                 </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

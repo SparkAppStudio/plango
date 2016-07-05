@@ -9,7 +9,6 @@ target 'Plango' do
 
 #    networkingImages
     pod 'AlamofireImage'
-    pod 'Kingfisher'
     
 #    socialMedia
     pod 'Bolts'
@@ -27,6 +26,11 @@ target 'Plango' do
     
 #    maps
     pod 'GoogleMaps'
+    pod 'Mapbox-iOS-SDK'
+    pod 'MapboxStatic.swift', :git => 'https://github.com/mapbox/MapboxStatic.swift.git', :tag => 'v0.6.0'
+pod 'MapboxGeocoder.swift', :git => 'https://github.com/mapbox/MapboxGeocoder.swift.git', :tag => 'v0.5.0'
+pod 'MapboxDirections.swift', :git => 'https://github.com/mapbox/MapboxDirections.swift.git', :tag => 'v0.6.0'
+
 
 #    frontendConvienence
     pod 'Hue'

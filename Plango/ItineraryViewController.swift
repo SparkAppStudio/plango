@@ -42,9 +42,9 @@ class ItineraryViewController: MXSegmentedPagerController {
         //        self.segmentedPager.parallaxHeader.mode = MXParallaxHeaderMode.Bottom
         //        self.segmentedPager.parallaxHeader.height = 60;
         //        self.segmentedPager.parallaxHeader.minimumHeight = 0;
-        //        self.segmentedPager.parallaxHeader.contentView.backgroundColor = UIColor.plangoCream()
+        //        self.segmentedPager.parallaxHeader.contentView.backgroundColor = UIColor.plangoBackgroundGray()
         
-        self.segmentedPager.backgroundColor = UIColor.plangoCream()
+        self.segmentedPager.backgroundColor = UIColor.plangoBackgroundGray()
         
         // Segmented Control customization
         self.segmentedPager.segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationNone

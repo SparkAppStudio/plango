@@ -179,7 +179,7 @@ class PlanSummaryViewController: UIViewController {
 
         scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.backgroundColor = UIColor.plangoCream()
+        scrollView.backgroundColor = UIColor.plangoBackgroundGray()
         view.addSubview(scrollView)
         
         stackView = UIStackView()
@@ -370,8 +370,13 @@ class PlanSummaryViewController: UIViewController {
 
     }
     
-    func didTapFriends() {
-        //TODO: - load friends
+    
 
+    
+    func didTapFriends() {
+        guard let members = plan.members else {self.view.quickToast("No members"); return}
+        let membersVC = PlanMembersTableViewController()
+        membersVC.members = members
+        showViewController(membersVC, sender: nil)
     }
 }

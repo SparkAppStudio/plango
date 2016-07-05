@@ -27,8 +27,8 @@ class Helper: NSObject {
         case section
         var value: CGFloat {
             switch self {
-            case .pager: return 44
-            case .section: return 36
+            case .pager: return 54
+            case .section: return 50
             }
         }
     }
@@ -42,7 +42,7 @@ class Helper: NSObject {
             switch self {
             case .wideScreen: return UIScreen.mainScreen().bounds.size.width * (9/16)
             case .superWide: return UIScreen.mainScreen().bounds.size.width * (9/21)
-            case .plans: return 104
+            case .plans: return 114
             case .reviews: return 80
             }
         }

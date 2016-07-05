@@ -33,8 +33,8 @@ class PlansTableViewCell: UITableViewCell {
     
     
     func configure() {
-        backdropView.layer.borderWidth = 0.5
-        backdropView.layer.borderColor = UIColor.plangoBrown().CGColor
+        backdropView.layer.borderWidth = 1
+        backdropView.layer.borderColor = UIColor.plangoCream().CGColor
         
         if let cellPlan = plan {
             fetchUserForPlan(cellPlan, endPoint: "\(Plango.EndPoint.UserByID.rawValue)\(cellPlan.authorID)")
@@ -76,17 +76,18 @@ class PlansTableViewCell: UITableViewCell {
             guard let views = cellPlan.viewCount else {return}
             guard let used = cellPlan.usedCount else {return}
             
-            viewsCountLabel.text = "\(views) Inspired"
-            usedCountLabel.text = "\(used) Used"
+            viewsCountLabel.text = "\(views)"
+            usedCountLabel.text = "\(used)"
         }
     }
     
     func configureUser() {
         if let cellUser = user {
             profileNameLabel.text = cellUser.userName
+            profileImageView.makeCircle()
+
             guard let endPoint = cellUser.avatar else {return}
             let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
-            profileImageView.makeCircle()
             profileImageView.af_setImageWithURL(cleanURL!)
         }
     }

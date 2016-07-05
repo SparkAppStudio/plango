@@ -215,8 +215,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let tabController = UITabBarController()
         tabController.viewControllers = [tabOne, tabTwo, tabThree]
-        tabController.tabBar.barTintColor = UIColor.plangoCream()
+        tabController.tabBar.barTintColor = UIColor.whiteColor()
+        tabController.tabBar.backgroundColor = UIColor.whiteColor()
         tabController.tabBar.tintColor = UIColor.plangoTeal()
+        tabController.tabBar.opaque = true
         
         let starImage = UIImage(named: "star")
         let searchImage = UIImage(named: "search")

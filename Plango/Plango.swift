@@ -31,6 +31,7 @@ class Plango: NSObject {
         case PopularDestination = "http://dev.plango.us/findplans?popular_destination=true"
         case PlangoFavorites = "http://dev.plango.us/findplans?plango_favorite=true"
         case PlangoFavsMeta = "http://dev.plango.us/plangofavorites"
+        case Members = "http://dev.plango.us/members"
     }
     
     let env = NSBundle.mainBundle().infoDictionary!["BASE_ENDPOINT"] as! String
@@ -93,6 +94,43 @@ class Plango: NSObject {
                 let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
                 onCompletion(nil, newError)
             }
+        }
+    }
+    
+    func fetchMembersFromPlan(endPoint: String, members: [Member], onCompletion: UsersResponse) -> Request {
+
+        var memberIDs = [String]()
+        for member in members {
+            memberIDs.append(member.userID)
+        }
+        
+        let encodableURLRequest = NSURLRequest(URL: NSURL(string: endPoint)!)
+
+        let mutableURLRequest = NSMutableURLRequest(URL: encodableURLRequest.URL!)
+        mutableURLRequest.HTTPMethod = "POST"
+        mutableURLRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        mutableURLRequest.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(memberIDs, options: [])
+        
+        
+        return Alamofire.request(mutableURLRequest).validate().responseJSON { response in
+            switch response.result {
+            case .Success(let value):
+                let dataJSON = JSON(value)
+                if dataJSON["status"].stringValue == "success" || dataJSON["status"].intValue == 200 {
+                    let receivedUsers = User.getUsersFromJSON(dataJSON)
+
+                    onCompletion(receivedUsers, nil)
+                } else {
+                    let newError = PlangoError(statusCode: response.response?.statusCode, message: dataJSON["message"].stringValue)
+                    
+                    onCompletion(nil, newError)
+                }
+            case .Failure(let error):
+                let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
+                
+                onCompletion(nil, newError)
+            }
+
         }
     }
     

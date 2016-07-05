@@ -42,7 +42,7 @@ class DiscoverTableViewController: UITableViewController {
         super.viewDidLoad()
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
 
-        self.tableView.backgroundColor = UIColor.plangoCream()
+        self.tableView.backgroundColor = UIColor.plangoBackgroundGray()
         self.navigationItem.title = "DISCOVER"
         
         for family: String in UIFont.familyNames()

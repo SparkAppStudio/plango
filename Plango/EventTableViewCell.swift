@@ -35,7 +35,7 @@ class EventTableViewCell: UITableViewCell {
     var event: Event!
 
     func configure() {
-        self.contentView.backgroundColor = UIColor.plangoCream()
+        self.contentView.backgroundColor = UIColor.plangoBackgroundGray()
         
         coverView.layer.borderColor = UIColor.plangoBrown().CGColor
         coverView.layer.borderWidth = 1

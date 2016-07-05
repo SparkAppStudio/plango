@@ -60,6 +60,9 @@
 		C34889461CC9A7650045EED4 /* top_foodie_plans.json in Resources */ = {isa = PBXBuildFile; fileRef = C34889451CC9A7650045EED4 /* top_foodie_plans.json */; };
 		C36C6F7E1D18AB4000A51253 /* EventCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C36C6F7D1D18AB4000A51253 /* EventCell.xib */; };
 		C36C6F801D18B28100A51253 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36C6F7F1D18B28100A51253 /* EventTableViewCell.swift */; };
+		C37F1E811D262B8F00CA1FAA /* PlanMembersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37F1E801D262B8F00CA1FAA /* PlanMembersTableViewController.swift */; };
+		C37F1E831D26308100CA1FAA /* MemberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C37F1E821D26308100CA1FAA /* MemberCell.xib */; };
+		C37F1E851D2630B400CA1FAA /* MemberTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37F1E841D2630B400CA1FAA /* MemberTableViewCell.swift */; };
 		C3978CCE1CB6FC4C001028D5 /* MyPlansViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3978CCD1CB6FC4C001028D5 /* MyPlansViewController.swift */; };
 		C3978CD01CB70118001028D5 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3978CCF1CB70118001028D5 /* SearchViewController.swift */; };
 		C3978CD21CB85B38001028D5 /* PlansCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3978CD11CB85B38001028D5 /* PlansCell.xib */; };
@@ -77,7 +80,6 @@
 		C3B150621CB4DD73008E6A4E /* DiscoverTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B150611CB4DD73008E6A4E /* DiscoverTableViewController.swift */; };
 		C3B150641CB4DDAE008E6A4E /* PlansTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B150631CB4DDAE008E6A4E /* PlansTableViewController.swift */; };
 		C3B150671CB4DE8E008E6A4E /* LoginTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B150661CB4DE8E008E6A4E /* LoginTableViewController.swift */; };
-		C3B1506B1CB4E07D008E6A4E /* TripFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B1506A1CB4E07D008E6A4E /* TripFriendsViewController.swift */; };
 		C3B1506F1CB4E0F2008E6A4E /* Utilities.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3B1506E1CB4E0F2008E6A4E /* Utilities.storyboard */; };
 		C3BC14381CE5669100980093 /* Climacons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3BC14371CE5669100980093 /* Climacons.ttf */; };
 		C3C613F31CE65D8B00DEF329 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C613F21CE65D8B00DEF329 /* ReportViewController.swift */; };
@@ -150,6 +152,9 @@
 		C34889451CC9A7650045EED4 /* top_foodie_plans.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = top_foodie_plans.json; sourceTree = "<group>"; };
 		C36C6F7D1D18AB4000A51253 /* EventCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventCell.xib; sourceTree = "<group>"; };
 		C36C6F7F1D18B28100A51253 /* EventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
+		C37F1E801D262B8F00CA1FAA /* PlanMembersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanMembersTableViewController.swift; sourceTree = "<group>"; };
+		C37F1E821D26308100CA1FAA /* MemberCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MemberCell.xib; sourceTree = "<group>"; };
+		C37F1E841D2630B400CA1FAA /* MemberTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberTableViewCell.swift; sourceTree = "<group>"; };
 		C3978CCD1CB6FC4C001028D5 /* MyPlansViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPlansViewController.swift; sourceTree = "<group>"; };
 		C3978CCF1CB70118001028D5 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		C3978CD11CB85B38001028D5 /* PlansCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlansCell.xib; sourceTree = "<group>"; };
@@ -167,7 +172,6 @@
 		C3B150611CB4DD73008E6A4E /* DiscoverTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewController.swift; sourceTree = "<group>"; };
 		C3B150631CB4DDAE008E6A4E /* PlansTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlansTableViewController.swift; sourceTree = "<group>"; };
 		C3B150661CB4DE8E008E6A4E /* LoginTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTableViewController.swift; sourceTree = "<group>"; };
-		C3B1506A1CB4E07D008E6A4E /* TripFriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TripFriendsViewController.swift; sourceTree = "<group>"; };
 		C3B1506E1CB4E0F2008E6A4E /* Utilities.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Utilities.storyboard; sourceTree = "<group>"; };
 		C3BC14371CE5669100980093 /* Climacons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Climacons.ttf; sourceTree = "<group>"; };
 		C3C613F21CE65D8B00DEF329 /* ReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
@@ -322,6 +326,9 @@
 				C3ACD8041CDC22DA000B2399 /* SummaryHeader.xib */,
 				C337303A1CE06C9C00F57B47 /* SummaryDetails.xib */,
 				C33730381CDFFE3000F57B47 /* SummaryStart.xib */,
+				C37F1E821D26308100CA1FAA /* MemberCell.xib */,
+				C37F1E801D262B8F00CA1FAA /* PlanMembersTableViewController.swift */,
+				C37F1E841D2630B400CA1FAA /* MemberTableViewCell.swift */,
 				C3ACD8081CDC2CB9000B2399 /* PlanSummaryViewController.swift */,
 				C3F5E05B1D1B8F9600F1D2A0 /* Itinerary Scene */,
 			);
@@ -361,7 +368,6 @@
 				C3A7D4041CF515D6009D82F2 /* SearchTagsViewController.swift */,
 				C3A7D4061CF515E5009D82F2 /* SearchDurationViewController.swift */,
 				C3DBCA651CEE70E000E0F746 /* SearchDestinationViewController.swift */,
-				C3B1506A1CB4E07D008E6A4E /* TripFriendsViewController.swift */,
 			);
 			name = "Utilities Scene";
 			sourceTree = "<group>";
@@ -492,6 +498,7 @@
 				C3237E2B1CADC402008293D6 /* Main.storyboard in Resources */,
 				C3B1506F1CB4E0F2008E6A4E /* Utilities.storyboard in Resources */,
 				C3327B651D24A07900B7946E /* Lato-HairlineItalic.ttf in Resources */,
+				C37F1E831D26308100CA1FAA /* MemberCell.xib in Resources */,
 				C3327B841D24A08B00B7946E /* Raleway-ExtraBold.ttf in Resources */,
 				C36C6F7E1D18AB4000A51253 /* EventCell.xib in Resources */,
 				C3327B821D24A08B00B7946E /* Raleway-Bold.ttf in Resources */,
@@ -564,6 +571,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C37F1E811D262B8F00CA1FAA /* PlanMembersTableViewController.swift in Sources */,
 				C33A70181CC07A1C00B8313C /* TypeCollectionViewCell.swift in Sources */,
 				C3978CD61CB88602001028D5 /* Plan.swift in Sources */,
 				C30C2FE91CBAEF2C00411B8E /* Formatter.swift in Sources */,
@@ -590,13 +598,13 @@
 				C3978CD01CB70118001028D5 /* SearchViewController.swift in Sources */,
 				C3ACD8031CDC182A000B2399 /* EventDetailsTableViewController.swift in Sources */,
 				C31AC41D1CADD7150032230E /* Extensions.swift in Sources */,
+				C37F1E851D2630B400CA1FAA /* MemberTableViewCell.swift in Sources */,
 				C3F5E0651D1B96AD00F1D2A0 /* NotesTableViewCell.swift in Sources */,
 				C316D4AE1D08C4A4008B244E /* LoginConfirmTableViewController.swift in Sources */,
 				C31AC41F1CADD7150032230E /* Helper.swift in Sources */,
 				C3CD5BE61CB5D4AB0079C0E7 /* PlansTableViewCell.swift in Sources */,
 				C3B150601CB4DD00008E6A4E /* SettingsTableViewController.swift in Sources */,
 				C3A7D4071CF515E5009D82F2 /* SearchDurationViewController.swift in Sources */,
-				C3B1506B1CB4E07D008E6A4E /* TripFriendsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

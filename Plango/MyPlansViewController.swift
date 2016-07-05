@@ -59,7 +59,6 @@ class MyPlansViewController: MXSegmentedPagerController {
         self.navigationItem.rightBarButtonItem = accountBarButton
         self.extendedLayoutIncludesOpaqueBars = false
         self.edgesForExtendedLayout = .None
-
         
         addPage("My Plans", controller: plansController)
         
@@ -71,16 +70,16 @@ class MyPlansViewController: MXSegmentedPagerController {
         // Parallax Header
         self.segmentedPager.parallaxHeader.view = headerView
         self.segmentedPager.parallaxHeader.mode = MXParallaxHeaderMode.Fill;
-        self.segmentedPager.parallaxHeader.height = 180;
+        self.segmentedPager.parallaxHeader.height = Helper.CellHeight.wideScreen.value
         self.segmentedPager.parallaxHeader.minimumHeight = 0;
         
         // Segmented Control customization
-        self.segmentedPager.segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
-        self.segmentedPager.segmentedControl.backgroundColor = UIColor.whiteColor()
-        self.segmentedPager.segmentedControl.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.darkTextColor()];
-        self.segmentedPager.segmentedControl.selectedTitleTextAttributes = [NSForegroundColorAttributeName : UIColor.plangoTeal()]
-        self.segmentedPager.segmentedControl.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe
-        self.segmentedPager.segmentedControl.selectionIndicatorColor = UIColor.plangoOrange()
+//        self.segmentedPager.segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
+//        self.segmentedPager.segmentedControl.backgroundColor = UIColor.whiteColor()
+//        self.segmentedPager.segmentedControl.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.darkTextColor()];
+//        self.segmentedPager.segmentedControl.selectedTitleTextAttributes = [NSForegroundColorAttributeName : UIColor.plangoTeal()]
+//        self.segmentedPager.segmentedControl.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe
+//        self.segmentedPager.segmentedControl.selectionIndicatorColor = UIColor.plangoOrange()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -92,7 +91,12 @@ class MyPlansViewController: MXSegmentedPagerController {
             
             if let name = user.displayName {
                 userNameLabel.text = name
-                self.navigationItem.title = "\(name.uppercaseString)'S PLANS"
+                userNameLabel.layer.shadowColor = UIColor.plangoBlack().CGColor
+                userNameLabel.layer.shadowOpacity = 0.5
+                userNameLabel.layer.shadowOffset = CGSize(width: 0, height: 2)
+                userNameLabel.layer.shadowRadius = 4
+                
+//                self.navigationItem.title = "\(name.uppercaseString)'S PLANS"
             }
             
             if let endPoint = user.avatar {
@@ -134,7 +138,7 @@ class MyPlansViewController: MXSegmentedPagerController {
     
     // MARK: - MXSegmentedPagerDelegate
     override func heightForSegmentedControlInSegmentedPager(segmentedPager: MXSegmentedPager) -> CGFloat {
-        return Helper.HeaderHeight.pager.value
+        return 0
     }
     
     override func segmentedPager(segmentedPager: MXSegmentedPager, didScrollWithParallaxHeader parallaxHeader: MXParallaxHeader) {

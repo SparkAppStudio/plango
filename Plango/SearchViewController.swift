@@ -64,7 +64,7 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
 //        self.segmentedPager.parallaxHeader.minimumHeight = 0;
 //        self.segmentedPager.parallaxHeader.contentView.backgroundColor = UIColor.plangoCream()
         
-        self.segmentedPager.backgroundColor = UIColor.plangoCream()
+        self.segmentedPager.backgroundColor = UIColor.plangoBackgroundGray()
         
         // Segmented Control customization
         self.segmentedPager.segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;

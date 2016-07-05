@@ -128,7 +128,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         
         
         
-        self.tableView.backgroundColor = UIColor.plangoCream()
+        self.tableView.backgroundColor = UIColor.plangoBackgroundGray()
 
     }
     

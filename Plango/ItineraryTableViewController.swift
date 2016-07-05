@@ -18,7 +18,7 @@ class ItineraryTableViewController: UITableViewController, EventTableViewCellDel
         super.viewDidLoad()
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
 
-        self.tableView.backgroundColor = UIColor.plangoCream()
+        self.tableView.backgroundColor = UIColor.plangoBackgroundGray()
         let cellNib = UINib(nibName: "EventCell", bundle: nil)
         self.tableView.registerNib(cellNib, forCellReuseIdentifier: CellID.Event.rawValue)
 

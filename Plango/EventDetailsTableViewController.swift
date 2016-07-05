@@ -40,7 +40,7 @@ class EventDetailsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.tableView.backgroundColor = UIColor.plangoCream()
+        self.tableView.backgroundColor = UIColor.plangoBackgroundGray()
         self.navigationItem.title = experience.name
         
         let reviewNib = UINib(nibName: "ReviewCell", bundle: nil)

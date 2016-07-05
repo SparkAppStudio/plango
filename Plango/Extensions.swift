@@ -613,8 +613,11 @@ extension UIFont {
     static func plangoHeader() -> UIFont {
         return UIFont(name: "Raleway-Light", size: 16)!
     }
+    static func plangoSectionHeader() -> UIFont {
+        return UIFont(name: "Lato-Bold", size: 16)!
+    }
     static func plangoNav() -> UIFont {
-        return UIFont(name: "Raleway-Light", size: 24)!
+        return UIFont(name: "Raleway-Bold", size: 18)!
     }
     static func plangoTabBar() -> UIFont {
         return UIFont(name: "Raleway-Light", size: 10)!
@@ -646,11 +649,17 @@ extension UIColor {
     static func plangoBackgroundGray() -> UIColor {
         return UIColor.hex("#f2f2f2")
     }
-    static func plangoGray() -> UIColor {
+    static func plangoSectionHeaderGray() -> UIColor {
         return UIColor.hex("#f9f9f9")
+    }
+    static func plangoTypeSectionHeaderGray() -> UIColor {
+        return UIColor.hex("#666666")
     }
     static func plangoBlack() -> UIColor {
         return UIColor.hex("#333333")
+    }
+    static func plangoText() -> UIColor {
+        return UIColor.hex("#CCCCCC")
     }
     static func plangoCream() -> UIColor {
         return UIColor.hex("#FDF6EA")
