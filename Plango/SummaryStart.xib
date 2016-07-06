@@ -6,14 +6,20 @@
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <customFonts key="customFonts">
-        <mutableArray key="Lato-Regular.ttf">
-            <string>Lato-Regular</string>
-            <string>Lato-Regular</string>
-            <string>Lato-Regular</string>
-            <string>Lato-Regular</string>
-            <string>Lato-Regular</string>
-            <string>Lato-Regular</string>
-            <string>Lato-Regular</string>
+        <mutableArray key="Lato-Bold.ttf">
+            <string>Lato-Bold</string>
+            <string>Lato-Bold</string>
+            <string>Lato-Bold</string>
+            <string>Lato-Bold</string>
+        </mutableArray>
+        <mutableArray key="Raleway-Bold.ttf">
+            <string>Raleway-Bold</string>
+            <string>Raleway-Bold</string>
+            <string>Raleway-Bold</string>
+            <string>Raleway-Bold</string>
+        </mutableArray>
+        <mutableArray key="Raleway-Regular.ttf">
+            <string>Raleway-Regular</string>
         </mutableArray>
     </customFonts>
     <objects>
@@ -30,20 +36,20 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pack your bags! Your trip starts in:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ghc-Ng-e2I">
-                    <rect key="frame" x="26" y="48" width="268" height="22"/>
-                    <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="18"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <rect key="frame" x="6" y="48" width="308" height="24"/>
+                    <fontDescription key="fontDescription" name="Raleway-Regular" family="Raleway" pointSize="20"/>
+                    <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SDA-mX-c6Q">
-                    <rect key="frame" x="27" y="94" width="70" height="70"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <rect key="frame" x="0.0" y="96" width="80" height="80"/>
+                    <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="0s4-Qe-mni"/>
                         <constraint firstAttribute="width" constant="60" id="gtH-ht-eq1"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="38"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" name="Raleway-Bold" family="Raleway" pointSize="38"/>
+                    <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                     <variation key="default">
                         <mask key="constraints">
@@ -53,15 +59,15 @@
                     </variation>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xNC-WH-GYZ">
-                    <rect key="frame" x="125" y="94" width="70" height="70"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <rect key="frame" x="80" y="96" width="80" height="80"/>
+                    <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="70" id="M1e-TH-xss"/>
+                        <constraint firstAttribute="width" constant="80" id="M1e-TH-xss"/>
                         <constraint firstAttribute="height" constant="60" id="cTL-9C-oZL"/>
                         <constraint firstAttribute="width" secondItem="xNC-WH-GYZ" secondAttribute="height" multiplier="1:1" id="vEY-FT-AG9"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="38"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" name="Raleway-Bold" family="Raleway" pointSize="38"/>
+                    <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                     <variation key="default">
                         <mask key="constraints">
@@ -69,15 +75,15 @@
                         </mask>
                     </variation>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="999" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ami-Kq-cPc">
-                    <rect key="frame" x="223" y="94" width="70" height="70"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ami-Kq-cPc">
+                    <rect key="frame" x="240" y="96" width="80" height="80"/>
+                    <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="60" id="G3w-L1-aQr"/>
                         <constraint firstAttribute="height" constant="60" id="xDI-eM-LtA"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="38"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" name="Raleway-Bold" family="Raleway" pointSize="38"/>
+                    <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                     <variation key="default">
                         <mask key="constraints">
@@ -87,48 +93,86 @@
                     </variation>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HOURS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K8D-kf-Mqo">
-                    <rect key="frame" x="125" y="168" width="70" height="17"/>
-                    <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <rect key="frame" x="80" y="180" width="80" height="17"/>
+                    <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
+                    <color key="textColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SECONDS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T59-Fz-l3c">
-                    <rect key="frame" x="223" y="168" width="70" height="17"/>
-                    <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <rect key="frame" x="240" y="180" width="80" height="17"/>
+                    <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
+                    <color key="textColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DAYS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dkv-b1-3x2">
-                    <rect key="frame" x="27" y="168" width="70" height="17"/>
-                    <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <rect key="frame" x="0.0" y="180" width="80" height="17"/>
+                    <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
+                    <color key="textColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TgV-ZY-qxG">
+                    <rect key="frame" x="160" y="96" width="80" height="80"/>
+                    <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="YN6-KF-LuO"/>
+                        <constraint firstAttribute="width" constant="60" id="j9j-xn-oVW"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Raleway-Bold" family="Raleway" pointSize="38"/>
+                    <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="j9j-xn-oVW"/>
+                            <exclude reference="YN6-KF-LuO"/>
+                        </mask>
+                    </variation>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MINUTES" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q8y-2g-dlu">
+                    <rect key="frame" x="160" y="180" width="80" height="17"/>
+                    <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
+                    <color key="textColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
             <constraints>
                 <constraint firstItem="T59-Fz-l3c" firstAttribute="centerX" secondItem="ami-Kq-cPc" secondAttribute="centerX" id="2Kq-0L-Mem"/>
+                <constraint firstItem="TgV-ZY-qxG" firstAttribute="height" secondItem="xNC-WH-GYZ" secondAttribute="height" id="5Pj-Io-GTL"/>
                 <constraint firstItem="dkv-b1-3x2" firstAttribute="width" secondItem="SDA-mX-c6Q" secondAttribute="width" id="7Ve-uU-gco"/>
-                <constraint firstItem="xNC-WH-GYZ" firstAttribute="leading" secondItem="SDA-mX-c6Q" secondAttribute="trailing" constant="28" id="8S0-wA-pVk"/>
+                <constraint firstItem="TgV-ZY-qxG" firstAttribute="width" secondItem="xNC-WH-GYZ" secondAttribute="width" id="86o-ex-jBL"/>
+                <constraint firstItem="xNC-WH-GYZ" firstAttribute="leading" secondItem="SDA-mX-c6Q" secondAttribute="trailing" id="8S0-wA-pVk"/>
                 <constraint firstItem="SDA-mX-c6Q" firstAttribute="centerY" secondItem="xNC-WH-GYZ" secondAttribute="centerY" id="A9f-ef-4tV"/>
-                <constraint firstItem="xNC-WH-GYZ" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Du3-Od-9Wc"/>
+                <constraint firstItem="q8y-2g-dlu" firstAttribute="top" secondItem="TgV-ZY-qxG" secondAttribute="bottom" constant="4" id="C67-hD-h4C"/>
+                <constraint firstItem="xNC-WH-GYZ" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" constant="-40" id="Du3-Od-9Wc"/>
                 <constraint firstItem="K8D-kf-Mqo" firstAttribute="centerX" secondItem="xNC-WH-GYZ" secondAttribute="centerX" id="Fpb-Ho-0hs"/>
                 <constraint firstItem="dkv-b1-3x2" firstAttribute="top" secondItem="SDA-mX-c6Q" secondAttribute="bottom" constant="4" id="HBq-JP-RL1"/>
                 <constraint firstItem="xNC-WH-GYZ" firstAttribute="top" secondItem="Ghc-Ng-e2I" secondAttribute="bottom" constant="24" id="Jq8-U4-YZO"/>
                 <constraint firstItem="ami-Kq-cPc" firstAttribute="height" secondItem="xNC-WH-GYZ" secondAttribute="height" id="K99-9A-H59"/>
                 <constraint firstItem="SDA-mX-c6Q" firstAttribute="width" secondItem="xNC-WH-GYZ" secondAttribute="width" id="NOS-IG-b4H"/>
                 <constraint firstItem="K8D-kf-Mqo" firstAttribute="width" secondItem="xNC-WH-GYZ" secondAttribute="width" id="NbS-tQ-dVT"/>
-                <constraint firstItem="ami-Kq-cPc" firstAttribute="leading" secondItem="xNC-WH-GYZ" secondAttribute="trailing" constant="28" id="Qyk-cv-jkz"/>
+                <constraint firstItem="q8y-2g-dlu" firstAttribute="width" secondItem="TgV-ZY-qxG" secondAttribute="width" id="OJq-Wx-CYc"/>
+                <constraint firstItem="ami-Kq-cPc" firstAttribute="leading" secondItem="xNC-WH-GYZ" secondAttribute="trailing" id="Qyk-cv-jkz"/>
                 <constraint firstItem="K8D-kf-Mqo" firstAttribute="top" secondItem="xNC-WH-GYZ" secondAttribute="bottom" constant="4" id="Ucj-Ol-jRR"/>
+                <constraint firstItem="ami-Kq-cPc" firstAttribute="leading" secondItem="TgV-ZY-qxG" secondAttribute="trailing" id="ViU-lw-3vF"/>
                 <constraint firstItem="T59-Fz-l3c" firstAttribute="top" secondItem="ami-Kq-cPc" secondAttribute="bottom" constant="4" id="ast-RE-oI3"/>
                 <constraint firstItem="ami-Kq-cPc" firstAttribute="width" secondItem="xNC-WH-GYZ" secondAttribute="width" id="isX-bS-yhT"/>
+                <constraint firstItem="xNC-WH-GYZ" firstAttribute="trailing" secondItem="TgV-ZY-qxG" secondAttribute="trailing" id="mqp-wx-BUD"/>
                 <constraint firstItem="ami-Kq-cPc" firstAttribute="centerY" secondItem="xNC-WH-GYZ" secondAttribute="centerY" id="nu7-ag-cdR"/>
+                <constraint firstItem="q8y-2g-dlu" firstAttribute="centerX" secondItem="TgV-ZY-qxG" secondAttribute="centerX" id="ovO-Ng-Ost"/>
+                <constraint firstItem="TgV-ZY-qxG" firstAttribute="centerY" secondItem="xNC-WH-GYZ" secondAttribute="centerY" id="qdm-Hu-Zqy"/>
                 <constraint firstItem="Ghc-Ng-e2I" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="uMp-9B-RWn"/>
+                <constraint firstItem="TgV-ZY-qxG" firstAttribute="leading" secondItem="xNC-WH-GYZ" secondAttribute="trailing" id="woT-Z7-1tB"/>
                 <constraint firstItem="SDA-mX-c6Q" firstAttribute="height" secondItem="xNC-WH-GYZ" secondAttribute="height" id="x6F-VJ-g4P"/>
                 <constraint firstItem="T59-Fz-l3c" firstAttribute="width" secondItem="ami-Kq-cPc" secondAttribute="width" id="xGs-wk-MsI"/>
                 <constraint firstItem="dkv-b1-3x2" firstAttribute="centerX" secondItem="SDA-mX-c6Q" secondAttribute="centerX" id="y8m-wA-TJl"/>
                 <constraint firstItem="Ghc-Ng-e2I" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="48" id="yTX-ZA-Dga"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="mqp-wx-BUD"/>
+                    <exclude reference="Qyk-cv-jkz"/>
+                </mask>
+            </variation>
         </view>
     </objects>
 </document>
