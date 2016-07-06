@@ -27,6 +27,7 @@
             <connections>
                 <outlet property="startDaysLabel" destination="SDA-mX-c6Q" id="cgv-pP-Wbh"/>
                 <outlet property="startHoursLabel" destination="xNC-WH-GYZ" id="mnf-Sb-Waa"/>
+                <outlet property="startMinutesLabel" destination="TgV-ZY-qxG" id="cdM-BO-z2t"/>
                 <outlet property="startSecondsLabel" destination="ami-Kq-cPc" id="32Y-nK-sYe"/>
             </connections>
         </placeholder>
@@ -43,7 +44,7 @@
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SDA-mX-c6Q">
                     <rect key="frame" x="0.0" y="96" width="80" height="80"/>
-                    <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="0s4-Qe-mni"/>
                         <constraint firstAttribute="width" constant="60" id="gtH-ht-eq1"/>
@@ -60,7 +61,7 @@
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xNC-WH-GYZ">
                     <rect key="frame" x="80" y="96" width="80" height="80"/>
-                    <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="80" id="M1e-TH-xss"/>
                         <constraint firstAttribute="height" constant="60" id="cTL-9C-oZL"/>
@@ -77,7 +78,7 @@
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ami-Kq-cPc">
                     <rect key="frame" x="240" y="96" width="80" height="80"/>
-                    <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="60" id="G3w-L1-aQr"/>
                         <constraint firstAttribute="height" constant="60" id="xDI-eM-LtA"/>
@@ -112,7 +113,7 @@
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TgV-ZY-qxG">
                     <rect key="frame" x="160" y="96" width="80" height="80"/>
-                    <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="YN6-KF-LuO"/>
                         <constraint firstAttribute="width" constant="60" id="j9j-xn-oVW"/>
@@ -122,8 +123,8 @@
                     <nil key="highlightedColor"/>
                     <variation key="default">
                         <mask key="constraints">
-                            <exclude reference="j9j-xn-oVW"/>
                             <exclude reference="YN6-KF-LuO"/>
+                            <exclude reference="j9j-xn-oVW"/>
                         </mask>
                     </variation>
                 </label>
@@ -134,6 +135,7 @@
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="T59-Fz-l3c" firstAttribute="centerX" secondItem="ami-Kq-cPc" secondAttribute="centerX" id="2Kq-0L-Mem"/>
                 <constraint firstItem="TgV-ZY-qxG" firstAttribute="height" secondItem="xNC-WH-GYZ" secondAttribute="height" id="5Pj-Io-GTL"/>

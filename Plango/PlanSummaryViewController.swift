@@ -19,17 +19,16 @@ class PlanSummaryViewController: UIViewController {
     @IBOutlet weak var locationNameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
-    @IBOutlet weak var weatherImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var weatherLabel: UILabel!
     @IBOutlet weak var climaconLabel: UILabel!
     
     @IBOutlet weak var durationLabel: UILabel!
-    @IBOutlet weak var dayLabel: UILabel!
     
     // SummaryStart xib
     @IBOutlet weak var startDaysLabel: UILabel!
     @IBOutlet weak var startHoursLabel: UILabel!
+    @IBOutlet weak var startMinutesLabel: UILabel!
     @IBOutlet weak var startSecondsLabel: UILabel!
     
     // SummaryDetails xib
@@ -37,7 +36,6 @@ class PlanSummaryViewController: UIViewController {
     @IBOutlet weak var detailsEndDateLabel: UILabel!
     @IBOutlet weak var detailsDescriptionLabel: UILabel!
     @IBOutlet weak var detailsTagsLabel: UILabel!
-    @IBOutlet weak var detailsCitiesLabel: UILabel!
     
     
     var headerView: UIView!
@@ -54,6 +52,7 @@ class PlanSummaryViewController: UIViewController {
     let calendar = NSCalendar.currentCalendar()
     var days = 0
     var hours = 0
+    var minutes = 0
     var seconds = 0
     
     lazy var downloadButton: UIButton = {
@@ -64,7 +63,8 @@ class PlanSummaryViewController: UIViewController {
         button.backgroundColor = UIColor.plangoOrange()
         button.tintColor = UIColor.whiteColor()
         button.setTitle("Download Plan", forState: UIControlState.Normal)
-        button.makeRoundCorners(64)
+        button.titleLabel?.font = UIFont.plangoButton()
+
         button.addTarget(self, action: #selector(didTapDownload), forControlEvents: .TouchUpInside)
         return button
     }()
@@ -72,10 +72,11 @@ class PlanSummaryViewController: UIViewController {
     lazy var itineraryButton: UIButton = {
        let button = UIButton()
         button.backgroundColor = UIColor.whiteColor()
-        button.layer.borderColor = UIColor.plangoBrown().CGColor
+        button.layer.borderColor = UIColor.plangoBackgroundGray().CGColor
         button.layer.borderWidth = 1
-        button.tintColor = UIColor.plangoBrown()
-        button.setTitleColor(UIColor.plangoBrown(), forState: .Normal)
+        button.tintColor = UIColor.plangoTeal()
+        button.setTitleColor(UIColor.plangoTeal(), forState: .Normal)
+        button.titleLabel?.font = UIFont.plangoSmallButton()
         button.setTitle("Itinerary", forState: .Normal)
         button.addTarget(self, action: #selector(didTapItinerary), forControlEvents: .TouchUpInside)
         return button
@@ -84,11 +85,12 @@ class PlanSummaryViewController: UIViewController {
     lazy var mapButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor.whiteColor()
-        button.layer.borderColor = UIColor.plangoBrown().CGColor
+        button.layer.borderColor = UIColor.plangoBackgroundGray().CGColor
         button.layer.borderWidth = 1
 
-        button.tintColor = UIColor.plangoBrown()
-        button.setTitleColor(UIColor.plangoBrown(), forState: .Normal)
+        button.tintColor = UIColor.plangoTeal()
+        button.setTitleColor(UIColor.plangoTeal(), forState: .Normal)
+        button.titleLabel?.font = UIFont.plangoSmallButton()
         button.setTitle("Map", forState: .Normal)
         button.addTarget(self, action: #selector(didTapMap), forControlEvents: .TouchUpInside)
         return button
@@ -97,11 +99,12 @@ class PlanSummaryViewController: UIViewController {
     lazy var friendsButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor.whiteColor()
-        button.layer.borderColor = UIColor.plangoBrown().CGColor
+        button.layer.borderColor = UIColor.plangoBackgroundGray().CGColor
         button.layer.borderWidth = 1
 
-        button.tintColor = UIColor.plangoBrown()
-        button.setTitleColor(UIColor.plangoBrown(), forState: .Normal)
+        button.tintColor = UIColor.plangoTeal()
+        button.setTitleColor(UIColor.plangoTeal(), forState: .Normal)
+        button.titleLabel?.font = UIFont.plangoSmallButton()
         button.setTitle("Friends", forState: .Normal)
         button.addTarget(self, action: #selector(didTapFriends), forControlEvents: .TouchUpInside)
         return button
@@ -174,7 +177,7 @@ class PlanSummaryViewController: UIViewController {
         let nibDetails = UINib(nibName: "SummaryDetails", bundle: bundle)
         detailsView = nibDetails.instantiateWithOwner(self, options: nil)[0] as! UIView
         detailsView.snp_makeConstraints { (make) in
-            make.height.equalTo(320)
+            make.height.equalTo(180)
         }
 
         scrollView = UIScrollView()
@@ -234,6 +237,7 @@ class PlanSummaryViewController: UIViewController {
         
         configureLabel(startDaysLabel)
         configureLabel(startHoursLabel)
+        configureLabel(startMinutesLabel)
         configureLabel(startSecondsLabel)
         
         if let plan = self.plan {
@@ -251,19 +255,17 @@ class PlanSummaryViewController: UIViewController {
                 return
             }
             for tagName in planTags {
-                allTags = allTags.stringByAppendingString("\(tagName), ")
+                allTags = allTags.stringByAppendingString("#\(tagName) ")
             }
-            let cleanedTags = String(allTags.characters.dropLast(2))
+            let cleanedTags = String(allTags.characters.dropLast(1))
             detailsTagsLabel.text = cleanedTags
             
             guard let days = plan.durationDays else {return}
             
             if days == 1 {
-                dayLabel.text = "Day"
-                durationLabel.text = days.description
+                durationLabel.text = "\(days.description) Day"
             } else {
-                dayLabel.text = "Days"
-                durationLabel.text = days.description
+                durationLabel.text = "\(days.description) Days"
             }
             
             //TODO: - Add this to xib
@@ -292,12 +294,11 @@ class PlanSummaryViewController: UIViewController {
                 
                 locationNameLabel.text = "\(places.first!.city!), \(places.first!.country!)"
                 
-                var allPlaces = ""
-                for place in places {
-                    allPlaces = allPlaces.stringByAppendingString("\(place.city!), ")
-                }
-                let cleanedPlaces = String(allPlaces.characters.dropLast(2))
-                detailsCitiesLabel.text = cleanedPlaces
+//                var allPlaces = ""
+//                for place in places {
+//                    allPlaces = allPlaces.stringByAppendingString("\(place.city!), ")
+//                }
+//                let cleanedPlaces = String(allPlaces.characters.dropLast(2))
             }
 
             
@@ -324,23 +325,28 @@ class PlanSummaryViewController: UIViewController {
         
         let startMinusHours = calendar.dateByAddingUnit(.Hour, value: -hours, toDate: startMinusDays!, options: [])
 
+        minutes = calendar.components(.Minute, fromDate: today, toDate: startMinusHours!, options: []).minute
         
-        seconds = calendar.components(.Second, fromDate: today, toDate: startMinusHours!, options: []).second
+        let startMinusMinutes = calendar.dateByAddingUnit(.Minute, value: -minutes, toDate: startMinusHours!, options: [])
         
-        if days > 0 || hours > 0 || seconds > 0 {
+        seconds = calendar.components(.Second, fromDate: today, toDate: startMinusMinutes!, options: []).second
+        
+        if days > 0 || hours > 0 || minutes > 0 || seconds > 0 {
             startDaysLabel.text = days.description
             startHoursLabel.text = hours.description
+            startMinutesLabel.text = minutes.description
             startSecondsLabel.text = seconds.description
 
         } else {
             startDaysLabel.text = "0"
             startHoursLabel.text = "0"
+            startMinutesLabel.text = "0"
             startSecondsLabel.text = "0"
         }
     }
     
     func configureLabel(label: UILabel) {
-        label.layer.borderColor = UIColor.plangoBrown().CGColor
+        label.layer.borderColor = UIColor.plangoBackgroundGray().CGColor
         label.layer.borderWidth = 1
         
     }
