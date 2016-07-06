@@ -25,9 +25,9 @@
             <connections>
                 <outlet property="climaconLabel" destination="GNV-AM-1cB" id="Psz-3b-hx7"/>
                 <outlet property="coverImageView" destination="TBH-KG-z7k" id="bQB-sE-Rrb"/>
-                <outlet property="dateLabel" destination="hWo-78-1yy" id="2XT-E0-Sph"/>
                 <outlet property="durationLabel" destination="Ukt-BV-T8w" id="ekB-mS-8lA"/>
                 <outlet property="locationNameLabel" destination="1N0-ex-4qa" id="G6k-ja-JV7"/>
+                <outlet property="tagsLabel" destination="hWo-78-1yy" id="fgM-tt-5d5"/>
                 <outlet property="temperatureLabel" destination="Nti-0F-Ygm" id="bXH-cO-yPr"/>
                 <outlet property="weatherLabel" destination="yVV-DK-7nl" id="BIj-7E-gVi"/>
             </connections>
@@ -40,20 +40,23 @@
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TBH-KG-z7k">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="137"/>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sydney, Australia" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1N0-ex-4qa">
-                    <rect key="frame" x="12" y="74" width="139" height="22"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sydney, Australia" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1N0-ex-4qa">
+                    <rect key="frame" x="12" y="74" width="296" height="22"/>
                     <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="18"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="May 30, 2016" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hWo-78-1yy">
-                    <rect key="frame" x="12" y="100" width="85" height="17"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Foodie, Adventerous" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hWo-78-1yy">
+                    <rect key="frame" x="12" y="100" width="228" height="17"/>
                     <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="14 Days" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ukt-BV-T8w">
-                    <rect key="frame" x="257" y="100" width="51" height="17"/>
+                    <rect key="frame" x="248" y="100" width="60" height="17"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="60" id="Ebu-p5-Ubg"/>
+                    </constraints>
                     <fontDescription key="fontDescription" name="Lato-Black" family="Lato" pointSize="14"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
@@ -95,6 +98,7 @@
                 <constraint firstAttribute="bottom" secondItem="TBH-KG-z7k" secondAttribute="bottom" id="OFb-QL-1HV"/>
                 <constraint firstItem="hWo-78-1yy" firstAttribute="leading" secondItem="hKf-Tg-Mmz" secondAttribute="leading" constant="12" id="OY7-jN-j1c"/>
                 <constraint firstAttribute="trailing" secondItem="Ukt-BV-T8w" secondAttribute="trailing" constant="12" id="SLJ-9e-Q4b"/>
+                <constraint firstAttribute="trailing" secondItem="1N0-ex-4qa" secondAttribute="trailing" constant="12" id="TXU-Uq-8Lr"/>
                 <constraint firstItem="yVV-DK-7nl" firstAttribute="top" secondItem="Nti-0F-Ygm" secondAttribute="bottom" constant="4" id="ZLq-bk-dWm"/>
                 <constraint firstItem="yVV-DK-7nl" firstAttribute="top" secondItem="Nti-0F-Ygm" secondAttribute="bottom" id="apv-nk-ubZ"/>
                 <constraint firstItem="TBH-KG-z7k" firstAttribute="leading" secondItem="hKf-Tg-Mmz" secondAttribute="leading" id="dtn-Mh-45D"/>
@@ -103,6 +107,7 @@
                 <constraint firstItem="yVV-DK-7nl" firstAttribute="trailing" secondItem="Nti-0F-Ygm" secondAttribute="trailing" id="onu-6x-9xl"/>
                 <constraint firstAttribute="trailing" secondItem="GNV-AM-1cB" secondAttribute="trailing" constant="12" id="ryC-uV-bg6"/>
                 <constraint firstAttribute="trailing" secondItem="TBH-KG-z7k" secondAttribute="trailing" id="sNq-wA-h5Z"/>
+                <constraint firstItem="Ukt-BV-T8w" firstAttribute="leading" secondItem="hWo-78-1yy" secondAttribute="trailing" constant="8" id="sVb-6g-q1Z"/>
                 <constraint firstItem="GNV-AM-1cB" firstAttribute="top" secondItem="hKf-Tg-Mmz" secondAttribute="top" constant="12" id="tFR-k6-oAD"/>
                 <constraint firstItem="Nti-0F-Ygm" firstAttribute="top" secondItem="GNV-AM-1cB" secondAttribute="top" id="uVb-29-rOD"/>
                 <constraint firstItem="Nti-0F-Ygm" firstAttribute="leading" secondItem="yVV-DK-7nl" secondAttribute="leading" id="y1t-Hc-SWp"/>

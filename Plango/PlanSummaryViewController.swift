@@ -17,7 +17,7 @@ class PlanSummaryViewController: UIViewController {
     @IBOutlet weak var coverImageView: UIImageView!
     
     @IBOutlet weak var locationNameLabel: UILabel!
-    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var tagsLabel: UILabel!
     
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var weatherLabel: UILabel!
@@ -57,12 +57,15 @@ class PlanSummaryViewController: UIViewController {
     
     lazy var downloadButton: UIButton = {
         let button = UIButton()
-//        button.snp_makeConstraints(closure: { (make) in
-//            make.size.equalTo(30)
-//        })
+        button.snp_makeConstraints(closure: { (make) in
+            make.size.equalTo(60)
+        })
         button.backgroundColor = UIColor.plangoOrange()
         button.tintColor = UIColor.whiteColor()
-        button.setTitle("Download Plan", forState: UIControlState.Normal)
+        button.setTitle("Go Offline!", forState: UIControlState.Normal)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 0)
+        button.setImage(UIImage(named: "download"), forState: .Normal)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 4)
         button.titleLabel?.font = UIFont.plangoButton()
 
         button.addTarget(self, action: #selector(didTapDownload), forControlEvents: .TouchUpInside)
@@ -78,6 +81,9 @@ class PlanSummaryViewController: UIViewController {
         button.setTitleColor(UIColor.plangoTeal(), forState: .Normal)
         button.titleLabel?.font = UIFont.plangoSmallButton()
         button.setTitle("Itinerary", forState: .Normal)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 0)
+        button.setImage(UIImage(named: "itinerary-teal"), forState: .Normal)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 4)
         button.addTarget(self, action: #selector(didTapItinerary), forControlEvents: .TouchUpInside)
         return button
     }()
@@ -92,6 +98,9 @@ class PlanSummaryViewController: UIViewController {
         button.setTitleColor(UIColor.plangoTeal(), forState: .Normal)
         button.titleLabel?.font = UIFont.plangoSmallButton()
         button.setTitle("Map", forState: .Normal)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 0)
+        button.setImage(UIImage(named: "map-teal"), forState: .Normal)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 4)
         button.addTarget(self, action: #selector(didTapMap), forControlEvents: .TouchUpInside)
         return button
     }()
@@ -106,6 +115,9 @@ class PlanSummaryViewController: UIViewController {
         button.setTitleColor(UIColor.plangoTeal(), forState: .Normal)
         button.titleLabel?.font = UIFont.plangoSmallButton()
         button.setTitle("Friends", forState: .Normal)
+//        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 0)
+//        button.setImage(UIImage(named: "friends-teal"), forState: .Normal)
+//        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 4)
         button.addTarget(self, action: #selector(didTapFriends), forControlEvents: .TouchUpInside)
         return button
     }()
@@ -250,15 +262,20 @@ class PlanSummaryViewController: UIViewController {
             
             detailsDescriptionLabel.text = plan.planDescription
                         
-            var allTags = ""
+            var hashTags = ""
+            var commaTags = ""
             guard let planTags = plan.tags else {
                 return
             }
             for tagName in planTags {
-                allTags = allTags.stringByAppendingString("#\(tagName) ")
+                hashTags = hashTags.stringByAppendingString("#\(tagName) ")
+                commaTags = commaTags.stringByAppendingString("\(tagName), ")
             }
-            let cleanedTags = String(allTags.characters.dropLast(1))
+            let cleanedTags = String(hashTags.characters.dropLast(1))
             detailsTagsLabel.text = cleanedTags
+            
+            let cleanedCommaTags = String(commaTags.characters.dropLast(2))
+            tagsLabel.text = cleanedCommaTags
             
             guard let days = plan.durationDays else {return}
             
@@ -283,7 +300,6 @@ class PlanSummaryViewController: UIViewController {
             formatter.dateStyle = NSDateFormatterStyle.LongStyle
             let startDateString = formatter.stringFromDate(startDate)
             let endDateString = formatter.stringFromDate(endDate)
-            dateLabel.text = startDateString
             
             detailsStartDateLabel.text = startDateString
             detailsEndDateLabel.text = endDateString
