@@ -57,6 +57,7 @@
 		C33A70141CC05DF400B8313C /* PlanTypesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33A70131CC05DF400B8313C /* PlanTypesTableViewCell.swift */; };
 		C33A70181CC07A1C00B8313C /* TypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33A70171CC07A1C00B8313C /* TypeCollectionViewCell.swift */; };
 		C33A701A1CC07A4900B8313C /* TypeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C33A70191CC07A4900B8313C /* TypeCell.xib */; };
+		C33E79191D2C7E1C002EB80D /* DiscoverHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C33E79181D2C7E1C002EB80D /* DiscoverHeader.xib */; };
 		C34889461CC9A7650045EED4 /* top_foodie_plans.json in Resources */ = {isa = PBXBuildFile; fileRef = C34889451CC9A7650045EED4 /* top_foodie_plans.json */; };
 		C36C6F7E1D18AB4000A51253 /* EventCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C36C6F7D1D18AB4000A51253 /* EventCell.xib */; };
 		C36C6F801D18B28100A51253 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36C6F7F1D18B28100A51253 /* EventTableViewCell.swift */; };
@@ -149,6 +150,7 @@
 		C33A70131CC05DF400B8313C /* PlanTypesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanTypesTableViewCell.swift; sourceTree = "<group>"; };
 		C33A70171CC07A1C00B8313C /* TypeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeCollectionViewCell.swift; sourceTree = "<group>"; };
 		C33A70191CC07A4900B8313C /* TypeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TypeCell.xib; sourceTree = "<group>"; };
+		C33E79181D2C7E1C002EB80D /* DiscoverHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DiscoverHeader.xib; sourceTree = "<group>"; };
 		C34889451CC9A7650045EED4 /* top_foodie_plans.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = top_foodie_plans.json; sourceTree = "<group>"; };
 		C36C6F7D1D18AB4000A51253 /* EventCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventCell.xib; sourceTree = "<group>"; };
 		C36C6F7F1D18B28100A51253 /* EventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
@@ -344,6 +346,7 @@
 				C3327B521D2465AD00B7946E /* TopCollectionsMiddleCell.xib */,
 				C3978CD11CB85B38001028D5 /* PlansCell.xib */,
 				C33A70191CC07A4900B8313C /* TypeCell.xib */,
+				C33E79181D2C7E1C002EB80D /* DiscoverHeader.xib */,
 				C3978CCD1CB6FC4C001028D5 /* MyPlansViewController.swift */,
 				C3B150611CB4DD73008E6A4E /* DiscoverTableViewController.swift */,
 				C33A700F1CC04C2000B8313C /* TopCollectionsTableViewCell.swift */,
@@ -509,6 +512,7 @@
 				C3F5E05F1D1B902A00F1D2A0 /* NotesCell.xib in Resources */,
 				C3327B671D24A07900B7946E /* Lato-Light.ttf in Resources */,
 				C3327B8B1D24A08B00B7946E /* Raleway-Medium.ttf in Resources */,
+				C33E79191D2C7E1C002EB80D /* DiscoverHeader.xib in Resources */,
 				C3327B8D1D24A08B00B7946E /* Raleway-Regular.ttf in Resources */,
 				C3327B8F1D24A08B00B7946E /* Raleway-SemiBoldItalic.ttf in Resources */,
 				C3327B801D24A08B00B7946E /* Raleway-Black.ttf in Resources */,

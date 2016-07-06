@@ -8,6 +8,12 @@
 
 import UIKit
 
+class DiscoverSectionHeaderView: UITableViewHeaderFooterView {
+    
+    @IBOutlet weak var headerLabel: UILabel!
+    
+}
+
 class DiscoverTableViewController: UITableViewController {
     
     enum DiscoverTitles: String {
@@ -45,15 +51,6 @@ class DiscoverTableViewController: UITableViewController {
         self.tableView.backgroundColor = UIColor.plangoBackgroundGray()
         self.navigationItem.title = "DISCOVER"
         
-        for family: String in UIFont.familyNames()
-        {
-            print("\(family)")
-            for names: String in UIFont.fontNamesForFamilyName(family)
-            {
-                print("== \(names)")
-            }
-        }
-        
         // MARK: - Cell Types ------------------------------------------------------------------------
         let plansNib = UINib(nibName: "PlansCell", bundle: nil)
         self.tableView.registerNib(plansNib, forCellReuseIdentifier: CellID.Plans.rawValue)
@@ -67,7 +64,8 @@ class DiscoverTableViewController: UITableViewController {
         self.tableView.registerClass(PlanTypesTableViewCell.self, forCellReuseIdentifier: CellID.PlanTypes.rawValue)
         
         // headerfooter view is like a cell
-        self.tableView.registerClass(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: CellID.Header.rawValue)
+        let sectionNib = UINib(nibName: "DiscoverHeader", bundle: nil)
+        self.tableView.registerNib(sectionNib, forHeaderFooterViewReuseIdentifier: CellID.Header.rawValue)
         
         //------------------------------------------------------------------------
         
@@ -302,28 +300,28 @@ class DiscoverTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return Helper.HeaderHeight.section.value
+        return Helper.HeaderHeight.section.value + 4 //slightly taller section header than rest of app
     }
     
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(CellID.Header.rawValue)
+        let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(CellID.Header.rawValue) as! DiscoverSectionHeaderView
         
         
-        headerView?.textLabel?.font = UIFont.plangoHeader()
+        headerView.headerLabel.font = UIFont.plangoHeader()
         
         switch section {
         case DiscoverTitles.TypeCollections.section:
-            headerView?.textLabel?.text = DiscoverTitles.TypeCollections.rawValue
+            headerView.headerLabel.text = DiscoverTitles.TypeCollections.rawValue
             
         case DiscoverTitles.PlangoCollections.section:
-            headerView?.textLabel?.text = DiscoverTitles.PlangoCollections.rawValue
+            headerView.headerLabel.text = DiscoverTitles.PlangoCollections.rawValue
             
         case DiscoverTitles.PopularPlans.section:
-            headerView?.textLabel?.text = DiscoverTitles.PopularPlans.rawValue
+            headerView.headerLabel.text = DiscoverTitles.PopularPlans.rawValue
             
             
         default:
-            headerView?.textLabel?.text = nil
+            headerView.headerLabel.text = nil
         }
 
         return headerView
