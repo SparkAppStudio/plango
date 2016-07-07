@@ -34,6 +34,7 @@ enum CellID: String {
     case Review = "ReviewTableViewCell"
     case Header = "Header"
     case Member = "MemberTableViewCell"
+    case Experience = "ExperienceTableViewCell"
 }
 
 enum PageID: String {

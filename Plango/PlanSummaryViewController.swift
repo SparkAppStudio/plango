@@ -11,7 +11,24 @@ import SnapKit
 import AlamofireImage
 import CZWeatherKit
 
-class PlanSummaryViewController: UIViewController {
+class PlanSummaryViewController: UITableViewController {
+    
+    private enum SummaryTitles: String {
+        case Start = ""
+        case Overview = "Overview"
+
+        var section: Int {
+            switch self {
+            case .Start: return 0
+            case .Overview: return 1
+            }
+        }
+        
+        static var count: Int {
+            //whatever the last case in the enum is, then plus 1 gives you the count
+            return SummaryTitles.Overview.hashValue + 1
+        }
+    }
 
     // SummaryHeader xib
     @IBOutlet weak var coverImageView: UIImageView!
@@ -42,7 +59,6 @@ class PlanSummaryViewController: UIViewController {
     var startView: UIView!
     var detailsView: UIView!
     
-    var scrollView: UIScrollView!
     var stackView: UIStackView!
     var buttonStackView: UIStackView!
     
@@ -115,9 +131,9 @@ class PlanSummaryViewController: UIViewController {
         button.setTitleColor(UIColor.plangoTeal(), forState: .Normal)
         button.titleLabel?.font = UIFont.plangoSmallButton()
         button.setTitle("Friends", forState: .Normal)
-//        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 0)
-//        button.setImage(UIImage(named: "friends-teal"), forState: .Normal)
-//        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 4)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 0)
+        button.setImage(UIImage(named: "friends-teal"), forState: .Normal)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 4)
         button.addTarget(self, action: #selector(didTapFriends), forControlEvents: .TouchUpInside)
         return button
     }()
@@ -183,7 +199,7 @@ class PlanSummaryViewController: UIViewController {
         let nibStart = UINib(nibName: "SummaryStart", bundle: bundle)
         startView = nibStart.instantiateWithOwner(self, options: nil)[0] as! UIView
         startView.snp_makeConstraints { (make) in
-            make.height.equalTo(240)
+            make.height.equalTo(200)
         }
         
         let nibDetails = UINib(nibName: "SummaryDetails", bundle: bundle)
@@ -192,32 +208,24 @@ class PlanSummaryViewController: UIViewController {
             make.height.equalTo(180)
         }
 
-        scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.backgroundColor = UIColor.plangoBackgroundGray()
-        view.addSubview(scrollView)
+//        scrollView = UIScrollView()
+//        scrollView.translatesAutoresizingMaskIntoConstraints = false
+//        scrollView.backgroundColor = UIColor.plangoBackgroundGray()
+//        view.addSubview(scrollView)
         
         stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .Vertical
-        scrollView.addSubview(stackView)
+        stackView.spacing = 12
+//        scrollView.addSubview(stackView)
         
         
-        scrollView.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor).active = true
-        scrollView.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor).active = true
-        scrollView.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor).active = true
-        scrollView.topAnchor.constraintEqualToAnchor(view.topAnchor).active = true
-        scrollView.widthAnchor.constraintEqualToAnchor(view.widthAnchor).active = true
+//        scrollView.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor).active = true
+//        scrollView.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor).active = true
+//        scrollView.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor).active = true
+//        scrollView.topAnchor.constraintEqualToAnchor(view.topAnchor).active = true
+//        scrollView.widthAnchor.constraintEqualToAnchor(view.widthAnchor).active = true
         
-        stackView.leadingAnchor.constraintEqualToAnchor(scrollView.leadingAnchor).active = true
-        stackView.trailingAnchor.constraintEqualToAnchor(scrollView.trailingAnchor).active = true
-        stackView.bottomAnchor.constraintEqualToAnchor(scrollView.bottomAnchor).active = true
-        stackView.topAnchor.constraintEqualToAnchor(scrollView.topAnchor).active = true
-        stackView.widthAnchor.constraintEqualToAnchor(scrollView.widthAnchor).active = true
-
-        if myPlan == true {
-            stackView.addArrangedSubview(downloadButton)
-        }
         stackView.addArrangedSubview(headerView)
         
         buttonStackView = UIStackView()
@@ -242,6 +250,65 @@ class PlanSummaryViewController: UIViewController {
         }
         
         stackView.addArrangedSubview(detailsView)
+        
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+
+        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Start")
+        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Overview")
+        
+        let experienceNib = UINib(nibName: "ExperienceCell", bundle: nil)
+        tableView.registerNib(experienceNib, forCellReuseIdentifier: CellID.Experience.rawValue)
+    }
+    
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        guard let experiences = plan.experiences else {return SummaryTitles.count}
+        return SummaryTitles.count + experiences.count
+    }
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case SummaryTitles.Start.section:
+            return 1
+        case SummaryTitles.Overview.section:
+            return 1
+        default:
+            return 3
+        }
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        switch indexPath.section {
+        case SummaryTitles.Start.section:
+            let cell = tableView.dequeueReusableCellWithIdentifier("Start", forIndexPath: indexPath)
+            cell.contentView.addSubview(stackView)
+            
+            stackView.leadingAnchor.constraintEqualToAnchor(cell.contentView.leadingAnchor).active = true
+            stackView.trailingAnchor.constraintEqualToAnchor(cell.contentView.trailingAnchor).active = true
+            stackView.bottomAnchor.constraintEqualToAnchor(cell.contentView.bottomAnchor).active = true
+            stackView.topAnchor.constraintEqualToAnchor(cell.contentView.topAnchor).active = true
+            stackView.widthAnchor.constraintEqualToAnchor(cell.contentView.widthAnchor).active = true
+
+            return cell
+        case SummaryTitles.Overview.section:
+            let cell = tableView.dequeueReusableCellWithIdentifier("Overview", forIndexPath: indexPath)
+            return cell
+        default:
+            let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Experience.rawValue, forIndexPath: indexPath) as! ExperienceTableViewCell
+            cell.experience = plan.experiences![indexPath.row]
+            cell.configure()
+            return cell
+        }
+    }
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        switch indexPath.section {
+        case SummaryTitles.Start.section:
+            return 800 //stackView.frame.height
+        case SummaryTitles.Overview.section:
+            return 180
+        default:
+            return 80
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -367,10 +434,10 @@ class PlanSummaryViewController: UIViewController {
         
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        scrollView.contentSize = stackView.frame.size
-    }
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//        scrollView.contentSize = stackView.frame.size
+//    }
 
     func didTapDownload() {
         //TODO: - download info to device

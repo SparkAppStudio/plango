@@ -16,7 +16,7 @@ class DiscoverSectionHeaderView: UITableViewHeaderFooterView {
 
 class DiscoverTableViewController: UITableViewController {
     
-    enum DiscoverTitles: String {
+    private enum DiscoverTitles: String {
         case TypeCollections = "What's Your Type?"
         case PlangoCollections = "Plango Favorites"
         case PopularPlans = "Popular Destinations"
