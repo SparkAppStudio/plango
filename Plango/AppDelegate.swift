@@ -199,6 +199,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    func swapLoginControllerInTab() {
+        //TODO: - if loggin out, set loginController as tabThree, if logging in set MyPlans as tabThree
+    }
+    
     func configureTabController() {
         let tabOne = UINavigationController(rootViewController: DiscoverTableViewController())
         
