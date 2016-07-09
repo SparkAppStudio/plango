@@ -18,7 +18,7 @@ class TagsResultsViewController: UITableViewController {
     var filteredTags = [Tag]()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        tableView.backgroundColor = UIColor.plangoBackgroundGray()
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "tag")
     }
     
@@ -30,6 +30,13 @@ class TagsResultsViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("tag", forIndexPath: indexPath)
+        
+        cell.contentView.backgroundColor = UIColor.plangoBackgroundGray()
+        cell.textLabel?.backgroundColor = UIColor.clearColor()
+        cell.textLabel?.textAlignment = .Left
+        cell.textLabel?.textColor = UIColor.plangoText()
+        cell.textLabel?.font = UIFont.plangoBodyBig()
+
         
         let tag = filteredTags[indexPath.row]
         cell.textLabel!.text = tag.name
