@@ -60,6 +60,8 @@
 		C33E79191D2C7E1C002EB80D /* DiscoverHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C33E79181D2C7E1C002EB80D /* DiscoverHeader.xib */; };
 		C33E791B1D2DE04E002EB80D /* ExperienceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C33E791A1D2DE04E002EB80D /* ExperienceCell.xib */; };
 		C33E791D1D2DEC09002EB80D /* ExperienceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33E791C1D2DEC09002EB80D /* ExperienceTableViewCell.swift */; };
+		C33E791F1D303A5C002EB80D /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33E791E1D303A5C002EB80D /* SectionHeaderView.swift */; };
+		C33E79211D303A70002EB80D /* SectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C33E79201D303A70002EB80D /* SectionHeader.xib */; };
 		C34889461CC9A7650045EED4 /* top_foodie_plans.json in Resources */ = {isa = PBXBuildFile; fileRef = C34889451CC9A7650045EED4 /* top_foodie_plans.json */; };
 		C36C6F7E1D18AB4000A51253 /* EventCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C36C6F7D1D18AB4000A51253 /* EventCell.xib */; };
 		C36C6F801D18B28100A51253 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36C6F7F1D18B28100A51253 /* EventTableViewCell.swift */; };
@@ -155,6 +157,8 @@
 		C33E79181D2C7E1C002EB80D /* DiscoverHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DiscoverHeader.xib; sourceTree = "<group>"; };
 		C33E791A1D2DE04E002EB80D /* ExperienceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExperienceCell.xib; sourceTree = "<group>"; };
 		C33E791C1D2DEC09002EB80D /* ExperienceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExperienceTableViewCell.swift; sourceTree = "<group>"; };
+		C33E791E1D303A5C002EB80D /* SectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
+		C33E79201D303A70002EB80D /* SectionHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SectionHeader.xib; sourceTree = "<group>"; };
 		C34889451CC9A7650045EED4 /* top_foodie_plans.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = top_foodie_plans.json; sourceTree = "<group>"; };
 		C36C6F7D1D18AB4000A51253 /* EventCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventCell.xib; sourceTree = "<group>"; };
 		C36C6F7F1D18B28100A51253 /* EventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
@@ -334,6 +338,8 @@
 				C33730381CDFFE3000F57B47 /* SummaryStart.xib */,
 				C37F1E821D26308100CA1FAA /* MemberCell.xib */,
 				C33E791A1D2DE04E002EB80D /* ExperienceCell.xib */,
+				C33E79201D303A70002EB80D /* SectionHeader.xib */,
+				C33E791E1D303A5C002EB80D /* SectionHeaderView.swift */,
 				C33E791C1D2DEC09002EB80D /* ExperienceTableViewCell.swift */,
 				C37F1E801D262B8F00CA1FAA /* PlanMembersTableViewController.swift */,
 				C37F1E841D2630B400CA1FAA /* MemberTableViewCell.swift */,
@@ -503,6 +509,7 @@
 				C3327B881D24A08B00B7946E /* Raleway-Italic.ttf in Resources */,
 				C3327B8A1D24A08B00B7946E /* Raleway-LightItalic.ttf in Resources */,
 				C3EC02791CC18FF200CAC4C1 /* ProfileHeader.xib in Resources */,
+				C33E79211D303A70002EB80D /* SectionHeader.xib in Resources */,
 				C3327B7F1D24A08B00B7946E /* OFL.txt in Resources */,
 				C3237E2B1CADC402008293D6 /* Main.storyboard in Resources */,
 				C33E791B1D2DE04E002EB80D /* ExperienceCell.xib in Resources */,
@@ -614,6 +621,7 @@
 				C316D4AE1D08C4A4008B244E /* LoginConfirmTableViewController.swift in Sources */,
 				C31AC41F1CADD7150032230E /* Helper.swift in Sources */,
 				C3CD5BE61CB5D4AB0079C0E7 /* PlansTableViewCell.swift in Sources */,
+				C33E791F1D303A5C002EB80D /* SectionHeaderView.swift in Sources */,
 				C33E791D1D2DEC09002EB80D /* ExperienceTableViewCell.swift in Sources */,
 				C3B150601CB4DD00008E6A4E /* SettingsTableViewController.swift in Sources */,
 				C3A7D4071CF515E5009D82F2 /* SearchDurationViewController.swift in Sources */,

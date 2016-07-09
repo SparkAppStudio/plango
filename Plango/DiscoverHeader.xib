@@ -20,7 +20,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="54"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N2w-i3-G1Z">
-                            <rect key="frame" x="14" y="25" width="42" height="19"/>
+                            <rect key="frame" x="18" y="25" width="42" height="19"/>
                             <fontDescription key="fontDescription" name="Raleway-Regular" family="Raleway" pointSize="16"/>
                             <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -28,7 +28,7 @@
                     </subviews>
                     <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstItem="N2w-i3-G1Z" firstAttribute="leading" secondItem="fle-TF-axr" secondAttribute="leading" constant="14" id="Z6r-sR-73U"/>
+                        <constraint firstItem="N2w-i3-G1Z" firstAttribute="leading" secondItem="fle-TF-axr" secondAttribute="leading" constant="18" id="Z6r-sR-73U"/>
                         <constraint firstAttribute="bottom" secondItem="N2w-i3-G1Z" secondAttribute="bottom" constant="10" id="ZHY-bv-va3"/>
                     </constraints>
                 </view>

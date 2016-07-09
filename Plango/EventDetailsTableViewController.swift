@@ -33,7 +33,7 @@ class EventDetailsTableViewController: UITableViewController {
         }
     }
     
-    var event: Event!
+//    var event: Event!
     var experience: Experience!
     var headerView: UIView!
 
@@ -42,6 +42,7 @@ class EventDetailsTableViewController: UITableViewController {
 
         self.tableView.backgroundColor = UIColor.plangoBackgroundGray()
         self.navigationItem.title = experience.name
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         
         let reviewNib = UINib(nibName: "ReviewCell", bundle: nil)
         self.tableView.registerNib(reviewNib, forCellReuseIdentifier: CellID.Review.rawValue)
@@ -51,13 +52,23 @@ class EventDetailsTableViewController: UITableViewController {
 
         
         let bundle = NSBundle(forClass: self.dynamicType)
+        
         let nib = UINib(nibName: "EventDetailsHeader", bundle: bundle)
         headerView = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        headerView.snp_makeConstraints { (make) in
+            make.height.equalTo(Helper.CellHeight.superWide.value)
+        }
         
-        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.size.width, height: 180))
+        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.size.width, height: Helper.CellHeight.superWide.value))
         
         containerView.addSubview(headerView)
+        
         tableView.tableHeaderView = containerView
+        
+        headerView.leadingAnchor.constraintEqualToAnchor(tableView.tableHeaderView!.leadingAnchor).active = true
+        headerView.trailingAnchor.constraintEqualToAnchor(tableView.tableHeaderView!.trailingAnchor).active = true
+        headerView.bottomAnchor.constraintEqualToAnchor(tableView.tableHeaderView!.bottomAnchor).active = true
+        headerView.topAnchor.constraintEqualToAnchor(tableView.tableHeaderView!.topAnchor).active = true
 
 
     }

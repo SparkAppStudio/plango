@@ -611,7 +611,7 @@ extension UIImage {
 
 extension UIFont {
     static func plangoHeader() -> UIFont {
-        return UIFont(name: "Raleway-Light", size: 16)!
+        return UIFont(name: "Raleway-Regular", size: 16)!
     }
     static func plangoSectionHeader() -> UIFont {
         return UIFont(name: "Lato-Bold", size: 16)!

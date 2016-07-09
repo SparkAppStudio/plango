@@ -306,9 +306,6 @@ class DiscoverTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(CellID.Header.rawValue) as! DiscoverSectionHeaderView
         
-        
-        headerView.headerLabel.font = UIFont.plangoHeader()
-        
         switch section {
         case DiscoverTitles.TypeCollections.section:
             headerView.headerLabel.text = DiscoverTitles.TypeCollections.rawValue

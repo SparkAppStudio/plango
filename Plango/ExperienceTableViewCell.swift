@@ -21,8 +21,10 @@ class ExperienceTableViewCell: UITableViewCell {
         avatarImageView.makeRoundCorners(6)
         guard let experience = experience else {return}
         
-        let avatarURL = NSURL(string: experience.avatar!)
-        avatarImageView.af_setImageWithURL(avatarURL!)
+        if let avatar = experience.avatar {
+            let avatarURL = NSURL(string: avatar)
+            avatarImageView.af_setImageWithURL(avatarURL!)
+        }
         
         titleLabel.text = experience.name
         ratingLabel.text = experience.rating

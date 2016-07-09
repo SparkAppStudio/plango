@@ -65,6 +65,8 @@ class PlanSummaryViewController: UITableViewController {
     var plan: Plan!
     var myPlan: Bool! = false
     
+    var experiencesByPlace: [String:[Experience]]!
+    
     let calendar = NSCalendar.currentCalendar()
     var days = 0
     var hours = 0
@@ -176,6 +178,8 @@ class PlanSummaryViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        
         if let plan = self.plan {
             if let user = Plango.sharedInstance.currentUser {
                 if plan.authorID == user.id {
@@ -184,6 +188,8 @@ class PlanSummaryViewController: UITableViewController {
                     myPlan = false
                 }
             }
+            
+            experiencesByPlace = parseExperiencesIntoPlaces(plan.experiences, places: plan.places)
         }
         
         let _ = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(timerDidFire), userInfo: nil, repeats: true)
@@ -193,7 +199,7 @@ class PlanSummaryViewController: UITableViewController {
         let nibHeader = UINib(nibName: "SummaryHeader", bundle: bundle)
         headerView = nibHeader.instantiateWithOwner(self, options: nil)[0] as! UIView
         headerView.snp_makeConstraints { (make) in
-            make.height.equalTo(180)
+            make.height.equalTo(Helper.CellHeight.superWide.value)
         }
         
         let nibStart = UINib(nibName: "SummaryStart", bundle: bundle)
@@ -207,6 +213,29 @@ class PlanSummaryViewController: UITableViewController {
         detailsView.snp_makeConstraints { (make) in
             make.height.equalTo(180)
         }
+        
+        // headerfooter view is like a cell
+        let sectionNib = UINib(nibName: "SectionHeader", bundle: nil)
+        self.tableView.registerNib(sectionNib, forHeaderFooterViewReuseIdentifier: CellID.Header.rawValue)
+        
+        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Start")
+        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Overview")
+        
+        let experienceNib = UINib(nibName: "ExperienceCell", bundle: nil)
+        tableView.registerNib(experienceNib, forCellReuseIdentifier: CellID.Experience.rawValue)
+
+        
+        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.size.width, height: Helper.CellHeight.superWide.value))
+        
+        containerView.addSubview(headerView)
+        
+        headerView.leadingAnchor.constraintEqualToAnchor(containerView.leadingAnchor).active = true
+        headerView.trailingAnchor.constraintEqualToAnchor(containerView.trailingAnchor).active = true
+        headerView.bottomAnchor.constraintEqualToAnchor(containerView.bottomAnchor).active = true
+        headerView.topAnchor.constraintEqualToAnchor(containerView.topAnchor).active = true
+        
+        tableView.tableHeaderView = containerView
+
 
 //        scrollView = UIScrollView()
 //        scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -225,8 +254,6 @@ class PlanSummaryViewController: UITableViewController {
 //        scrollView.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor).active = true
 //        scrollView.topAnchor.constraintEqualToAnchor(view.topAnchor).active = true
 //        scrollView.widthAnchor.constraintEqualToAnchor(view.widthAnchor).active = true
-        
-        stackView.addArrangedSubview(headerView)
         
         buttonStackView = UIStackView()
         buttonStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -247,22 +274,14 @@ class PlanSummaryViewController: UITableViewController {
         
         if myPlan == true {
             stackView.addArrangedSubview(startView)
+            stackView.addArrangedSubview(downloadButton)
         }
         
-        stackView.addArrangedSubview(detailsView)
-        
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Start")
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Overview")
-        
-        let experienceNib = UINib(nibName: "ExperienceCell", bundle: nil)
-        tableView.registerNib(experienceNib, forCellReuseIdentifier: CellID.Experience.rawValue)
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        guard let experiences = plan.experiences else {return SummaryTitles.count}
-        return SummaryTitles.count + experiences.count
+        guard let places = plan.places else {return SummaryTitles.count}
+        return SummaryTitles.count + places.count
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -272,7 +291,16 @@ class PlanSummaryViewController: UITableViewController {
         case SummaryTitles.Overview.section:
             return 1
         default:
-            return 3
+            guard let places = plan.places else {return 0}
+            let placeID = places[section - 2].id //subtract 2 because of 1st 2 hard coded sections
+            guard let experiences = experiencesByPlace[placeID] else {return 0}
+            return experiences.count
+            
+            //            if experiences.count < 3 {
+            //                return experiences.count
+            //            } else {
+            //                return 3
+            //            }
         }
     }
     
@@ -280,6 +308,7 @@ class PlanSummaryViewController: UITableViewController {
         switch indexPath.section {
         case SummaryTitles.Start.section:
             let cell = tableView.dequeueReusableCellWithIdentifier("Start", forIndexPath: indexPath)
+            cell.selectionStyle = .None
             cell.contentView.addSubview(stackView)
             
             stackView.leadingAnchor.constraintEqualToAnchor(cell.contentView.leadingAnchor).active = true
@@ -291,10 +320,18 @@ class PlanSummaryViewController: UITableViewController {
             return cell
         case SummaryTitles.Overview.section:
             let cell = tableView.dequeueReusableCellWithIdentifier("Overview", forIndexPath: indexPath)
+            cell.selectionStyle = .None
+            
+
             return cell
         default:
             let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Experience.rawValue, forIndexPath: indexPath) as! ExperienceTableViewCell
-            cell.experience = plan.experiences![indexPath.row]
+            
+            guard let places = plan.places else {return cell}
+            let placeID = places[indexPath.section - 2].id
+            guard let experiences = experiencesByPlace[placeID] else {return cell}
+            
+            cell.experience = experiences[indexPath.row]
             cell.configure()
             return cell
         }
@@ -303,11 +340,126 @@ class PlanSummaryViewController: UITableViewController {
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch indexPath.section {
         case SummaryTitles.Start.section:
-            return 800 //stackView.frame.height
+            if myPlan == true {
+                return 50 + 200 + 60 //buttonstackview + startview + download
+            } else {
+                return 50 //buttonstackview
+            }
         case SummaryTitles.Overview.section:
             return 180
         default:
             return 80
+        }
+    }
+    
+    func parseExperiencesIntoPlaces(experiences: [Experience]?, places: [Place]?) -> [String:[Experience]] {
+        var placesExperiences = [String:[Experience]]()
+        guard let places = places, experiences = experiences else {return placesExperiences}
+        
+        for place in places {
+            var placeExperiences = [Experience]()
+            for experience in experiences {
+                if experience.city == place.city {
+                    placeExperiences.append(experience)
+                }
+            }
+            placesExperiences[place.id] = placeExperiences
+        }
+        return placesExperiences
+    }
+    
+    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(CellID.Header.rawValue) as! SectionHeaderView
+        
+        switch section {
+        case SummaryTitles.Start.section:
+            return nil
+        case SummaryTitles.Overview.section:
+            headerView.titleLabel.text = "Overview"
+            
+            if let cities = plan.places?.count {
+                headerView.citiesLabel.hidden = false
+                headerView.citiesImageView.hidden = false
+                if cities == 1 {
+                    headerView.citiesLabel.text = "\(cities) City"
+                } else {
+                    headerView.citiesLabel.text = "\(cities) Cities"
+                }
+            }
+            
+            if let duration = plan.durationDays {
+                headerView.daysLabel.hidden = false
+                headerView.daysImageView.hidden = false
+                if duration == 1 {
+                    headerView.daysLabel.text = "\(duration) Day"
+                } else {
+                    headerView.daysLabel.text = "\(duration) Days"
+                }
+            }
+            
+            if let activities = plan.experiences?.count {
+                headerView.activitiesLabel.hidden = false
+                headerView.activitiesImageView.hidden = false
+                if activities == 1 {
+                    headerView.activitiesLabel.text = "\(activities) Activity"
+                } else {
+                    headerView.activitiesLabel.text = "\(activities) Activities"
+                }
+            }
+            return headerView
+        default:
+            
+            guard let places = plan.places else {return nil}
+            let place = places[section - 2] //subtract 2 because of 1st 2 hard coded sections
+            
+            headerView.titleLabel.text = place.city
+            
+            if let duration = place.durationDays {
+                headerView.daysLabel.hidden = false
+                headerView.daysImageView.hidden = false
+
+                if duration == 1 {
+                    headerView.daysLabel.text = "\(duration) Day"
+                } else {
+                    headerView.daysLabel.text = "\(duration) Days"
+                }
+            }
+            
+            if let activities = experiencesByPlace[place.id]?.count {
+                headerView.activitiesLabel.hidden = false
+                headerView.activitiesImageView.hidden = false
+
+                if activities == 1 {
+                    headerView.activitiesLabel.text = "\(activities) Activity"
+                } else {
+                    headerView.activitiesLabel.text = "\(activities) Activities"
+                }
+            }
+            
+            return headerView
+        }
+
+    }
+    
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        switch section {
+        case SummaryTitles.Start.section:
+            return 0
+        case SummaryTitles.Overview.section:
+            return 50
+        default:
+            return 50
+        }
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.section > 1 {
+            let cell = tableView.cellForRowAtIndexPath(indexPath) as! ExperienceTableViewCell
+            let eventDetails = EventDetailsTableViewController()
+            eventDetails.experience = cell.experience
+            
+            showViewController(eventDetails, sender: nil)
+
         }
     }
     

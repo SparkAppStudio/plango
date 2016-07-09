@@ -75,7 +75,7 @@ class ItineraryTableViewController: UITableViewController, EventTableViewCellDel
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! EventTableViewCell
         let eventDetails = EventDetailsTableViewController()
-        eventDetails.event = cell.event
+//        eventDetails.event = cell.event
         eventDetails.experience = cell.experience
         
         showViewController(eventDetails, sender: nil)
