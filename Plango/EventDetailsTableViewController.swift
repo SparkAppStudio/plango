@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 class EventDetailsTableViewController: UITableViewController {
     
@@ -36,9 +37,16 @@ class EventDetailsTableViewController: UITableViewController {
 //    var event: Event!
     var experience: Experience!
     var headerView: UIView!
+    
+    func didTapDirections() {
+        displayMapForExperience(experience)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let directionsBarButton = UIBarButtonItem(image: UIImage(named: "directions-white"), style: .Plain, target: self, action: #selector(didTapDirections))
+        self.navigationItem.rightBarButtonItem = directionsBarButton
 
         self.tableView.backgroundColor = UIColor.plangoBackgroundGray()
         self.navigationItem.title = experience.name
@@ -47,11 +55,18 @@ class EventDetailsTableViewController: UITableViewController {
         let reviewNib = UINib(nibName: "ReviewCell", bundle: nil)
         self.tableView.registerNib(reviewNib, forCellReuseIdentifier: CellID.Review.rawValue)
         
-        let notesNib = UINib(nibName: "NotesCell", bundle: nil)
-        self.tableView.registerNib(notesNib, forCellReuseIdentifier: CellID.Notes.rawValue)
-
+//        self.tableView.registerNib(notesNib, forCellReuseIdentifier: CellID.Notes.rawValue)
+        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: CellID.Notes.rawValue)
         
         let bundle = NSBundle(forClass: self.dynamicType)
+        
+        // headerfooter view is like a cell
+        let sectionNib = UINib(nibName: "SectionHeader", bundle: nil)
+        self.tableView.registerNib(sectionNib, forHeaderFooterViewReuseIdentifier: CellID.Header.rawValue)
+        
+        tableView.registerClass(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: CellID.Footer.rawValue)
+
+        //tableHeader view
         
         let nib = UINib(nibName: "EventDetailsHeader", bundle: bundle)
         headerView = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
@@ -81,10 +96,31 @@ class EventDetailsTableViewController: UITableViewController {
         reviewLabel.text = experience.rating
         
         guard let endPoint = experience.avatar else {
-            coverImageView.backgroundColor = UIColor.plangoBrown()
+            coverImageView.backgroundColor = UIColor.plangoText()
             return
         }
         coverImageView.af_setImageWithURL(NSURL(string: endPoint)!)
+    }
+    
+    func displayMapForExperience(experience: Experience) {
+        
+        guard let latitute: CLLocationDegrees = experience.geocode?.first else {return}
+        guard let longitute: CLLocationDegrees = experience.geocode?.last else {return}
+        
+        let regionDistance:CLLocationDistance = 10000
+        let coordinates = CLLocationCoordinate2DMake(latitute, longitute)
+        let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, regionDistance, regionDistance)
+        
+        let options = [
+            MKLaunchOptionsMapCenterKey: NSValue(MKCoordinate: regionSpan.center),
+            MKLaunchOptionsMapSpanKey: NSValue(MKCoordinateSpan: regionSpan.span)
+        ]
+        let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
+        let mapItem = MKMapItem(placemark: placemark)
+        if let name = experience.name {
+            mapItem.name = name
+        }
+        mapItem.openInMapsWithLaunchOptions(options)
     }
     
     // MARK: - Table view Delegate
@@ -92,7 +128,7 @@ class EventDetailsTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch indexPath.section {
         case EventTitles.MyNotes.section:
-            return Helper.CellHeight.superWide.value
+            return UITableViewAutomaticDimension
         case EventTitles.Tips.section:
             return Helper.CellHeight.reviews.value
         default:
@@ -100,15 +136,37 @@ class EventDetailsTableViewController: UITableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
+    
+    override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 12
+    }
+    
+    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(CellID.Header.rawValue) as! SectionHeaderView
+        
         switch section {
         case EventTitles.MyNotes.section:
-            return "My Notes"
+            headerView.titleLabel.text = "My Notes"
         case EventTitles.Tips.section:
-            return "Tips and Reviews"
+            headerView.titleLabel.text = "Tips and Reviews"
         default:
-            return nil
+            headerView.titleLabel.text = ""
         }
+        
+        return headerView
+    }
+    
+    override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let footerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(CellID.Footer.rawValue)
+        footerView?.contentView.backgroundColor = UIColor.plangoBackgroundGray()
+        return footerView
     }
 
     // MARK: - Table view data source
@@ -135,11 +193,13 @@ class EventDetailsTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch indexPath.section {
         case EventTitles.MyNotes.section:
-            let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Notes.rawValue, forIndexPath: indexPath) as! NotesTableViewCell
-            
-            cell.experience = experience
-            cell.configure()
-            
+            let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Notes.rawValue, forIndexPath: indexPath)
+            cell.selectionStyle = .None
+            cell.textLabel?.numberOfLines = 0
+            cell.textLabel?.lineBreakMode = .ByWordWrapping
+            cell.textLabel?.font = UIFont.plangoBody()
+            cell.textLabel?.textColor = UIColor.plangoText()
+            cell.textLabel?.text = experience.notes
             return cell
             
         case EventTitles.Tips.section:

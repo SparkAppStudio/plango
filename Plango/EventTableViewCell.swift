@@ -37,13 +37,9 @@ class EventTableViewCell: UITableViewCell {
     func configure() {
         self.contentView.backgroundColor = UIColor.plangoBackgroundGray()
         
-        coverView.layer.borderColor = UIColor.plangoBrown().CGColor
-        coverView.layer.borderWidth = 1
         coverView.makeRoundCorners(64)
         
-        directionsButton.layer.borderColor = UIColor.plangoBrown().CGColor
-        directionsButton.layer.borderWidth = 2
-        directionsButton.makeRoundCorners(32)
+        directionsButton.makeCircle()
         
         guard let experience = experience, event = event else {return}
         
@@ -66,7 +62,7 @@ class EventTableViewCell: UITableViewCell {
         if components.hour == todayComponents.hour && components.day == todayComponents.day {
             startTimeLabel.textColor = UIColor.plangoOrange()
         } else {
-            startTimeLabel.textColor = UIColor.plangoBrown()
+            startTimeLabel.textColor = UIColor.plangoTextLight()
         }
         startTimeLabel.text = formatter.stringFromDate(event.startDate!)
 //        print(event.startDate)

@@ -47,7 +47,9 @@ class ItineraryTableViewController: UITableViewController, EventTableViewCellDel
         ]
         let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
         let mapItem = MKMapItem(placemark: placemark)
-        mapItem.name = "\(experience.name)"
+        if let name = experience.name {
+            mapItem.name = name
+        }
         mapItem.openInMapsWithLaunchOptions(options)
     }
 
@@ -83,7 +85,7 @@ class ItineraryTableViewController: UITableViewController, EventTableViewCellDel
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if experiences[indexPath.row].avatar != nil {
-            return 180
+            return 160
         } else {
             return 80
         }

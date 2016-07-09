@@ -661,17 +661,14 @@ extension UIColor {
     static func plangoText() -> UIColor {
         return UIColor.hex("#4A4A4A")
     }
+    static func plangoTextLight() -> UIColor {
+        return UIColor.hex("#9B9B9B")
+    }
     static func plangoCream() -> UIColor {
         return UIColor.hex("#FDF6EA")
     }
     static func plangoCreamLight() -> UIColor {
         return UIColor.hex("#EFE5D4")
-    }
-    static func plangoGreen() -> UIColor {
-        return UIColor.hex("#67B908")
-    }
-    static func plangoBrown() -> UIColor {
-        return UIColor.hex("#93723B")
     }
 }
 

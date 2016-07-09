@@ -23,9 +23,9 @@ class ReviewTableViewCell: UITableViewCell {
         reviewLabel.text = review.name
         authorLabel.text = review.author
         
+        authorImageView.makeCircle()
         guard let endPoint = review.authorAvatar else {return}
         authorImageView.af_setImageWithURL(NSURL(string: endPoint)!)
-        authorImageView.makeCircle()
     }
     
     override func prepareForReuse() {

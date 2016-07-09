@@ -32,8 +32,6 @@ class ReportViewController: UIViewController {
         reportButton.backgroundColor = UIColor.plangoOrange()
         reportButton.tintColor = UIColor.whiteColor()
         
-        reportTextView.layer.borderWidth = 2
-        reportTextView.layer.borderColor = UIColor.plangoBrown().CGColor
     }
     
     @IBAction func didTapReport(sender: UIButton) {
