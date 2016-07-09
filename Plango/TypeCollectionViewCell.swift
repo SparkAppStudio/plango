@@ -34,7 +34,7 @@ class TypeCollectionViewCell: UICollectionViewCell {
         if let plangoTag = plangoTag {
             titleLabel.text = plangoTag.name
             guard let endPoint = plangoTag.avatar else {
-                coverImageView.backgroundColor = UIColor.plangoTeal()
+                coverImageView.backgroundColor = UIColor.plangoBackgroundGray()
                 return
             }
             
