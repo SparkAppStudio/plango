@@ -37,7 +37,7 @@
                             <action selector="didTapDirections:" destination="SoH-VK-h9y" eventType="touchUpInside" id="pOh-lj-f9o"/>
                         </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:59 am" textAlignment="right" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sdr-F0-16h">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="12:59 am" textAlignment="right" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sdr-F0-16h">
                         <rect key="frame" x="4" y="8" width="34" height="29"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="34" id="eXR-D5-tR2"/>

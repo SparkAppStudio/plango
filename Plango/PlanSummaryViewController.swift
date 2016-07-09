@@ -175,6 +175,29 @@ class PlanSummaryViewController: UITableViewController {
         }
     }
     
+    func getOverviewStrings() {
+        if let startDate = plan.startDate, endDate = plan.endDate {
+            let formatter = NSDateFormatter()
+            formatter.timeZone = NSTimeZone.defaultTimeZone()
+            formatter.dateStyle = NSDateFormatterStyle.LongStyle
+            let startDateString = formatter.stringFromDate(startDate)
+            let endDateString = formatter.stringFromDate(endDate)
+            
+            if myPlan == true {
+                overviewTextArray.append("\(startDateString)        to        \(endDateString)")
+            }
+        }
+
+        if let planDescription = plan.planDescription {
+            overviewTextArray.append(planDescription)
+        }
+
+        if let tags = plan.tags {
+            overviewTextArray.append(parseTags(tags, comma: false))
+        }
+
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -190,6 +213,9 @@ class PlanSummaryViewController: UITableViewController {
             }
             
             experiencesByPlace = parseExperiencesIntoPlaces(plan.experiences, places: plan.places)
+            
+            getOverviewStrings()
+            
         }
         
         let _ = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(timerDidFire), userInfo: nil, repeats: true)
@@ -289,7 +315,7 @@ class PlanSummaryViewController: UITableViewController {
         case SummaryTitles.Start.section:
             return 1
         case SummaryTitles.Overview.section:
-            return 1
+            return overviewTextArray.count
         default:
             guard let places = plan.places else {return 0}
             let placeID = places[section - 2].id //subtract 2 because of 1st 2 hard coded sections
@@ -303,6 +329,8 @@ class PlanSummaryViewController: UITableViewController {
             //            }
         }
     }
+    
+    var overviewTextArray = [String]()
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch indexPath.section {
@@ -321,7 +349,11 @@ class PlanSummaryViewController: UITableViewController {
         case SummaryTitles.Overview.section:
             let cell = tableView.dequeueReusableCellWithIdentifier("Overview", forIndexPath: indexPath)
             cell.selectionStyle = .None
-            
+            cell.textLabel?.numberOfLines = 0
+            cell.textLabel?.lineBreakMode = .ByWordWrapping
+            cell.textLabel?.font = UIFont.plangoBodyBig()
+            cell.textLabel?.textColor = UIColor.plangoText()
+            cell.textLabel!.text = overviewTextArray[indexPath.row]
 
             return cell
         default:
@@ -337,6 +369,10 @@ class PlanSummaryViewController: UITableViewController {
         }
     }
     
+    override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch indexPath.section {
         case SummaryTitles.Start.section:
@@ -346,7 +382,7 @@ class PlanSummaryViewController: UITableViewController {
                 return 50 //buttonstackview
             }
         case SummaryTitles.Overview.section:
-            return 180
+            return UITableViewAutomaticDimension
         default:
             return 80
         }
@@ -463,6 +499,26 @@ class PlanSummaryViewController: UITableViewController {
         }
     }
     
+    func parseTags(planTags: [String], comma: Bool) -> String {
+        
+        var tags = ""
+
+        for tagName in planTags {
+            if comma == true {
+                tags = tags.stringByAppendingString("\(tagName), ")
+            } else {
+                tags = tags.stringByAppendingString("#\(tagName) ")
+            }
+        }
+        
+        if comma == true {
+            return String(tags.characters.dropLast(2))
+        } else {
+            return String(tags.characters.dropLast(1))
+        }
+
+    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -479,23 +535,10 @@ class PlanSummaryViewController: UITableViewController {
                 coverImageView.af_setImageWithURL(cleanURL!)
             } else {coverImageView.backgroundColor = UIColor.plangoTeal()}
             
-            detailsDescriptionLabel.text = plan.planDescription
+            if let tags = plan.tags {
+                tagsLabel.text = parseTags(tags, comma: true)
+            }
                         
-            var hashTags = ""
-            var commaTags = ""
-            guard let planTags = plan.tags else {
-                return
-            }
-            for tagName in planTags {
-                hashTags = hashTags.stringByAppendingString("#\(tagName) ")
-                commaTags = commaTags.stringByAppendingString("\(tagName), ")
-            }
-            let cleanedTags = String(hashTags.characters.dropLast(1))
-            detailsTagsLabel.text = cleanedTags
-            
-            let cleanedCommaTags = String(commaTags.characters.dropLast(2))
-            tagsLabel.text = cleanedCommaTags
-            
             guard let days = plan.durationDays else {return}
             
             if days == 1 {
@@ -513,15 +556,6 @@ class PlanSummaryViewController: UITableViewController {
 //            usedCountLabel.text = "\(used) Used"
             
             guard let startDate = plan.startDate else {return}
-            guard let endDate = plan.endDate else {return}
-            let formatter = NSDateFormatter()
-            formatter.timeZone = NSTimeZone.defaultTimeZone()
-            formatter.dateStyle = NSDateFormatterStyle.LongStyle
-            let startDateString = formatter.stringFromDate(startDate)
-            let endDateString = formatter.stringFromDate(endDate)
-            
-            detailsStartDateLabel.text = startDateString
-            detailsEndDateLabel.text = endDateString
             
             startTimer(startDate)
             
