@@ -72,6 +72,22 @@ class SearchTagsViewController: UIViewController, UISearchResultsUpdating, UISea
 
     var tableView: UITableView!
     
+//    var selectedIndexPath: NSIndexPath!
+//    lazy var deleteButton: UIButton = {
+//        let button = UIButton()
+//        button.backgroundColor = UIColor.plangoBackgroundGray()
+//        button.tintColor = UIColor.plangoOrange()
+//        button.setImage(UIImage(named: "directions"), forState: .Normal)
+//        
+//        button.addTarget(self, action: #selector(didTapDelete), forControlEvents: .TouchUpInside)
+//        return button
+//    }()
+//    lazy var accessoryView: UIView = {
+//       let view = UIView(frame: CGRectMake(0, 0, 60, 60))
+//        view.backgroundColor = UIColor.plangoBackgroundGray()
+//        return view
+//    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -84,8 +100,8 @@ class SearchTagsViewController: UIViewController, UISearchResultsUpdating, UISea
 
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.editing = true
-        tableView.allowsSelectionDuringEditing = true
+//        tableView.editing = true
+//        tableView.allowsSelectionDuringEditing = true
 
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "selection")
         tableView.registerClass(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: "header")
@@ -173,6 +189,18 @@ extension SearchTagsViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    func deleteAtIndexPath(indexPath: NSIndexPath) {
+        tableView.beginUpdates()
+        selectedTags.removeAtIndex(indexPath.row)
+        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+        if selectedTags.count == 0 {
+            let section = NSIndexSet(index: indexPath.section)
+            tableView.reloadSections(section, withRowAnimation: .Automatic)
+        }
+        
+        tableView.endUpdates()
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("selection", forIndexPath: indexPath)
         cell.contentView.backgroundColor = UIColor.plangoBackgroundGray()
@@ -195,6 +223,8 @@ extension SearchTagsViewController: UITableViewDelegate, UITableViewDataSource {
             selectedTags.append(tags[indexPath.row])
             let section = NSIndexSet(index: indexPath.section)
             tableView.reloadSections(section, withRowAnimation: .Automatic)
+        } else {
+            deleteAtIndexPath(indexPath)
         }
     }
 
@@ -222,32 +252,39 @@ extension SearchTagsViewController: UITableViewDelegate, UITableViewDataSource {
         return 50
     }
     
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        if selectedTags.count > 0 {
-            return true
-        } else {
-            return false
-        }
-    }
+//    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+//        let delete = UITableViewRowAction(style: .Destructive, title: "Remove") { action, index in
+//        
+//        }
+//        return [delete]
+//    }
     
-    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
-        return .Delete
-    }
+//    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+//        if selectedTags.count > 0 {
+//            return true
+//        } else {
+//            return false
+//        }
+//    }
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        switch editingStyle {
-        case .Delete:
-            tableView.beginUpdates()
-            selectedTags.removeAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
-            if selectedTags.count == 0 {
-                let section = NSIndexSet(index: indexPath.section)
-                tableView.reloadSections(section, withRowAnimation: .Automatic)
-            }
-            
-            tableView.endUpdates()
-        default:
-            break //do nothing
-        }
-    }
+//    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+//        return .Delete
+//    }
+    
+//    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+//        switch editingStyle {
+//        case .Delete:
+//            tableView.beginUpdates()
+//            selectedTags.removeAtIndex(indexPath.row)
+//            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+//            if selectedTags.count == 0 {
+//                let section = NSIndexSet(index: indexPath.section)
+//                tableView.reloadSections(section, withRowAnimation: .Automatic)
+//            }
+//            
+//            tableView.endUpdates()
+//        default:
+//            break //do nothing
+//        }
+//    }
 }

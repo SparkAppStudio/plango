@@ -67,8 +67,8 @@ class SearchDestinationViewController: UIViewController {
 
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.editing = true
-        tableView.allowsSelectionDuringEditing = true
+//        tableView.editing = true
+//        tableView.allowsSelectionDuringEditing = true
         
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "selection")
         tableView.registerClass(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: "header")
@@ -160,7 +160,21 @@ extension SearchDestinationViewController: UITableViewDelegate, UITableViewDataS
             selectedDestinations.append(suggestedDestinations[indexPath.row])
             let section = NSIndexSet(index: indexPath.section)
             tableView.reloadSections(section, withRowAnimation: .Automatic)
+        } else {
+            deleteAtIndexPath(indexPath)
         }
+    }
+    
+    func deleteAtIndexPath(indexPath: NSIndexPath) {
+        tableView.beginUpdates()
+        selectedDestinations.removeAtIndex(indexPath.row)
+        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+        if selectedDestinations.count == 0 {
+            let section = NSIndexSet(index: indexPath.section)
+            tableView.reloadSections(section, withRowAnimation: .Automatic)
+        }
+        
+        tableView.endUpdates()
     }
 //
 //    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
@@ -192,34 +206,34 @@ extension SearchDestinationViewController: UITableViewDelegate, UITableViewDataS
         return 50
     }
     
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        if selectedDestinations.count > 0 {
-            return true
-        } else {
-            return false
-        }
-    }
-    
-    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
-        return .Delete
-    }
-    
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        switch editingStyle {
-        case .Delete:
-            tableView.beginUpdates()
-            selectedDestinations.removeAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
-            if selectedDestinations.count == 0 {
-                let section = NSIndexSet(index: indexPath.section)
-                tableView.reloadSections(section, withRowAnimation: .Automatic)
-            }
-
-            tableView.endUpdates()
-        default:
-            break //do nothing
-        }
-    }
+//    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+//        if selectedDestinations.count > 0 {
+//            return true
+//        } else {
+//            return false
+//        }
+//    }
+//    
+//    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+//        return .Delete
+//    }
+//    
+//    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+//        switch editingStyle {
+//        case .Delete:
+//            tableView.beginUpdates()
+//            selectedDestinations.removeAtIndex(indexPath.row)
+//            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+//            if selectedDestinations.count == 0 {
+//                let section = NSIndexSet(index: indexPath.section)
+//                tableView.reloadSections(section, withRowAnimation: .Automatic)
+//            }
+//
+//            tableView.endUpdates()
+//        default:
+//            break //do nothing
+//        }
+//    }
 }
 
 // Handle the user's selection.
