@@ -75,9 +75,7 @@ class PlanSummaryViewController: UITableViewController {
     
     lazy var downloadButton: UIButton = {
         let button = UIButton()
-        button.snp_makeConstraints(closure: { (make) in
-            make.size.equalTo(60)
-        })
+
         button.backgroundColor = UIColor.plangoOrange()
         button.tintColor = UIColor.whiteColor()
         button.setTitle("Go Offline!", forState: UIControlState.Normal)
@@ -202,6 +200,7 @@ class PlanSummaryViewController: UITableViewController {
         super.viewDidLoad()
         
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        tableView.backgroundColor = UIColor.plangoBackgroundGray()
         
         if let plan = self.plan {
             if let user = Plango.sharedInstance.currentUser {
@@ -243,6 +242,8 @@ class PlanSummaryViewController: UITableViewController {
         // headerfooter view is like a cell
         let sectionNib = UINib(nibName: "SectionHeader", bundle: nil)
         self.tableView.registerNib(sectionNib, forHeaderFooterViewReuseIdentifier: CellID.Header.rawValue)
+        
+        tableView.registerClass(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: CellID.Footer.rawValue)
         
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Start")
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Overview")
@@ -337,6 +338,7 @@ class PlanSummaryViewController: UITableViewController {
         case SummaryTitles.Start.section:
             let cell = tableView.dequeueReusableCellWithIdentifier("Start", forIndexPath: indexPath)
             cell.selectionStyle = .None
+            cell.contentView.backgroundColor = UIColor.plangoBackgroundGray()
             cell.contentView.addSubview(stackView)
             
             stackView.leadingAnchor.constraintEqualToAnchor(cell.contentView.leadingAnchor).active = true
@@ -377,7 +379,7 @@ class PlanSummaryViewController: UITableViewController {
         switch indexPath.section {
         case SummaryTitles.Start.section:
             if myPlan == true {
-                return 50 + 200 + 60 //buttonstackview + startview + download
+                return 50 + 200 + 60 + 24 //buttonstackview + startview + download + spacing
             } else {
                 return 50 //buttonstackview
             }
@@ -386,6 +388,16 @@ class PlanSummaryViewController: UITableViewController {
         default:
             return 80
         }
+    }
+    
+    override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let footerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(CellID.Footer.rawValue)
+        footerView?.contentView.backgroundColor = UIColor.plangoBackgroundGray()
+        return footerView
+    }
+    
+    override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 12
     }
     
     func parseExperiencesIntoPlaces(experiences: [Experience]?, places: [Place]?) -> [String:[Experience]] {

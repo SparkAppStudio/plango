@@ -33,6 +33,7 @@ enum CellID: String {
     case Notes = "NotesTableViewCell"
     case Review = "ReviewTableViewCell"
     case Header = "Header"
+    case Footer = "Footer"
     case Member = "MemberTableViewCell"
     case Experience = "ExperienceTableViewCell"
 }

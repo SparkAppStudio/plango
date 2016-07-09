@@ -664,6 +664,9 @@ extension UIColor {
     static func plangoCream() -> UIColor {
         return UIColor.hex("#FDF6EA")
     }
+    static func plangoCreamLight() -> UIColor {
+        return UIColor.hex("#EFE5D4")
+    }
     static func plangoGreen() -> UIColor {
         return UIColor.hex("#67B908")
     }
