@@ -48,16 +48,16 @@ class PlanSummaryViewController: UITableViewController {
     @IBOutlet weak var startMinutesLabel: UILabel!
     @IBOutlet weak var startSecondsLabel: UILabel!
     
-    // SummaryDetails xib
-    @IBOutlet weak var detailsStartDateLabel: UILabel!
-    @IBOutlet weak var detailsEndDateLabel: UILabel!
-    @IBOutlet weak var detailsDescriptionLabel: UILabel!
-    @IBOutlet weak var detailsTagsLabel: UILabel!
+    //DownloadView xib
+    @IBAction func didTapDownload(sender: UIButton) {
+        //TODO: - download info to device
+    }
     
     
     var headerView: UIView!
     var startView: UIView!
     var detailsView: UIView!
+    var downloadView: UIView!
     
     var stackView: UIStackView!
     var buttonStackView: UIStackView!
@@ -73,20 +73,20 @@ class PlanSummaryViewController: UITableViewController {
     var minutes = 0
     var seconds = 0
     
-    lazy var downloadButton: UIButton = {
-        let button = UIButton()
-
-        button.backgroundColor = UIColor.plangoOrange()
-        button.tintColor = UIColor.whiteColor()
-        button.setTitle("Go Offline!", forState: UIControlState.Normal)
-        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 0)
-        button.setImage(UIImage(named: "download"), forState: .Normal)
-        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 4)
-        button.titleLabel?.font = UIFont.plangoButton()
-
-        button.addTarget(self, action: #selector(didTapDownload), forControlEvents: .TouchUpInside)
-        return button
-    }()
+//    lazy var downloadButton: UIButton = {
+//        let button = UIButton()
+//
+//        button.backgroundColor = UIColor.plangoOrange()
+//        button.tintColor = UIColor.whiteColor()
+//        button.setTitle("Go Offline!", forState: UIControlState.Normal)
+//        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 0)
+//        button.setImage(UIImage(named: "download"), forState: .Normal)
+//        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 4)
+//        button.titleLabel?.font = UIFont.plangoButton()
+//
+//        button.addTarget(self, action: #selector(didTapDownload), forControlEvents: .TouchUpInside)
+//        return button
+//    }()
     
     lazy var itineraryButton: UIButton = {
        let button = UIButton()
@@ -233,10 +233,10 @@ class PlanSummaryViewController: UITableViewController {
             make.height.equalTo(200)
         }
         
-        let nibDetails = UINib(nibName: "SummaryDetails", bundle: bundle)
-        detailsView = nibDetails.instantiateWithOwner(self, options: nil)[0] as! UIView
-        detailsView.snp_makeConstraints { (make) in
-            make.height.equalTo(180)
+        let nibDownload = UINib(nibName: "DownloadView", bundle: bundle)
+        downloadView = nibDownload.instantiateWithOwner(self, options: nil)[0] as! UIView
+        downloadView.snp_makeConstraints { (make) in
+            make.height.equalTo(160)
         }
         
         // headerfooter view is like a cell
@@ -301,7 +301,7 @@ class PlanSummaryViewController: UITableViewController {
         
         if myPlan == true {
             stackView.addArrangedSubview(startView)
-            stackView.addArrangedSubview(downloadButton)
+            stackView.addArrangedSubview(downloadView)
         }
         
     }
@@ -379,7 +379,7 @@ class PlanSummaryViewController: UITableViewController {
         switch indexPath.section {
         case SummaryTitles.Start.section:
             if myPlan == true {
-                return 50 + 200 + 60 + 24 //buttonstackview + startview + download + spacing
+                return 50 + 200 + 160 + 24 //buttonstackview + startview + download + spacing
             } else {
                 return 50 //buttonstackview
             }
@@ -636,10 +636,6 @@ class PlanSummaryViewController: UITableViewController {
 //        super.viewDidLayoutSubviews()
 //        scrollView.contentSize = stackView.frame.size
 //    }
-
-    func didTapDownload() {
-        //TODO: - download info to device
-    }
     
     func didTapItinerary() {
         if plan.durationDays != nil && plan.durationDays != 0 && plan.startDate != nil && plan.endDate != nil {

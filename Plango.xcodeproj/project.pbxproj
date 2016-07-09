@@ -51,7 +51,6 @@
 		C3327B901D24A08B00B7946E /* Raleway-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3327B7D1D24A08B00B7946E /* Raleway-Thin.ttf */; };
 		C3327B911D24A08B00B7946E /* Raleway-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3327B7E1D24A08B00B7946E /* Raleway-ThinItalic.ttf */; };
 		C33730391CDFFE3000F57B47 /* SummaryStart.xib in Resources */ = {isa = PBXBuildFile; fileRef = C33730381CDFFE3000F57B47 /* SummaryStart.xib */; };
-		C337303B1CE06C9C00F57B47 /* SummaryDetails.xib in Resources */ = {isa = PBXBuildFile; fileRef = C337303A1CE06C9C00F57B47 /* SummaryDetails.xib */; };
 		C33A700E1CC04A9D00B8313C /* TopCollectionsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C33A700D1CC04A9D00B8313C /* TopCollectionsCell.xib */; };
 		C33A70101CC04C2000B8313C /* TopCollectionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33A700F1CC04C2000B8313C /* TopCollectionsTableViewCell.swift */; };
 		C33A70141CC05DF400B8313C /* PlanTypesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33A70131CC05DF400B8313C /* PlanTypesTableViewCell.swift */; };
@@ -90,6 +89,7 @@
 		C3C613F31CE65D8B00DEF329 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C613F21CE65D8B00DEF329 /* ReportViewController.swift */; };
 		C3CD5BE61CB5D4AB0079C0E7 /* PlansTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CD5BE51CB5D4AB0079C0E7 /* PlansTableViewCell.swift */; };
 		C3DBCA661CEE70E000E0F746 /* SearchDestinationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DBCA651CEE70E000E0F746 /* SearchDestinationViewController.swift */; };
+		C3EB7F311D30DD9E0075BD52 /* DownloadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3EB7F301D30DD9E0075BD52 /* DownloadView.xib */; };
 		C3EC02791CC18FF200CAC4C1 /* ProfileHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3EC02781CC18FF200CAC4C1 /* ProfileHeader.xib */; };
 		C3EC027B1CC19ACF00CAC4C1 /* SearchHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3EC027A1CC19ACF00CAC4C1 /* SearchHeader.xib */; };
 		C3F5E05D1D1B901700F1D2A0 /* ReviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3F5E05C1D1B901700F1D2A0 /* ReviewCell.xib */; };
@@ -148,7 +148,6 @@
 		C3327B7D1D24A08B00B7946E /* Raleway-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Thin.ttf"; sourceTree = "<group>"; };
 		C3327B7E1D24A08B00B7946E /* Raleway-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-ThinItalic.ttf"; sourceTree = "<group>"; };
 		C33730381CDFFE3000F57B47 /* SummaryStart.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SummaryStart.xib; sourceTree = "<group>"; };
-		C337303A1CE06C9C00F57B47 /* SummaryDetails.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SummaryDetails.xib; sourceTree = "<group>"; };
 		C33A700D1CC04A9D00B8313C /* TopCollectionsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TopCollectionsCell.xib; sourceTree = "<group>"; };
 		C33A700F1CC04C2000B8313C /* TopCollectionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopCollectionsTableViewCell.swift; sourceTree = "<group>"; };
 		C33A70131CC05DF400B8313C /* PlanTypesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanTypesTableViewCell.swift; sourceTree = "<group>"; };
@@ -187,6 +186,7 @@
 		C3C613F21CE65D8B00DEF329 /* ReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
 		C3CD5BE51CB5D4AB0079C0E7 /* PlansTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlansTableViewCell.swift; sourceTree = "<group>"; };
 		C3DBCA651CEE70E000E0F746 /* SearchDestinationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchDestinationViewController.swift; sourceTree = "<group>"; };
+		C3EB7F301D30DD9E0075BD52 /* DownloadView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DownloadView.xib; sourceTree = "<group>"; };
 		C3EC02781CC18FF200CAC4C1 /* ProfileHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileHeader.xib; sourceTree = "<group>"; };
 		C3EC027A1CC19ACF00CAC4C1 /* SearchHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchHeader.xib; sourceTree = "<group>"; };
 		C3F5E05C1D1B901700F1D2A0 /* ReviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewCell.xib; sourceTree = "<group>"; };
@@ -333,8 +333,8 @@
 		C3ACD7FD1CDC1311000B2399 /* Plan Scene */ = {
 			isa = PBXGroup;
 			children = (
+				C3EB7F301D30DD9E0075BD52 /* DownloadView.xib */,
 				C3ACD8041CDC22DA000B2399 /* SummaryHeader.xib */,
-				C337303A1CE06C9C00F57B47 /* SummaryDetails.xib */,
 				C33730381CDFFE3000F57B47 /* SummaryStart.xib */,
 				C37F1E821D26308100CA1FAA /* MemberCell.xib */,
 				C33E791A1D2DE04E002EB80D /* ExperienceCell.xib */,
@@ -501,10 +501,10 @@
 				C3327B811D24A08B00B7946E /* Raleway-BlackItalic.ttf in Resources */,
 				C33730391CDFFE3000F57B47 /* SummaryStart.xib in Resources */,
 				C3327B871D24A08B00B7946E /* Raleway-ExtraLightItalic.ttf in Resources */,
+				C3EB7F311D30DD9E0075BD52 /* DownloadView.xib in Resources */,
 				C3237E2D1CADC402008293D6 /* Assets.xcassets in Resources */,
 				C3327B8E1D24A08B00B7946E /* Raleway-SemiBold.ttf in Resources */,
 				C3ACD8051CDC22DA000B2399 /* SummaryHeader.xib in Resources */,
-				C337303B1CE06C9C00F57B47 /* SummaryDetails.xib in Resources */,
 				C3327B641D24A07900B7946E /* Lato-Hairline.ttf in Resources */,
 				C3327B881D24A08B00B7946E /* Raleway-Italic.ttf in Resources */,
 				C3327B8A1D24A08B00B7946E /* Raleway-LightItalic.ttf in Resources */,

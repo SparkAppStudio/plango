@@ -33,7 +33,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Experience Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbA-Mh-MSt">
-                        <rect key="frame" x="87" y="18" width="225" height="17"/>
+                        <rect key="frame" x="87" y="18" width="206" height="17"/>
                         <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="14"/>
                         <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -48,11 +48,18 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description of the Experience" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MhK-t0-OuC">
-                        <rect key="frame" x="115" y="39" width="197" height="17"/>
+                        <rect key="frame" x="111" y="39" width="201" height="17"/>
                         <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
                         <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow-right-grey" translatesAutoresizingMaskIntoConstraints="NO" id="L7b-D3-qt0">
+                        <rect key="frame" x="301" y="18" width="11" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="11" id="064-04-RKT"/>
+                            <constraint firstAttribute="height" constant="16" id="jIr-sj-J5O"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="MhK-t0-OuC" firstAttribute="top" secondItem="z06-z4-QXC" secondAttribute="top" id="2sv-De-Hc9"/>
@@ -62,15 +69,25 @@
                     <constraint firstAttribute="trailingMargin" secondItem="MhK-t0-OuC" secondAttribute="trailing" id="GvM-ZN-xTE"/>
                     <constraint firstItem="hhM-UW-gRJ" firstAttribute="top" secondItem="69R-HT-jdE" secondAttribute="topMargin" id="MMK-Ix-ouy"/>
                     <constraint firstItem="MhK-t0-OuC" firstAttribute="top" secondItem="qbA-Mh-MSt" secondAttribute="bottom" constant="8" id="ROe-Pc-iGD"/>
-                    <constraint firstItem="MhK-t0-OuC" firstAttribute="leading" secondItem="z06-z4-QXC" secondAttribute="trailing" constant="8" id="Utd-Vz-Loo"/>
+                    <constraint firstItem="L7b-D3-qt0" firstAttribute="top" secondItem="qbA-Mh-MSt" secondAttribute="top" id="TdU-hK-3Zo"/>
+                    <constraint firstItem="MhK-t0-OuC" firstAttribute="leading" secondItem="z06-z4-QXC" secondAttribute="trailing" constant="4" id="Utd-Vz-Loo"/>
                     <constraint firstAttribute="trailingMargin" secondItem="qbA-Mh-MSt" secondAttribute="trailing" id="VbU-fw-z4G"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="L7b-D3-qt0" secondAttribute="trailing" id="Xu6-rC-EFH"/>
                     <constraint firstItem="qbA-Mh-MSt" firstAttribute="top" secondItem="69R-HT-jdE" secondAttribute="topMargin" constant="10" id="fuf-rp-fiR"/>
+                    <constraint firstItem="MhK-t0-OuC" firstAttribute="trailing" secondItem="qbA-Mh-MSt" secondAttribute="trailing" id="j95-xZ-jUx"/>
+                    <constraint firstItem="L7b-D3-qt0" firstAttribute="top" secondItem="69R-HT-jdE" secondAttribute="topMargin" id="kGF-w7-Wrd"/>
                     <constraint firstItem="qbA-Mh-MSt" firstAttribute="leading" secondItem="hhM-UW-gRJ" secondAttribute="trailing" constant="12" id="kZi-ef-SZa"/>
                     <constraint firstItem="z06-z4-QXC" firstAttribute="top" secondItem="qbA-Mh-MSt" secondAttribute="bottom" constant="4" id="noo-pC-Mm8"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="MhK-t0-OuC" secondAttribute="trailing" id="uMY-vo-3n5"/>
+                    <constraint firstItem="L7b-D3-qt0" firstAttribute="leading" secondItem="qbA-Mh-MSt" secondAttribute="trailing" constant="8" id="yw1-St-B6z"/>
                 </constraints>
                 <variation key="default">
                     <mask key="constraints">
+                        <exclude reference="VbU-fw-z4G"/>
+                        <exclude reference="GvM-ZN-xTE"/>
                         <exclude reference="ROe-Pc-iGD"/>
+                        <exclude reference="j95-xZ-jUx"/>
+                        <exclude reference="kGF-w7-Wrd"/>
                     </mask>
                 </variation>
             </tableViewCellContentView>
@@ -83,4 +100,7 @@
             <point key="canvasLocation" x="329" y="369"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="arrow-right-grey" width="11" height="16"/>
+    </resources>
 </document>
