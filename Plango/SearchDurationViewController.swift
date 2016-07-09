@@ -21,7 +21,7 @@ class SearchDurationViewController: UIViewController, UIPickerViewDelegate, UIPi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.plangoBackgroundGray()
         
         for item in 1...99 {
             minDays.append(item.description)
@@ -43,7 +43,7 @@ class SearchDurationViewController: UIViewController, UIPickerViewDelegate, UIPi
             pickerView.snp_makeConstraints { (make) in
                 make.width.equalTo(UIScreen.mainScreen().bounds.width)
                 make.top.equalTo(self.topLayoutGuide)
-                make.height.equalTo(UIScreen.mainScreen().bounds.height - 220)
+                make.height.equalTo(UIScreen.mainScreen().bounds.height - 260)
             }
             didUpdateConstraints = true
         }
@@ -67,13 +67,16 @@ class SearchDurationViewController: UIViewController, UIPickerViewDelegate, UIPi
         }
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        var title = String()
         switch component {
         case 0:
-            return minDays[row]
+            title = minDays[row]
         default:
-            return maxDays[row]
+            title = maxDays[row]
         }
+        
+        return NSAttributedString(string: title, attributes: [NSForegroundColorAttributeName : UIColor.plangoText(), NSFontAttributeName : UIFont.plangoBodyBig()])
     }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
