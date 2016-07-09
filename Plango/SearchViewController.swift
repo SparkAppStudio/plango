@@ -47,6 +47,8 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         super.viewDidLoad()
         self.extendedLayoutIncludesOpaqueBars = false
         self.edgesForExtendedLayout = .None
+        
+        
 
         addPage("TAGS", controller: tagsController)
         addPage("DESTINATION", controller: destinationController)
@@ -65,6 +67,8 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
 //        self.segmentedPager.parallaxHeader.contentView.backgroundColor = UIColor.plangoCream()
         
         self.segmentedPager.backgroundColor = UIColor.plangoBackgroundGray()
+        self.segmentedPager.pager.backgroundColor = UIColor.plangoBackgroundGray()
+        self.view.backgroundColor = UIColor.plangoBackgroundGray()
         
         // Segmented Control customization
         self.segmentedPager.segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;

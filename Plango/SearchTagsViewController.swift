@@ -54,6 +54,7 @@ class SearchTagsViewController: UIViewController, UISearchResultsUpdating, UISea
 //            self.tableView.reloadData()
         }
     }
+    
     var searchController: UISearchController?
 
     lazy var resultsViewController: TagsResultsViewController = {
@@ -68,12 +69,20 @@ class SearchTagsViewController: UIViewController, UISearchResultsUpdating, UISea
         super.viewDidLoad()
 
         tableView = UITableView(frame: UIScreen.mainScreen().bounds)
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 167, 0) //status+nav+pager+tab, not sure why i need it here but not on itineraryTVC
+
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        tableView.backgroundColor = UIColor.plangoBackgroundGray()
+        tableView.backgroundView = UIView() //to fix and allow background gray show through search headerview
 
         tableView.delegate = self
         tableView.dataSource = self
         tableView.editing = true
+        tableView.allowsSelectionDuringEditing = true
+
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "selection")
+        tableView.registerClass(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: "header")
+
         self.view.addSubview(tableView)
         
         Plango.sharedInstance.fetchTags(Plango.EndPoint.AllTags.rawValue) { (receivedTags, error) in
@@ -89,6 +98,11 @@ class SearchTagsViewController: UIViewController, UISearchResultsUpdating, UISea
         searchController?.searchResultsUpdater = self
         searchController?.delegate = self
         searchController?.searchBar.delegate = self
+        
+        // style the search bar
+        searchController?.searchBar.tintColor = UIColor.plangoOrange()
+        searchController?.searchBar.barTintColor = UIColor.plangoBackgroundGray()
+        searchController?.searchBar.backgroundImage = UIImage() //removes 1px border at top and bottom
         
         // Put the search bar in the navigation bar.
         searchController?.searchBar.sizeToFit()
@@ -108,7 +122,7 @@ class SearchTagsViewController: UIViewController, UISearchResultsUpdating, UISea
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-
+        self.tableView.clipsToBounds = true
     }
     
     func updateSearchResultsForSearchController(searchController: UISearchController) {
@@ -131,7 +145,13 @@ class SearchTagsViewController: UIViewController, UISearchResultsUpdating, UISea
             
             self.searchController?.searchBar.text = nil
             self.searchController!.searchResultsController?.dismissViewControllerAnimated(true, completion: nil)
-            self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Left)
+            self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            
+            if self.selectedTags.count == 1 {
+                let section = NSIndexSet(index: indexPath.section)
+                self.tableView.reloadSections(section, withRowAnimation: .Automatic)
+            }
+            
             self.tableView.endUpdates()
         }
     }
@@ -139,36 +159,68 @@ class SearchTagsViewController: UIViewController, UISearchResultsUpdating, UISea
 
 extension SearchTagsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return selectedTags.count
+        if selectedTags.count > 0 {
+            return selectedTags.count
+        } else {
+            return tags.count
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("selection", forIndexPath: indexPath)
-        cell.textLabel?.text = selectedTags[indexPath.row].name
+        cell.contentView.backgroundColor = UIColor.plangoBackgroundGray()
+        cell.textLabel?.backgroundColor = UIColor.clearColor()
+        cell.textLabel?.textAlignment = .Center
+        cell.textLabel?.textColor = UIColor.plangoText()
+        cell.textLabel?.font = UIFont.plangoBodyBig()
+        
+        if selectedTags.count > 0 {
+            cell.textLabel?.text = selectedTags[indexPath.row].name
+        } else {
+            cell.textLabel?.text = tags[indexPath.row].name
+        }
+        
         return cell
     }
     
-//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .Checkmark
-//        
-//    }
-//    
-//    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-//        tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
-//        
-//    }
-    
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 0:
-            return "Your Selected Tags"
-        default:
-            return "Your Selected Tags"
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if selectedTags.count == 0 {
+            selectedTags.append(tags[indexPath.row])
+            let section = NSIndexSet(index: indexPath.section)
+            tableView.reloadSections(section, withRowAnimation: .Automatic)
         }
+    }
+
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier("header")
+        headerView!.contentView.backgroundColor = UIColor.plangoBackgroundGray()
+        
+        if selectedTags.count > 0 {
+            headerView!.textLabel!.text = "You've Selected"
+        } else {
+            headerView!.textLabel!.text = "Popular Tags"
+        }
+        
+        return headerView
+    }
+    
+    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        let headerView = view as! UITableViewHeaderFooterView
+        headerView.textLabel!.textAlignment = .Center
+        headerView.textLabel!.textColor = UIColor.plangoTextLight()
+        headerView.textLabel!.font = UIFont.plangoSearchHeader()
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
     }
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
+        if selectedTags.count > 0 {
+            return true
+        } else {
+            return false
+        }
     }
     
     func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
@@ -178,8 +230,15 @@ extension SearchTagsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         switch editingStyle {
         case .Delete:
+            tableView.beginUpdates()
             selectedTags.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+            if selectedTags.count == 0 {
+                let section = NSIndexSet(index: indexPath.section)
+                tableView.reloadSections(section, withRowAnimation: .Automatic)
+            }
+            
+            tableView.endUpdates()
         default:
             break //do nothing
         }

@@ -211,7 +211,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         plangoNav([tabOne, tabTwo, tabThree])
         
         //search controllers
-        UIBarButtonItem.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.plangoSmallButton()], forState: .Normal)
+        UIBarButtonItem.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.plangoOrange(), NSFontAttributeName: UIFont.plangoSmallButton()], forState: .Normal)
+        
+        UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).font = UIFont.plangoBody()
+        UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).textColor = UIColor.plangoTextLight()
+        
         
         let tabController = UITabBarController()
         tabController.viewControllers = [tabOne, tabTwo, tabThree]
