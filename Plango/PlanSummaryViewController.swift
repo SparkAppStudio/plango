@@ -214,7 +214,7 @@ class PlanSummaryViewController: UITableViewController {
             experiencesByPlace = parseExperiencesIntoPlaces(plan.experiences, places: plan.places)
             
             getOverviewStrings()
-            
+
         }
         
         let _ = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(timerDidFire), userInfo: nil, repeats: true)
@@ -649,8 +649,8 @@ class PlanSummaryViewController: UITableViewController {
     }
     
     func didTapMap() {
-        //TODO: - load map
-
+        guard let experiences = plan.experiences else {self.view.quickToast("No Experiences"); return}
+        displayMapForExperiences(experiences, title: plan.name)
     }
     
     

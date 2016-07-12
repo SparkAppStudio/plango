@@ -9,7 +9,7 @@
 import UIKit
 
 protocol EventTableViewCellDelegate: class {
-    func displayMapForExperience(experience: Experience)
+    func didSendExperience(experience: Experience)
 }
 
 class EventTableViewCell: UITableViewCell {
@@ -25,7 +25,7 @@ class EventTableViewCell: UITableViewCell {
     //IBActions
     @IBAction func didTapDirections(sender: UIButton) {
         //pass info back to controller to open apple or google maps with experience location
-        delegate?.displayMapForExperience(experience)
+        delegate?.didSendExperience(experience)
     }
     
     

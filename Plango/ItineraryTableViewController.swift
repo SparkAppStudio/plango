@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import MapKit
 
 class ItineraryTableViewController: UITableViewController, EventTableViewCellDelegate {
     
@@ -22,7 +21,6 @@ class ItineraryTableViewController: UITableViewController, EventTableViewCellDel
         let cellNib = UINib(nibName: "EventCell", bundle: nil)
         self.tableView.registerNib(cellNib, forCellReuseIdentifier: CellID.Event.rawValue)
 
-
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -30,27 +28,9 @@ class ItineraryTableViewController: UITableViewController, EventTableViewCellDel
         
         self.tableView.clipsToBounds = true
     }
-
-
-    func displayMapForExperience(experience: Experience) {
-        
-        guard let latitute: CLLocationDegrees = experience.geocode?.first else {return}
-        guard let longitute: CLLocationDegrees = experience.geocode?.last else {return}
-                
-        let regionDistance:CLLocationDistance = 10000
-        let coordinates = CLLocationCoordinate2DMake(latitute, longitute)
-        let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, regionDistance, regionDistance)
-        
-        let options = [
-            MKLaunchOptionsMapCenterKey: NSValue(MKCoordinate: regionSpan.center),
-            MKLaunchOptionsMapSpanKey: NSValue(MKCoordinateSpan: regionSpan.span)
-        ]
-        let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
-        let mapItem = MKMapItem(placemark: placemark)
-        if let name = experience.name {
-            mapItem.name = name
-        }
-        mapItem.openInMapsWithLaunchOptions(options)
+    
+    func didSendExperience(experience: Experience) {
+        displayMapForExperiences([experience], title: experience.name)
     }
 
     // MARK: - Table view data source

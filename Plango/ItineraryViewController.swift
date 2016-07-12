@@ -30,7 +30,10 @@ class ItineraryViewController: MXSegmentedPagerController {
         super.viewDidLoad()
         self.extendedLayoutIncludesOpaqueBars = false
         self.edgesForExtendedLayout = .None
-        self.navigationItem.title = "Itinerary"
+        self.navigationItem.title = "Itinerary".uppercaseString
+        
+        let mapBarButton = UIBarButtonItem(image: UIImage(named: "map"), style: .Plain, target: self, action: #selector(didTapMap))
+        self.navigationItem.rightBarButtonItem = mapBarButton
         
         // Parallax Header
         //        let bundle = NSBundle(forClass: self.dynamicType)
@@ -65,6 +68,15 @@ class ItineraryViewController: MXSegmentedPagerController {
                 
                 titlesArray.addObject("Day \(item)")
             }
+        }
+    }
+    
+    func didTapMap() {
+        let experiences = experiencesByDays[segmentedPager.pager.indexForSelectedPage]
+        if experiences?.count > 0 {
+            displayMapForExperiences(experiences!, title: "Day \(segmentedPager.pager.indexForSelectedPage + 1)")
+        } else {
+            self.view.quickToast("No Experiences for Today")
         }
     }
     
@@ -144,10 +156,12 @@ class ItineraryViewController: MXSegmentedPagerController {
         eventsTableViewController.events = eventsForTheDay
         eventsTableViewController.experiences = experiencesForTheDay
         
-        
+        experiencesByDays[index] = experiencesForTheDay
         
         return eventsTableViewController
     }
+    
+    var experiencesByDays = [Int:[Experience]]()
     
 //    override func segmentedPager(segmentedPager: MXSegmentedPager, viewForPageAtIndex index: Int) -> UIView {
 //        let page = segmentedPager.pager.dequeueReusablePageWithIdentifier(PageID.Days.rawValue)!

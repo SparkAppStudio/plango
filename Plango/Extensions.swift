@@ -688,6 +688,19 @@ extension NSIndexSet {
     
 }
 
+extension UIViewController {
+    func displayMapForExperiences(experiences: [Experience], title: String?) {
+        let mapVC = MapViewController()
+        mapVC.experiences = experiences
+        if let title = title {
+            mapVC.navigationItem.title = title.uppercaseString
+        } else {
+            mapVC.navigationItem.title = "Map".uppercaseString
+        }
+        showViewController(mapVC, sender: nil)
+    }
+}
+
 extension UITableView {
     // breaks tableview ability to recognize select
 //    public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {

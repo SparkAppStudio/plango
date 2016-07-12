@@ -88,6 +88,7 @@
 		C3BC14381CE5669100980093 /* Climacons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3BC14371CE5669100980093 /* Climacons.ttf */; };
 		C3C613F31CE65D8B00DEF329 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C613F21CE65D8B00DEF329 /* ReportViewController.swift */; };
 		C3CD5BE61CB5D4AB0079C0E7 /* PlansTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CD5BE51CB5D4AB0079C0E7 /* PlansTableViewCell.swift */; };
+		C3D26CD21D3445AC006D909F /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D26CD11D3445AC006D909F /* MapViewController.swift */; };
 		C3DBCA661CEE70E000E0F746 /* SearchDestinationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DBCA651CEE70E000E0F746 /* SearchDestinationViewController.swift */; };
 		C3EB7F311D30DD9E0075BD52 /* DownloadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3EB7F301D30DD9E0075BD52 /* DownloadView.xib */; };
 		C3EC02791CC18FF200CAC4C1 /* ProfileHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3EC02781CC18FF200CAC4C1 /* ProfileHeader.xib */; };
@@ -185,6 +186,7 @@
 		C3BC14371CE5669100980093 /* Climacons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Climacons.ttf; sourceTree = "<group>"; };
 		C3C613F21CE65D8B00DEF329 /* ReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
 		C3CD5BE51CB5D4AB0079C0E7 /* PlansTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlansTableViewCell.swift; sourceTree = "<group>"; };
+		C3D26CD11D3445AC006D909F /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		C3DBCA651CEE70E000E0F746 /* SearchDestinationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchDestinationViewController.swift; sourceTree = "<group>"; };
 		C3EB7F301D30DD9E0075BD52 /* DownloadView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DownloadView.xib; sourceTree = "<group>"; };
 		C3EC02781CC18FF200CAC4C1 /* ProfileHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileHeader.xib; sourceTree = "<group>"; };
@@ -340,6 +342,7 @@
 				C33E791A1D2DE04E002EB80D /* ExperienceCell.xib */,
 				C33E79201D303A70002EB80D /* SectionHeader.xib */,
 				C33E791E1D303A5C002EB80D /* SectionHeaderView.swift */,
+				C3D26CD11D3445AC006D909F /* MapViewController.swift */,
 				C33E791C1D2DEC09002EB80D /* ExperienceTableViewCell.swift */,
 				C37F1E801D262B8F00CA1FAA /* PlanMembersTableViewController.swift */,
 				C37F1E841D2630B400CA1FAA /* MemberTableViewCell.swift */,
@@ -616,6 +619,7 @@
 				C3978CD01CB70118001028D5 /* SearchViewController.swift in Sources */,
 				C3ACD8031CDC182A000B2399 /* EventDetailsTableViewController.swift in Sources */,
 				C31AC41D1CADD7150032230E /* Extensions.swift in Sources */,
+				C3D26CD21D3445AC006D909F /* MapViewController.swift in Sources */,
 				C37F1E851D2630B400CA1FAA /* MemberTableViewCell.swift in Sources */,
 				C3F5E0651D1B96AD00F1D2A0 /* NotesTableViewCell.swift in Sources */,
 				C316D4AE1D08C4A4008B244E /* LoginConfirmTableViewController.swift in Sources */,

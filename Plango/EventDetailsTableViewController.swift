@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import MapKit
+
 
 class EventDetailsTableViewController: UITableViewController {
     
@@ -39,7 +39,7 @@ class EventDetailsTableViewController: UITableViewController {
     var headerView: UIView!
     
     func didTapDirections() {
-        displayMapForExperience(experience)
+        displayMapForExperiences([experience], title: experience.name)
     }
 
     override func viewDidLoad() {
@@ -49,7 +49,7 @@ class EventDetailsTableViewController: UITableViewController {
         self.navigationItem.rightBarButtonItem = directionsBarButton
 
         self.tableView.backgroundColor = UIColor.plangoBackgroundGray()
-        self.navigationItem.title = experience.name
+        self.navigationItem.title = experience.name?.uppercaseString
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         
         let reviewNib = UINib(nibName: "ReviewCell", bundle: nil)
@@ -100,27 +100,6 @@ class EventDetailsTableViewController: UITableViewController {
             return
         }
         coverImageView.af_setImageWithURL(NSURL(string: endPoint)!)
-    }
-    
-    func displayMapForExperience(experience: Experience) {
-        
-        guard let latitute: CLLocationDegrees = experience.geocode?.first else {return}
-        guard let longitute: CLLocationDegrees = experience.geocode?.last else {return}
-        
-        let regionDistance:CLLocationDistance = 10000
-        let coordinates = CLLocationCoordinate2DMake(latitute, longitute)
-        let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, regionDistance, regionDistance)
-        
-        let options = [
-            MKLaunchOptionsMapCenterKey: NSValue(MKCoordinate: regionSpan.center),
-            MKLaunchOptionsMapSpanKey: NSValue(MKCoordinateSpan: regionSpan.span)
-        ]
-        let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
-        let mapItem = MKMapItem(placemark: placemark)
-        if let name = experience.name {
-            mapItem.name = name
-        }
-        mapItem.openInMapsWithLaunchOptions(options)
     }
     
     // MARK: - Table view Delegate
