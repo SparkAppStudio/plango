@@ -30,8 +30,6 @@
 		C3327B671D24A07900B7946E /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3327B5C1D24A07900B7946E /* Lato-Light.ttf */; };
 		C3327B681D24A07900B7946E /* Lato-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3327B5D1D24A07900B7946E /* Lato-LightItalic.ttf */; };
 		C3327B691D24A07900B7946E /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3327B5E1D24A07900B7946E /* Lato-Regular.ttf */; };
-		C3327B6A1D24A07900B7946E /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = C3327B5F1D24A07900B7946E /* OFL.txt */; };
-		C3327B7F1D24A08B00B7946E /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = C3327B6C1D24A08B00B7946E /* OFL.txt */; };
 		C3327B801D24A08B00B7946E /* Raleway-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3327B6D1D24A08B00B7946E /* Raleway-Black.ttf */; };
 		C3327B811D24A08B00B7946E /* Raleway-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3327B6E1D24A08B00B7946E /* Raleway-BlackItalic.ttf */; };
 		C3327B821D24A08B00B7946E /* Raleway-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3327B6F1D24A08B00B7946E /* Raleway-Bold.ttf */; };
@@ -500,7 +498,6 @@
 				C3327B851D24A08B00B7946E /* Raleway-ExtraBoldItalic.ttf in Resources */,
 				C3978CD21CB85B38001028D5 /* PlansCell.xib in Resources */,
 				C3327B831D24A08B00B7946E /* Raleway-BoldItalic.ttf in Resources */,
-				C3327B6A1D24A07900B7946E /* OFL.txt in Resources */,
 				C3327B811D24A08B00B7946E /* Raleway-BlackItalic.ttf in Resources */,
 				C33730391CDFFE3000F57B47 /* SummaryStart.xib in Resources */,
 				C3327B871D24A08B00B7946E /* Raleway-ExtraLightItalic.ttf in Resources */,
@@ -513,7 +510,6 @@
 				C3327B8A1D24A08B00B7946E /* Raleway-LightItalic.ttf in Resources */,
 				C3EC02791CC18FF200CAC4C1 /* ProfileHeader.xib in Resources */,
 				C33E79211D303A70002EB80D /* SectionHeader.xib in Resources */,
-				C3327B7F1D24A08B00B7946E /* OFL.txt in Resources */,
 				C3237E2B1CADC402008293D6 /* Main.storyboard in Resources */,
 				C33E791B1D2DE04E002EB80D /* ExperienceCell.xib in Resources */,
 				C3B1506F1CB4E0F2008E6A4E /* Utilities.storyboard in Resources */,
