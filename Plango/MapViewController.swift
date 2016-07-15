@@ -20,6 +20,12 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidBecomeActiveNotification, object: nil, queue: nil) { [weak self] (notification) in
+            if let map = self?.mapView {
+                map.showsUserLocation = true //set location on after user possibly goes to settings and returns
+            }
+        }
 
         mapView = MGLMapView(frame: self.view.bounds)
         mapView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
@@ -43,6 +49,16 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
             mapView.zoomLevel = 14
         }
         
+    }
+    
+//    override func viewDidDisappear(animated: Bool) {
+//        super.viewDidDisappear(animated)
+//        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidBecomeActiveNotification, object: nil)
+//        
+//    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidBecomeActiveNotification, object: nil)
     }
     
     func getPlacesFromExperiences(experiences: [Experience]?) -> [MGLPointAnnotation] {
@@ -84,7 +100,23 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
 //    }
     
     func mapView(mapView: MGLMapView, didFailToLocateUserWithError error: NSError) {
-        printError(error)
+        if error.domain == kCLErrorDomain && error.code == CLError.Denied.rawValue {
+            //the user denied access and should provide location
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                let alert = UIAlertController(title: "Location Access Denied", message: "Go to settings to allow Plango to see your location", preferredStyle: .Alert)
+                
+                let settings = UIAlertAction(title: "Settings", style: .Default, handler: { (action) in
+                    let url = NSURL(string: UIApplicationOpenSettingsURLString)
+                    UIApplication.sharedApplication().openURL(url!)
+                    
+                })
+                
+                let ok = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                alert.addAction(ok)
+                alert.addAction(settings)
+                self.presentViewController(alert, animated: true, completion: nil)
+            })
+        }
     }
     
     
