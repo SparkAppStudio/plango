@@ -17,7 +17,7 @@ class EventDetailsTableViewController: UITableViewController {
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var reviewLabel: UILabel!
     
-    enum EventTitles: String {
+    enum EventTitles: String { //use when experience has notes, otherwise see ifstatements
         case MyNotes = "My Notes"
         case Tips = "Tips and Reviews"
         
@@ -105,6 +105,8 @@ class EventDetailsTableViewController: UITableViewController {
     // MARK: - Table view Delegate
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        guard (experience.notes != nil && experience.notes != "") else {return Helper.CellHeight.reviews.value}
+        
         switch indexPath.section {
         case EventTitles.MyNotes.section:
             return UITableViewAutomaticDimension
@@ -130,6 +132,9 @@ class EventDetailsTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(CellID.Header.rawValue) as! SectionHeaderView
         
+        guard (experience.notes != nil && experience.notes != "") else {headerView.titleLabel.text = "Tips and Reviews"; return headerView}
+
+        
         switch section {
         case EventTitles.MyNotes.section:
             headerView.titleLabel.text = "My Notes"
@@ -151,10 +156,20 @@ class EventDetailsTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        guard (experience.notes != nil && experience.notes != "") else {return EventTitles.count - 1}
+
         return EventTitles.count
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard (experience.notes != nil && experience.notes != "") else {
+            if let reviews = experience.reviews {
+                return reviews.count
+            } else {
+                return 0
+            }
+        }
+
         switch section {
         case EventTitles.MyNotes.section:
             return 1
@@ -170,6 +185,16 @@ class EventDetailsTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        guard (experience.notes != nil && experience.notes != "") else {
+            let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Review.rawValue, forIndexPath: indexPath) as! ReviewTableViewCell
+            
+            cell.review = experience.reviews![indexPath.row]
+            cell.configure()
+            
+            return cell
+        }
+
+        
         switch indexPath.section {
         case EventTitles.MyNotes.section:
             let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Notes.rawValue, forIndexPath: indexPath)
