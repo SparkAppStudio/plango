@@ -15,6 +15,7 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
     var mapView: MGLMapView!
     var experiences: [Experience]?
     private var places: [MGLPointAnnotation]!
+    private lazy var experiencePlaceDataSource = [String:Experience]()
     
     let directions = Directions.sharedDirections
 
@@ -73,11 +74,13 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
             
             let point = MGLPointAnnotation()
             point.coordinate = coordinates
-            if let name = experience.name {
-                point.title = name
-            }
+
             if let details = experience.experienceDescription {
                 point.subtitle = details
+            }
+            if let name = experience.name {
+                point.title = name
+                experiencePlaceDataSource[name] = experience
             }
             points.append(point)
         }
@@ -126,8 +129,27 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         }
     }
     
+    func mapView(mapView: MGLMapView, leftCalloutAccessoryViewForAnnotation annotation: MGLAnnotation) -> UIView? {
+        let directionsButton = UIButton(type: .DetailDisclosure)
+        directionsButton.setImage(UIImage(named: "directions"), forState: .Normal)
+        return directionsButton
+    }
+    
+    func mapView(mapView: MGLMapView, annotation: MGLAnnotation, calloutAccessoryControlTapped control: UIControl) {
+        startNavToAnnotation(mapView, annotation: annotation)
+    }
+    
     func mapView(mapView: MGLMapView, tapOnCalloutForAnnotation annotation: MGLAnnotation) {
+        //TODO: - show detail view of experience detail
+        guard let title = annotation.title! else {return}
+        guard let experience = experiencePlaceDataSource[title] else {return}
         
+        let detailsVC = EventDetailsTableViewController()
+        detailsVC.experience = experience
+        showViewController(detailsVC, sender: nil)
+    }
+    
+    func startNavToAnnotation(mapView: MGLMapView, annotation: MGLAnnotation) {
         guard let userCoordinates = mapView.userLocation?.coordinate else {return}
         
         let waypoints = [
@@ -175,8 +197,7 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
                 }
             }
         }
-        
-        
+
     }
 
 }
