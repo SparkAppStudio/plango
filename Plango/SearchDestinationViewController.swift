@@ -216,7 +216,7 @@ extension SearchDestinationViewController: UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        return Helper.HeaderHeight.section.value
     }
     
 //    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {

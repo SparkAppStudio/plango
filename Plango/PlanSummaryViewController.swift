@@ -386,13 +386,13 @@ class PlanSummaryViewController: UITableViewController {
         case SummaryTitles.Overview.section:
             return UITableViewAutomaticDimension
         default:
-            return 80
+            return Helper.CellHeight.reviews.value
         }
     }
     
     override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(CellID.Footer.rawValue)
-        footerView?.contentView.backgroundColor = UIColor.plangoBackgroundGray()
+        footerView?.hidden = true
         return footerView
     }
     
@@ -494,9 +494,9 @@ class PlanSummaryViewController: UITableViewController {
         case SummaryTitles.Start.section:
             return 0
         case SummaryTitles.Overview.section:
-            return 50
+            return Helper.HeaderHeight.section.value
         default:
-            return 50
+            return Helper.HeaderHeight.section.value
         }
     }
     

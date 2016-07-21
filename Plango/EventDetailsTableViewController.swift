@@ -122,7 +122,7 @@ class EventDetailsTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        return Helper.HeaderHeight.section.value
     }
     
     override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -149,7 +149,7 @@ class EventDetailsTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(CellID.Footer.rawValue)
-        footerView?.contentView.backgroundColor = UIColor.plangoBackgroundGray()
+        footerView?.hidden = true //this makes it a transparent footer effect = so you still have gaps but it doesnt hug bottom of screen while scrolling
         return footerView
     }
 

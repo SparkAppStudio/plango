@@ -16,11 +16,11 @@ class MemberTableViewCell: UITableViewCell {
     var user: User!
     
     func configure() {
+        profileImageView.makeCircle()
         if let cellUser = user {
             nameLabel.text = cellUser.userName
             guard let endPoint = cellUser.avatar else {return}
             let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
-            profileImageView.makeCircle()
             profileImageView.af_setImageWithURL(cleanURL!)
         }
     }

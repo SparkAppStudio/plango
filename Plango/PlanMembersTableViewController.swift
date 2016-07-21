@@ -18,33 +18,39 @@ class PlanMembersTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.backgroundColor = UIColor.plangoBackgroundGray()
+        self.tableView.allowsSelection = false
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         
         let cellNib = UINib(nibName: "MemberCell", bundle: nil)
         self.tableView.registerNib(cellNib, forCellReuseIdentifier: CellID.Member.rawValue)
+
+        // headerfooter view is like a cell
+        let sectionNib = UINib(nibName: "SectionHeader", bundle: nil)
+        self.tableView.registerNib(sectionNib, forHeaderFooterViewReuseIdentifier: CellID.Header.rawValue)
 
 
         getMembers()
     }
 
     func getMembers() {
-            //get rid of self
-            for (index, member) in members.enumerate() {
-                if member.userID == Plango.sharedInstance.currentUser?.id {
-                    members.removeAtIndex(index)
-                }
+        //get rid of self
+        for (index, member) in members.enumerate() {
+            if member.userID == Plango.sharedInstance.currentUser?.id {
+                members.removeAtIndex(index)
             }
-            
-            //divide up confirmed and unconfirmed
-            var confirmedMembers = [Member]()
-            var unconfirmedMembers = [Member]()
-            
-            for member in members {
-                if member.confirmed == true {
-                    confirmedMembers.append(member)
-                } else {
-                    unconfirmedMembers.append(member)
-                }
+        }
+        
+        //divide up confirmed and unconfirmed
+        var confirmedMembers = [Member]()
+        var unconfirmedMembers = [Member]()
+        
+        for member in members {
+            if member.confirmed == true {
+                confirmedMembers.append(member)
+            } else {
+                unconfirmedMembers.append(member)
             }
+        }
             
         Plango.sharedInstance.fetchMembersFromPlan(Plango.EndPoint.Members.rawValue, members: confirmedMembers) { (users, error) in
             if let error = error {
@@ -68,11 +74,22 @@ class PlanMembersTableViewController: UITableViewController {
     // MARK: - Table view delegate
     
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        return Helper.HeaderHeight.section.value
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 80
+        return Helper.CellHeight.reviews.value
+    }
+    
+    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(CellID.Header.rawValue) as! SectionHeaderView
+        switch section {
+        case 0:
+            headerView.titleLabel.text = "Pending"
+        default:
+            headerView.titleLabel.text = "Accepted"
+        }
+        return headerView
     }
     
 

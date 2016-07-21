@@ -67,7 +67,7 @@ class ItineraryTableViewController: UITableViewController, EventTableViewCellDel
         if experiences[indexPath.row].avatar != nil {
             return 160
         } else {
-            return 80
+            return Helper.CellHeight.reviews.value
         }
     }
 }
