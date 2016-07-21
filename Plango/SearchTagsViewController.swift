@@ -203,6 +203,9 @@ extension SearchTagsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("selection", forIndexPath: indexPath)
+        
+        cell.imageView?.image = nil
+//        cell.imageView?.hidden = true
         cell.contentView.backgroundColor = UIColor.plangoBackgroundGray()
         cell.textLabel?.backgroundColor = UIColor.clearColor()
         cell.textLabel?.textAlignment = .Center
@@ -210,6 +213,7 @@ extension SearchTagsViewController: UITableViewDelegate, UITableViewDataSource {
         cell.textLabel?.font = UIFont.plangoBodyBig()
         
         if selectedTags.count > 0 {
+            cell.imageView?.image = UIImage(named: "unselect")
             cell.textLabel?.text = selectedTags[indexPath.row].name
         } else {
             cell.textLabel?.text = tags[indexPath.row].name

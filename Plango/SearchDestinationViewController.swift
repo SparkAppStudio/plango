@@ -36,9 +36,17 @@ class SearchDestinationViewController: UIViewController {
         //Populate suggested Popular Destinations
         let sf = Destination(city: "San Francisco", state: "CA", country: "United States")
         let ny = Destination(city: "New York", state: "NY", country: "United States")
-        let hongKong = Destination(city: "Hong Kong", state: nil, country: nil)
+        let hongKong = Destination(city: "Hong Kong", state: nil, country: "Hong Kong")
+        let rome = Destination(city: "Rome", state: "Lazio", country: "Italy")
+        let paris = Destination(city: "Paris", state: "Ile-de-France", country: "France")
+        let london = Destination(city: "London", state: "England", country: "United Kingdom")
+        let carmen = Destination(city: "Playa del Carmen", state: "Quintana Roo", country: "Mexico")
+        let hawaii = Destination(city: nil, state: "HI", country: "United States")
+        let newZealand = Destination(city: nil, state: nil, country: "New Zealand")
+        let costaRica = Destination(city: nil, state: nil, country: "Costa Rica")
+        
 
-        let destinations = [sf, ny, hongKong]
+        let destinations = [costaRica, newZealand, hawaii, carmen, london, paris, rome, hongKong, sf, ny]
         return destinations
     }()
     
@@ -131,6 +139,8 @@ extension SearchDestinationViewController: UITableViewDelegate, UITableViewDataS
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("selection", forIndexPath: indexPath)
+        cell.imageView?.image = nil
+//        cell.imageView?.hidden = true
         cell.contentView.backgroundColor = UIColor.plangoBackgroundGray()
         cell.textLabel?.backgroundColor = UIColor.clearColor()
         cell.textLabel?.textAlignment = .Center
@@ -138,10 +148,11 @@ extension SearchDestinationViewController: UITableViewDelegate, UITableViewDataS
         cell.textLabel?.font = UIFont.plangoBodyBig()
         
         if selectedDestinations.count > 0 {
+            cell.imageView?.image = UIImage(named: "unselect")
             if let city = selectedDestinations[indexPath.row].city {
                 cell.textLabel?.text = city
             } else if let state = selectedDestinations[indexPath.row].state {
-                cell.textLabel?.text = state
+                cell.textLabel?.text = state.getLongState()!.capitalizedString
             } else if let country = selectedDestinations[indexPath.row].country {
                 cell.textLabel?.text = country
             }
@@ -149,7 +160,7 @@ extension SearchDestinationViewController: UITableViewDelegate, UITableViewDataS
             if let city = suggestedDestinations[indexPath.row].city {
                 cell.textLabel?.text = city
             } else if let state = suggestedDestinations[indexPath.row].state {
-                cell.textLabel?.text = state
+                cell.textLabel?.text = state.getLongState()!.capitalizedString
             } else if let country = suggestedDestinations[indexPath.row].country {
                 cell.textLabel?.text = country
             }
@@ -261,13 +272,13 @@ extension SearchDestinationViewController: GMSAutocompleteResultsViewControllerD
                 print("ColloquialArea: \(item.name)")
                 selectedPlace.city = item.name
             } else if item.type == kGMSPlaceTypeLocality { //city
-                print("city: \(item.name)")
+                print("Locality: \(item.name)")
                 selectedPlace.city = item.name
             } else if item.type == kGMSPlaceTypeAdministrativeAreaLevel1 { //state
-                print(item.name)
+                print("Admin1: \(item.name)")
                 selectedPlace.state = item.name
             } else if item.type == kGMSPlaceTypeCountry { //country
-                print(item.name)
+                print("Country: \(item.name)")
                 selectedPlace.country = item.name
             }
         }

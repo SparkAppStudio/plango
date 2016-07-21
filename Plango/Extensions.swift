@@ -58,184 +58,186 @@ extension String {
         return String(self.characters.dropLast(5))
     }
     
-    func getStates(state: State) -> String {
-        switch state {
-        case .AL:
-            return "ALABAMA";
+    func getLongState() -> String? {
+        switch self {
+        case State.AL.rawValue:
+            return "ALABAMA"
             
-        case State.AK:
-            return "ALASKA";
+        case State.AK.rawValue:
+            return "ALASKA"
             
-        case State.AS:
-            return "AMERICAN SAMOA";
+        case State.AS.rawValue:
+            return "AMERICAN SAMOA"
             
-        case State.AZ:
-            return "ARIZONA";
+        case State.AZ.rawValue:
+            return "ARIZONA"
             
-        case State.AR:
-            return "ARKANSAS";
+        case State.AR.rawValue:
+            return "ARKANSAS"
             
-        case State.CA:
-            return "CALIFORNIA";
+        case State.CA.rawValue:
+            return "CALIFORNIA"
             
-        case State.CO:
-            return "COLORADO";
+        case State.CO.rawValue:
+            return "COLORADO"
             
-        case State.CT:
-            return "CONNECTICUT";
+        case State.CT.rawValue:
+            return "CONNECTICUT"
             
-        case State.DE:
-            return "DELAWARE";
+        case State.DE.rawValue:
+            return "DELAWARE"
             
-        case State.DC:
-            return "DISTRICT OF COLUMBIA";
+        case State.DC.rawValue:
+            return "DISTRICT OF COLUMBIA"
             
-        case State.FM:
-            return "FEDERATED STATES OF MICRONESIA";
+        case State.FM.rawValue:
+            return "FEDERATED STATES OF MICRONESIA"
             
-        case State.FL:
-            return "FLORIDA";
+        case State.FL.rawValue:
+            return "FLORIDA"
             
-        case State.GA:
-            return "GEORGIA";
+        case State.GA.rawValue:
+            return "GEORGIA"
             
-        case State.GU:
-            return "GUAM";
+        case State.GU.rawValue:
+            return "GUAM"
             
-        case State.HI:
-            return "HAWAII";
+        case State.HI.rawValue:
+            return "HAWAII"
             
-        case State.ID:
-            return "IDAHO";
+        case State.ID.rawValue:
+            return "IDAHO"
             
-        case State.IL:
-            return "ILLINOIS";
+        case State.IL.rawValue:
+            return "ILLINOIS"
             
-        case State.IN:
+        case State.IN.rawValue:
             return "INDIANA";
             
-        case State.IA:
+        case State.IA.rawValue:
             return "IOWA";
             
-        case State.KS:
+        case State.KS.rawValue:
             return "KANSAS";
             
-        case State.KY:
+        case State.KY.rawValue:
             return "KENTUCKY";
             
-        case State.LA:
+        case State.LA.rawValue:
             return "LOUISIANA";
             
-        case State.ME:
+        case State.ME.rawValue:
             return "MAINE";
             
-        case State.MH:
+        case State.MH.rawValue:
             return "MARSHALL ISLANDS";
             
-        case State.MD:
+        case State.MD.rawValue:
             return "MARYLAND";
             
-        case State.MA:
+        case State.MA.rawValue:
             return "MASSACHUSETTS";
             
-        case State.MI:
+        case State.MI.rawValue:
             return "MICHIGAN";
             
-        case State.MN:
+        case State.MN.rawValue:
             return "MINNESOTA";
             
-        case State.MS:
+        case State.MS.rawValue:
             return "MISSISSIPPI";
             
-        case State.MO:
+        case State.MO.rawValue:
             return "MISSOURI";
             
-        case State.MT:
+        case State.MT.rawValue:
             return "MONTANA";
             
-        case State.NE:
+        case State.NE.rawValue:
             return "NEBRASKA";
             
-        case State.NV:
+        case State.NV.rawValue:
             return "NEVADA";
             
-        case State.NH:
+        case State.NH.rawValue:
             return "NEW HAMPSHIRE";
             
-        case State.NJ:
+        case State.NJ.rawValue:
             return "NEW JERSEY";
             
-        case State.NM:
+        case State.NM.rawValue:
             return "NEW MEXICO";
             
-        case State.NY:
+        case State.NY.rawValue:
             return "NEW YORK";
             
-        case State.NC:
+        case State.NC.rawValue:
             return "NORTH CAROLINA";
             
-        case State.ND:
+        case State.ND.rawValue:
             return "NORTH DAKOTA";
             
-        case State.MP:
+        case State.MP.rawValue:
             return "NORTHERN MARIANA ISLANDS";
             
-        case State.OH:
+        case State.OH.rawValue:
             return "OHIO";
             
-        case State.OK:
+        case State.OK.rawValue:
             return "OKLAHOMA";
             
-        case State.OR:
+        case State.OR.rawValue:
             return "OREGON";
             
-        case State.PW:
+        case State.PW.rawValue:
             return "PALAU";
             
-        case State.PA:
+        case State.PA.rawValue:
             return "PENNSYLVANIA";
             
-        case State.PR:
+        case State.PR.rawValue:
             return "PUERTO RICO";
             
-        case State.RI:
+        case State.RI.rawValue:
             return "RHODE ISLAND";
             
-        case State.SC:
+        case State.SC.rawValue:
             return "SOUTH CAROLINA";
             
-        case State.SD:
+        case State.SD.rawValue:
             return "SOUTH DAKOTA";
             
-        case State.TN:
+        case State.TN.rawValue:
             return "TENNESSEE";
             
-        case State.TX:
+        case State.TX.rawValue:
             return "TEXAS";
             
-        case State.UT:
+        case State.UT.rawValue:
             return "UTAH";
             
-        case State.VT:
+        case State.VT.rawValue:
             return "VERMONT";
             
-        case State.VI:
+        case State.VI.rawValue:
             return "VIRGIN ISLANDS";
             
-        case State.VA:
+        case State.VA.rawValue:
             return "VIRGINIA";
             
-        case State.WA:
+        case State.WA.rawValue:
             return "WASHINGTON";
             
-        case State.WV:
+        case State.WV.rawValue:
             return "WEST VIRGINIA";
             
-        case State.WI:
+        case State.WI.rawValue:
             return "WISCONSIN";
             
-        case State.WY:
+        case State.WY.rawValue:
             return "WYOMING";
+        default:
+            return nil
         }
     }
     
