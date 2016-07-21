@@ -61,6 +61,8 @@ class SearchDestinationViewController: UIViewController {
         super.viewDidLoad()
         
         tableView = UITableView(frame: UIScreen.mainScreen().bounds)
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 227, 0) //status+nav+pager+tab + Search Button, not sure why i need it here but not on itineraryTVC
+
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.backgroundColor = UIColor.plangoBackgroundGray()
         tableView.backgroundView = UIView() //to fix and allow background gray show through search headerview
@@ -242,25 +244,36 @@ extension SearchDestinationViewController: GMSAutocompleteResultsViewControllerD
                            didAutocompleteWithPlace place: GMSPlace) {
         searchController?.active = false
         // Do something with the selected place.
-        print("Place name: ", place.name)
-        print("Place address: ", place.formattedAddress)
-        print("Place attributions: ", place.attributions)
+//        print("Place name: ", place.name)
+//        print("Place address: ", place.formattedAddress)
+//        print("Place attributions: ", place.attributions)
         
         var selectedPlace = Destination()
         
-        for item in place.addressComponents! {
-            if item.type == kGMSPlaceTypeLocality || item.type == kGMSPlaceTypeAdministrativeAreaLevel3 || item.type == kGMSPlaceTypeSublocalityLevel3 || item.type == kGMSPlaceTypeColloquialArea { //city
+        for item in place.addressComponents! { //redudant because different countries do these things differently, so far I've only seen locality or colloquialArea used but i havd admin3 and sublocal3 code ready just in case. Be careful with admin3 though because it is "townships" in American cities and can throw off the data
+            if item.type == kGMSPlaceTypeAdministrativeAreaLevel3 { //township
+                print("Admin3: \(item.name)")
+                
+            } else if item.type == kGMSPlaceTypeSublocalityLevel3 {
+                print("Sublocality3: \(item.name)")
+                
+            } else if item.type == kGMSPlaceTypeColloquialArea { //nickname
+                print("ColloquialArea: \(item.name)")
+                selectedPlace.city = item.name
+            } else if item.type == kGMSPlaceTypeLocality { //city
+                print("city: \(item.name)")
                 selectedPlace.city = item.name
             } else if item.type == kGMSPlaceTypeAdministrativeAreaLevel1 { //state
-                
+                print(item.name)
                 selectedPlace.state = item.name
-                
             } else if item.type == kGMSPlaceTypeCountry { //country
+                print(item.name)
                 selectedPlace.country = item.name
             }
         }
         
-        //abbreviate State for US
+        //abbreviate State for specific countries
+        //TODO: - add more countries
         if selectedPlace.country == "United States" {
             if let stateLong = selectedPlace.state {
                 selectedPlace.state = stateLong.getShortState()?.rawValue
