@@ -45,8 +45,11 @@ class EventDetailsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let directionsBarButton = UIBarButtonItem(image: UIImage(named: "directions-white"), style: .Plain, target: self, action: #selector(didTapDirections))
-        self.navigationItem.rightBarButtonItem = directionsBarButton
+//        if parentViewController!.isKindOfClass(MapViewController) == false {
+            let directionsBarButton = UIBarButtonItem(image: UIImage(named: "directions-white"), style: .Plain, target: self, action: #selector(didTapDirections))
+            self.navigationItem.rightBarButtonItem = directionsBarButton
+//        }
+
 
         self.tableView.backgroundColor = UIColor.plangoBackgroundGray()
         self.navigationItem.title = experience.name?.uppercaseString

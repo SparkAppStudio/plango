@@ -145,6 +145,7 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         guard let experience = experiencePlaceDataSource[title] else {return}
         
         let detailsVC = EventDetailsTableViewController()
+        self.addChildViewController(detailsVC)
         detailsVC.experience = experience
         showViewController(detailsVC, sender: nil)
     }
