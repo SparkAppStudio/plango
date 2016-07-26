@@ -51,6 +51,9 @@ class PlanSummaryViewController: UITableViewController {
     //DownloadView xib
     @IBAction func didTapDownload(sender: UIButton) {
         //TODO: - download info to device
+        guard (plan.experiences != nil) else {self.view.quickToast("No Experiences"); return}
+        displayMapForPlan(plan, download: true)
+
     }
     
     
@@ -649,8 +652,8 @@ class PlanSummaryViewController: UITableViewController {
     }
     
     func didTapMap() {
-        guard let experiences = plan.experiences else {self.view.quickToast("No Experiences"); return}
-        displayMapForExperiences(experiences, title: plan.name)
+        guard (plan.experiences != nil) else {self.view.quickToast("No Experiences"); return}
+        displayMapForPlan(plan, download: false)
     }
     
     

@@ -101,7 +101,7 @@ class Plango: NSObject {
 
         var memberIDs = [String]()
         for member in members {
-            memberIDs.append(member.userID)
+            memberIDs.append(member.id)
         }
         
         let encodableURLRequest = NSURLRequest(URL: NSURL(string: endPoint)!)

@@ -691,13 +691,27 @@ extension NSIndexSet {
 }
 
 extension UIViewController {
-    func displayMapForExperiences(experiences: [Experience], title: String?) {
+    func displayMapForExperiences(experiences: [Experience], title: String?, download: Bool) {
         let mapVC = MapViewController()
         mapVC.experiences = experiences
+        mapVC.shouldDownload = download
         if let title = title {
             mapVC.navigationItem.title = title.uppercaseString
         } else {
             mapVC.navigationItem.title = "Map".uppercaseString
+        }
+        showViewController(mapVC, sender: nil)
+    }
+    
+    func displayMapForPlan(plan: Plan, download: Bool) {
+        let mapVC = MapViewController()
+        mapVC.plan = plan
+        mapVC.experiences = plan.experiences
+        mapVC.shouldDownload = download
+        if let title = plan.name {
+            mapVC.navigationItem.title = title.uppercaseString
+        } else {
+            mapVC.navigationItem.title = "MAP"
         }
         showViewController(mapVC, sender: nil)
     }

@@ -96,6 +96,7 @@
 		C3F5E0611D1B93D200F1D2A0 /* EventDetailsHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3F5E0601D1B93D200F1D2A0 /* EventDetailsHeader.xib */; };
 		C3F5E0631D1B96A600F1D2A0 /* ReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F5E0621D1B96A600F1D2A0 /* ReviewTableViewCell.swift */; };
 		C3F5E0651D1B96AD00F1D2A0 /* NotesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F5E0641D1B96AD00F1D2A0 /* NotesTableViewCell.swift */; };
+		C3F79D791D46E81400D90A0D /* PlangoObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F79D781D46E81300D90A0D /* PlangoObject.swift */; };
 		C3F915241CCF3F32007B0D00 /* test.json in Resources */ = {isa = PBXBuildFile; fileRef = C3F915231CCF3F32007B0D00 /* test.json */; };
 /* End PBXBuildFile section */
 
@@ -194,6 +195,7 @@
 		C3F5E0601D1B93D200F1D2A0 /* EventDetailsHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventDetailsHeader.xib; sourceTree = "<group>"; };
 		C3F5E0621D1B96A600F1D2A0 /* ReviewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewTableViewCell.swift; sourceTree = "<group>"; };
 		C3F5E0641D1B96AD00F1D2A0 /* NotesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesTableViewCell.swift; sourceTree = "<group>"; };
+		C3F79D781D46E81300D90A0D /* PlangoObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlangoObject.swift; sourceTree = "<group>"; };
 		C3F915231CCF3F32007B0D00 /* test.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test.json; sourceTree = "<group>"; };
 		D3C9D302F55D77443409D8D3 /* Pods-Plango.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plango.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Plango/Pods-Plango.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -393,6 +395,7 @@
 			children = (
 				C3978CD51CB88602001028D5 /* Plan.swift */,
 				C3978CD71CB8860E001028D5 /* User.swift */,
+				C3F79D781D46E81300D90A0D /* PlangoObject.swift */,
 				C3978CD91CB889DF001028D5 /* Tag.swift */,
 				C31AC4181CADD7150032230E /* Plango.swift */,
 			);
@@ -615,6 +618,7 @@
 				C3978CD01CB70118001028D5 /* SearchViewController.swift in Sources */,
 				C3ACD8031CDC182A000B2399 /* EventDetailsTableViewController.swift in Sources */,
 				C31AC41D1CADD7150032230E /* Extensions.swift in Sources */,
+				C3F79D791D46E81400D90A0D /* PlangoObject.swift in Sources */,
 				C3D26CD21D3445AC006D909F /* MapViewController.swift in Sources */,
 				C37F1E851D2630B400CA1FAA /* MemberTableViewCell.swift in Sources */,
 				C3F5E0651D1B96AD00F1D2A0 /* NotesTableViewCell.swift in Sources */,

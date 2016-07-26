@@ -14,10 +14,13 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
     
     var mapView: MGLMapView!
     var experiences: [Experience]?
+    var plan: Plan?
     private var places: [MGLPointAnnotation]!
     private lazy var experiencePlaceDataSource = [String:Experience]()
+    var shouldDownload: Bool = false
     
     let directions = Directions.sharedDirections
+    var progressView: UIProgressView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +35,10 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         mapView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         mapView.delegate = self
         mapView.showsUserLocation = true
+        
+        if Helper.isConnectedToNetwork() == false {
+            retrieveOfflineMap()
+        }
 
         if let userLocation = mapView.userLocation {
             mapView.setCenterCoordinate(userLocation.coordinate, zoomLevel: 14, animated: false)
@@ -50,6 +57,11 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
             mapView.zoomLevel = 14
         }
         
+        // Setup offline pack notification handlers.
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MapViewController.offlinePackProgressDidChange(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MapViewController.offlinePackDidReceiveError(_:)), name: MGLOfflinePackErrorNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MapViewController.offlinePackDidReceiveMaximumAllowedMapboxTiles(_:)), name: MGLOfflinePackMaximumMapboxTilesReachedNotification, object: nil)
+    
     }
     
 //    override func viewDidDisappear(animated: Bool) {
@@ -59,8 +71,97 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
 //    }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidBecomeActiveNotification, object: nil)
+//        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidBecomeActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
+    
+    func retrieveOfflineMap() {
+        guard let plan = plan else {return}
+        for pack in MGLOfflineStorage.sharedOfflineStorage().packs! {
+            guard let userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? NSDictionary else {continue}
+            
+            guard let aPlan = userInfo["plan"] as? Plan else {continue}
+            if aPlan.id == plan.id {
+                pack.region.performSelector(#selector(MGLTilePyramidOfflineRegion.applyToMapView(_:)), withObject: self.mapView)
+                break
+            }
+            
+        }
+    }
+    
+    func startOfflinePackDownload() {
+        // create region to save based on current map locations and also how far the user can zoom in
+        let region = MGLTilePyramidOfflineRegion(styleURL: mapView.styleURL, bounds: mapView.visibleCoordinateBounds, fromZoomLevel: mapView.zoomLevel, toZoomLevel: 16)
+        
+        guard let plan = plan else {return}
+        //metadata for local storage
+        let userInfo: NSDictionary = ["plan" : plan]
+        let context = NSKeyedArchiver.archivedDataWithRootObject(userInfo)
+        
+        //create and regsiter offline pack with the shared singleton storage object
+        MGLOfflineStorage.sharedOfflineStorage().addPackForRegion(region, withContext: context) { (pack, error) in
+            guard error == nil else {
+                self.printError(error!)
+                return
+            }
+            //start downloading
+            pack?.resume()
+        }
+    }
+    
+    // MARK: - MGLOfflinePack notification handlers
+    
+    func offlinePackProgressDidChange(notification: NSNotification) {
+        // Get the offline pack this notification is regarding,
+        // and the associated user info for the pack; in this case, `name = My Offline Pack`
+        if let pack = notification.object as? MGLOfflinePack,
+            userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? [String: String] {
+            let progress = pack.progress
+            // or notification.userInfo![MGLOfflinePackProgressUserInfoKey]!.MGLOfflinePackProgressValue
+            let completedResources = progress.countOfResourcesCompleted
+            let expectedResources = progress.countOfResourcesExpected
+            
+            // Calculate current progress percentage.
+            let progressPercentage = Float(completedResources) / Float(expectedResources)
+            
+            // Setup the progress bar.
+            if progressView == nil {
+                progressView = UIProgressView(progressViewStyle: .Default)
+                let frame = view.bounds.size
+                progressView.frame = CGRectMake(frame.width / 4, frame.height * 0.75, frame.width / 2, 10)
+                view.addSubview(progressView)
+            }
+            
+            progressView.progress = progressPercentage
+            
+            // If this pack has finished, print its size and resource count.
+            if completedResources == expectedResources {
+                self.navigationController?.popViewControllerAnimated(true)
+                let byteCount = NSByteCountFormatter.stringFromByteCount(Int64(pack.progress.countOfBytesCompleted), countStyle: NSByteCountFormatterCountStyle.Memory)
+                print("Offline pack “\(userInfo["name"])” completed: \(byteCount), \(completedResources) resources")
+            } else {
+                // Otherwise, print download/verification progress.
+                print("Offline pack “\(userInfo["name"])” has \(completedResources) of \(expectedResources) resources — \(progressPercentage * 100)%.")
+            }
+        }
+    }
+    
+    func offlinePackDidReceiveError(notification: NSNotification) {
+        if let pack = notification.object as? MGLOfflinePack,
+            userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? [String: String],
+            error = notification.userInfo?[MGLOfflinePackErrorUserInfoKey] as? NSError {
+            print("Offline pack “\(userInfo["name"])” received error: \(error.localizedFailureReason)")
+        }
+    }
+    
+    func offlinePackDidReceiveMaximumAllowedMapboxTiles(notification: NSNotification) {
+        if let pack = notification.object as? MGLOfflinePack,
+            userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? [String: String],
+            maximumCount = notification.userInfo?[MGLOfflinePackMaximumCountUserInfoKey]?.unsignedLongLongValue {
+            print("Offline pack “\(userInfo["name"])” reached limit of \(maximumCount) tiles.")
+        }
+    }
+
     
     func getPlacesFromExperiences(experiences: [Experience]?) -> [MGLPointAnnotation] {
         var points = [MGLPointAnnotation]()
@@ -126,6 +227,9 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
     func mapViewDidFinishLoadingMap(mapView: MGLMapView) {
         if places?.count == 1 {
             mapView.selectAnnotation(places!.first!, animated: true)
+        }
+        if shouldDownload == true {
+            startOfflinePackDownload()
         }
     }
     
@@ -201,4 +305,12 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
 
     }
 
+}
+
+extension MGLTilePyramidOfflineRegion {
+    func applyToMapView(mapView: MGLMapView) {
+        mapView.styleURL = self.styleURL
+        mapView.setVisibleCoordinateBounds(self.bounds, animated: false)
+        mapView.zoomLevel = 14
+    }
 }

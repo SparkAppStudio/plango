@@ -39,7 +39,7 @@ class EventDetailsTableViewController: UITableViewController {
     var headerView: UIView!
     
     func didTapDirections() {
-        displayMapForExperiences([experience], title: experience.name)
+        displayMapForExperiences([experience], title: experience.name, download: false)
     }
 
     override func viewDidLoad() {

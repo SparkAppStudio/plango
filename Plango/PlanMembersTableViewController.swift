@@ -35,7 +35,7 @@ class PlanMembersTableViewController: UITableViewController {
     func getMembers() {
         //get rid of self
         for (index, member) in members.enumerate() {
-            if member.userID == Plango.sharedInstance.currentUser?.id {
+            if member.id == Plango.sharedInstance.currentUser?.id {
                 members.removeAtIndex(index)
             }
         }

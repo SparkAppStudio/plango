@@ -30,7 +30,7 @@ class ItineraryTableViewController: UITableViewController, EventTableViewCellDel
     }
     
     func didSendExperience(experience: Experience) {
-        displayMapForExperiences([experience], title: experience.name)
+        displayMapForExperiences([experience], title: experience.name, download: false)
     }
 
     // MARK: - Table view data source
