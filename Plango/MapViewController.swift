@@ -9,6 +9,7 @@
 import UIKit
 import Mapbox
 import MapboxDirections
+import MapKit
 
 class MapViewController: UIViewController, MGLMapViewDelegate {
     
@@ -17,11 +18,50 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
     var plan: Plan?
     private var places: [MGLPointAnnotation]!
     private lazy var experiencePlaceDataSource = [String:Experience]()
-    var shouldDownload: Bool = false
     
-    let directions = Directions.sharedDirections
+    var shouldDownload: Bool = false
     var progressView: UIProgressView!
 
+    let directions = Directions.sharedDirections
+    var routeLine: MGLPolyline!
+    var navAnnotation: MGLAnnotation!
+    var navMode: Bool = false {
+        didSet {
+            cancelNavButton.hidden = !navMode
+            startNavButton.hidden = !navMode
+            if navMode == false {
+                navAnnotation = nil
+            }
+        }
+    }
+    lazy var startNavButton: UIButton = {
+        let button = UIButton(frame: CGRect(x: 0, y: self.view.bounds.height - 124, width: self.view.bounds.width, height: 60))
+        button.setTitle("Turn by Turn", forState: .Normal)
+        button.titleLabel?.textColor = UIColor.whiteColor()
+        button.backgroundColor = UIColor.plangoOrange()
+        button.tintColor = UIColor.plangoOrange()
+        button.hidden = true
+        button.addTarget(self, action: #selector(didTapStartNav(_:)), forControlEvents: .TouchUpInside)
+        return button
+    }()
+    lazy var cancelNavButton: UIButton = {
+        let button = UIButton(frame: CGRect(x: self.view.bounds.width - 44, y: 24, width: 40, height: 40))
+        button.setImage(UIImage(named: "unselect"), forState: .Normal)
+        button.backgroundColor = UIColor.clearColor()
+        button.hidden = true
+        button.addTarget(self, action: #selector(didTapCancelNav(_:)), forControlEvents: .TouchUpInside)
+        return button
+    }()
+    
+
+    func didTapCancelNav(selector: UIButton) {
+        endNavToAnnotation(mapView)
+    }
+    
+    func didTapStartNav(selector: UIButton) {
+        openAppleMapsNavForAnnotation(navAnnotation)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,7 +70,6 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
                 map.showsUserLocation = true //set location on after user possibly goes to settings and returns
             }
         }
-
         mapView = MGLMapView(frame: self.view.bounds)
         mapView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         mapView.delegate = self
@@ -61,6 +100,10 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MapViewController.offlinePackProgressDidChange(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MapViewController.offlinePackDidReceiveError(_:)), name: MGLOfflinePackErrorNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MapViewController.offlinePackDidReceiveMaximumAllowedMapboxTiles(_:)), name: MGLOfflinePackMaximumMapboxTilesReachedNotification, object: nil)
+        
+        //buttons
+        view.addSubview(cancelNavButton)
+        view.addSubview(startNavButton)
     
     }
     
@@ -137,6 +180,8 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
             // If this pack has finished, print its size and resource count.
             if completedResources == expectedResources {
 //                self.navigationController?.popViewControllerAnimated(true)
+                progressView.hidden = true
+                self.mapView.imageToast(nil, image: UIImage(named: "whiteCheck")!, notify: false)
                 let byteCount = NSByteCountFormatter.stringFromByteCount(Int64(pack.progress.countOfBytesCompleted), countStyle: NSByteCountFormatterCountStyle.Memory)
                 print("Offline pack “\(userInfo["name"])” completed: \(byteCount), \(completedResources) resources")
             } else {
@@ -234,6 +279,8 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
     }
     
     func mapView(mapView: MGLMapView, leftCalloutAccessoryViewForAnnotation annotation: MGLAnnotation) -> UIView? {
+        guard annotation.coordinate.latitude != mapView.userLocation?.coordinate.latitude || annotation.coordinate.longitude != mapView.userLocation?.coordinate.longitude else { return nil }
+        
         let directionsButton = UIButton(type: .DetailDisclosure)
         directionsButton.setImage(UIImage(named: "directions"), forState: .Normal)
         return directionsButton
@@ -254,8 +301,33 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         showViewController(detailsVC, sender: nil)
     }
     
+    func endNavToAnnotation(mapView: MGLMapView) {
+        mapView.removeAnnotation(routeLine)
+        routeLine = nil
+        navMode = false
+    }
+    
+    func openAppleMapsNavForAnnotation(annotation: MGLAnnotation) {
+        
+//        let regionDistance:CLLocationDistance = 10000
+//        let regionSpan = MKCoordinateRegionMakeWithDistance(annotation.coordinate, regionDistance, regionDistance)
+        
+        let options = [
+//            MKLaunchOptionsMapCenterKey: NSValue(MKCoordinate: regionSpan.center),
+//            MKLaunchOptionsMapSpanKey: NSValue(MKCoordinateSpan: regionSpan.span),
+            MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving
+        ]
+        let placemark = MKPlacemark(coordinate: annotation.coordinate, addressDictionary: nil)
+        let mapItem = MKMapItem(placemark: placemark)
+        if let name = annotation.title {
+            mapItem.name = name
+        }
+        mapItem.openInMapsWithLaunchOptions(options)
+    }
+    
     func startNavToAnnotation(mapView: MGLMapView, annotation: MGLAnnotation) {
         guard let userCoordinates = mapView.userLocation?.coordinate else {return}
+        guard navMode == false else {return}
         
         let waypoints = [
             Waypoint(coordinate: userCoordinates),
@@ -267,6 +339,11 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         directions.calculateDirections(options: options) { (waypoints, routes, error) in
             guard error == nil else {
                 print("Error calculating directions: \(error!)")
+                if error?.domain == MBDirectionsErrorDomain {
+                    self.openAppleMapsNavForAnnotation(annotation)
+                } else if error?.domain == NSURLErrorDomain {
+                    self.view.detailToast("Navigation Unavailable", details: "Internet Connection Required for Navigation")
+                }
                 return
             }
             
@@ -291,11 +368,12 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
                 if route.coordinateCount > 0 {
                     // Convert the route’s coordinates into a polyline.
                     var routeCoordinates = route.coordinates!
-                    let routeLine = MGLPolyline(coordinates: &routeCoordinates, count: route.coordinateCount)
+                    self.routeLine = MGLPolyline(coordinates: &routeCoordinates, count: route.coordinateCount)
                     
                     // Add the polyline to the map and fit the viewport to the polyline.
-                    mapView.addAnnotation(routeLine)
-                    
+                    mapView.addAnnotation(self.routeLine)
+                    self.navAnnotation = annotation
+                    self.navMode = true
                     let margins = UIEdgeInsetsMake(24, 24, 24, 24)
                     
                     mapView.setVisibleCoordinates(&routeCoordinates, count: route.coordinateCount, edgePadding: margins, animated: true)
