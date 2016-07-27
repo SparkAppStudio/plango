@@ -15,11 +15,11 @@ class Plan: PlangoObject {
     var name: String?
     var avatar: String?
     var planDescription: String?
-    var isPublic: Bool?
+    var isPublic: Bool!
 
     var authorID: String!
     
-    var durationDays: Int?
+    var durationDays: Int!
     var startDate: NSDate?
     var endDate: NSDate?
     
@@ -27,9 +27,10 @@ class Plan: PlangoObject {
     var lastUpdatedDate: NSDate?
     var createdDate: NSDate?
     
-    var viewCount: Int?
-    var usedCount: Int?
+    var viewCount: Int!
+    var usedCount: Int!
     
+//    let spamReported = List<PlangoString>()
     var spamReported: [String]?
     var members: [Member]?
     var tags: [String]?
@@ -177,7 +178,7 @@ class Plan: PlangoObject {
         newPlan.name = dictionary["name"] as? String
         newPlan.avatar = dictionary["avatarUrl"] as? String
         newPlan.planDescription = dictionary["description"] as? String
-        newPlan.isPublic = dictionary["is_public"] as? Bool
+        newPlan.isPublic = dictionary["is_public"] as! Bool
         newPlan.authorID = dictionary["created_by"] as! String
         newPlan.durationDays = dictionary["duration"] as? Int
 
@@ -397,6 +398,7 @@ class Plan: PlangoObject {
 }
 
 class Member: PlangoObject { //"_id":"558b8126817ff2433428d992","confirmed":true
+    
 //    var userID: String!
     var confirmed: Bool!
     
@@ -427,7 +429,7 @@ class Event: PlangoObject { //"experience_id":"560de35905c85ada730e7f14","start"
     var experienceID: String?
     var duration: Int?
     var startDate: NSDate?
-    var allDay: Bool?
+    var allDay: Bool!
     
 //    init(id: String, experienceID: String?, duration: Int?, startDate: NSDate?, allDay: Bool?) {
 //        self.id = id
@@ -483,8 +485,8 @@ class Experience: PlangoObject { //"name":"PRO rafting Costa Rica","thumb":"http
     var price: Int?
     var likes: Int?
     var locationType: String?
-    var isPublic: Bool?
-    var isCustom: Bool?
+    var isPublic: Bool!
+    var isCustom: Bool!
     var photos: NSArray?
     var hours: NSArray?
     var reviews: [Review]?

@@ -36,9 +36,9 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         mapView.delegate = self
         mapView.showsUserLocation = true
         
-        if Helper.isConnectedToNetwork() == false {
-            retrieveOfflineMap()
-        }
+//        if Helper.isConnectedToNetwork() == false {
+//            retrieveOfflineMap()
+//        }
 
         if let userLocation = mapView.userLocation {
             mapView.setCenterCoordinate(userLocation.coordinate, zoomLevel: 14, animated: false)
@@ -80,8 +80,8 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         for pack in MGLOfflineStorage.sharedOfflineStorage().packs! {
             guard let userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? NSDictionary else {continue}
             
-            guard let aPlan = userInfo["plan"] as? Plan else {continue}
-            if aPlan.id == plan.id {
+            guard let planID = userInfo["planID"] as? String else {continue}
+            if planID == plan.id {
                 pack.region.performSelector(#selector(MGLTilePyramidOfflineRegion.applyToMapView(_:)), withObject: self.mapView)
                 break
             }
@@ -91,11 +91,11 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
     
     func startOfflinePackDownload() {
         // create region to save based on current map locations and also how far the user can zoom in
-        let region = MGLTilePyramidOfflineRegion(styleURL: mapView.styleURL, bounds: mapView.visibleCoordinateBounds, fromZoomLevel: mapView.zoomLevel, toZoomLevel: 16)
-        
+        let region = MGLTilePyramidOfflineRegion(styleURL: mapView.styleURL, bounds: mapView.visibleCoordinateBounds, fromZoomLevel: mapView.zoomLevel, toZoomLevel: mapView.zoomLevel + 4)
+        print(mapView.zoomLevel)
         guard let plan = plan else {return}
         //metadata for local storage
-        let userInfo: NSDictionary = ["plan" : plan]
+        let userInfo: NSDictionary = ["planID" : plan.id]
         let context = NSKeyedArchiver.archivedDataWithRootObject(userInfo)
         
         //create and regsiter offline pack with the shared singleton storage object
@@ -136,7 +136,7 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
             
             // If this pack has finished, print its size and resource count.
             if completedResources == expectedResources {
-                self.navigationController?.popViewControllerAnimated(true)
+//                self.navigationController?.popViewControllerAnimated(true)
                 let byteCount = NSByteCountFormatter.stringFromByteCount(Int64(pack.progress.countOfBytesCompleted), countStyle: NSByteCountFormatterCountStyle.Memory)
                 print("Offline pack “\(userInfo["name"])” completed: \(byteCount), \(completedResources) resources")
             } else {

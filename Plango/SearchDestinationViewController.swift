@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import GoogleMaps
+//import GoogleMaps
+import GooglePlaces
 
 class SearchDestinationViewController: UIViewController {
     
@@ -261,7 +262,12 @@ extension SearchDestinationViewController: GMSAutocompleteResultsViewControllerD
         
         var selectedPlace = Destination()
         
-        for item in place.addressComponents! { //redudant because different countries do these things differently, so far I've only seen locality or colloquialArea used but i havd admin3 and sublocal3 code ready just in case. Be careful with admin3 though because it is "townships" in American cities and can throw off the data
+        for item in place.addressComponents! {
+            
+            let item = item as! GMSAddressComponent
+            
+            //redudant because different countries do these things differently, so far I've only seen locality or colloquialArea used but i havd admin3 and sublocal3 code ready just in case. Be careful with admin3 though because it is "townships" in American cities and can throw off the data
+            
             if item.type == kGMSPlaceTypeAdministrativeAreaLevel3 { //township
                 print("Admin3: \(item.name)")
                 

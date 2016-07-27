@@ -7,58 +7,51 @@
 //
 
 import UIKit
+import RealmSwift
 
-class PlangoObject: NSObject, NSCoding {
-    var id: String!
-    
-    func getPropertyNames() -> [String] {
-        
-        let swiftProperties = Mirror(reflecting: self).children.flatMap { $0.label }
-        
-        var count = UInt32()
-        let classToInspect = NSURL.self
-        let properties : UnsafeMutablePointer <objc_property_t> = class_copyPropertyList(classToInspect, &count)
-        var propertyNames = [String]()
-        let intCount = Int(count)
-        for i in 0 ..< intCount {
-            let property : objc_property_t = properties[i]
-            guard let propertyName = NSString(UTF8String: property_getName(property)) as? String else {
-                debugPrint("Couldn't unwrap property name for \(property)")
-                break
-            }
-            
-            propertyNames.append(propertyName)
-        }
-        
-        free(properties)
-        
-        print(swiftProperties)
-        print(propertyNames)
-        
-        return propertyNames
+class PlangoObject: NSObject {
+    enum CodeKeys: String {
+        case id = "id"
+        case name = "name"
+        case avatar = "avatar"
+        case planDescription = "planDescription"
+        case isPublic = "isPublic"
+        case authorID = "authorID"
+        case durationDays = "durationDays"
+        case startDate = "startDate"
+        case endDate = "endDate"
+        case lastViewedDate = "lastViewedDate"
+        case lastUpdatedDate = "lastUpdatedDate"
+        case createdDate = "createdDate"
+        case viewCount = "viewCount"
+        case usedCount = "usedCount"
+        case spamReported = "spamReported"
+        case members = "members"
+        case tags = "tags"
+        case todos = "todos"
+        case events = "events"
+        case places = "places"
+        case experiences = "experiences"
+        case plangoFavorite = "plangoFavorite"
     }
     
-    init(id: String) {
+    var id: String!
+
+    convenience init(id: String) {
+        self.init()
         self.id = id
     }
     
-    required convenience init?(coder aDecoder: NSCoder) {
-        
-        let tempID = aDecoder.decodeObjectForKey("id") as! String
-        self.init(id: tempID)
+    func getPropertyNames() -> [String] {
+        return Mirror(reflecting: self).children.flatMap { $0.label }
+    }
+    
+//    override class func primaryKey() -> String? {
+//        return CodeKeys.id.rawValue
+//    }
+    
+}
 
-        for key in getPropertyNames() {
-            let value = aDecoder.decodeObjectForKey(key)
-            setValue(value, forKey: key)
-        }
-        
-    }
-    
-    func encodeWithCoder(aCoder: NSCoder) {
-        for key in getPropertyNames() {
-            let value = valueForKey(key)
-            aCoder.encodeObject(value, forKey: key)
-        }
-    }
-    
+class PlangoString: Object {
+    dynamic var stringValue = ""
 }

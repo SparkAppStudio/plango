@@ -817,7 +817,7 @@ extension UIView {
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             let hud = MBProgressHUD.showHUDAddedTo(self, animated: true)
             hud.mode = MBProgressHUDMode.Text
-            hud.labelText = title
+            hud.label.text = title
             NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(UIView.hudTimerDidFire(_:)), userInfo: hud, repeats: false)
         })
     }
@@ -826,8 +826,8 @@ extension UIView {
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             let hud = MBProgressHUD.showHUDAddedTo(self, animated: true)
             hud.mode = MBProgressHUDMode.Text
-            hud.labelText = title
-            hud.detailsLabelText = details
+            hud.label.text = title
+            hud.detailsLabel.text = details
             NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: #selector(UIView.hudTimerDidFire(_:)), userInfo: hud, repeats: false)
         })
     }
@@ -836,7 +836,7 @@ extension UIView {
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             let hud = MBProgressHUD.showHUDAddedTo(self, animated: true)
             hud.mode = MBProgressHUDMode.CustomView
-            hud.labelText = title
+            hud.label.text = title
             hud.customView = UIImageView(image: image)
             
             if notify == true {
@@ -865,7 +865,7 @@ extension UIView {
         hud.mode = MBProgressHUDMode.Determinate
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             self.addSubview(hud)
-            hud.show(true)
+            hud.showAnimated(true)
         })
         return hud
     }
@@ -874,7 +874,7 @@ extension UIView {
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             hud.progress = percent
             if hud.progress == 1.0 {
-                hud.hide(true)
+                hud.hideAnimated(true)
             }
         })
     }
@@ -882,7 +882,7 @@ extension UIView {
     func hudTimerDidFire(sender: NSTimer) {
         if let hud = sender.userInfo as? MBProgressHUD {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                hud.hide(true)
+                hud.hideAnimated(true)
             })
         }
     }
@@ -890,7 +890,7 @@ extension UIView {
     func hudTimerDidFireAndNotify(sender: NSTimer) {
         if let hud = sender.userInfo as? MBProgressHUD {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                hud.hide(true)
+                hud.hideAnimated(true)
                 NSNotificationCenter.defaultCenter().postNotificationName(Notify.Timer.rawValue, object: nil, userInfo: nil)
             })
 

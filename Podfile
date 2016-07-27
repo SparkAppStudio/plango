@@ -25,6 +25,8 @@ target 'Plango' do
     pod 'Whisper'
     
 #    maps
+    pod 'GooglePlaces'
+    pod 'GooglePlacePicker'
     pod 'GoogleMaps'
     pod 'Mapbox-iOS-SDK'
 #     pod 'MapboxStatic.swift', :git => 'https://github.com/mapbox/MapboxStatic.swift.git', :tag => 'v0.6.0'
@@ -32,8 +34,7 @@ target 'Plango' do
     pod 'MapboxDirections.swift', :git => 'https://github.com/mapbox/MapboxDirections.swift.git', :tag => 'v0.6.0'
 
 #    persistence
-    pod 'Pantry'
-#    pod 'RealmSwift' if Pantry is not enough
+    pod 'RealmSwift'
 
 #    frontendConvienence
     pod 'Hue'
