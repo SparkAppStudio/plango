@@ -257,7 +257,8 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
 //    }
     
     func didTapForgotPassword(button: UIButton) {
-        //TODO: forgot password
+        guard let url = NSURL(string: "https://www.plango.us/login/#/forgot-password") else {return}
+        UIApplication.sharedApplication().openURL(url)
     }
     
     func didTapLogin(button: UIButton) {
