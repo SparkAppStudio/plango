@@ -194,13 +194,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Plango.sharedInstance.alamoManager.session.resetWithCompletionHandler {
             controller.view.hideSimpleLoading()
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                controller.viewWillAppear(true)
+//                controller.viewWillAppear(true)
+                self.swapLoginControllerInTab()
             })
         }
     }
     
     func swapLoginControllerInTab() {
-        //TODO: - if loggin out, set loginController as tabThree, if logging in set MyPlans as tabThree
+
+        let tabController = window!.rootViewController as! UITabBarController
+        let nav = tabController.viewControllers?.last as! UINavigationController
+        if Plango.sharedInstance.currentUser == nil {
+            nav.viewControllers[0] = LoginTableViewController()
+        } else {
+            nav.viewControllers[0] = MyPlansViewController()
+        }
     }
     
     func configureTabController() {
@@ -251,10 +259,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if Plango.sharedInstance.alamoManager.session.configuration.HTTPCookieStorage?.cookies == nil && Plango.sharedInstance.currentUser != nil {
             Plango.sharedInstance.currentUser = nil
+            
+            swapLoginControllerInTab()
         }
         
         if Plango.sharedInstance.currentUser == nil && Plango.sharedInstance.alamoManager.session.configuration.HTTPCookieStorage?.cookies != nil {
             Plango.sharedInstance.alamoManager.session.resetWithCompletionHandler({})
+            
+            swapLoginControllerInTab()
         }
     }
     

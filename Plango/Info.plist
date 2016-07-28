@@ -32,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>5</string>
+	<string>6</string>
 	<key>FacebookAppID</key>
 	<string>1537501039847467</string>
 	<key>FacebookDisplayName</key>
@@ -46,11 +46,15 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>MGLMapboxAccessToken</key>
+	<string>pk.eyJ1IjoicGxhbmdvYXBwIiwiYSI6ImNpcTM0c3piMjAxYTJmcW5vZGs4ZDV3emQifQ.bz2ksLK5kjV_4JaHPwrc9Q</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Shows your location on the map and helps improve OpenStreetMap. Necessary for Directions</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>climacons.ttf</string>
@@ -73,9 +77,5 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>MGLMapboxAccessToken</key>
-	<string>pk.eyJ1IjoicGxhbmdvYXBwIiwiYSI6ImNpcTM0c3piMjAxYTJmcW5vZGs4ZDV3emQifQ.bz2ksLK5kjV_4JaHPwrc9Q</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Shows your location on the map and helps improve OpenStreetMap. Necessary for Directions</string>
 </dict>
 </plist>

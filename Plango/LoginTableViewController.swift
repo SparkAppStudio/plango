@@ -95,8 +95,12 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         
         NSNotificationCenter.defaultCenter().addObserverForName(Notify.Timer.rawValue, object: nil, queue: nil) { (notification) in
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+//                self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+                
                 //TODO: - try changing the root controller instead of dismissing
+                let app = UIApplication.sharedApplication().delegate as! AppDelegate
+                app.swapLoginControllerInTab()
+
             })
         }
         
@@ -120,7 +124,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         loginSegment.addTarget(self, action: #selector(LoginTableViewController.didChangeLoginSegment), forControlEvents: .ValueChanged)
         loginSegment.sizeToFit()
         navigationItem.titleView = loginSegment
-        navigationItem.leftBarButtonItem = cancelBarButton
+//        navigationItem.leftBarButtonItem = cancelBarButton not needed when swapping rootVCs
         
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "username")
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "usernameemail")

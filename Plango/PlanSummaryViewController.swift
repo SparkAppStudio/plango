@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 import AlamofireImage
 import CZWeatherKit
+import Mapbox
 
 class PlanSummaryViewController: UITableViewController {
     
@@ -52,24 +53,33 @@ class PlanSummaryViewController: UITableViewController {
     @IBAction func didTapDownload(sender: UIButton) {
         //TODO: - download info to device
         guard (plan.experiences != nil) else {self.view.quickToast("No Experiences"); return}
-        displayMapForPlan(plan, download: true)
+//        displayMapForPlan(plan, download: true)
+        startOfflinePackDownload()
+        
 
     }
     
+    @IBOutlet weak var localPlanLabel: UILabel!
+    @IBAction func didTapDeletePlan(sender: UIButton) {
+        deleteLocalPlan(plan)
+    }
     
     var headerView: UIView!
     var startView: UIView!
     var detailsView: UIView!
     var downloadView: UIView!
+    var deleteView: UIView!
     
     var stackView: UIStackView!
     var buttonStackView: UIStackView!
     
     var plan: Plan!
     var myPlan: Bool! = false
+    var planDownloaded: Bool! = false
     
     var experiencesByPlace: [String:[Experience]]!
     
+    var timer: NSTimer!
     let calendar = NSCalendar.currentCalendar()
     var days = 0
     var hours = 0
@@ -199,6 +209,55 @@ class PlanSummaryViewController: UITableViewController {
 
     }
     
+    func deleteLocalPlan(plan: Plan) {
+        
+        let alert = UIAlertController(title: "Delete Local Data?", message: "Are you sure you want to remove this plan from your phone?", preferredStyle: .Alert)
+        
+        let delete = UIAlertAction(title: "Delete", style: UIAlertActionStyle.Destructive) { (action) in
+            for pack in MGLOfflineStorage.sharedOfflineStorage().packs! {
+                guard let userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? NSDictionary else {continue}
+                guard let planID = userInfo["planID"] as? String else {continue}
+                
+                if planID == plan.id {
+                    self.view.showSimpleLoading()
+                    MGLOfflineStorage.sharedOfflineStorage().removePack(pack, withCompletionHandler: { (error) in
+                        self.view.hideSimpleLoading()
+                        if let error = error {
+                            self.printError(error)
+                        } else {
+                            self.planDownloaded = false
+                            self.deleteView.removeFromSuperview()
+                            self.stackView.addArrangedSubview(self.downloadView)
+                        }
+                    })
+                    break
+                }
+            }
+        }
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        
+        alert.addAction(delete)
+        alert.addAction(cancel)
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func isPlanLocal(plan: Plan) -> Bool {
+        guard let localPacks = MGLOfflineStorage.sharedOfflineStorage().packs else { return false }
+        for pack in localPacks {
+            guard let userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? NSDictionary else {continue}
+            guard let planID = userInfo["planID"] as? String else {continue}
+            
+            if planID == plan.id {
+                
+                //localPlanLabel.text = "" TODO: store pack.progress data on completion to Plan Realm persistant model to retrieve here
+                return true
+            }
+        }
+        return false
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -220,27 +279,36 @@ class PlanSummaryViewController: UITableViewController {
 
         }
         
-        let _ = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(timerDidFire), userInfo: nil, repeats: true)
+        timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(timerDidFire), userInfo: nil, repeats: true)
         
-        let bundle = NSBundle(forClass: self.dynamicType)
+//        let bundle = NSBundle(forClass: self.dynamicType)
         
-        let nibHeader = UINib(nibName: "SummaryHeader", bundle: bundle)
+        let nibHeader = UINib(nibName: "SummaryHeader", bundle: nil)
         headerView = nibHeader.instantiateWithOwner(self, options: nil)[0] as! UIView
         headerView.snp_makeConstraints { (make) in
             make.height.equalTo(Helper.CellHeight.superWide.value)
         }
         
-        let nibStart = UINib(nibName: "SummaryStart", bundle: bundle)
+        let nibStart = UINib(nibName: "SummaryStart", bundle: nil)
         startView = nibStart.instantiateWithOwner(self, options: nil)[0] as! UIView
         startView.snp_makeConstraints { (make) in
             make.height.equalTo(200)
         }
         
-        let nibDownload = UINib(nibName: "DownloadView", bundle: bundle)
+        let nibDownload = UINib(nibName: "DownloadView", bundle: nil)
         downloadView = nibDownload.instantiateWithOwner(self, options: nil)[0] as! UIView
         downloadView.snp_makeConstraints { (make) in
             make.height.equalTo(160)
         }
+        
+        let nibDelete = UINib(nibName: "DeletePlanView", bundle: nil)
+        deleteView = nibDelete.instantiateWithOwner(self, options: nil)[0] as! UIView
+        deleteView.snp_makeConstraints { (make) in
+            make.height.equalTo(80)
+        }
+        
+        planDownloaded = isPlanLocal(plan)
+
         
         // headerfooter view is like a cell
         let sectionNib = UINib(nibName: "SectionHeader", bundle: nil)
@@ -303,8 +371,13 @@ class PlanSummaryViewController: UITableViewController {
         stackView.addArrangedSubview(buttonStackView)
         
         if myPlan == true {
+            setupDownload()
             stackView.addArrangedSubview(startView)
-            stackView.addArrangedSubview(downloadView)
+            if planDownloaded == false {
+                stackView.addArrangedSubview(downloadView)
+            } else {
+                stackView.addArrangedSubview(deleteView)
+            }
         }
         
     }
@@ -534,6 +607,13 @@ class PlanSummaryViewController: UITableViewController {
 
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        timer.invalidate()
+        timer = nil
+    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -664,5 +744,155 @@ class PlanSummaryViewController: UITableViewController {
         let membersVC = PlanMembersTableViewController()
         membersVC.members = members
         showViewController(membersVC, sender: nil)
+    }
+    
+    //MARK: - Map Download without viewing map
+    
+    deinit {
+        //        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidBecomeActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    var mapView: MGLMapView!
+    var progressView: UIProgressView!
+    
+    private lazy var experiencePlaceDataSource = [String:Experience]()
+
+
+}
+
+extension PlanSummaryViewController: MGLMapViewDelegate {
+    
+    func setupDownload() {
+        mapView = MGLMapView(frame: self.view.bounds)
+        mapView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        mapView.delegate = self
+        
+        let places = getPlacesFromExperiences(plan.experiences)
+        
+        if places.count > 0 {
+            mapView.addAnnotations(places)
+            mapView.showAnnotations(places, animated: false)
+        }
+        
+        if places.count == 1 {
+            mapView.zoomLevel = 14
+        }
+        
+        // Setup offline pack notification handlers.
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MapViewController.offlinePackProgressDidChange(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MapViewController.offlinePackDidReceiveError(_:)), name: MGLOfflinePackErrorNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MapViewController.offlinePackDidReceiveMaximumAllowedMapboxTiles(_:)), name: MGLOfflinePackMaximumMapboxTilesReachedNotification, object: nil)
+        
+    }
+    
+    func startOfflinePackDownload() {
+        // create region to save based on current map locations and also how far the user can zoom in
+        let region = MGLTilePyramidOfflineRegion(styleURL: mapView.styleURL, bounds: mapView.visibleCoordinateBounds, fromZoomLevel: mapView.zoomLevel, toZoomLevel: mapView.zoomLevel + 4)
+        print(mapView.zoomLevel)
+        guard let plan = plan else {return}
+        //metadata for local storage
+        let userInfo: NSDictionary = ["planID" : plan.id]
+        let context = NSKeyedArchiver.archivedDataWithRootObject(userInfo)
+        
+        //create and regsiter offline pack with the shared singleton storage object
+        MGLOfflineStorage.sharedOfflineStorage().addPackForRegion(region, withContext: context) { (pack, error) in
+            guard error == nil else {
+                self.printError(error!)
+                return
+            }
+            //start downloading
+            pack?.resume()
+        }
+    }
+    
+    // MARK: - MGLOfflinePack notification handlers
+    
+    func offlinePackProgressDidChange(notification: NSNotification) {
+        // Get the offline pack this notification is regarding,
+        // and the associated user info for the pack; in this case, `name = My Offline Pack`
+        if let pack = notification.object as? MGLOfflinePack,
+            userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? [String: String] {
+            let progress = pack.progress
+            // or notification.userInfo![MGLOfflinePackProgressUserInfoKey]!.MGLOfflinePackProgressValue
+            let completedResources = progress.countOfResourcesCompleted
+            let expectedResources = progress.countOfResourcesExpected
+            
+            // Calculate current progress percentage.
+            let progressPercentage = Float(completedResources) / Float(expectedResources)
+            
+            // Setup the progress bar.
+            if progressView == nil {
+                progressView = UIProgressView(progressViewStyle: .Default)
+                let frame = view.bounds.size
+                progressView.frame = CGRectMake(frame.width / 4, frame.height * 0.75 + 50, frame.width / 2, 10)
+                view.addSubview(progressView)
+            } else {
+                progressView.hidden = false
+            }
+            
+            progressView.progress = progressPercentage
+            
+            // If this pack has finished, print its size and resource count.
+            if completedResources == expectedResources {
+                //                self.navigationController?.popViewControllerAnimated(true)
+                progressView.hidden = true
+                self.mapView.imageToast(nil, image: UIImage(named: "whiteCheck")!, notify: false)
+                
+                let byteCount = NSByteCountFormatter.stringFromByteCount(Int64(pack.progress.countOfBytesCompleted), countStyle: NSByteCountFormatterCountStyle.Memory)
+                localPlanLabel.text = byteCount
+                
+                self.planDownloaded = true
+                downloadView.removeFromSuperview()
+                stackView.addArrangedSubview(deleteView)
+                
+                
+                print("Offline pack “\(userInfo["name"])” completed: \(byteCount), \(completedResources) resources")
+            } else {
+                // Otherwise, print download/verification progress.
+                print("Offline pack “\(userInfo["name"])” has \(completedResources) of \(expectedResources) resources — \(progressPercentage * 100)%.")
+            }
+        }
+    }
+    
+    func offlinePackDidReceiveError(notification: NSNotification) {
+        if let pack = notification.object as? MGLOfflinePack,
+            userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? [String: String],
+            error = notification.userInfo?[MGLOfflinePackErrorUserInfoKey] as? NSError {
+            print("Offline pack “\(userInfo["name"])” received error: \(error.localizedFailureReason)")
+        }
+    }
+    
+    func offlinePackDidReceiveMaximumAllowedMapboxTiles(notification: NSNotification) {
+        if let pack = notification.object as? MGLOfflinePack,
+            userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? [String: String],
+            maximumCount = notification.userInfo?[MGLOfflinePackMaximumCountUserInfoKey]?.unsignedLongLongValue {
+            print("Offline pack “\(userInfo["name"])” reached limit of \(maximumCount) tiles.")
+        }
+    }
+    
+    func getPlacesFromExperiences(experiences: [Experience]?) -> [MGLPointAnnotation] {
+        var points = [MGLPointAnnotation]()
+        guard let experiences = experiences else {return points}
+        
+        for experience in experiences {
+            guard let latitute: CLLocationDegrees = experience.geocode?.first else {break}
+            guard let longitute: CLLocationDegrees = experience.geocode?.last else {break}
+            
+            let coordinates = CLLocationCoordinate2DMake(latitute, longitute)
+            
+            let point = MGLPointAnnotation()
+            point.coordinate = coordinates
+            
+            if let details = experience.experienceDescription {
+                point.subtitle = details
+            }
+            if let name = experience.name {
+                point.title = name
+                experiencePlaceDataSource[name] = experience
+            }
+            points.append(point)
+        }
+        return points
     }
 }

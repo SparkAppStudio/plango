@@ -118,20 +118,6 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    func retrieveOfflineMap() {
-        guard let plan = plan else {return}
-        for pack in MGLOfflineStorage.sharedOfflineStorage().packs! {
-            guard let userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? NSDictionary else {continue}
-            
-            guard let planID = userInfo["planID"] as? String else {continue}
-            if planID == plan.id {
-                pack.region.performSelector(#selector(MGLTilePyramidOfflineRegion.applyToMapView(_:)), withObject: self.mapView)
-                break
-            }
-            
-        }
-    }
-    
     func startOfflinePackDownload() {
         // create region to save based on current map locations and also how far the user can zoom in
         let region = MGLTilePyramidOfflineRegion(styleURL: mapView.styleURL, bounds: mapView.visibleCoordinateBounds, fromZoomLevel: mapView.zoomLevel, toZoomLevel: mapView.zoomLevel + 4)
@@ -182,6 +168,7 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
 //                self.navigationController?.popViewControllerAnimated(true)
                 progressView.hidden = true
                 self.mapView.imageToast(nil, image: UIImage(named: "whiteCheck")!, notify: false)
+                
                 let byteCount = NSByteCountFormatter.stringFromByteCount(Int64(pack.progress.countOfBytesCompleted), countStyle: NSByteCountFormatterCountStyle.Memory)
                 print("Offline pack “\(userInfo["name"])” completed: \(byteCount), \(completedResources) resources")
             } else {

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Lato-Regular.ttf">
+            <string>Lato-Regular</string>
+        </mutableArray>
+        <mutableArray key="Raleway-Bold.ttf">
+            <string>Raleway-Bold</string>
+            <string>Raleway-Bold</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PlanSummaryViewController" customModule="Plango" customModuleProvider="target">
+            <connections>
+                <outlet property="localPlanLabel" destination="WSp-hq-sQg" id="w6h-T4-Xub"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="jdU-N3-e3K">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This plan is downloaded to your phone. Tap to remove and free up storage." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L9M-ki-eyZ">
+                    <rect key="frame" x="48" y="0.0" width="272" height="39"/>
+                    <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
+                    <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ivn-fW-iaN">
+                    <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="Ivn-fW-iaN" secondAttribute="height" multiplier="1:1" id="YAA-vT-H2Q"/>
+                        <constraint firstAttribute="height" constant="40" id="aUj-5f-bae"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Raleway-Bold" family="Raleway" pointSize="18"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <inset key="titleEdgeInsets" minX="4" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="4" maxY="0.0"/>
+                    <state key="normal" image="unselectGray">
+                        <color key="titleColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="didTapDeletePlan:" destination="-1" eventType="touchUpInside" id="eP5-oG-uMn"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="76.5Mb" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WSp-hq-sQg">
+                    <rect key="frame" x="0.0" y="47" width="320" height="29"/>
+                    <fontDescription key="fontDescription" name="Raleway-Bold" family="Raleway" pointSize="24"/>
+                    <color key="textColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="L9M-ki-eyZ" firstAttribute="leading" secondItem="jdU-N3-e3K" secondAttribute="leading" id="2z1-zX-wTc"/>
+                <constraint firstItem="WSp-hq-sQg" firstAttribute="leading" secondItem="jdU-N3-e3K" secondAttribute="leading" id="38h-z0-WmV"/>
+                <constraint firstAttribute="trailing" secondItem="Ivn-fW-iaN" secondAttribute="trailing" id="4sA-28-b1j"/>
+                <constraint firstItem="L9M-ki-eyZ" firstAttribute="leading" secondItem="Ivn-fW-iaN" secondAttribute="trailing" constant="8" id="Gkg-6g-Rd7"/>
+                <constraint firstItem="WSp-hq-sQg" firstAttribute="leading" secondItem="Ivn-fW-iaN" secondAttribute="trailing" id="IHE-a8-o9B"/>
+                <constraint firstAttribute="bottom" secondItem="L9M-ki-eyZ" secondAttribute="bottom" id="LPb-gi-yei"/>
+                <constraint firstItem="L9M-ki-eyZ" firstAttribute="top" secondItem="jdU-N3-e3K" secondAttribute="top" id="LmZ-Pj-wvt"/>
+                <constraint firstAttribute="trailing" secondItem="L9M-ki-eyZ" secondAttribute="trailing" id="afv-f4-3hB"/>
+                <constraint firstItem="L9M-ki-eyZ" firstAttribute="top" secondItem="WSp-hq-sQg" secondAttribute="bottom" id="ank-v5-clj"/>
+                <constraint firstItem="WSp-hq-sQg" firstAttribute="top" secondItem="L9M-ki-eyZ" secondAttribute="bottom" constant="8" id="arm-Z3-D1P"/>
+                <constraint firstItem="Ivn-fW-iaN" firstAttribute="leading" secondItem="jdU-N3-e3K" secondAttribute="leading" id="dl5-pK-fcM"/>
+                <constraint firstItem="Ivn-fW-iaN" firstAttribute="top" secondItem="jdU-N3-e3K" secondAttribute="top" id="eGN-hr-Xsd"/>
+                <constraint firstItem="Ivn-fW-iaN" firstAttribute="leading" secondItem="jdU-N3-e3K" secondAttribute="leading" id="ee5-95-S3j"/>
+                <constraint firstAttribute="bottom" secondItem="Ivn-fW-iaN" secondAttribute="bottom" id="gng-iJ-OnI"/>
+                <constraint firstItem="L9M-ki-eyZ" firstAttribute="top" secondItem="Ivn-fW-iaN" secondAttribute="bottom" constant="8" id="imk-79-ner"/>
+                <constraint firstItem="Ivn-fW-iaN" firstAttribute="top" secondItem="L9M-ki-eyZ" secondAttribute="bottom" id="kKG-UL-9SP"/>
+                <constraint firstAttribute="bottom" secondItem="WSp-hq-sQg" secondAttribute="bottom" id="kxM-Bs-b6o"/>
+                <constraint firstAttribute="trailing" secondItem="WSp-hq-sQg" secondAttribute="trailing" id="lLi-TL-dXv"/>
+                <constraint firstItem="WSp-hq-sQg" firstAttribute="centerX" secondItem="jdU-N3-e3K" secondAttribute="centerX" id="pgO-Ei-zrU"/>
+                <constraint firstAttribute="trailing" secondItem="L9M-ki-eyZ" secondAttribute="trailing" constant="8" id="rd6-JY-lu2"/>
+                <constraint firstItem="WSp-hq-sQg" firstAttribute="leading" secondItem="Ivn-fW-iaN" secondAttribute="trailing" constant="24" id="vPD-03-KuZ"/>
+                <constraint firstItem="WSp-hq-sQg" firstAttribute="top" secondItem="jdU-N3-e3K" secondAttribute="top" id="ypG-ox-VEs"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="4sA-28-b1j"/>
+                    <exclude reference="ee5-95-S3j"/>
+                    <exclude reference="gng-iJ-OnI"/>
+                    <exclude reference="kKG-UL-9SP"/>
+                    <exclude reference="IHE-a8-o9B"/>
+                    <exclude reference="kxM-Bs-b6o"/>
+                    <exclude reference="pgO-Ei-zrU"/>
+                    <exclude reference="vPD-03-KuZ"/>
+                    <exclude reference="ypG-ox-VEs"/>
+                    <exclude reference="2z1-zX-wTc"/>
+                    <exclude reference="LPb-gi-yei"/>
+                    <exclude reference="ank-v5-clj"/>
+                    <exclude reference="imk-79-ner"/>
+                    <exclude reference="rd6-JY-lu2"/>
+                </mask>
+            </variation>
+            <point key="canvasLocation" x="497" y="340"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="unselectGray" width="12" height="13"/>
+    </resources>
+</document>
