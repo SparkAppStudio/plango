@@ -62,7 +62,18 @@ class Plango: NSObject {
             }
             cleanedEndPoint = Plango.EndPoint.Home.rawValue.stringByAppendingString(cleanedEndPoint)
         }
+                
         return cleanedEndPoint
+    }
+    
+    func thumbEndPoint(endPoint: String) -> String {
+        var cleanString = cleanEndPoint(endPoint)
+        let index = cleanString.rangeOfString("/", options:NSStringCompareOptions.BackwardsSearch)?.endIndex
+        //            let index = cleanString.startIndex.distanceTo(range!.startIndex)
+        
+        cleanString.insertContentsOf("thumb/".characters, at: index!)
+        print(cleanString)
+        return cleanString
     }
     
     func fetchUsers(endPoint: String, onCompletion: UsersResponse) -> Request {

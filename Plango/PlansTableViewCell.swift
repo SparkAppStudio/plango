@@ -89,6 +89,7 @@ class PlansTableViewCell: UITableViewCell {
 
             guard let endPoint = cellUser.avatar else {return}
             let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
+            
             profileImageView.af_setImageWithURL(cleanURL!)
         }
     }
