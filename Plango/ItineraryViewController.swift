@@ -25,6 +25,10 @@ class ItineraryViewController: MXSegmentedPagerController {
 //    }()
     
     var plan: Plan!
+    
+    //derived dates when plan doesnt have info
+    var minDate = NSDate()
+    var maxDate = NSDate()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,14 +64,50 @@ class ItineraryViewController: MXSegmentedPagerController {
         // Register reuse page
 //        segmentedPager.pager.registerClass(eventsTableViewController.tableView.classForCoder, forPageReuseIdentifier: PageID.Days.rawValue)
         
-        if let plan = plan {
-            guard let days = plan.durationDays else {return}
-            for item in 1...days {
-//                addPage("Day \(item)", controller: eventsTableViewController)
-                
-                
-                titlesArray.addObject("Day \(item)")
+        guard let plan = plan else {return}
+        
+        //derive days from events
+        let calendar = NSCalendar.currentCalendar()
+        calendar.timeZone = NSTimeZone.localTimeZone()
+        
+        guard let events = plan.events else {return}
+        
+        //setup baseline dates, ideally only loops once and then breaks, but written this way in case first events dont have dates but subsequent ones do
+        for event in events {
+            guard let startDate = event.startDate else {continue}
+            minDate = startDate
+            maxDate = startDate
+            break
+        }
+        
+        //find actual min and max
+        for event in events {
+            guard let startDate = event.startDate else {continue}
+            if startDate < minDate {
+                minDate = startDate
             }
+            if startDate > maxDate {
+                maxDate = startDate
+            }
+        }
+        print(minDate)
+        print(maxDate)
+        var days = Int()
+        
+        let hours = calendar.components(.Hour, fromDate: minDate, toDate: maxDate, options: []).hour
+        let exactDays: Double = Double(hours) / Double(24)
+        days = Int(ceil(exactDays))
+        if days == 0 {
+            days = 1
+        }
+        print(days)
+        
+        if plan.durationDays != nil && plan.durationDays != 0 {
+            days = plan.durationDays
+        }
+        
+        for item in 1...days {
+            titlesArray.addObject("Day \(item)")
         }
     }
     
@@ -133,10 +173,18 @@ class ItineraryViewController: MXSegmentedPagerController {
 
         let calendar = NSCalendar.currentCalendar()
         calendar.timeZone = NSTimeZone.localTimeZone()
-        let indexDate = calendar.dateByAddingUnit(.Day, value: index, toDate: plan.startDate!, options: [])
+        
+        var startDate = NSDate()
+//        if plan.startDate != nil {
+//            startDate = plan.startDate!
+//        } else {
+            startDate = minDate
+//        }
+        
+        let indexDate = calendar.dateByAddingUnit(.Day, value: index, toDate: startDate, options: [])
         
         let indexDay = calendar.component(.Day, fromDate: indexDate!)
-
+        
         for event in events {
             let eventDay = calendar.component(.Day, fromDate: event.startDate!)
             
@@ -144,7 +192,7 @@ class ItineraryViewController: MXSegmentedPagerController {
                 eventsForTheDay.append(event)
             }
         }
-
+        
         for event in eventsForTheDay {
             for experience in experiences {
                 if experience.id == event.experienceID {
@@ -152,6 +200,8 @@ class ItineraryViewController: MXSegmentedPagerController {
                 }
             }
         }
+        
+
         
         eventsTableViewController.events = eventsForTheDay
         eventsTableViewController.experiences = experiencesForTheDay

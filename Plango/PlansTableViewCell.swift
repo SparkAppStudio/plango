@@ -66,7 +66,7 @@ class PlansTableViewCell: UITableViewCell {
             let cleanedTags = String(allTags.characters.dropLast(2))
             planTagsLabel.text = cleanedTags
             
-            guard let days = cellPlan.durationDays else {return}
+            guard let days = cellPlan.durationDays else {planLengthLabel.hidden = true; return}
             planLengthLabel.hidden = false
             if days == 1 {
                 planLengthLabel.text = "\(days) Day"

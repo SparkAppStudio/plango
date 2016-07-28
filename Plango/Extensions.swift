@@ -35,6 +35,19 @@ extension UINavigationController {
     
 }
 
+extension NSDate: Comparable { }
+public func ==(lhs: NSDate, rhs: NSDate) -> Bool {
+    return lhs.isEqualToDate(rhs)
+}
+
+public func <(lhs: NSDate, rhs: NSDate) -> Bool {
+    return lhs.compare(rhs) == .OrderedAscending
+}
+
+let dates = [NSDate(), NSDate()]
+let maxDate = dates.isEmpty ? nil : Optional(dates.maxElement())
+
+
 extension NSDateFormatter {
     
     func dateFromStringOptional(string:String?) -> NSDate?

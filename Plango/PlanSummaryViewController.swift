@@ -635,7 +635,7 @@ class PlanSummaryViewController: UITableViewController {
                 tagsLabel.text = parseTags(tags, comma: true)
             }
                         
-            guard let days = plan.durationDays else {return}
+            guard let days = plan.durationDays else {durationLabel.hidden = true; return}
             
             if days == 1 {
                 durationLabel.text = "\(days.description) Day"
@@ -657,7 +657,14 @@ class PlanSummaryViewController: UITableViewController {
             
             if let places = plan.places {
                 
-                locationNameLabel.text = "\(places.first!.city!), \(places.first!.country!)"
+                var locationText = String()
+                if let city = places.first?.city {
+                    locationText = city
+                }
+                if let country = places.first?.country {
+                    locationText = locationText.stringByAppendingString(", \(country)")
+                }
+                locationNameLabel.text = locationText
                 
 //                var allPlaces = ""
 //                for place in places {
@@ -722,14 +729,9 @@ class PlanSummaryViewController: UITableViewController {
 //    }
     
     func didTapItinerary() {
-        if plan.durationDays != nil && plan.durationDays != 0 && plan.startDate != nil && plan.endDate != nil {
-            
-            let itineraryVC = ItineraryViewController()
-            itineraryVC.plan = self.plan
-            self.showViewController(itineraryVC, sender: nil)
-        } else {
-            self.view.quickToast("No itinerary info for this plan")
-        }
+        let itineraryVC = ItineraryViewController()
+        itineraryVC.plan = self.plan
+        self.showViewController(itineraryVC, sender: nil)
     }
     
     func didTapMap() {
