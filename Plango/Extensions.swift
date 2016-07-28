@@ -677,7 +677,7 @@ extension UIColor {
         return UIColor.hex("#EFE5D4")
     }
     static func transparentGray() -> UIColor {
-        let color = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1)
+        let color = UIColor.plangoBlack().colorWithAlphaComponent(0.1)
 //        let color = UIColor.hex("#000000")
 //        color.alpha(0.1)
         return color
@@ -805,16 +805,26 @@ extension UIView {
         self.layer.addSublayer(select)
     }
     
+    func lightGrayOverlay() {
+        guard self.layer.sublayers?.last == nil else { return }
+        let layer = CALayer()
+        layer.backgroundColor = UIColor.transparentGray().CGColor
+        layer.frame = self.bounds
+        self.layer.addSublayer(layer)
+    }
+    
     func gradientDarkToClear() {
+        guard self.layer.sublayers?.last == nil else { return }
+
         let colorTop = UIColor.clearColor().CGColor
-        let colorBottom = UIColor.blackColor().colorWithAlphaComponent(0.7).CGColor
+        let colorBottom = UIColor.plangoBlack().colorWithAlphaComponent(0.8).CGColor
         
         let gl: CAGradientLayer
         
         gl = CAGradientLayer()
-        gl.colors = [ colorTop, colorBottom]
+        gl.colors = [colorTop, colorBottom]
         gl.locations = [ 0.0, 1.0]
-        gl.frame = self.bounds
+        gl.frame = CGRect(x: 0, y: self.bounds.height / 2, width: self.bounds.width, height: self.bounds.height / 2)
         self.layer.addSublayer(gl)
     }
     

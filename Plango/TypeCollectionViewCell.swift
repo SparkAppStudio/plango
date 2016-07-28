@@ -40,13 +40,14 @@ class TypeCollectionViewCell: UICollectionViewCell {
             
             let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
             coverImageView.af_setImageWithURL(cleanURL!)
- 
+            coverImageView.lightGrayOverlay()
         }
         
     }
     
     func reset() {
         coverImageView.af_cancelImageRequest()
+        coverImageView.layer.sublayers?.removeLast()
         coverImageView.image = nil
     }
     

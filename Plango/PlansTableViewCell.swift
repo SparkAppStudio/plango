@@ -53,6 +53,7 @@ class PlansTableViewCell: UITableViewCell {
             coverImageView.af_imageDownloader = downloader
             
             coverImageView.af_setImageWithURL(cleanURL!)
+            coverImageView.gradientDarkToClear()
 
             
             var allTags = ""
@@ -94,6 +95,7 @@ class PlansTableViewCell: UITableViewCell {
     
     func reset() {
         coverImageView.af_cancelImageRequest()
+        coverImageView.layer.sublayers?.removeLast()
         profileImageView.af_cancelImageRequest()
 //        self.request?.cancel() //for when using my own method and request manager
         

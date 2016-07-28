@@ -609,7 +609,7 @@ class PlanSummaryViewController: UITableViewController {
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        
+        guard timer != nil else { return }
         timer.invalidate()
         timer = nil
     }
@@ -628,6 +628,7 @@ class PlanSummaryViewController: UITableViewController {
             if let endPoint = plan.avatar {
                 let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
                 coverImageView.af_setImageWithURL(cleanURL!)
+                coverImageView.gradientDarkToClear()
             } else {coverImageView.backgroundColor = UIColor.plangoTeal()}
             
             if let tags = plan.tags {

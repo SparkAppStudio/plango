@@ -103,6 +103,7 @@ class EventDetailsTableViewController: UITableViewController {
             return
         }
         coverImageView.af_setImageWithURL(NSURL(string: endPoint)!)
+        coverImageView.gradientDarkToClear()
     }
     
     // MARK: - Table view Delegate

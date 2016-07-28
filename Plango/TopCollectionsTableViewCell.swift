@@ -22,7 +22,7 @@ class TopCollectionsTableViewCell: UITableViewCell {
         if let avatarString = plangoCollection?.avatar {
             let avatarURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(avatarString))
             coverImageView.af_setImageWithURL(avatarURL!)
-
+            coverImageView.gradientDarkToClear()
         }
         
         titleLabel.text = plangoCollection?.name
@@ -40,6 +40,7 @@ class TopCollectionsTableViewCell: UITableViewCell {
         super.prepareForReuse()
         guard let cover = coverImageView else {return}
         cover.af_cancelImageRequest()
+        cover.layer.sublayers?.removeLast()
     }
 
 }
