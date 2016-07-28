@@ -649,7 +649,8 @@ extension UIColor {
         return UIColor.hex("#36C1CD")
     }
     static func plangoOrange() -> UIColor {
-        return UIColor.hex("#FF7916")
+//        return UIColor.hex("#FF7916") old orange
+        return UIColor.hex("#FF6A3D")
     }
     static func plangoBackgroundGray() -> UIColor {
         return UIColor.hex("#f2f2f2")
@@ -674,6 +675,12 @@ extension UIColor {
     }
     static func plangoCreamLight() -> UIColor {
         return UIColor.hex("#EFE5D4")
+    }
+    static func transparentGray() -> UIColor {
+        let color = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1)
+//        let color = UIColor.hex("#000000")
+//        color.alpha(0.1)
+        return color
     }
 }
 

@@ -12,6 +12,8 @@ import FBSDKLoginKit
 class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     
     var loginSegment: UISegmentedControl!
+    var headerView: UIView!
+//    let blur = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
     
     lazy var cancelBarButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "CANCEL", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(didTapCancel))
@@ -22,6 +24,8 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         let text = UITextField()
         text.borderStyle = .None
         text.placeholder = "Username"
+        text.font = UIFont.plangoBodyBig()
+        text.textColor = UIColor.plangoTextLight()
         text.keyboardType = .Default
         text.autocorrectionType = .No
         text.autocapitalizationType = .None
@@ -44,6 +48,8 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         let text = UITextField()
         text.borderStyle = .None
         text.placeholder = "Email Address"
+        text.font = UIFont.plangoBodyBig()
+        text.textColor = UIColor.plangoTextLight()
         text.keyboardType = .EmailAddress
         text.autocorrectionType = .No
         text.autocapitalizationType = .None
@@ -55,6 +61,8 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         let text = UITextField()
         text.borderStyle = .None
         text.placeholder = "Password"
+        text.font = UIFont.plangoBodyBig()
+        text.textColor = UIColor.plangoTextLight()
         text.secureTextEntry = true
         text.autocorrectionType = .No
         text.autocapitalizationType = .None
@@ -64,9 +72,11 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     
     lazy var loginButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor.plangoOrange()
+        button.backgroundColor = UIColor.transparentGray()
+        button.layer.borderColor = UIColor.whiteColor().CGColor
+        button.layer.borderWidth = 3
         button.tintColor = UIColor.whiteColor()
-        button.setTitle("Log in", forState: UIControlState.Normal)
+        button.setTitle("LOG IN", forState: UIControlState.Normal)
         button.addTarget(self, action: #selector(didTapLogin), forControlEvents: .TouchUpInside)
         return button
     }()
@@ -87,11 +97,37 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
        let button = FBSDKLoginButton()
         button.delegate = self
         button.readPermissions = ["public_profile", "email", "user_friends"]
+        button.setAttributedTitle(NSAttributedString(string: "Log in with Facebook".uppercaseString), forState: .Normal)
+
         return button
     }()
+    
+    lazy var forgotPasswordButton: UIButton = {
+       let button = UIButton()
+        button.backgroundColor = UIColor.clearColor()
+        button.tintColor = UIColor.whiteColor()
+        button.setTitle("Forgot Password?", forState: UIControlState.Normal)
+        button.addTarget(self, action: #selector(didTapForgotPassword), forControlEvents: .TouchUpInside)
+        button.titleLabel?.font = UIFont.plangoBodyBig()
+        return button
+
+    }()
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let titles = ["LOG IN", "SIGN UP"]
+        loginSegment = UISegmentedControl(items: titles)
+        loginSegment.selectedSegmentIndex = 0
+        loginSegment.addTarget(self, action: #selector(LoginTableViewController.didChangeLoginSegment), forControlEvents: .ValueChanged)
+        loginSegment.sizeToFit()
+        loginSegment.tintColor = UIColor.whiteColor()
+//        navigationItem.titleView = loginSegment
+
         
         NSNotificationCenter.defaultCenter().addObserverForName(Notify.Timer.rawValue, object: nil, queue: nil) { (notification) in
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -104,26 +140,44 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
             })
         }
         
+        //tableHeader view
+        let bundle = NSBundle(forClass: self.dynamicType)
+
+        let nib = UINib(nibName: "LoginHeader", bundle: bundle)
+        headerView = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        headerView.snp_makeConstraints { (make) in
+            make.height.equalTo(Helper.CellHeight.superWide.value-30)
+        }
+        
+        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.size.width, height: Helper.CellHeight.superWide.value-30))
+        
+        containerView.addSubview(headerView)
+        
+        tableView.tableHeaderView = containerView
+        
+        headerView.leadingAnchor.constraintEqualToAnchor(tableView.tableHeaderView!.leadingAnchor).active = true
+        headerView.trailingAnchor.constraintEqualToAnchor(tableView.tableHeaderView!.trailingAnchor).active = true
+        headerView.bottomAnchor.constraintEqualToAnchor(tableView.tableHeaderView!.bottomAnchor).active = true
+        headerView.topAnchor.constraintEqualToAnchor(tableView.tableHeaderView!.topAnchor).active = true
+        
+        
+        //buttons
+        loginButton.titleLabel?.font = UIFont.plangoButton()
         facebookButton.titleLabel?.font = loginButton.titleLabel?.font
         
-        
+        stackView.layoutMargins = UIEdgeInsets(top: 16, left: 0, bottom: 0, right: 0)
+        stackView.layoutMarginsRelativeArrangement = true
         stackView.spacing = 8
         stackView.distribution = .EqualSpacing
         stackView.alignment = .Center
-//        stackView.layoutMargins.left = 16
-//        stackView.layoutMargins.right = 16
         
+        stackView.addArrangedSubview(forgotPasswordButton)
         stackView.addArrangedSubview(loginButton)
         stackView.addArrangedSubview(facebookButton)
+        stackView.addArrangedSubview(loginSegment)
 
         footerView.addSubview(stackView)
         
-        let titles = ["Login", "Signup"]
-        loginSegment = UISegmentedControl(items: titles)
-        loginSegment.selectedSegmentIndex = 0
-        loginSegment.addTarget(self, action: #selector(LoginTableViewController.didChangeLoginSegment), forControlEvents: .ValueChanged)
-        loginSegment.sizeToFit()
-        navigationItem.titleView = loginSegment
 //        navigationItem.leftBarButtonItem = cancelBarButton not needed when swapping rootVCs
         
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "username")
@@ -133,7 +187,11 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         
         
         
-        self.tableView.backgroundColor = UIColor.plangoBackgroundGray()
+//        self.tableView.backgroundColor = UIColor.plangoBackgroundGray()
+        let backgroundImageView = UIImageView(frame: tableView.frame)
+        backgroundImageView.image = UIImage(named: "login-bg")
+        backgroundImageView.contentMode = .ScaleAspectFill
+        self.tableView.backgroundView = backgroundImageView
 
     }
     
@@ -147,9 +205,26 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         
         loginButton.heightAnchor.constraintEqualToConstant(50).active = true
         loginButton.widthAnchor.constraintEqualToConstant(self.view.frame.width - 16).active = true
-        loginButton.makeRoundCorners(90)
+        
+        forgotPasswordButton.heightAnchor.constraintEqualToConstant(50).active = true
+        loginSegment.heightAnchor.constraintEqualToConstant(28).active = true
         facebookButton.heightAnchor.constraintEqualToAnchor(loginButton.heightAnchor).active = true
         facebookButton.widthAnchor.constraintEqualToAnchor(loginButton.widthAnchor).active = true
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        loginButton.makeRoundCorners(90)
+
+//        if loginButton.subviews.count == 1 {
+//            blur.frame = loginButton.bounds
+//            blur.makeRoundCorners(90)
+//            blur.clipsToBounds = true
+//            blur.userInteractionEnabled = false
+//            
+//            loginButton.insertSubview(blur, atIndex: 0)
+//            
+//        }
     }
     
     func didTapCancel() {
@@ -157,15 +232,22 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     func didChangeLoginSegment() {
+        tableView.reloadData()
         if loginSegment.selectedSegmentIndex == 0 {
-            loginButton.setTitle("Log in", forState: .Normal)
-            facebookButton.setAttributedTitle(NSAttributedString(string: "Log in with Facebook"), forState: .Normal)
+            stackView.insertArrangedSubview(forgotPasswordButton, atIndex: 0)
+            stackView.layoutMargins.top = 16
+
+            loginButton.setTitle("LOG IN", forState: .Normal)
+            facebookButton.setAttributedTitle(NSAttributedString(string: "Log in with Facebook".uppercaseString), forState: .Normal)
         } else {
-            loginButton.setTitle("Sign up", forState: .Normal)
-            facebookButton.setAttributedTitle(NSAttributedString(string: "Sign up with Facebook"), forState: .Normal)
+            forgotPasswordButton.removeFromSuperview()
+            stackView.layoutMargins.top = 24
+
+            loginButton.setTitle("SIGN UP", forState: .Normal)
+            facebookButton.setAttributedTitle(NSAttributedString(string: "Sign up with Facebook".uppercaseString), forState: .Normal)
 
         }
-        tableView.reloadData()
+//        tableView.reloadData()
     }
 
     // doesnt work because need to override the tableView touches began, not the controller touches began, but then that will break ability to select cells
@@ -173,6 +255,10 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
 //        super.touchesBegan(touches, withEvent: event)
 //        self.tableView.endEditing(true)
 //    }
+    
+    func didTapForgotPassword(button: UIButton) {
+        //TODO: forgot password
+    }
     
     func didTapLogin(button: UIButton) {
         if loginSegment.selectedSegmentIndex == 0 {
@@ -311,7 +397,11 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 108
+        if loginSegment.selectedSegmentIndex == 0 {
+            return 218 //forgotButton (50) + loginButton + facebookButton + segmentControl (28) + spacing (8x3) + topMargin (16)
+        } else {
+            return 176 //loginButton + facebookButton + segmentControl (28) + spacing (8x2) + topMargin (24)
+        }
     }
     
     override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
