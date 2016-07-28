@@ -193,6 +193,12 @@ class ItineraryViewController: MXSegmentedPagerController {
             }
         }
         
+        print(eventsForTheDay)
+        
+        //sort events chronologically
+        eventsForTheDay.sortInPlace({ $0.startDate < $1.startDate })
+        print(eventsForTheDay)
+
         for event in eventsForTheDay {
             for experience in experiences {
                 if experience.id == event.experienceID {

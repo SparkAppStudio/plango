@@ -205,10 +205,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let tabController = window!.rootViewController as! UITabBarController
         let nav = tabController.viewControllers?.last as! UINavigationController
         if Plango.sharedInstance.currentUser == nil {
-            nav.setViewControllers([LoginTableViewController()], animated: true)
+            nav.setViewControllers([LoginTableViewController()], animated: false)
             nav.navigationBarHidden = true
         } else {
-            nav.setViewControllers([MyPlansViewController()], animated: true)
+            nav.setViewControllers([MyPlansViewController()], animated: false)
             nav.navigationBarHidden = false
         }
     }
