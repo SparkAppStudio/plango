@@ -4,6 +4,9 @@ PODS:
     - Alamofire (~> 3.3)
   - AlamofireNetworkActivityIndicator (1.0.1):
     - Alamofire (~> 3.3)
+  - AlamofireObjectMapper (3.0.2):
+    - Alamofire (~> 3.2)
+    - ObjectMapper (~> 1.0)
   - Bolts (1.8.4):
     - Bolts/AppLinks (= 1.8.4)
     - Bolts/Tasks (= 1.8.4)
@@ -44,6 +47,7 @@ PODS:
     - HMSegmentedControl (~> 1.5.2)
     - MXPagerView (~> 0.1.3)
     - MXParallaxHeader (~> 0.5.1)
+  - ObjectMapper (1.3.0)
   - PINCache (2.3)
   - Polyline (3.2.1)
   - Realm (1.0.2):
@@ -60,6 +64,7 @@ DEPENDENCIES:
   - Alamofire
   - AlamofireImage
   - AlamofireNetworkActivityIndicator
+  - AlamofireObjectMapper
   - Bolts
   - ChameleonFramework/Swift
   - CZWeatherKit
@@ -75,6 +80,7 @@ DEPENDENCIES:
   - MapboxGeocoder.swift (from `https://github.com/mapbox/MapboxGeocoder.swift.git`, tag `v0.5.0`)
   - MBProgressHUD
   - MXSegmentedPager
+  - ObjectMapper
   - RealmSwift
   - SnapKit
   - Spring (from `https://github.com/MengTo/Spring.git`, branch `master`)
@@ -107,6 +113,7 @@ SPEC CHECKSUMS:
   Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
   AlamofireImage: 3ccf3347d9ea24580dc11fb892770a0be6a29826
   AlamofireNetworkActivityIndicator: 49a6e39afb947136f7b1872bae2d684957c26697
+  AlamofireObjectMapper: 70f97cbf45c01c48d26aa07a1a7059a60ed7411d
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   CZWeatherKit: e15848c63ac021a83ec92e8fc0011a4ada6bf2ed
@@ -125,6 +132,7 @@ SPEC CHECKSUMS:
   MXPagerView: db0c020aeada6a0c704f18f8053468560e346982
   MXParallaxHeader: b40fabd42d1bb76f6d1a713ceae5628f69241bd6
   MXSegmentedPager: 0f8ef591d510dc8b5531219d6f3bbaaacf3eb305
+  ObjectMapper: 4eb08a726e9791a93b2632049951b56a7c17e471
   PINCache: ce36ed282031b92fc7733ffe831f474ff80fddc2
   Polyline: 4579e57a62a5e876944c41884194e24ab7021d89
   Realm: 9d5c46a4d7d27958530a8dfc58f63a99e5c2cba3
@@ -134,6 +142,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
   Whisper: 42a3ee7c2936f861b23d41bd6cd7dfd22f102405
 
-PODFILE CHECKSUM: 6f89caad1c6a0d196446bda228f44208c09a1368
+PODFILE CHECKSUM: 8f865aefaf41dfeaab2eb9f7f0617e1569d6139f
 
 COCOAPODS: 1.0.0

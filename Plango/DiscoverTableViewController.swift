@@ -43,9 +43,12 @@ class DiscoverTableViewController: UITableViewController {
     lazy var popularDestinationsPlansArray = [Plan]?()
     lazy var plangoFavoriteCollectionsArray = [PlangoCollection]?()
     var plangoFavoritesDictionary: [String:[Plan]]?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(didPullRefresh), forControlEvents: .ValueChanged)
+        
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
 
         self.tableView.backgroundColor = UIColor.plangoBackgroundGray()
@@ -74,6 +77,19 @@ class DiscoverTableViewController: UITableViewController {
         fetchPopularDestinations()
         
         fetchPlangoFavMeta()
+    }
+    
+    func didPullRefresh() {
+        fetchTags(Plango.EndPoint.AllTags.rawValue)
+        
+        fetchPopularDestinations()
+        
+        fetchPlangoFavMeta()
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        refreshControl?.endRefreshing()
     }
 
     override func didReceiveMemoryWarning() {
@@ -127,6 +143,7 @@ class DiscoverTableViewController: UITableViewController {
                 }
 //                self.plangoFavoritesDictionary = tempDictionary
                 //reload table after all favorites data is set
+                self.refreshControl?.endRefreshing()
                 self.tableView.reloadData()
             }
         }

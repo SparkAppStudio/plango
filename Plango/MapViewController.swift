@@ -74,10 +74,6 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         mapView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         mapView.delegate = self
         mapView.showsUserLocation = true
-        
-//        if Helper.isConnectedToNetwork() == false {
-//            retrieveOfflineMap()
-//        }
 
         if let userLocation = mapView.userLocation {
             mapView.setCenterCoordinate(userLocation.coordinate, zoomLevel: 14, animated: false)

@@ -11,6 +11,7 @@ import SnapKit
 import AlamofireImage
 import CZWeatherKit
 import Mapbox
+import RealmSwift
 
 class PlanSummaryViewController: UITableViewController {
     
@@ -55,7 +56,7 @@ class PlanSummaryViewController: UITableViewController {
         guard (plan.experiences != nil) else {self.view.quickToast("No Experiences"); return}
 //        displayMapForPlan(plan, download: true)
         startOfflinePackDownload()
-        
+        downloadPlan(plan)
 
     }
     
@@ -214,6 +215,16 @@ class PlanSummaryViewController: UITableViewController {
         let alert = UIAlertController(title: "Delete Local Data?", message: "Are you sure you want to remove this plan from your phone?", preferredStyle: .Alert)
         
         let delete = UIAlertAction(title: "Delete", style: UIAlertActionStyle.Destructive) { (action) in
+            
+            //realm
+            let realm = try! Realm()
+            if let object = realm.objectForPrimaryKey(StoredPlan.self, key: plan.id) {
+                try! realm.write {
+                    realm.delete(object)
+                }
+            }
+            
+            //mapbox
             for pack in MGLOfflineStorage.sharedOfflineStorage().packs! {
                 guard let userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? NSDictionary else {continue}
                 guard let planID = userInfo["planID"] as? String else {continue}
@@ -786,6 +797,86 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MapViewController.offlinePackProgressDidChange(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MapViewController.offlinePackDidReceiveError(_:)), name: MGLOfflinePackErrorNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MapViewController.offlinePackDidReceiveMaximumAllowedMapboxTiles(_:)), name: MGLOfflinePackMaximumMapboxTilesReachedNotification, object: nil)
+        
+    }
+    
+    func unpackStoredPlan(plan: StoredPlan) -> Plan {
+        let savedPlan = Plan()
+        savedPlan.id = plan.id
+        savedPlan.avatar = plan.avatar
+        savedPlan.planDescription = plan.planDescription
+        savedPlan.isPublic = plan.isPublic.value
+        savedPlan.authorID = plan.authorID
+        savedPlan.durationDays = plan.durationDays.value
+        savedPlan.startDate = plan.startDate
+        savedPlan.endDate = plan.endDate
+        savedPlan.lastViewedDate = plan.lastViewedDate
+        savedPlan.lastUpdatedDate = plan.lastUpdatedDate
+        savedPlan.createdDate = plan.createdDate
+        savedPlan.viewCount = plan.viewCount.value
+        savedPlan.usedCount = plan.usedCount.value
+        
+//        if let spams = plan.spamReported {
+//            for item in spams {
+//                let storedItem = PlangoString()
+//                storedItem.stringValue = item
+//                savedPlan.spamReported.append(storedItem)
+//            }
+//        }
+        
+        //TODO: parse rest of data, try to use generic approach
+        
+        //        savedPlan.members.appendContentsOf(plan.members)
+        //        savedPlan.tags = plan.tags
+        //        savedPlan.todos = plan.todos
+        //        savedPlan.events = plan.events
+        //        savedPlan.places = plan.places
+        //        savedPlan.experiences = plan.experiences
+        savedPlan.plangoFavorite = plan.plangoFavorite
+        return savedPlan
+    }
+    
+    func downloadPlan(plan: Plan) {
+        let savedPlan = StoredPlan()
+        savedPlan.id = plan.id
+        savedPlan.avatar = plan.avatar
+        savedPlan.planDescription = plan.planDescription
+        savedPlan.isPublic.value = plan.isPublic
+        savedPlan.authorID = plan.authorID
+        savedPlan.durationDays.value = plan.durationDays
+        savedPlan.startDate = plan.startDate
+        savedPlan.endDate = plan.endDate
+        savedPlan.lastViewedDate = plan.lastViewedDate
+        savedPlan.lastUpdatedDate = plan.lastUpdatedDate
+        savedPlan.createdDate = plan.createdDate
+        savedPlan.viewCount.value = plan.viewCount
+        savedPlan.usedCount.value = plan.usedCount
+        
+        if let spams = plan.spamReported {
+            for item in spams {
+                let storedItem = PlangoString()
+                storedItem.stringValue = item
+                savedPlan.spamReported.append(storedItem)
+            }
+        }
+
+        //TODO: parse rest of data, try to use generic approach
+        
+//        savedPlan.members.appendContentsOf(plan.members)
+//        savedPlan.tags = plan.tags
+//        savedPlan.todos = plan.todos
+//        savedPlan.events = plan.events
+//        savedPlan.places = plan.places
+//        savedPlan.experiences = plan.experiences
+        savedPlan.plangoFavorite = plan.plangoFavorite
+        
+        
+        
+        
+        let realm = try! Realm()
+        try! realm.write({ 
+            realm.add(savedPlan, update: true)
+        })
         
     }
     

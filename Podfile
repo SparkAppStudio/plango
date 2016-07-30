@@ -6,6 +6,8 @@ target 'Plango' do
     pod 'SwiftyJSON'
     pod 'Alamofire'
     pod 'AlamofireNetworkActivityIndicator'
+    pod 'AlamofireObjectMapper'
+
 
 #    networkingImages
     pod 'AlamofireImage'
@@ -35,6 +37,7 @@ target 'Plango' do
 
 #    persistence
     pod 'RealmSwift'
+    pod 'ObjectMapper'
 
 #    frontendConvienence
     pod 'Hue'

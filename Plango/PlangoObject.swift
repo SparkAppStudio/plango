@@ -8,6 +8,23 @@
 
 import UIKit
 import RealmSwift
+//import ObjectMapper
+
+class PlangoStoredObject: Object {
+    dynamic var id: String = ""
+    
+    override class func primaryKey() -> String? {
+        return "id"
+    }
+    
+//    convenience required init?(_ map: Map) {
+//        self.init()
+//    }
+//    
+//    func mapping(map: Map) {
+//        id <- map["id"]
+//    }
+}
 
 class PlangoObject: NSObject {
     enum CodeKeys: String {
@@ -45,13 +62,8 @@ class PlangoObject: NSObject {
     func getPropertyNames() -> [String] {
         return Mirror(reflecting: self).children.flatMap { $0.label }
     }
-    
-//    override class func primaryKey() -> String? {
-//        return CodeKeys.id.rawValue
-//    }
-    
 }
 
 class PlangoString: Object {
-    dynamic var stringValue = ""
+    dynamic var stringValue: String = ""
 }

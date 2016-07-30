@@ -10,6 +10,8 @@ import UIKit
 import GoogleMaps
 import FBSDKCoreKit
 import FBSDKLoginKit
+import RealmSwift
+import Mapbox
 
 
 @UIApplicationMain
@@ -190,6 +192,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         Plango.sharedInstance.currentUser = nil
         NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKeys.currentUser.rawValue)
+        
+        //remove realm data
+        let realm = try! Realm()
+
+        try! realm.write {
+            realm.deleteAll()
+        }
+        
+        //remove mapbox data
+        let storage = MGLOfflineStorage.sharedOfflineStorage()
+        for pack in storage.packs! {
+            storage.removePack(pack, withCompletionHandler: nil)
+        }
         
         Plango.sharedInstance.alamoManager.session.resetWithCompletionHandler {
             controller.view.hideSimpleLoading()
