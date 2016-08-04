@@ -15,6 +15,17 @@ class PlanMembersTableViewController: UITableViewController {
     private var confirmedUsers = [User]()
     private var unconfirmedUsers = [User]()
     
+    lazy var backgroundLabel: UILabel = {
+        let backgroundLabel = UILabel(frame: self.tableView.frame)
+        backgroundLabel.text = "You haven't invited any friends to this plan. Invite them on the desktop at plango.us"
+        backgroundLabel.numberOfLines = 0
+        backgroundLabel.font = UIFont.plangoSectionHeader()
+        backgroundLabel.textColor = UIColor.plangoTypeSectionHeaderGray()
+        backgroundLabel.textAlignment = .Center
+        backgroundLabel.backgroundColor = UIColor.plangoBackgroundGray()
+        return backgroundLabel
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.backgroundColor = UIColor.plangoBackgroundGray()
@@ -28,6 +39,8 @@ class PlanMembersTableViewController: UITableViewController {
         let sectionNib = UINib(nibName: "SectionHeader", bundle: nil)
         self.tableView.registerNib(sectionNib, forHeaderFooterViewReuseIdentifier: CellID.Header.rawValue)
 
+        self.tableView.backgroundView = backgroundLabel
+        self.tableView.backgroundView?.hidden = true
 
         getMembers()
     }
@@ -96,7 +109,13 @@ class PlanMembersTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        if unconfirmedUsers.count == 0 && confirmedUsers.count == 0 {
+            tableView.backgroundView?.hidden = false
+            return 0
+        } else {
+            tableView.backgroundView?.hidden = true
+            return 2 
+        }
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

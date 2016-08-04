@@ -15,6 +15,21 @@ class PlansTableViewController: UITableViewController {
     
     lazy var plansArray = [Plan]()
     
+    lazy var backgroundLabel: UILabel = {
+        let backgroundLabel = UILabel(frame: self.tableView.frame)
+        if self.findPlansParameters == nil { //nil means its MyPlans, not search
+            backgroundLabel.text = "You have no plans. Create a new one on the desktop at plango.us"
+        } else {
+            backgroundLabel.text = "0 results found"
+        }
+        backgroundLabel.numberOfLines = 0
+        backgroundLabel.font = UIFont.plangoSectionHeader()
+        backgroundLabel.textColor = UIColor.plangoTypeSectionHeaderGray()
+        backgroundLabel.textAlignment = .Center
+        backgroundLabel.backgroundColor = UIColor.plangoBackgroundGray()
+        return backgroundLabel
+    }()
+    
     var fetchRequest: Request?
     var currentFetchPage: Int = 0
     var endReached = false
@@ -32,8 +47,14 @@ class PlansTableViewController: UITableViewController {
         self.tableView.registerNib(cellNib, forCellReuseIdentifier: CellID.Plans.rawValue)
         
         if plansArray.count == 0 { //make sure data is not preloaded as in top collections case
+            
+            self.tableView.backgroundView = backgroundLabel
+            self.tableView.backgroundView?.hidden = true
+
             getPlans()
         }
+        
+
         
     }
     
@@ -119,6 +140,9 @@ class PlansTableViewController: UITableViewController {
             } else if let plans = receivedPlans {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.plansArray = plans
+                    if plans.count == 0 {
+                        self.tableView.backgroundView?.hidden = false
+                    }
                     self.tableView.reloadData()
                 })
             }
@@ -169,6 +193,9 @@ class PlansTableViewController: UITableViewController {
 //                    } else {
                         self.plansArray.appendContentsOf(plans)
 //                    }
+                    if self.plansArray.count == 0 {
+                        self.tableView.backgroundView?.hidden = false
+                    }
                     self.tableView.reloadData()
                 })
             }
@@ -194,7 +221,12 @@ class PlansTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        if plansArray.count == 0 {
+            return 0
+        } else {
+            tableView.backgroundView?.hidden = true
+            return 1
+        }
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
