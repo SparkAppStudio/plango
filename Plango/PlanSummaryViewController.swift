@@ -33,7 +33,7 @@ class PlanSummaryViewController: UITableViewController {
     }
 
     // SummaryHeader xib
-    @IBOutlet weak var coverImageView: UIImageView!
+    @IBOutlet weak var coverImageView: CompoundImageView!
     
     @IBOutlet weak var locationNameLabel: UILabel!
     @IBOutlet weak var tagsLabel: UILabel!

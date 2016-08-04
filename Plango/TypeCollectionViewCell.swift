@@ -11,7 +11,7 @@ import Alamofire
 
 class TypeCollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var coverImageView: UIImageView!
+    @IBOutlet weak var coverImageView: CompoundImageView!
     @IBOutlet weak var titleLabel: UILabel!
     
     var plangoTag: Tag!

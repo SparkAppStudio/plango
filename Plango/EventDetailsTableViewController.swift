@@ -11,7 +11,7 @@ import UIKit
 
 class EventDetailsTableViewController: UITableViewController {
     
-    @IBOutlet weak var coverImageView: UIImageView!
+    @IBOutlet weak var coverImageView: CompoundImageView!
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
@@ -104,6 +104,11 @@ class EventDetailsTableViewController: UITableViewController {
         }
         coverImageView.af_setImageWithURL(NSURL(string: endPoint)!)
         coverImageView.gradientDarkToClear()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        coverImageView.layer.frame = coverImageView.bounds
     }
     
     // MARK: - Table view Delegate

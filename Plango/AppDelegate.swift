@@ -129,6 +129,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             var plangoParameters = [String:AnyObject]()
             var socialConnects = [[String:AnyObject]]()
+            
+            Plango.sharedInstance.facebookAvatarURL = "http://graph.facebook.com/\(userID)/picture?type=large"
 
             plangoParameters["email"] = userEmail
             plangoParameters["username"] = userName
@@ -137,8 +139,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             plangoParameters["socialConnects"] = socialConnects
             plangoParameters["fbSignup"] = true
-
+            
             self.handlePlangoAuth(controller, endPoint: Plango.EndPoint.NewAccount.rawValue, email: userEmail, completionMessage: nil, parameters: plangoParameters)
+
+
 
         }
         
@@ -169,7 +173,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 } else {
 //                    let email = result.valueForKey("email") as! String
                     let userID = result.valueForKey("id") as! String
-                    
+                    Plango.sharedInstance.facebookAvatarURL = "http://graph.facebook.com/\(userID)/picture?type=large"
+
                     let endPoint = "\(Plango.EndPoint.FacebookLogin.rawValue)\(userID)"
                     self.handlePlangoAuth(controller, endPoint: endPoint, email: nil, completionMessage: nil, parameters: nil)
 
@@ -202,9 +207,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //remove mapbox data
         let storage = MGLOfflineStorage.sharedOfflineStorage()
-        for pack in storage.packs! {
-            storage.removePack(pack, withCompletionHandler: nil)
+        if let packs = storage.packs {
+            for pack in packs {
+                storage.removePack(pack, withCompletionHandler: nil)
+            }
         }
+
         
         Plango.sharedInstance.alamoManager.session.resetWithCompletionHandler {
             controller.view.hideSimpleLoading()

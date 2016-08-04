@@ -12,7 +12,7 @@ import AlamofireImage
 
 class PlansTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var coverImageView: UIImageView!
+    @IBOutlet weak var coverImageView: CompoundImageView!
     @IBOutlet weak var profileImageView: UIImageView!
 //    @IBOutlet weak var viewsIconImageView: UIImageView!
 //    @IBOutlet weak var copiesIconImageView: UIImageView!
@@ -87,7 +87,13 @@ class PlansTableViewCell: UITableViewCell {
             profileNameLabel.text = cellUser.userName
             profileImageView.makeCircle()
 
-            guard let endPoint = cellUser.avatar else {return}
+            guard let endPoint = cellUser.avatar else {
+                if let facebook = cellUser.facebookAvatar {
+                    let cleanURL = NSURL(string: facebook)
+                    profileImageView.af_setImageWithURL(cleanURL!)
+                }
+                return
+            }
             let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
             
             profileImageView.af_setImageWithURL(cleanURL!)

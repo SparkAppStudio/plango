@@ -17,6 +17,7 @@ class User: NSObject, NSCoding {
     var email: String?
     
     var avatar: String?
+    var facebookAvatar: String?
     
     var plans: NSArray?
     
@@ -88,7 +89,6 @@ class User: NSObject, NSCoding {
     class func createUser(dictionary: NSDictionary) -> User? {
         let tempID = dictionary["_id"] as! String
         let newUser = User(id: tempID)
-        
         newUser.userName = dictionary["username"] as? String
         newUser.displayName = dictionary["displayname"] as? String
         newUser.email = dictionary["email"] as? String
@@ -103,6 +103,11 @@ class User: NSObject, NSCoding {
         newUser.confirmed = dictionary["confirmed"] as? Bool
         newUser.showPlan = dictionary["showplanonboard"] as? Bool
         newUser.showSum = dictionary["showsumonboard"] as? Bool
+        
+        if Plango.sharedInstance.facebookAvatarURL != "" {
+            newUser.facebookAvatar = Plango.sharedInstance.facebookAvatarURL
+            print(newUser.facebookAvatar)
+        }
         
         return newUser
     }
