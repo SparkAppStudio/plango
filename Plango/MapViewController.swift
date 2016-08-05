@@ -29,6 +29,8 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         didSet {
             cancelNavButton.hidden = !navMode
             startNavButton.hidden = !navMode
+            centerViewButton.hidden = navMode
+            defaultViewButton.hidden = navMode
             if navMode == false {
                 navAnnotation = nil
             }
@@ -36,7 +38,7 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
     }
     lazy var startNavButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: self.view.bounds.height - 124, width: self.view.bounds.width, height: 60))
-        button.setTitle("Turn by Turn", forState: .Normal)
+        button.setTitle("Start Navigation", forState: .Normal)
         button.titleLabel?.textColor = UIColor.whiteColor()
         button.backgroundColor = UIColor.plangoOrange()
         button.tintColor = UIColor.plangoOrange()
@@ -45,14 +47,31 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         return button
     }()
     lazy var cancelNavButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: self.view.bounds.width - 44, y: 24, width: 40, height: 40))
+        let button = UIButton(frame: CGRect(x: self.view.bounds.width - 24, y: 12, width: 12, height: 13))
         button.setImage(UIImage(named: "unselect"), forState: .Normal)
         button.backgroundColor = UIColor.clearColor()
         button.hidden = true
         button.addTarget(self, action: #selector(didTapCancelNav(_:)), forControlEvents: .TouchUpInside)
         return button
     }()
-    
+    lazy var centerViewButton: UIButton = {
+        let button = UIButton(frame: CGRect(x: 12, y: self.view.bounds.height - 130, width: 38, height: 38))
+        button.setImage(UIImage(named: "center"), forState: .Normal)
+        button.backgroundColor = UIColor.clearColor()
+        button.addTarget(self, action: #selector(didTapCenterView(_:)), forControlEvents: .TouchUpInside)
+
+        return button
+    }()
+    lazy var defaultViewButton: UIButton = {
+        let button = UIButton(frame: CGRect(x: 12, y: self.view.bounds.height - 176, width: 38, height: 38))
+//        button.contentHorizontalAlignment = .Fill
+        button.setImage(UIImage(named: "allxp"), forState: .Normal)
+//        button.contentMode = .ScaleToFill
+        button.backgroundColor = UIColor.clearColor()
+        button.addTarget(self, action: #selector(didTapDefaultView(_:)), forControlEvents: .TouchUpInside)
+
+        return button
+    }()
 
     func didTapCancelNav(selector: UIButton) {
         endNavToAnnotation(mapView)
@@ -60,6 +79,28 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
     
     func didTapStartNav(selector: UIButton) {
         openAppleMapsNavForAnnotation(navAnnotation)
+    }
+    
+    func didTapCenterView(selector: UIButton) {
+        centerView()
+    }
+    
+    func didTapDefaultView(selector: UIButton) {
+        defaultView()
+    }
+    
+    func centerView() {
+        if let userLocation = mapView.userLocation {
+            mapView.setCenterCoordinate(userLocation.coordinate, zoomLevel: 14, animated: true)
+        }
+    }
+    
+    func defaultView() {
+        if places.count == 1 {
+            mapView.setCenterCoordinate((places.first?.coordinate)!, zoomLevel: 14, animated: true)
+        } else if places.count > 1 {
+            mapView.showAnnotations(places, animated: true)
+        }
     }
     
     override func viewDidLoad() {
@@ -100,6 +141,8 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         //buttons
         view.addSubview(cancelNavButton)
         view.addSubview(startNavButton)
+        view.addSubview(centerViewButton)
+        view.addSubview(defaultViewButton)
     
     }
     
