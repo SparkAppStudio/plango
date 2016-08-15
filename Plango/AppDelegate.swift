@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import GoogleMaps
+//import GoogleMaps
+import GooglePlaces
 import FBSDKCoreKit
 import FBSDKLoginKit
 import RealmSwift
@@ -24,7 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
-        GMSServices.provideAPIKey("AIzaSyA39ZWfxBR9I4VENEDuS53ivijYC_ZKvpY")
+//        GMSServices.provideAPIKey("AIzaSyA39ZWfxBR9I4VENEDuS53ivijYC_ZKvpY")
+        GMSPlacesClient.provideAPIKey("AIzaSyA39ZWfxBR9I4VENEDuS53ivijYC_ZKvpY")
         // Override point for customization after application launch.        
         NSNotificationCenter.defaultCenter().addObserverForName(Notify.Login.rawValue, object: nil, queue: nil) { (notification) -> Void in
             self.appLogin(notification)

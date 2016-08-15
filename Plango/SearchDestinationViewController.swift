@@ -153,7 +153,12 @@ extension SearchDestinationViewController: UITableViewDelegate, UITableViewDataS
             if let city = selectedDestinations[indexPath.row].city {
                 cell.textLabel?.text = city
             } else if let state = selectedDestinations[indexPath.row].state {
-                cell.textLabel?.text = state.getLongState()!.capitalizedString
+                //TODO: crashes here on non US states
+                if let fullState = state.getLongState() {
+                    cell.textLabel?.text = fullState.capitalizedString
+                } else {
+                    cell.textLabel?.text = state.capitalizedString
+                }
             } else if let country = selectedDestinations[indexPath.row].country {
                 cell.textLabel?.text = country
             }
