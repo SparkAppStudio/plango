@@ -645,6 +645,24 @@ class PlanSummaryViewController: UITableViewController {
             if let tags = plan.tags {
                 tagsLabel.text = parseTags(tags, comma: true)
             }
+            
+            if let places = plan.places {
+                
+                var locationText = String()
+                if let city = places.first?.city {
+                    locationText = city
+                }
+                if let country = places.first?.country {
+                    locationText = locationText.stringByAppendingString(", \(country)")
+                }
+                locationNameLabel.text = locationText
+                
+                //                var allPlaces = ""
+                //                for place in places {
+                //                    allPlaces = allPlaces.stringByAppendingString("\(place.city!), ")
+                //                }
+                //                let cleanedPlaces = String(allPlaces.characters.dropLast(2))
+            }
                         
             guard let days = plan.durationDays else {durationLabel.hidden = true; return}
             
@@ -663,28 +681,7 @@ class PlanSummaryViewController: UITableViewController {
 //            usedCountLabel.text = "\(used) Used"
             
             guard let startDate = plan.startDate else {return}
-            
             startTimer(startDate)
-            
-            if let places = plan.places {
-                
-                var locationText = String()
-                if let city = places.first?.city {
-                    locationText = city
-                }
-                if let country = places.first?.country {
-                    locationText = locationText.stringByAppendingString(", \(country)")
-                }
-                locationNameLabel.text = locationText
-                
-//                var allPlaces = ""
-//                for place in places {
-//                    allPlaces = allPlaces.stringByAppendingString("\(place.city!), ")
-//                }
-//                let cleanedPlaces = String(allPlaces.characters.dropLast(2))
-            }
-
-            
         }
 //        weather()
 

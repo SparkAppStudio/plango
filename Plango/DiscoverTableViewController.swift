@@ -156,9 +156,10 @@ class DiscoverTableViewController: UITableViewController {
         case DiscoverTitles.TypeCollections.section:
             return Helper.CellHeight.superWide.value
         case DiscoverTitles.PlangoCollections.section:
-            if indexPath.row == 1 {
-                return Helper.CellHeight.superWide.value + 8
-            } else {
+            guard let count = plangoFavoriteCollectionsArray?.count else {return 0.1}
+            if indexPath.row != count - 1 {
+                return Helper.CellHeight.superWide.value + 4
+            } else { //last cell in list doesnt need bottom spacing
                 return Helper.CellHeight.superWide.value
             }
         default:
@@ -273,7 +274,12 @@ class DiscoverTableViewController: UITableViewController {
             return cell
 
         case DiscoverTitles.PlangoCollections.section:
-            if indexPath.row == 1 {
+            
+            guard let count = plangoFavoriteCollectionsArray?.count else {
+            let cell = tableView.dequeueReusableCellWithIdentifier(CellID.TopCollections.rawValue, forIndexPath: indexPath) as! TopCollectionsTableViewCell
+                return cell
+            }
+            if indexPath.row != count - 1 {
                 let cell = tableView.dequeueReusableCellWithIdentifier(CellID.TopCollectionsMiddle.rawValue, forIndexPath: indexPath) as! TopCollectionsMiddleTableViewCell
                 
                 if let collections = self.plangoFavoriteCollectionsArray {
@@ -287,7 +293,7 @@ class DiscoverTableViewController: UITableViewController {
                 }
                 
                 return cell
-            } else {
+            } else { //last cell in list doesnt need bottom spacing
                 let cell = tableView.dequeueReusableCellWithIdentifier(CellID.TopCollections.rawValue, forIndexPath: indexPath) as! TopCollectionsTableViewCell
                 
                 if let collections = self.plangoFavoriteCollectionsArray {

@@ -27,6 +27,9 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="137"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1Af-Z9-nX7" customClass="CompoundImageView" customModule="Plango" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="137"/>
+                </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NRp-Xy-nll">
                     <rect key="frame" x="8" y="82" width="248" height="22"/>
                     <fontDescription key="fontDescription" name="Lato-Bold" family="Lato" pointSize="18"/>
@@ -48,9 +51,6 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1Af-Z9-nX7" customClass="CompoundImageView" customModule="Plango" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="137"/>
-                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>

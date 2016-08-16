@@ -18,7 +18,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="137"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="f2O-Ep-4cl" id="xLM-Rb-sC0">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="136"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="136.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gsH-sV-d9q" customClass="CompoundImageView" customModule="Plango" customModuleProvider="target">
