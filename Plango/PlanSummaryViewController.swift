@@ -934,7 +934,7 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
                 self.mapView.imageToast(nil, image: UIImage(named: "whiteCheck")!, notify: false)
                 
                 let byteCount = NSByteCountFormatter.stringFromByteCount(Int64(pack.progress.countOfBytesCompleted), countStyle: NSByteCountFormatterCountStyle.Memory)
-                localPlanLabel.text = byteCount
+                localPlanLabel.text = "Delete this map to free up storage (\(byteCount))"
                 
                 self.planDownloaded = true
                 downloadView.removeFromSuperview()
