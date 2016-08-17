@@ -737,13 +737,15 @@ class PlanSummaryViewController: UITableViewController {
 //    }
     
     func didTapItinerary() {
+        print(plan.experiences)
+        guard (plan.experiences?.count > 0) else {self.view.quickToast("No Activities for this Plan"); return}
         let itineraryVC = ItineraryViewController()
         itineraryVC.plan = self.plan
         self.showViewController(itineraryVC, sender: nil)
     }
     
     func didTapMap() {
-        guard (plan.experiences != nil) else {self.view.quickToast("No Experiences"); return}
+        guard (plan.experiences?.count > 0) else {self.view.quickToast("No Activities for this Plan"); return}
         displayMapForPlan(plan, download: false)
     }
     
@@ -751,7 +753,7 @@ class PlanSummaryViewController: UITableViewController {
 
     
     func didTapFriends() {
-        guard let members = plan.members else {self.view.quickToast("No members"); return}
+        guard let members = plan.members else {self.view.quickToast("No Members"); return}
         let membersVC = PlanMembersTableViewController()
         membersVC.members = members
         showViewController(membersVC, sender: nil)

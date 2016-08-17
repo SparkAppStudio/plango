@@ -15,6 +15,8 @@ class PlansTableViewController: UITableViewController {
     
     lazy var plansArray = [Plan]()
     
+    //search criteria "\(parent.selectedTags?.description) in \(parent.selectedDestinations?.description) for \(parent.minDuration) - \(parent.maxDuration) days"
+    
     lazy var backgroundLabel: UILabel = {
         let backgroundLabel = UILabel(frame: self.tableView.frame)
         if self.findPlansParameters == nil { //nil means its MyPlans, not search
@@ -40,6 +42,7 @@ class PlansTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
 
         self.tableView.backgroundColor = UIColor.plangoBackgroundGray()
@@ -60,6 +63,7 @@ class PlansTableViewController: UITableViewController {
     
     deinit {
         Plango.sharedInstance.userCache = [String : User]()
+        Plango.sharedInstance.searchTotal = nil //because this persists across search instances be sure to clear it when search is dismissed
     }
     
     func clearTable() {
@@ -195,6 +199,14 @@ class PlansTableViewController: UITableViewController {
 //                    }
                     if self.plansArray.count == 0 {
                         self.tableView.backgroundView?.hidden = false
+                    }
+                    
+                    if let total = Plango.sharedInstance.searchTotal {
+                        if total == 1 {
+                            self.navigationItem.title = "\(total) PLAN FOUND"
+                        } else {
+                            self.navigationItem.title = "\(total) PLANS FOUND"
+                        }
                     }
                     self.tableView.reloadData()
                 })

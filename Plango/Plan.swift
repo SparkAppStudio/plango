@@ -147,6 +147,10 @@ class Plan: PlangoObject {
                 return nil
             }
             
+            if let total = topDictionary["total"] as? Int {
+                Plango.sharedInstance.searchTotal = total
+            }
+            
             if array.count == 0 {
                 return tempUsers.flatMap { $0 } //end of pagination, found empty array
             }

@@ -28,6 +28,7 @@ class PlanMembersTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.title = "FRIENDS"
         self.tableView.backgroundColor = UIColor.plangoBackgroundGray()
         self.tableView.allowsSelection = false
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None

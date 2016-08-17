@@ -40,6 +40,7 @@ class Plango: NSObject {
     let alamoManager = Alamofire.Manager.sharedInstance
 //    let decoder = ImageDecoder()
     lazy var facebookAvatarURL = String()
+    var searchTotal: Int?
 
     
     typealias UsersResponse = ([User]?, PlangoError?) -> Void
