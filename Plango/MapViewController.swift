@@ -123,7 +123,6 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         self.view.addSubview(mapView)
         
         places = getPlacesFromExperiences(experiences)
-        
         if places.count > 0 {
             mapView.addAnnotations(places)
             mapView.showAnnotations(places, animated: false)
@@ -239,8 +238,8 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         guard let experiences = experiences else {return points}
         
         for experience in experiences {
-            guard let latitute: CLLocationDegrees = experience.geocode?.first else {break}
-            guard let longitute: CLLocationDegrees = experience.geocode?.last else {break}
+            guard let latitute: CLLocationDegrees = experience.geocode?.first else {continue}
+            guard let longitute: CLLocationDegrees = experience.geocode?.last else {continue}
             
             let coordinates = CLLocationCoordinate2DMake(latitute, longitute)
             
