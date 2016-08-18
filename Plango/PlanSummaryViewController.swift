@@ -152,8 +152,24 @@ class PlanSummaryViewController: UITableViewController {
     func weather() {
         
         let date = NSDate()
-        let coordinate = CLLocationCoordinate2DMake(37.7749, -122.4194)
-//        let coordinate = CLLocationCoordinate2DMake(-33.867487, 151.206990)
+        var coordinate = CLLocationCoordinate2D(latitude: 117, longitude: 32)
+
+        guard let experiences = plan.experiences else {return}
+        
+        
+        for experience in experiences {
+            guard let geo = experience.geocode else {continue}
+            if geo.count > 1 {
+                coordinate.latitude = geo.first!
+                coordinate.longitude = geo.last!
+                break
+
+            } else {
+                continue
+            }
+        }
+        
+        
 
         let rounder = NSDecimalNumberHandler(roundingMode: .RoundBankers, scale: 0, raiseOnExactness: false, raiseOnOverflow: false, raiseOnUnderflow: false, raiseOnDivideByZero: true)
 
@@ -179,6 +195,10 @@ class PlanSummaryViewController: UITableViewController {
                     let climaChar = forecast.climacon.rawValue
                     let climaString = NSString(format: "%c", climaChar)
                     self.climaconLabel.text = String(climaString)
+                    
+                    self.temperatureLabel.hidden = false
+                    self.weatherLabel.hidden = false
+                    self.climaconLabel.hidden = false
                 })
             }
         }
@@ -691,7 +711,7 @@ class PlanSummaryViewController: UITableViewController {
             guard let startDate = plan.startDate else {return}
             startTimer(startDate)
         }
-//        weather()
+        weather()
 
     }
     
@@ -771,7 +791,9 @@ class PlanSummaryViewController: UITableViewController {
     
     deinit {
         //        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidBecomeActiveNotification, object: nil)
-        MGLOfflineStorage.sharedOfflineStorage().removeObserver(self, forKeyPath: "packs")
+        if myPlan == true {
+            MGLOfflineStorage.sharedOfflineStorage().removeObserver(self, forKeyPath: "packs")
+        }
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
