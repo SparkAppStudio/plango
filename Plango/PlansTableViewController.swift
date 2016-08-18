@@ -71,42 +71,6 @@ class PlansTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    func unpackStoredPlan(plan: StoredPlan) -> Plan {
-        let savedPlan = Plan()
-        savedPlan.id = plan.id
-        savedPlan.avatar = plan.avatar
-        savedPlan.planDescription = plan.planDescription
-        savedPlan.isPublic = plan.isPublic.value
-        savedPlan.authorID = plan.authorID
-        savedPlan.durationDays = plan.durationDays.value
-        savedPlan.startDate = plan.startDate
-        savedPlan.endDate = plan.endDate
-        savedPlan.lastViewedDate = plan.lastViewedDate
-        savedPlan.lastUpdatedDate = plan.lastUpdatedDate
-        savedPlan.createdDate = plan.createdDate
-        savedPlan.viewCount = plan.viewCount.value
-        savedPlan.usedCount = plan.usedCount.value
-        
-        //        if let spams = plan.spamReported {
-        //            for item in spams {
-        //                let storedItem = PlangoString()
-        //                storedItem.stringValue = item
-        //                savedPlan.spamReported.append(storedItem)
-        //            }
-        //        }
-        
-        //TODO: parse rest of data, try to use generic approach
-        
-        //        savedPlan.members.appendContentsOf(plan.members)
-        //        savedPlan.tags = plan.tags
-        //        savedPlan.todos = plan.todos
-        //        savedPlan.events = plan.events
-        //        savedPlan.places = plan.places
-        //        savedPlan.experiences = plan.experiences
-        savedPlan.plangoFavorite = plan.plangoFavorite
-        return savedPlan
-    }
-    
     //wrapper because depending on parent or instantiating controller, may need to call find plans or fetch plans, for example search vs my plans parents, this wrapper should be called which checks if there are parameters present and decides the correct fetch method that way
     func getPlans() {
         if Helper.isConnectedToNetwork() == false {
@@ -116,7 +80,7 @@ class PlansTableViewController: UITableViewController {
             let storedPlans = realm.objects(StoredPlan.self)
             var plans = [Plan]()
             for plan in storedPlans {
-                plans.append(unpackStoredPlan(plan))
+                plans.append(StoredPlan.unpackStoredPlan(plan))
             }
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
