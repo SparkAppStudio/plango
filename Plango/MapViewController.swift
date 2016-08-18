@@ -16,7 +16,7 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
     var mapView: MGLMapView!
     var experiences: [Experience]?
     var plan: Plan?
-    private var places: [MGLPointAnnotation]!
+    private var points: [MGLPointAnnotation]!
     private lazy var experiencePlaceDataSource = [String:Experience]()
     
     var shouldDownload: Bool = false
@@ -96,10 +96,10 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
     }
     
     func defaultView() {
-        if places.count == 1 {
-            mapView.setCenterCoordinate((places.first?.coordinate)!, zoomLevel: 14, animated: true)
-        } else if places.count > 1 {
-            mapView.showAnnotations(places, animated: true)
+        if points.count == 1 {
+            mapView.setCenterCoordinate((points.first?.coordinate)!, zoomLevel: 14, animated: true)
+        } else if points.count > 1 {
+            mapView.showAnnotations(points, animated: true)
         }
     }
     
@@ -122,13 +122,16 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         
         self.view.addSubview(mapView)
         
-        places = getPlacesFromExperiences(experiences)
-        if places.count > 0 {
-            mapView.addAnnotations(places)
-            mapView.showAnnotations(places, animated: false)
+        let pointsAndPlaces = MapViewController.getPlacesFromExperiences(experiences)
+        points = pointsAndPlaces.points
+        experiencePlaceDataSource = pointsAndPlaces.places
+        
+        if points.count > 0 {
+            mapView.addAnnotations(points)
+            mapView.showAnnotations(points, animated: false)
         }
         
-        if places.count == 1 {
+        if points.count == 1 {
             mapView.zoomLevel = 14
         }
         
@@ -233,9 +236,10 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
     }
 
     
-    func getPlacesFromExperiences(experiences: [Experience]?) -> [MGLPointAnnotation] {
+    class func getPlacesFromExperiences(experiences: [Experience]?) -> (points: [MGLPointAnnotation], places: [String:Experience]) {
         var points = [MGLPointAnnotation]()
-        guard let experiences = experiences else {return points}
+        var places = [String:Experience]()
+        guard let experiences = experiences else {return (points, places)}
         
         for experience in experiences {
             guard let latitute: CLLocationDegrees = experience.geocode?.first else {continue}
@@ -251,11 +255,11 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
             }
             if let name = experience.name {
                 point.title = name
-                experiencePlaceDataSource[name] = experience
+                places[name] = experience
             }
             points.append(point)
         }
-        return points
+        return (points, places)
     }
 
     func mapView(mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
@@ -295,8 +299,8 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
     
     
     func mapViewDidFinishLoadingMap(mapView: MGLMapView) {
-        if places?.count == 1 {
-            mapView.selectAnnotation(places!.first!, animated: true)
+        if points?.count == 1 {
+            mapView.selectAnnotation(points!.first!, animated: true)
         }
         if shouldDownload == true {
             startOfflinePackDownload()
@@ -410,10 +414,10 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
 
 }
 
-extension MGLTilePyramidOfflineRegion {
-    func applyToMapView(mapView: MGLMapView) {
-        mapView.styleURL = self.styleURL
-        mapView.setVisibleCoordinateBounds(self.bounds, animated: false)
-        mapView.zoomLevel = 14
-    }
-}
+//extension MGLTilePyramidOfflineRegion {
+//    func applyToMapView(mapView: MGLMapView) {
+//        mapView.styleURL = self.styleURL
+//        mapView.setVisibleCoordinateBounds(self.bounds, animated: false)
+//        mapView.zoomLevel = 14
+//    }
+//}

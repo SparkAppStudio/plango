@@ -287,7 +287,6 @@ class PlanSummaryViewController: UITableViewController {
                 } else {
                     myPlan = false
                 }
-
             }
             
             experiencesByPlace = parseExperiencesIntoPlaces(plan.experiences, places: plan.places)
@@ -386,9 +385,17 @@ class PlanSummaryViewController: UITableViewController {
         
         stackView.addArrangedSubview(buttonStackView)
         
+        //determine differences in view based on plan specifics, must be after nibs have been created
         if myPlan == true {
             setupDownload()
             stackView.addArrangedSubview(startView)
+            
+            planDownloaded = isPlanLocal(plan)
+            if planDownloaded == false {
+                stackView.addArrangedSubview(downloadView)
+            } else {
+                stackView.addArrangedSubview(deleteView)
+            }
         }
         
     }
@@ -784,12 +791,20 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
 
                 let kind = change[NSKeyValueChangeKindKey]?.integerValue
                 if kind == Int(NSKeyValueChange.Setting.rawValue) {
-                    planDownloaded = isPlanLocal(plan)
+                    
+                    //only check if its false, to perhaps prevent double firing
                     if planDownloaded == false {
-                        stackView.addArrangedSubview(downloadView)
-                    } else {
-                        stackView.addArrangedSubview(deleteView)
+                        //run the method again now that maps are known to be not nil
+                        planDownloaded = isPlanLocal(plan)
+                        
+                        //if its still false do nothing, if its now true, switch the views
+                        if planDownloaded == true {
+                            downloadView.removeFromSuperview()
+                            stackView.addArrangedSubview(deleteView)
+                        }
                     }
+                    
+                    
                 }
             }
         }
@@ -800,14 +815,16 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
         mapView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         mapView.delegate = self
         
-        let places = getPlacesFromExperiences(plan.experiences)
+        let pointsAndPlaces = MapViewController.getPlacesFromExperiences(plan.experiences)
+        let points = pointsAndPlaces.points
+        experiencePlaceDataSource = pointsAndPlaces.places
         
-        if places.count > 0 {
-            mapView.addAnnotations(places)
-            mapView.showAnnotations(places, animated: false)
+        if points.count > 0 {
+            mapView.addAnnotations(points)
+            mapView.showAnnotations(points, animated: false)
         }
         
-        if places.count == 1 {
+        if points.count == 1 {
             mapView.zoomLevel = 14
         }
         
@@ -907,28 +924,28 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
         }
     }
     
-    func getPlacesFromExperiences(experiences: [Experience]?) -> [MGLPointAnnotation] {
-        var points = [MGLPointAnnotation]()
-        guard let experiences = experiences else {return points}
-        
-        for experience in experiences {
-            guard let latitute: CLLocationDegrees = experience.geocode?.first else {break}
-            guard let longitute: CLLocationDegrees = experience.geocode?.last else {break}
-            
-            let coordinates = CLLocationCoordinate2DMake(latitute, longitute)
-            
-            let point = MGLPointAnnotation()
-            point.coordinate = coordinates
-            
-            if let details = experience.experienceDescription {
-                point.subtitle = details
-            }
-            if let name = experience.name {
-                point.title = name
-                experiencePlaceDataSource[name] = experience
-            }
-            points.append(point)
-        }
-        return points
-    }
+//    func getPlacesFromExperiences(experiences: [Experience]?) -> [MGLPointAnnotation] {
+//        var points = [MGLPointAnnotation]()
+//        guard let experiences = experiences else {return points}
+//        
+//        for experience in experiences {
+//            guard let latitute: CLLocationDegrees = experience.geocode?.first else {continue}
+//            guard let longitute: CLLocationDegrees = experience.geocode?.last else {continue}
+//            
+//            let coordinates = CLLocationCoordinate2DMake(latitute, longitute)
+//            
+//            let point = MGLPointAnnotation()
+//            point.coordinate = coordinates
+//            
+//            if let details = experience.experienceDescription {
+//                point.subtitle = details
+//            }
+//            if let name = experience.name {
+//                point.title = name
+//                experiencePlaceDataSource[name] = experience
+//            }
+//            points.append(point)
+//        }
+//        return points
+//    }
 }

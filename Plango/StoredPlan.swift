@@ -305,6 +305,7 @@ class StoredPlan: PlangoStoredObject {
                 if let reviews = item.reviews {
                     for review in reviews {
                         let stored = StoredReview()
+                        stored.id = review.id
                         stored.name = review.name
                         stored.author = review.author
                         stored.authorAvatar = review.authorAvatar
@@ -319,6 +320,8 @@ class StoredPlan: PlangoStoredObject {
                     stored.lattitude = geocode.first!
                     stored.longitude = geocode.last!
                     storedItem.geocode = stored
+                    print(item.geocode)
+                    print(storedItem.geocode)
                 }
                 
                 savedPlan.experiences.append(storedItem)
@@ -411,8 +414,8 @@ class StoredReview: PlangoStoredObject {
     dynamic var date: NSDate?
 
 }
-
-class StoredGeocode: PlangoStoredObject {
+//not a PlangoStoredObject because it has no mongoDB ID, and a blank Realm ID prevents it being retrieved
+class StoredGeocode: Object {
     dynamic var lattitude: Double = 0.0
     dynamic var longitude: Double = 0.0
 }
