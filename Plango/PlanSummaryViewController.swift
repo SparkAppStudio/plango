@@ -261,7 +261,11 @@ class PlanSummaryViewController: UITableViewController {
                 
                 let realm = try! Realm()
                 if let object = realm.objectForPrimaryKey(StoredPlan.self, key: plan.id) {
-                    localPlanLabel.text = "Delete this map to free up storage (\(object.mapSize))"
+                    if let map = object.mapSize {
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.localPlanLabel.text = "Delete this map to free up storage (\(map))"
+                        })
+                    }
                 }
                 
                 return true
@@ -283,6 +287,7 @@ class PlanSummaryViewController: UITableViewController {
                 } else {
                     myPlan = false
                 }
+
             }
             
             experiencesByPlace = parseExperiencesIntoPlaces(plan.experiences, places: plan.places)
@@ -319,7 +324,6 @@ class PlanSummaryViewController: UITableViewController {
             make.height.equalTo(160)
         }
         
-        planDownloaded = isPlanLocal(plan)
 
         
         // headerfooter view is like a cell
@@ -385,11 +389,6 @@ class PlanSummaryViewController: UITableViewController {
         if myPlan == true {
             setupDownload()
             stackView.addArrangedSubview(startView)
-            if planDownloaded == false {
-                stackView.addArrangedSubview(downloadView)
-            } else {
-                stackView.addArrangedSubview(deleteView)
-            }
         }
         
     }
@@ -629,6 +628,7 @@ class PlanSummaryViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        
         configureLabel(startDaysLabel)
         configureLabel(startHoursLabel)
         configureLabel(startMinutesLabel)
@@ -764,6 +764,7 @@ class PlanSummaryViewController: UITableViewController {
     
     deinit {
         //        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidBecomeActiveNotification, object: nil)
+        MGLOfflineStorage.sharedOfflineStorage().removeObserver(self, forKeyPath: "packs")
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
@@ -776,6 +777,23 @@ class PlanSummaryViewController: UITableViewController {
 }
 
 extension PlanSummaryViewController: MGLMapViewDelegate {
+    
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        if keyPath == "packs" {
+            if let change = change {
+
+                let kind = change[NSKeyValueChangeKindKey]?.integerValue
+                if kind == Int(NSKeyValueChange.Setting.rawValue) {
+                    planDownloaded = isPlanLocal(plan)
+                    if planDownloaded == false {
+                        stackView.addArrangedSubview(downloadView)
+                    } else {
+                        stackView.addArrangedSubview(deleteView)
+                    }
+                }
+            }
+        }
+    }
     
     func setupDownload() {
         mapView = MGLMapView(frame: self.view.bounds)
@@ -792,6 +810,8 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
         if places.count == 1 {
             mapView.zoomLevel = 14
         }
+        
+        MGLOfflineStorage.sharedOfflineStorage().addObserver(self, forKeyPath: "packs", options: NSKeyValueObservingOptions.New, context: nil)
         
         // Setup offline pack notification handlers.
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MapViewController.offlinePackProgressDidChange(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
