@@ -26,7 +26,8 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         text.placeholder = "Username"
         text.font = UIFont.plangoBodyBig()
         text.textColor = UIColor.plangoTextLight()
-        text.keyboardType = .Default
+        text.keyboardType = .ASCIICapable
+        text.returnKeyType = .Next
         text.autocorrectionType = .No
         text.autocapitalizationType = .None
         text.delegate = self
@@ -51,6 +52,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         text.font = UIFont.plangoBodyBig()
         text.textColor = UIColor.plangoTextLight()
         text.keyboardType = .EmailAddress
+        text.returnKeyType = .Next
         text.autocorrectionType = .No
         text.autocapitalizationType = .None
         text.delegate = self
@@ -64,6 +66,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         text.font = UIFont.plangoBodyBig()
         text.textColor = UIColor.plangoTextLight()
         text.secureTextEntry = true
+        text.returnKeyType = .Go
         text.autocorrectionType = .No
         text.autocapitalizationType = .None
         text.delegate = self
@@ -119,6 +122,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
         
         let titles = ["LOG IN", "SIGN UP"]
         loginSegment = UISegmentedControl(items: titles)
@@ -133,7 +137,6 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
 //                self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
                 
-                //TODO: - try changing the root controller instead of dismissing
                 let app = UIApplication.sharedApplication().delegate as! AppDelegate
                 app.swapLoginControllerInTab()
 
@@ -321,7 +324,17 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        textField.endEditing(true)
+        if textField == passwordTextField {
+            textField.endEditing(true)
+            didTapLogin(loginButton)
+        }
+        if textField == emailTextField {
+            passwordTextField.becomeFirstResponder()
+        }
+        if textField == usernameTextField {
+            emailTextField.becomeFirstResponder()
+        }
+        
         return true
     }
     
@@ -331,7 +344,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     
     func textFieldDidEndEditing(textField: UITextField) {
         textField.resignFirstResponder()
-        textField.layer.borderWidth = 0.0
+//        textField.layer.borderWidth = 0.0
         
         processTextField(textField)
     }

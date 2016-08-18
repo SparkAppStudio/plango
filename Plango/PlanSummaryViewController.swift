@@ -52,9 +52,7 @@ class PlanSummaryViewController: UITableViewController {
     
     //DownloadView xib
     @IBAction func didTapDownload(sender: UIButton) {
-        //TODO: - download info to device
         guard (plan.experiences != nil) else {self.view.quickToast("No Experiences"); return}
-//        displayMapForPlan(plan, download: true)
         startOfflinePackDownload()
 
     }
@@ -261,10 +259,11 @@ class PlanSummaryViewController: UITableViewController {
             
             if planID == plan.id {
                 
-                //TODO: retrieve mapSize from storedPlan in realm from id
-
+                let realm = try! Realm()
+                if let object = realm.objectForPrimaryKey(StoredPlan.self, key: plan.id) {
+                    localPlanLabel.text = "Delete this map to free up storage (\(object.mapSize))"
+                }
                 
-                localPlanLabel.text = ""
                 return true
             }
         }
@@ -317,7 +316,7 @@ class PlanSummaryViewController: UITableViewController {
         let nibDelete = UINib(nibName: "DeletePlanView", bundle: nil)
         deleteView = nibDelete.instantiateWithOwner(self, options: nil)[0] as! UIView
         deleteView.snp_makeConstraints { (make) in
-            make.height.equalTo(80)
+            make.height.equalTo(160)
         }
         
         planDownloaded = isPlanLocal(plan)
