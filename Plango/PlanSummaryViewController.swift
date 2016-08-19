@@ -862,7 +862,7 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
     func startOfflinePackDownload() {
         // create region to save based on current map locations and also how far the user can zoom in
         let region = MGLTilePyramidOfflineRegion(styleURL: mapView.styleURL, bounds: mapView.visibleCoordinateBounds, fromZoomLevel: mapView.zoomLevel, toZoomLevel: mapView.zoomLevel + 3)
-        print(mapView.zoomLevel)
+        // zoom level + 3 is minimum. Any less you dont save much space but map is less useful. 4 might be a better level but then space and time to download are increased.
         guard let plan = plan else {return}
         //metadata for local storage
         let userInfo: NSDictionary = ["planID" : plan.id]

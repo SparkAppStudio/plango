@@ -54,6 +54,7 @@ class Plango: NSObject {
     
     //memory usage scales to physical memory available on device
     let photoCache = AutoPurgingImageCache(memoryCapacity: NSProcessInfo.processInfo().physicalMemory/5, preferredMemoryUsageAfterPurge: NSProcessInfo.processInfo().physicalMemory/10)
+    
     var userCache = [String : User]()
 
     func cleanEndPoint(endPoint: String) -> String {

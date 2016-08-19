@@ -216,6 +216,10 @@ class PlansTableViewController: UITableViewController {
         let plan = self.plansArray[indexPath.row]
         cell.plan = plan
         
+        if findPlansParameters == nil && Plango.sharedInstance.currentUser != nil { //myplans
+            cell.user = Plango.sharedInstance.currentUser!
+        }
+        
         cell.configure()
         return cell
     }

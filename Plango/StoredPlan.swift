@@ -43,6 +43,7 @@ class StoredPlan: PlangoStoredObject {
     class func unpackStoredPlan(plan: StoredPlan) -> Plan {
         let savedPlan = Plan()
         savedPlan.id = plan.id
+        savedPlan.name = plan.name
         savedPlan.avatar = plan.avatar
         savedPlan.planDescription = plan.planDescription
         savedPlan.isPublic = plan.isPublic.value
@@ -187,6 +188,7 @@ class StoredPlan: PlangoStoredObject {
     class func savePlan(plan: Plan, mapSize: String) {
         let savedPlan = StoredPlan()
         savedPlan.id = plan.id
+        savedPlan.name = plan.name
         savedPlan.mapSize = mapSize
         savedPlan.avatar = plan.avatar
         savedPlan.planDescription = plan.planDescription

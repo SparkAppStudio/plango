@@ -50,7 +50,9 @@ class PlansTableViewCell: UITableViewCell {
                 maximumActiveDownloads: 10,
                 imageCache: Plango.sharedInstance.photoCache
             )
-            coverImageView.af_imageDownloader = downloader
+//            coverImageView.af_imageDownloader = downloader
+//            
+//            UIImageView.af_sharedImageDownloader = downloader
             
             coverImageView.af_setImageWithURL(cleanURL!)
             coverImageView.gradientDarkToClear()
@@ -82,22 +84,22 @@ class PlansTableViewCell: UITableViewCell {
         }
     }
     
-    func configureUser() {
-        if let cellUser = user {
-            profileNameLabel.text = cellUser.userName
-            profileImageView.makeCircle()
+    func configureUser(user: User) {
+        dispatch_async(dispatch_get_main_queue(), {
+            self.profileNameLabel.text = user.userName
+            self.profileImageView.makeCircle()
 
-            guard let endPoint = cellUser.avatar else {
-                if let facebook = cellUser.facebookAvatar {
+            guard let endPoint = user.avatar else {
+                if let facebook = user.facebookAvatar {
                     let cleanURL = NSURL(string: facebook)
-                    profileImageView.af_setImageWithURL(cleanURL!)
+                    self.profileImageView.af_setImageWithURL(cleanURL!)
                 }
                 return
             }
             let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
             
-            profileImageView.af_setImageWithURL(cleanURL!)
-        }
+            self.profileImageView.af_setImageWithURL(cleanURL!)
+        })
     }
     
     func reset() {
@@ -112,19 +114,21 @@ class PlansTableViewCell: UITableViewCell {
         userRequest?.cancel()
         self.profileImageView.hideSimpleLoading()
         profileNameLabel.text = nil
+        
         user = nil
-        
         plan = nil
-        
     }
     
     func fetchUserForPlan(plan: Plan, endPoint: String) {
         
+        if let user = user {
+            configureUser(user)
+            return
+        }
+        
         if let user = Plango.sharedInstance.userCache[plan.authorID] {
             self.user = user
-            dispatch_async(dispatch_get_main_queue(), {
-                self.configureUser()
-            })
+            self.configureUser(user)
             return
         }
         
@@ -139,9 +143,7 @@ class PlansTableViewCell: UITableViewCell {
                 guard let user = users.first else {return}
                 self.user = user
                 Plango.sharedInstance.userCache[user.id] = user
-                dispatch_async(dispatch_get_main_queue(), { 
-                    self.configureUser()
-                })
+                self.configureUser(user)
             }
         }
     }
