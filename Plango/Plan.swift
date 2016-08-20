@@ -354,7 +354,7 @@ class Plan: PlangoObject {
                         let aReview = Review(id: id)
                         aReview.name = name
                         aReview.author = author
-                        aReview.authorAvatar = authorAvatar
+                        aReview.avatar = authorAvatar
                         aReview.likes = likes
                         aReview.date = date
 //                        let aReview = Review(id: id, name: name, author: author, authorAvatar: authorAvatar, likes: likes, date: date)
@@ -503,7 +503,7 @@ class Review: PlangoObject {
 //    var id: String!
     var name: String?
     var author: String?
-    var authorAvatar: String?
+//    var authorAvatar: String?
     var likes: Int?
     var date: NSDate?
     

@@ -97,14 +97,8 @@ class EventDetailsTableViewController: UITableViewController {
         titleLabel.text = experience.name
         addressLabel.text = experience.address
         reviewLabel.text = experience.rating
-        print(titleLabel.text)
-        print(experience.name)
-        guard let endPoint = experience.avatar else {
-            coverImageView.backgroundColor = UIColor.plangoText()
-            return
-        }
-        coverImageView.af_setImageWithURL(NSURL(string: endPoint)!)
-        coverImageView.gradientDarkToClear()
+
+        coverImageView.plangoImage(experience)
     }
     
     override func viewDidLayoutSubviews() {

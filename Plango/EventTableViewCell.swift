@@ -68,9 +68,7 @@ class EventTableViewCell: UITableViewCell {
 //        print(event.startDate)
         titleLabel.text = experience.name
         
-        guard let endPoint = experience.avatar else {return}
-        let theURL = NSURL(string: endPoint) //no need to clean for experiences
-        coverImageView.af_setImageWithURL(theURL!)
+        coverImageView.plangoImage(experience)
     }
     
     override func prepareForReuse() {

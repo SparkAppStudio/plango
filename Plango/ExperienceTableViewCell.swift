@@ -20,11 +20,8 @@ class ExperienceTableViewCell: UITableViewCell {
     func configure() {
         avatarImageView.makeRoundCorners(6)
         guard let experience = experience else {return}
+        avatarImageView.plangoImage(experience)
         
-        if let avatar = experience.avatar {
-            let avatarURL = NSURL(string: avatar)
-            avatarImageView.af_setImageWithURL(avatarURL!)
-        }
         
         titleLabel.text = experience.name
         ratingLabel.text = experience.rating

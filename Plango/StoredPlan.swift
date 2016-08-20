@@ -136,6 +136,7 @@ class StoredPlan: PlangoStoredObject {
                 anExperience.authorID = item.authorID
                 anExperience.name = item.name
                 anExperience.avatar = item.avatar
+                anExperience.localAvatar = item.localAvatar
                 anExperience.address = item.address
                 anExperience.city = item.city
                 anExperience.state = item.state
@@ -164,7 +165,8 @@ class StoredPlan: PlangoStoredObject {
                         let aReview = Review(id: review.id)
                         aReview.name = review.name
                         aReview.author = review.author
-                        aReview.authorAvatar = review.authorAvatar
+                        aReview.avatar = review.authorAvatar
+                        aReview.localAvatar = review.localAvatar
                         aReview.likes = review.likes.value
                         aReview.date = review.date
                         anExperience.reviews?.append(aReview)
@@ -280,6 +282,7 @@ class StoredPlan: PlangoStoredObject {
                 storedItem.authorID = item.authorID
                 storedItem.name = item.name
                 storedItem.avatar = item.avatar
+                storedItem.localAvatar = item.localAvatar
                 storedItem.address = item.address
                 storedItem.city = item.city
                 storedItem.state = item.state
@@ -313,7 +316,8 @@ class StoredPlan: PlangoStoredObject {
                         stored.id = review.id
                         stored.name = review.name
                         stored.author = review.author
-                        stored.authorAvatar = review.authorAvatar
+                        stored.authorAvatar = review.avatar
+                        stored.localAvatar = review.localAvatar
                         stored.likes.value = review.likes
                         stored.date = review.date
                         storedItem.reviews.append(stored)
@@ -389,6 +393,7 @@ class StoredExperience: PlangoStoredObject {
     dynamic var authorID: String?
     dynamic var name: String?
     dynamic var avatar: String?
+    dynamic var localAvatar: NSData?
     dynamic var address: String?
     dynamic var city: String?
     dynamic var state: String?
@@ -415,6 +420,7 @@ class StoredReview: PlangoStoredObject {
     dynamic var name: String?
     dynamic var author: String?
     dynamic var authorAvatar: String?
+    dynamic var localAvatar: NSData?
     let likes = RealmOptional<Int>()
     dynamic var date: NSDate?
 

@@ -648,7 +648,7 @@ extension UIImageView {
         if Helper.isConnectedToNetwork() == false {
             self.setLocalImage(object.localAvatar)
         } else {
-            guard let endPoint = object.avatar else {self.backgroundColor = UIColor.plangoTeal(); return}
+            guard let endPoint = object.avatar else {self.backgroundColor = UIColor.plangoBackgroundGray(); return}
             
             self.setNetworkImage(endPoint, onCompletion: { (avatar) in
                 if let compound = self as? CompoundImageView {

@@ -43,18 +43,6 @@ class PlansTableViewCell: UITableViewCell {
             
             coverImageView.plangoImage(cellPlan)
             
-//            if Helper.isConnectedToNetwork() == false {
-//                coverImageView.setLocalImage(cellPlan.localAvatar)
-//            } else {
-//                coverImageView.setNetworkImage(endPoint, onCompletion: { (avatar) in
-//                    self.coverImageView.gradientDarkToClear() //set gradient after image is present
-//                    self.plan?.localAvatar = avatar //save image data to RAM as soon as network request finishes so it will be ready to save to Realm when user taps download plan
-//                })
-//            }
-
-            
-
-            
             var allTags = ""
             guard let planTags = cellPlan.tags else {
                return
