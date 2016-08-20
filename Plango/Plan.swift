@@ -13,7 +13,8 @@ import Alamofire
 class Plan: PlangoObject {
 //    var id: String!
     var name: String?
-    var avatar: String?
+//    var avatar: String?
+//    var localAvatar: NSData?
     var planDescription: String?
     var isPublic: Bool!
 
@@ -475,7 +476,7 @@ class Experience: PlangoObject { //"name":"PRO rafting Costa Rica","thumb":"http
     var placeID: String?
     var authorID: String?
     var name: String?
-    var avatar: String?
+//    var avatar: String?
     var address: String?
     var city: String?
     var state: String?

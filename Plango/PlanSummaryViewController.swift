@@ -668,11 +668,7 @@ class PlanSummaryViewController: UITableViewController {
         if let plan = self.plan {
             self.navigationItem.title = plan.name?.uppercaseString
             
-            if let endPoint = plan.avatar {
-                let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
-                coverImageView.af_setImageWithURL(cleanURL!)
-                coverImageView.gradientDarkToClear()
-            } else {coverImageView.backgroundColor = UIColor.plangoTeal()}
+            coverImageView.plangoImage(plan)
             
             if let tags = plan.tags {
                 tagsLabel.text = parseTags(tags, comma: true)

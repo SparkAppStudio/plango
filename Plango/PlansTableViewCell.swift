@@ -41,13 +41,18 @@ class PlansTableViewCell: UITableViewCell {
 
             planNameLabel.text = cellPlan.name
             
-            guard let endPoint = cellPlan.avatar else {return}
-            let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
+            coverImageView.plangoImage(cellPlan)
             
-                        
-            coverImageView.af_setImageWithURL(cleanURL!)
+//            if Helper.isConnectedToNetwork() == false {
+//                coverImageView.setLocalImage(cellPlan.localAvatar)
+//            } else {
+//                coverImageView.setNetworkImage(endPoint, onCompletion: { (avatar) in
+//                    self.coverImageView.gradientDarkToClear() //set gradient after image is present
+//                    self.plan?.localAvatar = avatar //save image data to RAM as soon as network request finishes so it will be ready to save to Realm when user taps download plan
+//                })
+//            }
+
             
-            coverImageView.gradientDarkToClear()
 
             
             var allTags = ""

@@ -15,6 +15,7 @@ class StoredPlan: PlangoStoredObject {
     dynamic var mapSize: String?
     dynamic var name: String?
     dynamic var avatar: String?
+    dynamic var localAvatar: NSData?
     dynamic var planDescription: String?
     let isPublic = RealmOptional<Bool>()
     
@@ -45,6 +46,7 @@ class StoredPlan: PlangoStoredObject {
         savedPlan.id = plan.id
         savedPlan.name = plan.name
         savedPlan.avatar = plan.avatar
+        savedPlan.localAvatar = plan.localAvatar
         savedPlan.planDescription = plan.planDescription
         savedPlan.isPublic = plan.isPublic.value
         savedPlan.authorID = plan.authorID
@@ -191,6 +193,7 @@ class StoredPlan: PlangoStoredObject {
         savedPlan.name = plan.name
         savedPlan.mapSize = mapSize
         savedPlan.avatar = plan.avatar
+        savedPlan.localAvatar = plan.localAvatar
         savedPlan.planDescription = plan.planDescription
         savedPlan.isPublic.value = plan.isPublic
         savedPlan.authorID = plan.authorID

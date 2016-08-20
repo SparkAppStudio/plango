@@ -624,6 +624,43 @@ extension UIImage {
     }
 }
 
+extension UIImageView {
+    private func setNetworkImage(endPoint: String, onCompletion: (NSData?) -> Void) {
+        if let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint)) {
+            self.af_setImageWithURL(cleanURL, placeholderImage: nil, filter: nil, progress: nil, progressQueue: dispatch_get_main_queue(), imageTransition: .None, runImageTransitionIfCached: false, completion: { (response) in
+                if response.result.isSuccess {
+                    if let image = response.result.value {
+                        let imageData = UIImageJPEGRepresentation(image, 1.0)
+                        onCompletion(imageData)
+                    }
+                }
+            })
+        }
+        
+    }
+    
+    private func setLocalImage(localAvatar: NSData?) {
+        guard let avatar = localAvatar else {return}
+        self.image = UIImage(data: avatar)
+    }
+    
+    func plangoImage(object: PlangoObject) {
+        if Helper.isConnectedToNetwork() == false {
+            self.setLocalImage(object.localAvatar)
+        } else {
+            guard let endPoint = object.avatar else {self.backgroundColor = UIColor.plangoTeal(); return}
+            
+            self.setNetworkImage(endPoint, onCompletion: { (avatar) in
+                if let compound = self as? CompoundImageView {
+                    compound.gradientDarkToClear() //set gradient after image is present
+                }
+                
+                object.localAvatar = avatar //save image data to RAM as soon as network request finishes so it will be ready to save to Realm when user taps download plan
+            })
+        }
+    }
+}
+
 extension UILabel {
     func dropShadow() {
         self.layer.shadowColor = UIColor.plangoBlack().CGColor

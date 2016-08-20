@@ -53,6 +53,9 @@ class PlangoObject: NSObject {
     }
     
     var id: String!
+    var avatar: String?
+    var localAvatar: NSData?
+
 
     convenience init(id: String) {
         self.init()

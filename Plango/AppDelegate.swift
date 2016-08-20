@@ -13,7 +13,7 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import RealmSwift
 import Mapbox
-import AlamofireImage
+//import AlamofireImage
 
 
 @UIApplicationMain
