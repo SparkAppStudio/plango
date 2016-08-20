@@ -20,7 +20,8 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
     var selectedTags: [Tag]?
     var selectedDestinations: [Destination]?
     
-//    var headerView: UIView!
+    var searchButton: UIButton!
+    var firstView = true
     
     lazy var titlesArray: NSMutableArray = {
         let titles = NSMutableArray()
@@ -49,7 +50,6 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         self.edgesForExtendedLayout = .None
         
         
-
         addPage("TAGS", controller: tagsController)
         addPage("DESTINATION", controller: destinationController)
         addPage("DURATION", controller: durationController)
@@ -78,6 +78,28 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         self.segmentedPager.segmentedControl.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe
         self.segmentedPager.segmentedControl.selectionIndicatorColor = UIColor.plangoOrange()
         
+        
+        searchButton = UIButton(type: .Custom)
+        
+        searchButton.setTitle("Get Plans", forState: .Normal)
+        searchButton.backgroundColor = UIColor.plangoOrange()
+        searchButton.titleLabel?.textColor = UIColor.whiteColor()
+        searchButton.titleLabel?.font = UIFont.plangoButton()
+        searchButton.addTarget(self, action: #selector(didTapSearch), forControlEvents: .TouchUpInside)
+        
+        self.segmentedPager.addSubview(searchButton)
+    }
+    
+    func didTapSearch(sender: UIButton) {
+        collectSearchParameters()
+        let parameters = Plango.sharedInstance.buildParameters(minDuration, maxDuration: maxDuration, tags: selectedTags, selectedDestinations: selectedDestinations, user: nil, isJapanSearch: nil)
+        
+        let plansVC = PlansTableViewController()
+        plansVC.plansEndPoint = Plango.EndPoint.FindPlans.rawValue
+        plansVC.findPlansParameters = parameters
+        plansVC.navigationItem.title = "RESULTS"
+        plansVC.hidesBottomBarWhenPushed = true
+        self.showViewController(plansVC, sender: nil)
     }
     
     func collectSearchParameters() {
@@ -98,15 +120,16 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationItem.title = "SEARCH"
-        
+        searchButton.frame = CGRect(x: 0, y: self.view.frame.height - 60, width: self.view.frame.width, height: 60)
         
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
-        self.segmentedPager.pager.showPageAtIndex(1, animated: false)
-
+        if firstView == true {
+            segmentedPager.pager.showPageAtIndex(1, animated: false)
+            firstView = false
+        }
     }
     
     func addPage(title: String, controller: UIViewController) {

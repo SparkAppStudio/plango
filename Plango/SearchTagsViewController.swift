@@ -92,7 +92,7 @@ class SearchTagsViewController: UIViewController, UISearchResultsUpdating, UISea
         super.viewDidLoad()
 
         tableView = UITableView(frame: UIScreen.mainScreen().bounds)
-        tableView.contentInset = UIEdgeInsetsMake(0, 0, 167, 0) //status+nav+pager+tab, not sure why i need it here but not on itineraryTVC
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 227, 0) //status+nav+pager+tab+SearchButton, not sure why i need it here but not on itineraryTVC
 
         tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.backgroundColor = UIColor.plangoBackgroundGray()

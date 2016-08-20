@@ -16,8 +16,6 @@ class SearchDestinationViewController: UIViewController {
     
     var tableView: UITableView!
     
-    var searchButton: UIButton!
-    
     lazy var resultsViewController: GMSAutocompleteResultsViewController = {
        let resultsVC  = GMSAutocompleteResultsViewController()
         resultsVC.delegate = self
@@ -51,26 +49,11 @@ class SearchDestinationViewController: UIViewController {
         return destinations
     }()
     
-    func didTapSearch(sender: UIButton) {
-        if let parent = parentViewController as? SearchViewController {
-            parent.collectSearchParameters()
-            let parameters = Plango.sharedInstance.buildParameters(parent.minDuration, maxDuration: parent.maxDuration, tags: parent.selectedTags, selectedDestinations: parent.selectedDestinations, user: nil, isJapanSearch: nil)
-            
-            let plansVC = PlansTableViewController()
-            plansVC.plansEndPoint = Plango.EndPoint.FindPlans.rawValue
-            plansVC.findPlansParameters = parameters
-            plansVC.navigationItem.title = "RESULTS"
-            plansVC.hidesBottomBarWhenPushed = true
-            self.showViewController(plansVC, sender: nil)
-
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView = UITableView(frame: UIScreen.mainScreen().bounds)
-        tableView.contentInset = UIEdgeInsetsMake(0, 0, 227, 0) //status+nav+pager+tab + Search Button, not sure why i need it here but not on itineraryTVC
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 227, 0) //status+nav+pager+tab+SearchButton, not sure why i need it here but not on itineraryTVC
 
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.backgroundColor = UIColor.plangoBackgroundGray()
@@ -109,23 +92,6 @@ class SearchDestinationViewController: UIViewController {
         searchController?.dimsBackgroundDuringPresentation = false
         
         
-        
-        searchButton = UIButton(type: .Custom)
-
-        searchButton.setTitle("Get Plans", forState: .Normal)
-        searchButton.backgroundColor = UIColor.plangoOrange()
-        searchButton.titleLabel?.textColor = UIColor.whiteColor()
-        searchButton.titleLabel?.font = UIFont.plangoButton()
-        searchButton.addTarget(self, action: #selector(didTapSearch), forControlEvents: .TouchUpInside)
-        
-        self.view.addSubview(searchButton)
-        
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        searchButton.frame = CGRect(x: 0, y: self.view.frame.height - 60, width: self.view.frame.width, height: 60)
     }
 }
 
