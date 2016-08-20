@@ -49,8 +49,15 @@ class SearchDestinationViewController: UIViewController {
         return destinations
     }()
     
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//        searchController?.searchBar.sizeToFit()
+//    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+
+//        self.extendedLayoutIncludesOpaqueBars = !self.navigationController!.navigationBar.translucent
         
         tableView = UITableView(frame: UIScreen.mainScreen().bounds)
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 227, 0) //status+nav+pager+tab+SearchButton, not sure why i need it here but not on itineraryTVC
@@ -71,6 +78,7 @@ class SearchDestinationViewController: UIViewController {
         
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = resultsViewController
+
         
         //style the search bar
         searchController?.searchBar.tintColor = UIColor.plangoOrange()
@@ -80,7 +88,6 @@ class SearchDestinationViewController: UIViewController {
         
         // Put the search bar in the tableview header bar.
         searchController?.searchBar.sizeToFit()
-
         self.tableView.tableHeaderView = searchController?.searchBar
         
         // When UISearchController presents the results view, present it in
@@ -89,7 +96,7 @@ class SearchDestinationViewController: UIViewController {
         
         // Prevent the navigation bar from being hidden when searching.
         searchController?.hidesNavigationBarDuringPresentation = false
-        searchController?.dimsBackgroundDuringPresentation = false
+//        searchController?.dimsBackgroundDuringPresentation = false
         
         
     }
@@ -222,7 +229,8 @@ extension SearchDestinationViewController: UITableViewDelegate, UITableViewDataS
 }
 
 // Handle the user's selection.
-extension SearchDestinationViewController: GMSAutocompleteResultsViewControllerDelegate {
+extension SearchDestinationViewController: GMSAutocompleteResultsViewControllerDelegate  {
+    
     func resultsController(resultsController: GMSAutocompleteResultsViewController,
                            didAutocompleteWithPlace place: GMSPlace) {
         searchController?.active = false

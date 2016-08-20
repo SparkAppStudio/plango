@@ -49,6 +49,7 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         self.extendedLayoutIncludesOpaqueBars = false
         self.edgesForExtendedLayout = .None
         
+
         
         addPage("TAGS", controller: tagsController)
         addPage("DESTINATION", controller: destinationController)
