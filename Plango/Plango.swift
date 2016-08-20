@@ -55,6 +55,7 @@ class Plango: NSObject {
     //memory usage scales to physical memory available on device
     let photoCache = AutoPurgingImageCache(memoryCapacity: NSProcessInfo.processInfo().physicalMemory/5, preferredMemoryUsageAfterPurge: NSProcessInfo.processInfo().physicalMemory/10)
     
+    
     var userCache = [String : User]()
 
     func cleanEndPoint(endPoint: String) -> String {
@@ -62,6 +63,9 @@ class Plango: NSObject {
         if endPoint.lowercaseString.rangeOfString(Plango.EndPoint.AmazonImageRoot.rawValue) == nil {
             if endPoint.lowercaseString.rangeOfString("../") != nil {
                 cleanedEndPoint = String(endPoint.characters.dropFirst(3))
+            }
+            if endPoint.characters.first == "/" {
+                cleanedEndPoint = String(endPoint.characters.dropFirst())
             }
             cleanedEndPoint = Plango.EndPoint.Home.rawValue.stringByAppendingString(cleanedEndPoint)
         }

@@ -13,6 +13,7 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import RealmSwift
 import Mapbox
+import AlamofireImage
 
 
 @UIApplicationMain
@@ -44,6 +45,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         configureTabController()
         syncAuthStatus()
         window?.makeKeyAndVisible()
+        
+//        let diskCapacity = 1000 * 1024 * 1024
+//        let diskCache = NSURLCache(memoryCapacity: 0, diskCapacity: diskCapacity, diskPath: "com.alamofire.imagedownloader")
+//        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+//        configuration.URLCache = diskCache
+//        
+//        let downloader = ImageDownloader(
+//            configuration: configuration,
+//            downloadPrioritization: .FIFO,
+//            maximumActiveDownloads: 10,
+//            imageCache: Plango.sharedInstance.photoCache
+//        )
+//
+//        
+//        UIImageView.af_sharedImageDownloader = downloader
+
         return true
     }
     

@@ -62,7 +62,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mostly Cloudy" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yVV-DK-7nl">
-                    <rect key="frame" x="166" y="40" width="90" height="17"/>
+                    <rect key="frame" x="12" y="40" width="244" height="17"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="110" id="d4m-ed-5UM"/>
                     </constraints>
@@ -83,6 +83,9 @@
                 </label>
                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&quot;" textAlignment="center" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GNV-AM-1cB">
                     <rect key="frame" x="264" y="12" width="44" height="51"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="44" id="V4N-qN-wYU"/>
+                    </constraints>
                     <fontDescription key="fontDescription" name="Climacons-Font" family="Climacons-Font" pointSize="50"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
@@ -110,6 +113,7 @@
                 <constraint firstItem="Ukt-BV-T8w" firstAttribute="leading" secondItem="hWo-78-1yy" secondAttribute="trailing" constant="8" id="sVb-6g-q1Z"/>
                 <constraint firstItem="GNV-AM-1cB" firstAttribute="top" secondItem="hKf-Tg-Mmz" secondAttribute="top" constant="12" id="tFR-k6-oAD"/>
                 <constraint firstItem="Nti-0F-Ygm" firstAttribute="top" secondItem="GNV-AM-1cB" secondAttribute="top" id="uVb-29-rOD"/>
+                <constraint firstItem="yVV-DK-7nl" firstAttribute="leading" secondItem="1N0-ex-4qa" secondAttribute="leading" id="x6v-IL-7OS"/>
                 <constraint firstItem="Nti-0F-Ygm" firstAttribute="leading" secondItem="yVV-DK-7nl" secondAttribute="leading" id="y1t-Hc-SWp"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

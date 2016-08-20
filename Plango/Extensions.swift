@@ -624,6 +624,15 @@ extension UIImage {
     }
 }
 
+extension UILabel {
+    func dropShadow() {
+        self.layer.shadowColor = UIColor.plangoBlack().CGColor
+        self.layer.shadowOpacity = 0.5
+        self.layer.shadowOffset = CGSize(width: 0, height: 2)
+        self.layer.shadowRadius = 4
+    }
+}
+
 extension UIFont {
     static func plangoHeader() -> UIFont {
         return UIFont(name: "Raleway-Regular", size: 16)!

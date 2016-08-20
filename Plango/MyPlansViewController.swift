@@ -104,10 +104,7 @@ class MyPlansViewController: MXSegmentedPagerController {
             
             if let name = user.displayName {
                 userNameLabel.text = name
-                userNameLabel.layer.shadowColor = UIColor.plangoBlack().CGColor
-                userNameLabel.layer.shadowOpacity = 0.5
-                userNameLabel.layer.shadowOffset = CGSize(width: 0, height: 2)
-                userNameLabel.layer.shadowRadius = 4
+                userNameLabel.dropShadow()
                 
 //                self.navigationItem.title = "\(name.uppercaseString)'S PLANS"
             }

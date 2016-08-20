@@ -199,6 +199,10 @@ class PlanSummaryViewController: UITableViewController {
                     self.temperatureLabel.hidden = false
                     self.weatherLabel.hidden = false
                     self.climaconLabel.hidden = false
+                    
+                    self.temperatureLabel.dropShadow()
+                    self.weatherLabel.dropShadow()
+                    self.climaconLabel.dropShadow()
                 })
             }
         }

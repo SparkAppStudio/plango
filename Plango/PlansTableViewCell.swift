@@ -44,17 +44,9 @@ class PlansTableViewCell: UITableViewCell {
             guard let endPoint = cellPlan.avatar else {return}
             let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
             
-            let downloader = ImageDownloader(
-                configuration: ImageDownloader.defaultURLSessionConfiguration(),
-                downloadPrioritization: .FIFO,
-                maximumActiveDownloads: 10,
-                imageCache: Plango.sharedInstance.photoCache
-            )
-//            coverImageView.af_imageDownloader = downloader
-//            
-//            UIImageView.af_sharedImageDownloader = downloader
-            
+                        
             coverImageView.af_setImageWithURL(cleanURL!)
+            
             coverImageView.gradientDarkToClear()
 
             
