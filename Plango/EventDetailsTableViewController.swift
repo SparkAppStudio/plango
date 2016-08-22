@@ -101,10 +101,10 @@ class EventDetailsTableViewController: UITableViewController {
         coverImageView.plangoImage(experience)
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        coverImageView.layer.frame = coverImageView.bounds
-    }
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//        coverImageView.layer.frame = coverImageView.bounds
+//    }
     
     // MARK: - Table view Delegate
     

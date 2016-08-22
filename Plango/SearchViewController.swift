@@ -98,6 +98,7 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         let plansVC = PlansTableViewController()
         plansVC.plansEndPoint = Plango.EndPoint.FindPlans.rawValue
         plansVC.findPlansParameters = parameters
+        plansVC.searchDestinations = selectedDestinations
         plansVC.navigationItem.title = "RESULTS"
         plansVC.hidesBottomBarWhenPushed = true
         self.showViewController(plansVC, sender: nil)

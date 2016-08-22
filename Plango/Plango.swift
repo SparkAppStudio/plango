@@ -60,7 +60,7 @@ class Plango: NSObject {
 
     func cleanEndPoint(endPoint: String) -> String {
         var cleanedEndPoint = endPoint
-        if endPoint.lowercaseString.rangeOfString(Plango.EndPoint.AmazonImageRoot.rawValue) == nil && endPoint.lowercaseString.rangeOfString("sqi.net") == nil {
+        if endPoint.lowercaseString.rangeOfString(Plango.EndPoint.AmazonImageRoot.rawValue) == nil && endPoint.lowercaseString.rangeOfString("sqi.net") == nil && endPoint.lowercaseString.rangeOfString("graph.facebook") == nil {
             if endPoint.lowercaseString.rangeOfString("../") != nil {
                 cleanedEndPoint = String(endPoint.characters.dropFirst(3))
             }

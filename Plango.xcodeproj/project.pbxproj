@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B1BC5F3F9390FA6571B87A27 /* Pods_Plango.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EAE4A8321BC528617A5558B /* Pods_Plango.framework */; };
+		C304BD5C1D6B6E7200913DDB /* SearchResultsHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C304BD5B1D6B6E7200913DDB /* SearchResultsHeader.xib */; };
 		C30C2FE91CBAEF2C00411B8E /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30C2FE81CBAEF2C00411B8E /* Formatter.swift */; };
 		C316A42D1D530E9A00A1A3DE /* CompoundImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C316A42C1D530E9A00A1A3DE /* CompoundImageView.swift */; };
 		C316D4AE1D08C4A4008B244E /* LoginConfirmTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C316D4AD1D08C4A4008B244E /* LoginConfirmTableViewController.swift */; };
@@ -106,6 +107,7 @@
 /* Begin PBXFileReference section */
 		7C809CA33271A5989CE4861B /* Pods-Plango.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plango.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plango/Pods-Plango.release.xcconfig"; sourceTree = "<group>"; };
 		9EAE4A8321BC528617A5558B /* Pods_Plango.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Plango.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C304BD5B1D6B6E7200913DDB /* SearchResultsHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchResultsHeader.xib; sourceTree = "<group>"; };
 		C30C2FE81CBAEF2C00411B8E /* Formatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		C316A42C1D530E9A00A1A3DE /* CompoundImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompoundImageView.swift; sourceTree = "<group>"; };
 		C316D4AD1D08C4A4008B244E /* LoginConfirmTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginConfirmTableViewController.swift; sourceTree = "<group>"; };
@@ -348,6 +350,7 @@
 				C37F1E821D26308100CA1FAA /* MemberCell.xib */,
 				C33E791A1D2DE04E002EB80D /* ExperienceCell.xib */,
 				C33E79201D303A70002EB80D /* SectionHeader.xib */,
+				C304BD5B1D6B6E7200913DDB /* SearchResultsHeader.xib */,
 				C33E791E1D303A5C002EB80D /* SectionHeaderView.swift */,
 				C3D26CD11D3445AC006D909F /* MapViewController.swift */,
 				C33E791C1D2DEC09002EB80D /* ExperienceTableViewCell.swift */,
@@ -511,6 +514,7 @@
 				C3978CD21CB85B38001028D5 /* PlansCell.xib in Resources */,
 				C3327B831D24A08B00B7946E /* Raleway-BoldItalic.ttf in Resources */,
 				C3327B811D24A08B00B7946E /* Raleway-BlackItalic.ttf in Resources */,
+				C304BD5C1D6B6E7200913DDB /* SearchResultsHeader.xib in Resources */,
 				C33730391CDFFE3000F57B47 /* SummaryStart.xib in Resources */,
 				C3327B871D24A08B00B7946E /* Raleway-ExtraLightItalic.ttf in Resources */,
 				C3EB7F311D30DD9E0075BD52 /* DownloadView.xib in Resources */,

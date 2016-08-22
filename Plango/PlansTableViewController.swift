@@ -13,6 +13,14 @@ import RealmSwift
 
 class PlansTableViewController: UITableViewController {
     
+    //search criteria header
+    @IBOutlet weak var tagsLabel: UILabel!
+    @IBOutlet weak var placesLabel: UILabel!
+    @IBOutlet weak var daysLabel: UILabel!
+    
+    var headerView: UIView!
+
+    
     lazy var plansArray = [Plan]()
     
     //search criteria "\(parent.selectedTags?.description) in \(parent.selectedDestinations?.description) for \(parent.minDuration) - \(parent.maxDuration) days"
@@ -37,6 +45,7 @@ class PlansTableViewController: UITableViewController {
     var endReached = false
 
     var findPlansParameters: [String:AnyObject]?
+    var searchDestinations: [Destination]?
 
     var plansEndPoint: String!
 
@@ -44,8 +53,10 @@ class PlansTableViewController: UITableViewController {
         super.viewDidLoad()
 
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-
         self.tableView.backgroundColor = UIColor.plangoBackgroundGray()
+        
+
+        
         let cellNib = UINib(nibName: "PlansCell", bundle: nil)
         self.tableView.registerNib(cellNib, forCellReuseIdentifier: CellID.Plans.rawValue)
         
@@ -71,6 +82,78 @@ class PlansTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
+    func setupSearchResultsHeader() {
+        let nib = UINib(nibName: "SearchResultsHeader", bundle: nil)
+        headerView = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        headerView.snp_makeConstraints { (make) in
+            make.height.equalTo(Helper.HeaderHeight.section.value)
+        }
+        
+        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.size.width, height: Helper.HeaderHeight.section.value))
+        
+        containerView.addSubview(headerView)
+        
+        tableView.tableHeaderView = containerView
+        
+        headerView.leadingAnchor.constraintEqualToAnchor(tableView.tableHeaderView!.leadingAnchor).active = true
+        headerView.trailingAnchor.constraintEqualToAnchor(tableView.tableHeaderView!.trailingAnchor).active = true
+        headerView.bottomAnchor.constraintEqualToAnchor(tableView.tableHeaderView!.bottomAnchor).active = true
+        headerView.topAnchor.constraintEqualToAnchor(tableView.tableHeaderView!.topAnchor).active = true
+        
+        tagsLabel.hidden = true
+        placesLabel.hidden = true
+        daysLabel.hidden = true
+    }
+    
+    func configureSearchResultsHeader(parameters: [String : AnyObject]) {
+        tagsLabel.hidden = false
+        placesLabel.hidden = false
+        daysLabel.hidden = false
+        if let tags = parameters["tags"] as? String {
+            tagsLabel.text = tags
+        }
+        if parameters["selectedPlaces"] != nil {
+            if let destinations = searchDestinations {
+                var text = "in "
+                for place in destinations {
+                    if let city = place.city {
+                        text = text.stringByAppendingString("\(city), ")
+                    } else if let state = place.state {
+                        if let fullState = state.getLongState() {
+                            text = text.stringByAppendingString("\(fullState.capitalizedString), ")
+                        } else {
+                            text = text.stringByAppendingString("\(state.capitalizedString), ")
+                        }
+                    } else if let country = place.country {
+                        text = text.stringByAppendingString("\(country), ")
+                    }
+                }
+                if text == "in " {
+                    placesLabel.text = ""
+                } else {
+                    placesLabel.text = String(text.characters.dropLast(2))
+                }
+                
+            }
+        } else {
+            placesLabel.text = ""
+        }
+
+        if let durationFrom = parameters["durationFrom"] as? String {
+            daysLabel.text = "from \(durationFrom)"
+        } else {
+            daysLabel.text = "from 1"
+        }
+        if let durationTo = parameters["durationTo"] as? String {
+            daysLabel.text = daysLabel.text!.stringByAppendingString(" - \(durationTo) days")
+        } else {
+            daysLabel.text = daysLabel.text!.stringByAppendingString(" - Many days")
+        }
+        if daysLabel.text == "from 1 - Many days" {
+            daysLabel.text = ""
+        }
+    }
+    
     //wrapper because depending on parent or instantiating controller, may need to call find plans or fetch plans, for example search vs my plans parents, this wrapper should be called which checks if there are parameters present and decides the correct fetch method that way
     func getPlans() {
         if Helper.isConnectedToNetwork() == false {
@@ -90,6 +173,7 @@ class PlansTableViewController: UITableViewController {
             
         } else if fetchRequest == nil {
             if let parameters = findPlansParameters { //for search and categories
+                setupSearchResultsHeader()
                 findPlans(plansEndPoint, page: currentFetchPage + 1, parameters: parameters)
             } else if Plango.sharedInstance.currentUser != nil { //will come here on my plans page only, as categories and top collections have parameters or are preloaded
                 fetchPlans(plansEndPoint)
@@ -166,6 +250,7 @@ class PlansTableViewController: UITableViewController {
                     }
                     
                     if let total = Plango.sharedInstance.searchTotal {
+                        self.configureSearchResultsHeader(parameters)
                         if total == 1 {
                             self.navigationItem.title = "\(total) PLAN FOUND"
                         } else {
