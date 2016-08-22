@@ -77,6 +77,8 @@ class PlanSummaryViewController: UITableViewController {
     
     var experiencesByPlace: [String:[Experience]]!
     
+    let downloader = ImageDownloader()
+    
     var timer: NSTimer!
     let calendar = NSCalendar.currentCalendar()
     var days = 0
@@ -832,6 +834,34 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
         }
     }
     
+    func cachePlanImages(plan: Plan) {
+        downloadImage(plan)
+        guard let experiences = plan.experiences else {return}
+        for experience in experiences {
+            downloadImage(experience)
+            guard let reviews = experience.reviews else {continue}
+            for review in reviews {
+                downloadImage(review)
+            }
+        }
+    }
+    
+    func downloadImage(object: PlangoObject) {
+        guard let endPoint = object.avatar else {return}
+        guard let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint)) else {return}
+        
+        //download and set avatar
+        let request = NSURLRequest(URL: cleanURL)
+        downloader.downloadImage(URLRequest: request, completion: { (response) in
+            if response.result.isSuccess {
+                if let image = response.result.value {
+                    let imageData = UIImageJPEGRepresentation(image, 1.0)
+                    object.localAvatar = imageData
+                }
+            }
+        })
+    }
+    
     func setupDownload() {
         mapView = MGLMapView(frame: self.view.bounds)
         mapView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
@@ -860,6 +890,11 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
     }
     
     func startOfflinePackDownload() {
+        
+        //images for realm in case user hasn't already scrolled to make them appear and download
+        cachePlanImages(plan)
+
+        
         // create region to save based on current map locations and also how far the user can zoom in
         let region = MGLTilePyramidOfflineRegion(styleURL: mapView.styleURL, bounds: mapView.visibleCoordinateBounds, fromZoomLevel: mapView.zoomLevel, toZoomLevel: mapView.zoomLevel + 3)
         // zoom level + 3 is minimum. Any less you dont save much space but map is less useful. 4 might be a better level but then space and time to download are increased.
@@ -910,7 +945,7 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
             if completedResources == expectedResources {
                 //                self.navigationController?.popViewControllerAnimated(true)
                 progressView.hidden = true
-                self.mapView.imageToast(nil, image: UIImage(named: "whiteCheck")!, notify: false)
+                self.view.imageToast(nil, image: UIImage(named: "whiteCheck")!, notify: false)
                 
                 let byteCount = NSByteCountFormatter.stringFromByteCount(Int64(pack.progress.countOfBytesCompleted), countStyle: NSByteCountFormatterCountStyle.Memory)
                 localPlanLabel.text = "Delete this map to free up storage (\(byteCount))"

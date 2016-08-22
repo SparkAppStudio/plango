@@ -642,6 +642,9 @@ extension UIImageView {
     private func setLocalImage(localAvatar: NSData?) {
         guard let avatar = localAvatar else {return}
         self.image = UIImage(data: avatar)
+        if let compound = self as? CompoundImageView {
+            compound.gradientDarkToClear() //set gradient after image is present
+        }
     }
     
     func plangoImage(object: PlangoObject) {

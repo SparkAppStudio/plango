@@ -80,11 +80,16 @@ class DiscoverTableViewController: UITableViewController {
     }
     
     func didPullRefresh() {
-        fetchTags(Plango.EndPoint.AllTags.rawValue)
-        
-        fetchPopularDestinations()
-        
-        fetchPlangoFavMeta()
+        if Helper.isConnectedToNetwork() {
+            fetchTags(Plango.EndPoint.AllTags.rawValue)
+            
+            fetchPopularDestinations()
+            
+            fetchPlangoFavMeta()
+        } else {
+            refreshControl?.endRefreshing()
+            view.quickToast("No Internet")
+        }
     }
     
     override func viewDidDisappear(animated: Bool) {

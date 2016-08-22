@@ -100,12 +100,7 @@ class EventDetailsTableViewController: UITableViewController {
 
         coverImageView.plangoImage(experience)
     }
-    
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        coverImageView.layer.frame = coverImageView.bounds
-//    }
-    
+        
     // MARK: - Table view Delegate
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

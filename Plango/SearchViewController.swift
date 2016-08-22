@@ -92,16 +92,21 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
     }
     
     func didTapSearch(sender: UIButton) {
-        collectSearchParameters()
-        let parameters = Plango.sharedInstance.buildParameters(minDuration, maxDuration: maxDuration, tags: selectedTags, selectedDestinations: selectedDestinations, user: nil, isJapanSearch: nil)
-        
-        let plansVC = PlansTableViewController()
-        plansVC.plansEndPoint = Plango.EndPoint.FindPlans.rawValue
-        plansVC.findPlansParameters = parameters
-        plansVC.searchDestinations = selectedDestinations
-        plansVC.navigationItem.title = "RESULTS"
-        plansVC.hidesBottomBarWhenPushed = true
-        self.showViewController(plansVC, sender: nil)
+        if Helper.isConnectedToNetwork() {
+            collectSearchParameters()
+            let parameters = Plango.sharedInstance.buildParameters(minDuration, maxDuration: maxDuration, tags: selectedTags, selectedDestinations: selectedDestinations, user: nil, isJapanSearch: nil)
+            
+            let plansVC = PlansTableViewController()
+            plansVC.plansEndPoint = Plango.EndPoint.FindPlans.rawValue
+            plansVC.findPlansParameters = parameters
+            plansVC.searchDestinations = selectedDestinations
+            plansVC.navigationItem.title = "RESULTS"
+            plansVC.hidesBottomBarWhenPushed = true
+            self.showViewController(plansVC, sender: nil)
+        } else {
+            view.quickToast("No Internet")
+        }
+
     }
     
     func collectSearchParameters() {
