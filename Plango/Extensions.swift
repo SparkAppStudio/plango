@@ -850,9 +850,29 @@ extension UIView {
         self.endEditing(true)
     }
     
+    func fitViewConstraintsTo(view: UIView) {
+        self.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor).active = true
+        self.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor).active = true
+        self.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor).active = true
+        self.topAnchor.constraintEqualToAnchor(view.topAnchor).active = true
+    }
+    
+    func fitLoginButtons(controller: UIViewController) {
+        self.heightAnchor.constraintEqualToConstant(50).active = true
+        self.widthAnchor.constraintEqualToConstant(controller.view.frame.width - 16).active = true
+    }
+    
+    func fitLoginLabels() {
+        self.heightAnchor.constraintEqualToConstant(24).active = true
+    }
+    
     func makeCircle() {
         self.layer.cornerRadius = self.frame.size.width / 2
         self.clipsToBounds = true
+    }
+    
+    func copyView() -> AnyObject {
+        return NSKeyedUnarchiver.unarchiveObjectWithData(NSKeyedArchiver.archivedDataWithRootObject(self))!
     }
     
     func makeRoundCorners(divider: Int) {
