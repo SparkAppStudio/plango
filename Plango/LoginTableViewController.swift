@@ -28,8 +28,12 @@ class LoginTableViewController: UIViewController, UITextFieldDelegate, UITableVi
     
     var tableView: UITableView!
     
-    lazy var cancelBarButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "CANCEL", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(didTapCancel))
+    lazy var cancelButton: UIButton = {
+        let button = UIButton(frame: CGRect(x: 16, y: 36, width: 12, height: 13))
+        button.backgroundColor = UIColor.clearColor()
+        button.tintColor = UIColor.whiteColor()
+        button.setImage(UIImage(named: "close"), forState: .Normal)
+        button.addTarget(self, action: #selector(didTapCancel), forControlEvents: .TouchUpInside)
         return button
     }()
     
@@ -210,6 +214,8 @@ class LoginTableViewController: UIViewController, UITextFieldDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView = UITableView(frame: UIScreen.mainScreen().bounds)
+        tableView.contentInset = UIEdgeInsetsMake(50, 0, 0, 0)
+//        tableView = UITableView(frame: CGRect(x: 0, y: 36, width: UIScreen.mainScreen().bounds.width, height: UIScreen.mainScreen().bounds.height - 36))
         tableView.delegate = self
         tableView.dataSource = self
         tableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
@@ -217,10 +223,11 @@ class LoginTableViewController: UIViewController, UITextFieldDelegate, UITableVi
 
         NSNotificationCenter.defaultCenter().addObserverForName(Notify.Timer.rawValue, object: nil, queue: nil) { (notification) in
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//                self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
                 
-                let app = UIApplication.sharedApplication().delegate as! AppDelegate
-                app.swapLoginControllerInTab()
+                self.dismissViewControllerAnimated(true, completion: nil)
+                
+//                let app = UIApplication.sharedApplication().delegate as! AppDelegate
+//                app.swapLoginControllerInTab()
 
             })
         }
@@ -273,12 +280,13 @@ class LoginTableViewController: UIViewController, UITextFieldDelegate, UITableVi
         
 //        self.tableView.backgroundColor = UIColor.plangoBackgroundGray()
         let backgroundImageView = UIImageView(frame: tableView.frame)
-        backgroundImageView.image = UIImage(named: "login-bg")
+        backgroundImageView.image = UIImage(named: "login-background")
         backgroundImageView.contentMode = .ScaleAspectFill
-        self.tableView.backgroundView = backgroundImageView
+        tableView.backgroundView = backgroundImageView
 
-        self.view.addSubview(tableView)
+        view.addSubview(tableView)
 
+        view.addSubview(cancelButton)
     }
     
     override func viewDidLayoutSubviews() {
@@ -321,7 +329,8 @@ class LoginTableViewController: UIViewController, UITextFieldDelegate, UITableVi
     }
     
     func didTapCancel() {
-        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+        tableView.endEditing(true)
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func didTapToggle(sender: UIButton) {

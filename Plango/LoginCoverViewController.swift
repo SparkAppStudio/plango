@@ -65,7 +65,7 @@ class LoginCoverViewController: UIViewController {
         let button = UIButton()
         button.backgroundColor = UIColor.clearColor()
         button.tintColor = UIColor.whiteColor()
-        button.setTitle("By signing up, I agree to Plango's Terms & Conditions and Privacy Policy", forState: UIControlState.Normal)
+        button.setTitle("By signing up, I agree to Plango's Terms & Conditions and Privacy Policy.", forState: UIControlState.Normal)
         button.addTarget(self, action: #selector(didTapTerms), forControlEvents: .TouchUpInside)
         button.titleLabel?.font = UIFont.plangoSmallButton()
         button.titleLabel?.textAlignment = .Center
@@ -108,7 +108,7 @@ class LoginCoverViewController: UIViewController {
         }
         
         let backgroundImageView = UIImageView(frame: view.frame)
-        backgroundImageView.image = UIImage(named: "login-bg")
+        backgroundImageView.image = UIImage(named: "login-background")
         backgroundImageView.contentMode = .ScaleAspectFill
         self.view.addSubview(backgroundImageView)
         
@@ -156,7 +156,7 @@ class LoginCoverViewController: UIViewController {
         } else {
             loginVC.loginSegment.selectedSegmentIndex = 0
         }
-        showViewController(loginVC, sender: nil)
+        presentViewController(loginVC, animated: true, completion: nil)
     }
     
     func didTapTerms(sender: UIButton) {
