@@ -8,6 +8,8 @@
 
 import UIKit
 import FBSDKLoginKit
+import SafariServices
+
 
 class LoginTableViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
     
@@ -84,7 +86,17 @@ class LoginTableViewController: UIViewController, UITextFieldDelegate, UITableVi
         return text
     }()
     
-    var loginSegment: UISegmentedControl! //this is used to manage the state but not the UI so its never added to the view hierarchy
+    //this is used to manage the state but not the UI so its never added to the view hierarchy
+    lazy var loginSegment: UISegmentedControl = {
+        let titles = ["LOG IN", "SIGN UP"]
+        let segment = UISegmentedControl(items: titles)
+        segment.selectedSegmentIndex = 0
+        segment.addTarget(self, action: #selector(LoginTableViewController.didChangeLoginSegment), forControlEvents: .ValueChanged)
+        segment.sizeToFit()
+        segment.tintColor = UIColor.whiteColor()
+        return segment
+    }()
+    
     lazy var toggleButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor.clearColor()
@@ -123,6 +135,7 @@ class LoginTableViewController: UIViewController, UITextFieldDelegate, UITableVi
         label.text = "OR"
         label.textColor = UIColor.whiteColor()
         label.font = UIFont.plangoButton()
+        label.textAlignment = .Center
         return label
     }()
     
@@ -201,16 +214,7 @@ class LoginTableViewController: UIViewController, UITextFieldDelegate, UITableVi
         tableView.dataSource = self
         tableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
         tableView.separatorInset = UIEdgeInsetsMake(0, 16, 0, 16)
-        
-        //lazy instantiaion wasnt working for some reason
-        let titles = ["LOG IN", "SIGN UP"]
-        loginSegment = UISegmentedControl(items: titles)
-        loginSegment.selectedSegmentIndex = 0
-        loginSegment.addTarget(self, action: #selector(LoginTableViewController.didChangeLoginSegment), forControlEvents: .ValueChanged)
-        loginSegment.sizeToFit()
-        loginSegment.tintColor = UIColor.whiteColor()
 
-        
         NSNotificationCenter.defaultCenter().addObserverForName(Notify.Timer.rawValue, object: nil, queue: nil) { (notification) in
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
 //                self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
@@ -304,7 +308,7 @@ class LoginTableViewController: UIViewController, UITextFieldDelegate, UITableVi
         super.viewDidAppear(animated)
         loginButton.makeRoundCorners(90)
         facebookButton.makeRoundCorners(90)
-
+        
 //        if loginButton.subviews.count == 1 {
 //            blur.frame = loginButton.bounds
 //            blur.makeRoundCorners(90)
@@ -358,9 +362,10 @@ class LoginTableViewController: UIViewController, UITextFieldDelegate, UITableVi
 //        self.tableView.endEditing(true)
 //    }
     
-    func didTapForgotPassword(button: UIButton) {
+    func didTapForgotPassword(sender: UIButton) {
         guard let url = NSURL(string: "https://www.plango.us/login/#/forgot-password") else {return}
-        UIApplication.sharedApplication().openURL(url)
+        let safariVC = SFSafariViewController(URL: url)
+        presentViewController(safariVC, animated: true, completion: nil)
     }
     
     func didTapLogin(button: UIButton) {

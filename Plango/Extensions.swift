@@ -704,6 +704,9 @@ extension UIFont {
     static func plangoSmallButton() -> UIFont {
         return UIFont(name: "Raleway-Bold", size: 14)!
     }
+    static func plangoWelcomeTitle() -> UIFont {
+        return UIFont(name: "Raleway-Bold", size: 30)!
+    }
 }
 
 extension UIColor {
@@ -760,6 +763,7 @@ extension NSIndexSet {
 }
 
 extension UIViewController {
+    
     func displayMapForExperiences(experiences: [Experience], title: String?, download: Bool) {
         let mapVC = MapViewController()
         mapVC.experiences = experiences

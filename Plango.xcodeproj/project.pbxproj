@@ -92,6 +92,7 @@
 		C3CD5BE61CB5D4AB0079C0E7 /* PlansTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CD5BE51CB5D4AB0079C0E7 /* PlansTableViewCell.swift */; };
 		C3D26CD21D3445AC006D909F /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D26CD11D3445AC006D909F /* MapViewController.swift */; };
 		C3DBCA661CEE70E000E0F746 /* SearchDestinationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DBCA651CEE70E000E0F746 /* SearchDestinationViewController.swift */; };
+		C3DC69DD1D6E33BB0059A993 /* LoginCoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DC69DC1D6E33BB0059A993 /* LoginCoverViewController.swift */; };
 		C3EB7F311D30DD9E0075BD52 /* DownloadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3EB7F301D30DD9E0075BD52 /* DownloadView.xib */; };
 		C3EC02791CC18FF200CAC4C1 /* ProfileHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3EC02781CC18FF200CAC4C1 /* ProfileHeader.xib */; };
 		C3F00E5F1D4C2F9700720510 /* StoredPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F00E5E1D4C2F9700720510 /* StoredPlan.swift */; };
@@ -195,6 +196,7 @@
 		C3CD5BE51CB5D4AB0079C0E7 /* PlansTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlansTableViewCell.swift; sourceTree = "<group>"; };
 		C3D26CD11D3445AC006D909F /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		C3DBCA651CEE70E000E0F746 /* SearchDestinationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchDestinationViewController.swift; sourceTree = "<group>"; };
+		C3DC69DC1D6E33BB0059A993 /* LoginCoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCoverViewController.swift; sourceTree = "<group>"; };
 		C3EB7F301D30DD9E0075BD52 /* DownloadView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DownloadView.xib; sourceTree = "<group>"; };
 		C3EC02781CC18FF200CAC4C1 /* ProfileHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileHeader.xib; sourceTree = "<group>"; };
 		C3F00E5E1D4C2F9700720510 /* StoredPlan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoredPlan.swift; sourceTree = "<group>"; };
@@ -390,6 +392,7 @@
 				C3BA54C81D49885F008C7C1F /* LoginHeader.xib */,
 				C3B1505F1CB4DD00008E6A4E /* SettingsTableViewController.swift */,
 				C3B150661CB4DE8E008E6A4E /* LoginTableViewController.swift */,
+				C3DC69DC1D6E33BB0059A993 /* LoginCoverViewController.swift */,
 				C316D4AD1D08C4A4008B244E /* LoginConfirmTableViewController.swift */,
 				C316A42C1D530E9A00A1A3DE /* CompoundImageView.swift */,
 				C3C613F21CE65D8B00DEF329 /* ReportViewController.swift */,
@@ -632,6 +635,7 @@
 				C3F00E5F1D4C2F9700720510 /* StoredPlan.swift in Sources */,
 				C36C6F801D18B28100A51253 /* EventTableViewCell.swift in Sources */,
 				C3978CD01CB70118001028D5 /* SearchViewController.swift in Sources */,
+				C3DC69DD1D6E33BB0059A993 /* LoginCoverViewController.swift in Sources */,
 				C3ACD8031CDC182A000B2399 /* EventDetailsTableViewController.swift in Sources */,
 				C31AC41D1CADD7150032230E /* Extensions.swift in Sources */,
 				C3F79D791D46E81400D90A0D /* PlangoObject.swift in Sources */,

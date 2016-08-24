@@ -236,7 +236,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Plango.sharedInstance.alamoManager.session.resetWithCompletionHandler {
             controller.view.hideSimpleLoading()
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//                controller.viewWillAppear(true)
                 self.swapLoginControllerInTab()
             })
         }
@@ -247,7 +246,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let tabController = window!.rootViewController as! UITabBarController
         let nav = tabController.viewControllers?.last as! UINavigationController
         if Plango.sharedInstance.currentUser == nil {
-            nav.setViewControllers([LoginTableViewController()], animated: false)
+            nav.setViewControllers([LoginCoverViewController()], animated: false)
             nav.navigationBarHidden = true
         } else {
             nav.setViewControllers([MyPlansViewController()], animated: false)
