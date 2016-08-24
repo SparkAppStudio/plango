@@ -9,7 +9,7 @@
 import UIKit
 import FBSDKLoginKit
 
-class LoginTableViewController: UITableViewController, UITextFieldDelegate {
+class LoginTableViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
     
     enum Heights: Int {
         case FooterLogin
@@ -24,8 +24,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
-//    var headerView: UIView!
-//    let blur = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
+    var tableView: UITableView!
     
     lazy var cancelBarButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "CANCEL", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(didTapCancel))
@@ -85,7 +84,7 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         return text
     }()
     
-    var loginSegment: UISegmentedControl! //i use this to manage the state but not the UI element
+    var loginSegment: UISegmentedControl! //this is used to manage the state but not the UI so its never added to the view hierarchy
     lazy var toggleButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor.clearColor()
@@ -125,6 +124,18 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         label.textColor = UIColor.whiteColor()
         label.font = UIFont.plangoButton()
         return label
+    }()
+    
+    lazy var stackView: UIStackView = {
+        let view = UIStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.axis = .Vertical
+        view.layoutMargins = UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
+        view.layoutMarginsRelativeArrangement = true
+        view.spacing = 8
+        view.distribution = .EqualSpacing
+        view.alignment = .Center
+        return view
     }()
     
     lazy var headerStackView: UIStackView = {
@@ -177,10 +188,19 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        tableView.endEditing(true)
+        //this removes a warning which gets thrown if i only use "keyboardDismissMode" i think bc the textView inside the cells
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView = UITableView(frame: UIScreen.mainScreen().bounds)
+        tableView.delegate = self
+        tableView.dataSource = self
         tableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
+        tableView.separatorInset = UIEdgeInsetsMake(0, 16, 0, 16)
         
         //lazy instantiaion wasnt working for some reason
         let titles = ["LOG IN", "SIGN UP"]
@@ -189,7 +209,6 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         loginSegment.addTarget(self, action: #selector(LoginTableViewController.didChangeLoginSegment), forControlEvents: .ValueChanged)
         loginSegment.sizeToFit()
         loginSegment.tintColor = UIColor.whiteColor()
-//        navigationItem.titleView = loginSegment
 
         
         NSNotificationCenter.defaultCenter().addObserverForName(Notify.Timer.rawValue, object: nil, queue: nil) { (notification) in
@@ -253,6 +272,8 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
         backgroundImageView.image = UIImage(named: "login-bg")
         backgroundImageView.contentMode = .ScaleAspectFill
         self.tableView.backgroundView = backgroundImageView
+
+        self.view.addSubview(tableView)
 
     }
     
@@ -476,38 +497,33 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if loginSegment.selectedSegmentIndex == 0 {
             return 2
         } else {
             return 3
         }
     }
-
     
-//    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-//        let textFrame = CGRectMake(8, 4, cell.contentView.frame.width - 16, cell.contentView.frame.height - 8)
-//        usernameTextField.frame = textFrame
-//        userOrEmailTextField.frame = textFrame
-//        emailTextField.frame = textFrame
-//        passwordTextField.frame = textFrame
-//    }
+    func cellFrame(cell: UITableViewCell) -> CGRect {
+        return CGRectMake(16, 4, cell.contentView.frame.width - 32, cell.contentView.frame.height - 8)
+    }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if loginSegment.selectedSegmentIndex == 0 {
             switch indexPath.row {
             case 0:
                 let cell = tableView.dequeueReusableCellWithIdentifier("email", forIndexPath: indexPath)
-                emailTextField.frame = CGRectMake(8, 4, cell.contentView.frame.width - 16, cell.contentView.frame.height - 8)
+                emailTextField.frame = cellFrame(cell)
                 cell.contentView.addSubview(emailTextField)
                 return cell
             default:
                 let cell = tableView.dequeueReusableCellWithIdentifier("password", forIndexPath: indexPath)
-                passwordTextField.frame = CGRectMake(8, 4, cell.contentView.frame.width - 16, cell.contentView.frame.height - 8)
+                passwordTextField.frame = cellFrame(cell)
                 cell.contentView.addSubview(passwordTextField)
                 return cell
             }
@@ -515,23 +531,70 @@ class LoginTableViewController: UITableViewController, UITextFieldDelegate {
             switch indexPath.row {
             case 0:
                 let cell = tableView.dequeueReusableCellWithIdentifier("username", forIndexPath: indexPath)
-                usernameTextField.frame = CGRectMake(8, 4, cell.contentView.frame.width - 16, cell.contentView.frame.height - 8)
+                usernameTextField.frame = cellFrame(cell)
                 cell.contentView.addSubview(usernameTextField)
                 return cell
             case 1:
                 let cell = tableView.dequeueReusableCellWithIdentifier("email", forIndexPath: indexPath)
-                emailTextField.frame = CGRectMake(8, 4, cell.contentView.frame.width - 16, cell.contentView.frame.height - 8)
+                emailTextField.frame = cellFrame(cell)
                 cell.contentView.addSubview(emailTextField)
                 return cell
             default:
                 let cell = tableView.dequeueReusableCellWithIdentifier("password", forIndexPath: indexPath)
-                passwordTextField.frame = CGRectMake(8, 4, cell.contentView.frame.width - 16, cell.contentView.frame.height - 8)
+                passwordTextField.frame = cellFrame(cell)
                 cell.contentView.addSubview(passwordTextField)
                 return cell
             }
         }
         
 
+    }
+    
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if (cell.respondsToSelector(Selector("tintColor"))){
+            if (tableView == self.tableView) {
+                let cornerRadius : CGFloat = 3.0
+                cell.backgroundColor = UIColor.clearColor()
+                let layer: CAShapeLayer = CAShapeLayer()
+                let pathRef:CGMutablePathRef = CGPathCreateMutable()
+                let bounds: CGRect = CGRectInset(cell.bounds, 8, 0)
+//                var addLine: Bool = false //causes problems with normal tableView separator
+                
+                if (indexPath.row == 0 && indexPath.row == tableView.numberOfRowsInSection(indexPath.section)-1) {
+                    CGPathAddRoundedRect(pathRef, nil, bounds, cornerRadius, cornerRadius)
+                } else if (indexPath.row == 0) {
+                    CGPathMoveToPoint(pathRef, nil, CGRectGetMinX(bounds), CGRectGetMaxY(bounds))
+                    CGPathAddArcToPoint(pathRef, nil, CGRectGetMinX(bounds), CGRectGetMinY(bounds), CGRectGetMidX(bounds), CGRectGetMinY(bounds), cornerRadius)
+                    CGPathAddArcToPoint(pathRef, nil, CGRectGetMaxX(bounds), CGRectGetMinY(bounds), CGRectGetMaxX(bounds), CGRectGetMidY(bounds), cornerRadius)
+                    CGPathAddLineToPoint(pathRef, nil, CGRectGetMaxX(bounds), CGRectGetMaxY(bounds))
+//                    addLine = true
+                } else if (indexPath.row == tableView.numberOfRowsInSection(indexPath.section)-1) {
+                    CGPathMoveToPoint(pathRef, nil, CGRectGetMinX(bounds), CGRectGetMinY(bounds))
+                    CGPathAddArcToPoint(pathRef, nil, CGRectGetMinX(bounds), CGRectGetMaxY(bounds), CGRectGetMidX(bounds), CGRectGetMaxY(bounds), cornerRadius)
+                    CGPathAddArcToPoint(pathRef, nil, CGRectGetMaxX(bounds), CGRectGetMaxY(bounds), CGRectGetMaxX(bounds), CGRectGetMidY(bounds), cornerRadius)
+                    CGPathAddLineToPoint(pathRef, nil, CGRectGetMaxX(bounds), CGRectGetMinY(bounds))
+                } else {
+                    CGPathAddRect(pathRef, nil, bounds)
+//                    addLine = true
+                }
+                
+                layer.path = pathRef
+//                layer.fillColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 255/255.0, alpha: 0.8).CGColor
+                layer.fillColor = UIColor.whiteColor().CGColor
+                
+//                if (addLine == true) {
+//                    let lineLayer: CALayer = CALayer()
+//                    let lineHeight: CGFloat = (1.0 / UIScreen.mainScreen().scale)
+//                    lineLayer.frame = CGRectMake(CGRectGetMinX(bounds)+10, bounds.size.height-lineHeight, bounds.size.width-10, lineHeight)
+//                    lineLayer.backgroundColor = tableView.separatorColor!.CGColor
+//                    layer.addSublayer(lineLayer)
+//                }
+                let testView: UIView = UIView(frame: bounds)
+                testView.layer.insertSublayer(layer, atIndex: 0)
+                testView.backgroundColor = UIColor.clearColor()
+                cell.backgroundView = testView
+            }
+        }
     }
 }
 

@@ -113,9 +113,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return plangoParameters
     }
     
-    func handlePlangoAuth(controller: UITableViewController, endPoint: String, email: String?, completionMessage: String?, parameters: [String:AnyObject]?) {
+    func handlePlangoAuth(controller: UIViewController, endPoint: String, email: String?, completionMessage: String?, parameters: [String:AnyObject]?) {
         Plango.sharedInstance.authPlangoUser(endPoint, parameters: parameters, onCompletion: { (user, error) in
-            controller.tableView.hideSimpleLoading()
+            controller.view.hideSimpleLoading()
             
             if let error = error {
                 controller.printPlangoError(error)
@@ -124,7 +124,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     self.presentEmailConfirmation(controller, email: email, error: error)
                 } else {
                     if let message = error.message {
-                        controller.tableView.quickToast(message)
+                        controller.view.quickToast(message)
                     }
                 }
             } else if let user = user {
@@ -132,7 +132,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(user), forKey: UserDefaultsKeys.currentUser.rawValue)
                 
-                controller.tableView.imageToast(completionMessage, image: UIImage(named: "whiteCheck")!, notify: true)
+                controller.view.imageToast(completionMessage, image: UIImage(named: "whiteCheck")!, notify: true)
                 
             }
         })
@@ -180,7 +180,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func appLogin(notification: NSNotification) {
         //every login notification should send controller so UI can be modified here loading screen etc.
         let controller = notification.userInfo!["controller"] as! LoginTableViewController
-        controller.tableView.showSimpleLoading()
+        controller.view.showSimpleLoading()
 
         //facebook login
         if let _ = notification.userInfo?["FBSDKLoginResult"] as? FBSDKLoginManagerLoginResult {
