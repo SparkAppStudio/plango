@@ -226,31 +226,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UITableViewDel
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 
                 self.dismissViewControllerAnimated(true, completion: nil)
-                
-//                let app = UIApplication.sharedApplication().delegate as! AppDelegate
-//                app.swapLoginControllerInTab()
 
             })
         }
-        
-        //tableHeader view with xib
-//        let bundle = NSBundle(forClass: self.dynamicType)
-//
-//        let nib = UINib(nibName: "LoginHeader", bundle: bundle)
-//        headerView = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
-//        headerView.snp_makeConstraints { (make) in
-//            make.height.equalTo(Helper.CellHeight.superWide.value-30)
-//        }
-        
-//        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.size.width, height: Helper.CellHeight.superWide.value-30))
-//        
-//        containerView.addSubview(headerView)
-//        tableView.tableHeaderView = containerView
-
-//        headerView.leadingAnchor.constraintEqualToAnchor(tableView.tableHeaderView!.leadingAnchor).active = true
-//        headerView.trailingAnchor.constraintEqualToAnchor(tableView.tableHeaderView!.trailingAnchor).active = true
-//        headerView.bottomAnchor.constraintEqualToAnchor(tableView.tableHeaderView!.bottomAnchor).active = true
-//        headerView.topAnchor.constraintEqualToAnchor(tableView.tableHeaderView!.topAnchor).active = true
         
         //footer
         footerStackView.addArrangedSubview(loginButton)
@@ -302,7 +280,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UITableViewDel
         orLabel.fitLoginLabels()
         forgotPasswordButton.fitLoginLabels()
         toggleButton.fitLoginLabels()
-//        loginSegment.heightAnchor.constraintEqualToConstant(28).active = true
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -622,7 +599,7 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
             if loginSegment.selectedSegmentIndex == 0 {
                 NSNotificationCenter.defaultCenter().postNotificationName(Notify.Login.rawValue, object: nil, userInfo: ["controller" : self, "FBSDKLoginResult":result])
             } else {
-                let confirmVC = LoginConfirmTableViewController()
+                let confirmVC = LoginConfirmViewController()
                 confirmVC.facebookResult = result
                 self.showViewController(confirmVC, sender: nil)
             }
