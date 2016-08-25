@@ -962,26 +962,33 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
             // Calculate current progress percentage.
             let progressPercentage = Float(completedResources) / Float(expectedResources)
             
-            // Setup the progress bar.
-            progressView.hidden = false
-            progressView.progress = progressPercentage
+            // Setup the progress bar if its right plan controller
+            if userInfo["planID"] == plan.id {
+                progressView.hidden = false
+                progressView.progress = progressPercentage
+            }
             
             
             // If this pack has finished, print its size and resource count.
             if completedResources == expectedResources {
-                //                self.navigationController?.popViewControllerAnimated(true)
                 progressView.hidden = true
-                self.view.imageToast(nil, image: UIImage(named: "whiteCheck")!, notify: false)
-                
                 let byteCount = NSByteCountFormatter.stringFromByteCount(Int64(pack.progress.countOfBytesCompleted), countStyle: NSByteCountFormatterCountStyle.Memory)
-                localPlanLabel.text = "Delete this map to free up storage (\(byteCount))"
-                
-                StoredPlan.savePlan(plan, mapSize: byteCount)
-                
-                self.planDownloaded = true
-                downloadView.removeFromSuperview()
-                stackView.addArrangedSubview(deleteView)
-                
+
+                //check and make sure user is on correct plan controller viewing the plan that is being downloaded
+                if userInfo["planID"] == plan.id {
+                    self.view.imageToast(nil, image: UIImage(named: "whiteCheck")!, notify: false)
+                    
+                    localPlanLabel.text = "Delete this map to free up storage (\(byteCount))"
+                    
+                    StoredPlan.savePlan(plan, mapSize: byteCount)
+                    
+                    self.planDownloaded = true
+                    downloadView.removeFromSuperview()
+                    stackView.addArrangedSubview(deleteView)
+
+                } else {
+                    self.view.quickToast("Your other plan finished downloading") //realm plan wont know how big map data is to display but otherwise will work fine
+                }
                 
                 print("Offline pack “\(userInfo["name"])” completed: \(byteCount), \(completedResources) resources")
             } else {
