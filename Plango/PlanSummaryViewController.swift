@@ -53,6 +53,7 @@ class PlanSummaryViewController: UITableViewController {
     //DownloadView xib
     @IBAction func didTapDownload(sender: UIButton) {
         guard (plan.experiences != nil) else {self.view.quickToast("No Experiences"); return}
+        guard isMapDownloading() != true else {self.view.quickToast("Another Map is Downloading"); return}
         startOfflinePackDownload()
 
     }
@@ -78,6 +79,18 @@ class PlanSummaryViewController: UITableViewController {
     var experiencesByPlace: [String:[Experience]]!
     
     let downloader = ImageDownloader()
+    var myGroup = dispatch_group_create()
+    
+    var mapView: MGLMapView!
+    
+    lazy var progressView: UIProgressView = {
+        let progress = UIProgressView(progressViewStyle: .Default)
+//        progress.frame = CGRectMake(UIScreen.mainScreen().bounds.width/4, UIScreen.mainScreen().bounds.height * 0.75 + 50, UIScreen.mainScreen().bounds.width/2, 20)
+        progress.hidden = true
+        return progress
+    }()
+    
+    private lazy var experiencePlaceDataSource = [String:Experience]()
     
     var timer: NSTimer!
     let calendar = NSCalendar.currentCalendar()
@@ -260,6 +273,8 @@ class PlanSummaryViewController: UITableViewController {
                             self.printError(error)
                         } else {
                             self.planDownloaded = false
+
+                            self.progressView.hidden = true
                             self.deleteView.removeFromSuperview()
                             self.stackView.addArrangedSubview(self.downloadView)
                         }
@@ -275,6 +290,16 @@ class PlanSummaryViewController: UITableViewController {
         alert.addAction(cancel)
         
         self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func isMapDownloading() -> Bool {
+        guard let localPacks = MGLOfflineStorage.sharedOfflineStorage().packs else { return false }
+        for pack in localPacks {
+            if pack.state == .Active {
+                return true
+            }
+        }
+        return false
     }
     
     func isPlanLocal(plan: Plan) -> Bool {
@@ -414,6 +439,13 @@ class PlanSummaryViewController: UITableViewController {
         //determine differences in view based on plan specifics, must be after nibs have been created
         if myPlan == true {
             setupDownload()
+            startView.addSubview(progressView)
+            progressView.snp_makeConstraints(closure: { (make) in
+                make.top.equalTo(startView.snp_bottom)
+                make.height.equalTo(20)
+                make.leading.equalTo(startView.snp_leading)
+                make.trailing.equalTo(startView.snp_trailing)
+            })
             stackView.addArrangedSubview(startView)
             
             planDownloaded = isPlanLocal(plan)
@@ -798,13 +830,6 @@ class PlanSummaryViewController: UITableViewController {
         }
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
-    
-    var mapView: MGLMapView!
-    var progressView: UIProgressView!
-    
-    private lazy var experiencePlaceDataSource = [String:Experience]()
-
-
 }
 
 extension PlanSummaryViewController: MGLMapViewDelegate {
@@ -844,15 +869,21 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
                 downloadImage(review)
             }
         }
+        
+        dispatch_group_notify(myGroup, dispatch_get_main_queue(), {
+            StoredPlan.savePlan(plan, mapSize: "???Mb")
+        })
     }
     
     func downloadImage(object: PlangoObject) {
         guard let endPoint = object.avatar else {return}
         guard let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint)) else {return}
-        
+        dispatch_group_enter(myGroup)
+
         //download and set avatar
         let request = NSURLRequest(URL: cleanURL)
         downloader.downloadImage(URLRequest: request, completion: { (response) in
+            dispatch_group_leave(self.myGroup)
             if response.result.isSuccess {
                 if let image = response.result.value {
                     let imageData = UIImageJPEGRepresentation(image, 1.0)
@@ -891,14 +922,16 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
     
     func startOfflinePackDownload() {
         
-        //images for realm in case user hasn't already scrolled to make them appear and download
+        guard let plan = plan else {return} //no plan no download
+        
+        //images for realm in case user hasn't already scrolled to make them appear and download, also save plan to realm in case user navigates away from this controller before map finishes
         cachePlanImages(plan)
 
         
         // create region to save based on current map locations and also how far the user can zoom in
         let region = MGLTilePyramidOfflineRegion(styleURL: mapView.styleURL, bounds: mapView.visibleCoordinateBounds, fromZoomLevel: mapView.zoomLevel, toZoomLevel: mapView.zoomLevel + 3)
         // zoom level + 3 is minimum. Any less you dont save much space but map is less useful. 4 might be a better level but then space and time to download are increased.
-        guard let plan = plan else {return}
+        
         //metadata for local storage
         let userInfo: NSDictionary = ["planID" : plan.id]
         let context = NSKeyedArchiver.archivedDataWithRootObject(userInfo)
@@ -930,16 +963,9 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
             let progressPercentage = Float(completedResources) / Float(expectedResources)
             
             // Setup the progress bar.
-            if progressView == nil {
-                progressView = UIProgressView(progressViewStyle: .Default)
-                let frame = view.bounds.size
-                progressView.frame = CGRectMake(frame.width / 4, frame.height * 0.75 + 50, frame.width / 2, 10)
-                view.addSubview(progressView)
-            } else {
-                progressView.hidden = false
-            }
-            
+            progressView.hidden = false
             progressView.progress = progressPercentage
+            
             
             // If this pack has finished, print its size and resource count.
             if completedResources == expectedResources {

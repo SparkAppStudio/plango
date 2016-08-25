@@ -29,10 +29,11 @@ class LoginTableViewController: UIViewController, UITextFieldDelegate, UITableVi
     var tableView: UITableView!
     
     lazy var cancelButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 16, y: 36, width: 12, height: 13))
+        let button = UIButton(frame: CGRect(x: 4, y: 23, width: 30, height: 30)) //image is 12x13, centered so x is small but touch area bigger, 16 and 36 margins
         button.backgroundColor = UIColor.clearColor()
         button.tintColor = UIColor.whiteColor()
         button.setImage(UIImage(named: "close"), forState: .Normal)
+        button.imageView?.contentMode = .Center
         button.addTarget(self, action: #selector(didTapCancel), forControlEvents: .TouchUpInside)
         return button
     }()
