@@ -147,7 +147,6 @@ class LoginCoverViewController: UIViewController {
         signupButton.makeRoundCorners(90)
         loginButton.makeRoundCorners(90)
 
-        self.presentViewController(LoginConfirmViewController(), animated: true, completion: nil)
     }
     
     func didTapLogin(sender: UIButton) {
