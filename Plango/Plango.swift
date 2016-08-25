@@ -79,7 +79,6 @@ class Plango: NSObject {
         //            let index = cleanString.startIndex.distanceTo(range!.startIndex)
         
         cleanString.insertContentsOf("thumb/".characters, at: index!)
-        print(cleanString)
         return cleanString
     }
     

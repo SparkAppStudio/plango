@@ -19,7 +19,6 @@ class ReviewTableViewCell: UITableViewCell {
     var review: Review!
     
     func configure() {
-        print(review.name)
         reviewLabel.text = review.name
         authorLabel.text = review.author
         

@@ -45,7 +45,7 @@ class MyPlansViewController: MXSegmentedPagerController {
         let delete = UIAlertAction(title: "Logout", style: UIAlertActionStyle.Destructive) { (action) in
 
             if Plango.sharedInstance.currentUser == nil {
-                let nav = UINavigationController(rootViewController: LoginTableViewController())
+                let nav = UINavigationController(rootViewController: LoginViewController())
                 nav.navigationBar.barTintColor = UIColor.plangoTeal()
                 nav.navigationBar.tintColor = UIColor.whiteColor()
                 nav.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]

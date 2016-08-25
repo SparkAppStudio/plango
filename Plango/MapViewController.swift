@@ -169,7 +169,7 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
     func startOfflinePackDownload() {
         // create region to save based on current map locations and also how far the user can zoom in
         let region = MGLTilePyramidOfflineRegion(styleURL: mapView.styleURL, bounds: mapView.visibleCoordinateBounds, fromZoomLevel: mapView.zoomLevel, toZoomLevel: mapView.zoomLevel + 4)
-        print(mapView.zoomLevel)
+        
         guard let plan = plan else {return}
         //metadata for local storage
         let userInfo: NSDictionary = ["planID" : plan.id]
@@ -327,7 +327,6 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
     }
     
     func mapView(mapView: MGLMapView, tapOnCalloutForAnnotation annotation: MGLAnnotation) {
-        //TODO: - show detail view of experience detail
         guard let title = annotation.title! else {return}
         guard let experience = experiencePlaceDataSource[title] else {return}
         

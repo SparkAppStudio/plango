@@ -106,7 +106,6 @@ class User: NSObject, NSCoding {
         
         if Plango.sharedInstance.facebookAvatarURL != "" {
             newUser.facebookAvatar = Plango.sharedInstance.facebookAvatarURL
-            print(newUser.facebookAvatar)
         }
         
         return newUser

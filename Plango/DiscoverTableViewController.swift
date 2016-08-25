@@ -190,7 +190,6 @@ class DiscoverTableViewController: UITableViewController {
         default:
             let cell = tableView.cellForRowAtIndexPath(indexPath) as! PlansTableViewCell
             let planSummary = PlanSummaryViewController()
-            print(cell.plan?.id)
             planSummary.plan = cell.plan
             planSummary.hidesBottomBarWhenPushed = true
             self.showViewController(planSummary, sender: nil)
@@ -321,7 +320,6 @@ class DiscoverTableViewController: UITableViewController {
                     cell.plan = plans[indexPath.row]
                 }
             }
-            //TODO: - fetchUserForPlan copy method or refactor
             cell.configure()
             return cell
         }

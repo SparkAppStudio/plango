@@ -179,7 +179,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func appLogin(notification: NSNotification) {
         //every login notification should send controller so UI can be modified here loading screen etc.
-        let controller = notification.userInfo!["controller"] as! LoginTableViewController
+        let controller = notification.userInfo!["controller"] as! LoginViewController
         controller.view.showSimpleLoading()
 
         //facebook login

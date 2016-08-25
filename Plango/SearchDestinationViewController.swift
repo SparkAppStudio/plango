@@ -233,10 +233,6 @@ extension SearchDestinationViewController: GMSAutocompleteResultsViewControllerD
     func resultsController(resultsController: GMSAutocompleteResultsViewController,
                            didAutocompleteWithPlace place: GMSPlace) {
         searchController?.active = false
-        // Do something with the selected place.
-//        print("Place name: ", place.name)
-//        print("Place address: ", place.formattedAddress)
-//        print("Place attributions: ", place.attributions)
         
         var selectedPlace = Destination()
         
@@ -302,8 +298,8 @@ extension SearchDestinationViewController: GMSAutocompleteResultsViewControllerD
     
     func resultsController(resultsController: GMSAutocompleteResultsViewController,
                            didFailAutocompleteWithError error: NSError){
-        // TODO: handle the error.
         self.printError(error)
+        self.view.detailToast("Google Error", details: error.localizedDescription)
     }
     
     // Turn the network activity indicator on and off again.

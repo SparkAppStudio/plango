@@ -55,11 +55,12 @@ class LoginConfirmTableViewController: UITableViewController, UITextFieldDelegat
 
         NSNotificationCenter.defaultCenter().addObserverForName(Notify.Timer.rawValue, object: nil, queue: nil) { (notification) in
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//                self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
                 
-                //TODO: - try changing the root controller instead of dismissing
-                let app = UIApplication.sharedApplication().delegate as! AppDelegate
-                app.swapLoginControllerInTab()
+                self.dismissViewControllerAnimated(true, completion: nil)
+                
+                //should be handled by coverLoginVC which is root of this hierarchy
+//                let app = UIApplication.sharedApplication().delegate as! AppDelegate
+//                app.swapLoginControllerInTab()
 
             })
         }

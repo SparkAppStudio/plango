@@ -17,7 +17,7 @@ class SettingsTableViewController: UITableViewController {
     
     func didTapAccountButton() {
         if Plango.sharedInstance.currentUser == nil {
-            self.navigationController?.presentViewController(LoginTableViewController(), animated: true, completion: nil)
+            self.navigationController?.presentViewController(LoginViewController(), animated: true, completion: nil)
         } else {
             NSNotificationCenter.defaultCenter().postNotificationName(Notify.Logout.rawValue, object: nil, userInfo: ["controller": self])
         }

@@ -83,7 +83,7 @@
 		C3B150601CB4DD00008E6A4E /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B1505F1CB4DD00008E6A4E /* SettingsTableViewController.swift */; };
 		C3B150621CB4DD73008E6A4E /* DiscoverTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B150611CB4DD73008E6A4E /* DiscoverTableViewController.swift */; };
 		C3B150641CB4DDAE008E6A4E /* PlansTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B150631CB4DDAE008E6A4E /* PlansTableViewController.swift */; };
-		C3B150671CB4DE8E008E6A4E /* LoginTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B150661CB4DE8E008E6A4E /* LoginTableViewController.swift */; };
+		C3B150671CB4DE8E008E6A4E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B150661CB4DE8E008E6A4E /* LoginViewController.swift */; };
 		C3B1506F1CB4E0F2008E6A4E /* Utilities.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3B1506E1CB4E0F2008E6A4E /* Utilities.storyboard */; };
 		C3BA54C71D493E96008C7C1F /* DeletePlanView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3BA54C61D493E96008C7C1F /* DeletePlanView.xib */; };
 		C3BA54C91D49885F008C7C1F /* LoginHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3BA54C81D49885F008C7C1F /* LoginHeader.xib */; };
@@ -187,7 +187,7 @@
 		C3B1505F1CB4DD00008E6A4E /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		C3B150611CB4DD73008E6A4E /* DiscoverTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewController.swift; sourceTree = "<group>"; };
 		C3B150631CB4DDAE008E6A4E /* PlansTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlansTableViewController.swift; sourceTree = "<group>"; };
-		C3B150661CB4DE8E008E6A4E /* LoginTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTableViewController.swift; sourceTree = "<group>"; };
+		C3B150661CB4DE8E008E6A4E /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		C3B1506E1CB4E0F2008E6A4E /* Utilities.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Utilities.storyboard; sourceTree = "<group>"; };
 		C3BA54C61D493E96008C7C1F /* DeletePlanView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeletePlanView.xib; sourceTree = "<group>"; };
 		C3BA54C81D49885F008C7C1F /* LoginHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginHeader.xib; sourceTree = "<group>"; };
@@ -391,7 +391,7 @@
 				C3B1506E1CB4E0F2008E6A4E /* Utilities.storyboard */,
 				C3BA54C81D49885F008C7C1F /* LoginHeader.xib */,
 				C3B1505F1CB4DD00008E6A4E /* SettingsTableViewController.swift */,
-				C3B150661CB4DE8E008E6A4E /* LoginTableViewController.swift */,
+				C3B150661CB4DE8E008E6A4E /* LoginViewController.swift */,
 				C3DC69DC1D6E33BB0059A993 /* LoginCoverViewController.swift */,
 				C316D4AD1D08C4A4008B244E /* LoginConfirmTableViewController.swift */,
 				C316A42C1D530E9A00A1A3DE /* CompoundImageView.swift */,
@@ -630,7 +630,7 @@
 				C3C613F31CE65D8B00DEF329 /* ReportViewController.swift in Sources */,
 				C3ACD7FF1CDC1487000B2399 /* ItineraryTableViewController.swift in Sources */,
 				C3978CCE1CB6FC4C001028D5 /* MyPlansViewController.swift in Sources */,
-				C3B150671CB4DE8E008E6A4E /* LoginTableViewController.swift in Sources */,
+				C3B150671CB4DE8E008E6A4E /* LoginViewController.swift in Sources */,
 				C31AC41E1CADD7150032230E /* GlobalEnums.swift in Sources */,
 				C3F00E5F1D4C2F9700720510 /* StoredPlan.swift in Sources */,
 				C36C6F801D18B28100A51253 /* EventTableViewCell.swift in Sources */,

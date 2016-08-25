@@ -17,7 +17,7 @@ enum ViewControllerID: String {
     case Settings = "SettingsTableViewController"
     case Discover = "DiscoverTableViewController"
 //    case Plans = "PlansTableViewController"
-    case Login = "LoginTableViewController"
+    case Login = "LoginViewController"
     case Search = "SearchViewController"
     case TripFriends = "TripFriendsViewController"
     case Report = "ReportViewController"

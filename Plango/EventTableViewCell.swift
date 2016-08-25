@@ -65,7 +65,6 @@ class EventTableViewCell: UITableViewCell {
             startTimeLabel.textColor = UIColor.plangoTextLight()
         }
         startTimeLabel.text = formatter.stringFromDate(event.startDate!)
-//        print(event.startDate)
         titleLabel.text = experience.name
         
         coverImageView.plangoImage(experience)

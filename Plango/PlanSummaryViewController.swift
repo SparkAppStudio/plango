@@ -734,14 +734,6 @@ class PlanSummaryViewController: UITableViewController {
                 durationLabel.text = "\(days.description) Days"
             }
             
-            //TODO: - Add this to xib
-
-//            guard let views = plan.viewCount else {return}
-//            guard let used = plan.usedCount else {return}
-
-//            viewsCountLabel.text = "\(views) Inspired"
-//            usedCountLabel.text = "\(used) Used"
-            
             guard let startDate = plan.startDate else {return}
             startTimer(startDate)
         }
@@ -799,7 +791,6 @@ class PlanSummaryViewController: UITableViewController {
 //    }
     
     func didTapItinerary() {
-        print(plan.experiences)
         guard (plan.experiences?.count > 0) else {self.view.quickToast("No Activities for this Plan"); return}
         let itineraryVC = ItineraryViewController()
         itineraryVC.plan = self.plan

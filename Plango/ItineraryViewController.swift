@@ -90,8 +90,7 @@ class ItineraryViewController: MXSegmentedPagerController {
                 maxDate = startDate
             }
         }
-        print(minDate)
-        print(maxDate)
+        
         var days = Int()
         
         let hours = calendar.components(.Hour, fromDate: minDate, toDate: maxDate, options: []).hour
@@ -100,7 +99,6 @@ class ItineraryViewController: MXSegmentedPagerController {
         if days == 0 {
             days = 1
         }
-        print(days)
         
         if plan.durationDays != nil && plan.durationDays != 0 {
             days = plan.durationDays
@@ -193,11 +191,9 @@ class ItineraryViewController: MXSegmentedPagerController {
             }
         }
         
-        print(eventsForTheDay)
         
         //sort events chronologically
         eventsForTheDay.sortInPlace({ $0.startDate < $1.startDate })
-        print(eventsForTheDay)
 
         for event in eventsForTheDay {
             for experience in experiences {

@@ -22,9 +22,6 @@ class SelectionLayer: CALayer {
     func addBadge() {
         let badgeLayer = CALayer()
         badgeLayer.frame = CGRectMake(self.bounds.width - 30, self.bounds.height - 30, 25, 25)
-        // print("In \(self.classForCoder).addBadge  \(self.bounds.height.description)")
-        // print("In \(self.classForCoder).addBadge \(self.frame.height.description)")
-        // print("In \(self.classForCoder).addBadge \(badgeLayer.frame.height.description)")
         badgeLayer.contents = UIImage(named: "check_icon")?.CGImage
         
         self.addSublayer(badgeLayer)

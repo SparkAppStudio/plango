@@ -256,12 +256,6 @@ class Plan: PlangoObject {
                 var startDate: NSDate? = nil
                 if let start = event["start"] as? String {
                     startDate = dateFormatter.dateFromString(start.trimDateTimeZone())
-//                    print("\(start) string")
-//                    print("\(start.trimDateTimeZone()) formatted")
-//
-//                    print("\(startDate) nsdate")
-//                    print("\(startDate?.descriptionWithLocale(NSLocale.currentLocale())) local nsdate")
-
                 }
                 
                 let anEvent = Event(id: id)

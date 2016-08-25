@@ -150,7 +150,7 @@ class LoginCoverViewController: UIViewController {
     }
     
     func didTapLogin(sender: UIButton) {
-        let loginVC = LoginTableViewController()
+        let loginVC = LoginViewController()
         if sender == signupButton {
             loginVC.loginSegment.selectedSegmentIndex = 1
         } else {

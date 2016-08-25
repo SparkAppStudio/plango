@@ -1,5 +1,5 @@
 //
-//  LoginTableViewController.swift
+//  LoginViewController.swift
 //  Plango
 //
 //  Created by Douglas Hewitt on 4/5/16.
@@ -11,7 +11,7 @@ import FBSDKLoginKit
 import SafariServices
 
 
-class LoginTableViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
+class LoginViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
     
     enum Heights: Int {
         case FooterLogin
@@ -96,7 +96,7 @@ class LoginTableViewController: UIViewController, UITextFieldDelegate, UITableVi
         let titles = ["LOG IN", "SIGN UP"]
         let segment = UISegmentedControl(items: titles)
         segment.selectedSegmentIndex = 0
-        segment.addTarget(self, action: #selector(LoginTableViewController.didChangeLoginSegment), forControlEvents: .ValueChanged)
+        segment.addTarget(self, action: #selector(LoginViewController.didChangeLoginSegment), forControlEvents: .ValueChanged)
         segment.sizeToFit()
         segment.tintColor = UIColor.whiteColor()
         return segment
@@ -613,17 +613,17 @@ class LoginTableViewController: UIViewController, UITextFieldDelegate, UITableVi
     }
 }
 
-extension LoginTableViewController: FBSDKLoginButtonDelegate {
+extension LoginViewController: FBSDKLoginButtonDelegate {
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
         if error != nil {
             printError(error)
             self.tableView.quickToast(error.localizedFailureReason!)
         } else if result.isCancelled == false {
-            let confirmVC = LoginConfirmTableViewController()
-            confirmVC.facebookResult = result
             if loginSegment.selectedSegmentIndex == 0 {
                 NSNotificationCenter.defaultCenter().postNotificationName(Notify.Login.rawValue, object: nil, userInfo: ["controller" : self, "FBSDKLoginResult":result])
             } else {
+                let confirmVC = LoginConfirmTableViewController()
+                confirmVC.facebookResult = result
                 self.showViewController(confirmVC, sender: nil)
             }
         } else {

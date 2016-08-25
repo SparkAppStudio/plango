@@ -329,8 +329,6 @@ class StoredPlan: PlangoStoredObject {
                     stored.lattitude = geocode.first!
                     stored.longitude = geocode.last!
                     storedItem.geocode = stored
-                    print(item.geocode)
-                    print(storedItem.geocode)
                 }
                 
                 savedPlan.experiences.append(storedItem)
