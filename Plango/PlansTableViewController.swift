@@ -321,10 +321,13 @@ class PlansTableViewController: UITableViewController {
         self.showViewController(planSummary, sender: nil)
     }
     
-   // i guess not needed
-//    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-//        return true
-//    }
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        if findPlansParameters != nil {
+            return true
+        } else {
+            return false
+        }
+    }
     
     override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
         let report = UITableViewRowAction(style: .Destructive, title: "Report") { action, index in

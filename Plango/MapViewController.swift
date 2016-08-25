@@ -47,8 +47,9 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         return button
     }()
     lazy var cancelNavButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: self.view.bounds.width - 24, y: 12, width: 12, height: 13))
-        button.setImage(UIImage(named: "unselect"), forState: .Normal)
+        let button = UIButton()
+        button.setImage(UIImage(named: "close"), forState: .Normal)
+        button.imageView?.contentMode = .Center
         button.backgroundColor = UIColor.clearColor()
         button.hidden = true
         button.addTarget(self, action: #selector(didTapCancelNav(_:)), forControlEvents: .TouchUpInside)
@@ -146,6 +147,12 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         view.addSubview(centerViewButton)
         view.addSubview(defaultViewButton)
     
+        cancelNavButton.snp_makeConstraints { (make) in
+            make.width.equalTo(50)
+            make.height.equalTo(50)
+            make.leading.equalTo(view.snp_leading)
+            make.bottom.equalTo(startNavButton.snp_top)
+        }
     }
     
 //    override func viewDidDisappear(animated: Bool) {
