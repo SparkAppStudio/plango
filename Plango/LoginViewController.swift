@@ -224,7 +224,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UITableViewDel
 
         NSNotificationCenter.defaultCenter().addObserverForName(Notify.Timer.rawValue, object: nil, queue: nil) { (notification) in
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismissBothControllers()
             })
         }
         
@@ -306,7 +306,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UITableViewDel
     
     func didTapCancel() {
         tableView.endEditing(true)
-        self.dismissViewControllerAnimated(true, completion: nil)
+        dismissBothControllers()
+    }
+    
+    func dismissBothControllers() {
+        if let root = presentingViewController?.presentingViewController {
+            root.dismissViewControllerAnimated(true, completion: nil)
+        } else {
+            dismissViewControllerAnimated(true, completion: nil)
+        }
     }
     
     func didTapToggle(sender: UIButton) {
@@ -599,6 +607,7 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
             } else {
                 let confirmVC = LoginConfirmViewController()
                 confirmVC.facebookResult = result
+//                self.addChildViewController(confirmVC)
                 self.presentViewController(confirmVC, animated: true, completion: nil)
             }
         } else {
