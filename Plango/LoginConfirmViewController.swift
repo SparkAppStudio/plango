@@ -69,6 +69,7 @@ class LoginConfirmViewController: LoginViewController {
         footerStackView.removeFromSuperview()
         
         footerView.frame = CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.size.width, height: 66)
+        loginButton.setTitle("SIGN UP", forState: .Normal)
         footerView.addSubview(loginButton)
         
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "username")
@@ -120,7 +121,7 @@ class LoginConfirmViewController: LoginViewController {
             self.tableView.quickToast("We Need a Username")
         } else {
             guard let result = facebookResult else {return}
-            NSNotificationCenter.defaultCenter().postNotificationName(Notify.NewUser.rawValue, object: nil, userInfo: ["controller" : self, "FBSDKLoginResult" : result, "userEmail" : userEmail, "userName" : userName, "userID" : userID])
+            NSNotificationCenter.defaultCenter().postNotificationName(Notify.NewUser.rawValue, object: nil, userInfo: ["controller" : self, "FBSDKLoginResult" : result, "userEmail" : userEmail.lowercaseString, "userName" : userName, "userID" : userID])
         }
     }
     

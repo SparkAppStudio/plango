@@ -11,7 +11,7 @@
 		C304BD5C1D6B6E7200913DDB /* SearchResultsHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C304BD5B1D6B6E7200913DDB /* SearchResultsHeader.xib */; };
 		C30C2FE91CBAEF2C00411B8E /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30C2FE81CBAEF2C00411B8E /* Formatter.swift */; };
 		C316A42D1D530E9A00A1A3DE /* CompoundImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C316A42C1D530E9A00A1A3DE /* CompoundImageView.swift */; };
-		C316D4AE1D08C4A4008B244E /* LoginConfirmTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C316D4AD1D08C4A4008B244E /* LoginConfirmTableViewController.swift */; };
+		C316D4AE1D08C4A4008B244E /* LoginConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C316D4AD1D08C4A4008B244E /* LoginConfirmViewController.swift */; };
 		C31AC41C1CADD7150032230E /* Plango.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31AC4181CADD7150032230E /* Plango.swift */; };
 		C31AC41D1CADD7150032230E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31AC4191CADD7150032230E /* Extensions.swift */; };
 		C31AC41E1CADD7150032230E /* GlobalEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31AC41A1CADD7150032230E /* GlobalEnums.swift */; };
@@ -111,7 +111,7 @@
 		C304BD5B1D6B6E7200913DDB /* SearchResultsHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchResultsHeader.xib; sourceTree = "<group>"; };
 		C30C2FE81CBAEF2C00411B8E /* Formatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		C316A42C1D530E9A00A1A3DE /* CompoundImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompoundImageView.swift; sourceTree = "<group>"; };
-		C316D4AD1D08C4A4008B244E /* LoginConfirmTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginConfirmTableViewController.swift; sourceTree = "<group>"; };
+		C316D4AD1D08C4A4008B244E /* LoginConfirmViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginConfirmViewController.swift; sourceTree = "<group>"; };
 		C31AC4181CADD7150032230E /* Plango.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plango.swift; sourceTree = "<group>"; };
 		C31AC4191CADD7150032230E /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C31AC41A1CADD7150032230E /* GlobalEnums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalEnums.swift; sourceTree = "<group>"; };
@@ -393,7 +393,7 @@
 				C3B1505F1CB4DD00008E6A4E /* SettingsTableViewController.swift */,
 				C3B150661CB4DE8E008E6A4E /* LoginViewController.swift */,
 				C3DC69DC1D6E33BB0059A993 /* LoginCoverViewController.swift */,
-				C316D4AD1D08C4A4008B244E /* LoginConfirmTableViewController.swift */,
+				C316D4AD1D08C4A4008B244E /* LoginConfirmViewController.swift */,
 				C316A42C1D530E9A00A1A3DE /* CompoundImageView.swift */,
 				C3C613F21CE65D8B00DEF329 /* ReportViewController.swift */,
 				C3978CCF1CB70118001028D5 /* SearchViewController.swift */,
@@ -642,7 +642,7 @@
 				C3D26CD21D3445AC006D909F /* MapViewController.swift in Sources */,
 				C37F1E851D2630B400CA1FAA /* MemberTableViewCell.swift in Sources */,
 				C3F5E0651D1B96AD00F1D2A0 /* NotesTableViewCell.swift in Sources */,
-				C316D4AE1D08C4A4008B244E /* LoginConfirmTableViewController.swift in Sources */,
+				C316D4AE1D08C4A4008B244E /* LoginConfirmViewController.swift in Sources */,
 				C31AC41F1CADD7150032230E /* Helper.swift in Sources */,
 				C3CD5BE61CB5D4AB0079C0E7 /* PlansTableViewCell.swift in Sources */,
 				C33E791F1D303A5C002EB80D /* SectionHeaderView.swift in Sources */,

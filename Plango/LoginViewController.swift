@@ -224,9 +224,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UITableViewDel
 
         NSNotificationCenter.defaultCenter().addObserverForName(Notify.Timer.rawValue, object: nil, queue: nil) { (notification) in
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                
                 self.dismissViewControllerAnimated(true, completion: nil)
-
             })
         }
         
@@ -371,7 +369,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UITableViewDel
             } else if password.isEmpty {
                 self.tableView.quickToast("Please Enter your Password")
             } else {
-                let userInfo = ["controller" : self, "userEmail" : userEmail, "password" : password]
+                let userInfo = ["controller" : self, "userEmail" : userEmail.lowercaseString, "password" : password]
                 NSNotificationCenter.defaultCenter().postNotificationName(Notify.Login.rawValue, object: nil, userInfo: userInfo)
             }
             
@@ -396,7 +394,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UITableViewDel
             } else if userName.isEmpty {
                 self.tableView.quickToast("We Need a Username")
             } else {
-                let userInfo = ["controller" : self, "userEmail" : userEmail, "password" : password, "userName" : userName]
+                let userInfo = ["controller" : self, "userEmail" : userEmail.lowercaseString, "password" : password, "userName" : userName]
                 NSNotificationCenter.defaultCenter().postNotificationName(Notify.NewUser.rawValue, object: nil, userInfo: userInfo)
             }
 
@@ -601,7 +599,7 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
             } else {
                 let confirmVC = LoginConfirmViewController()
                 confirmVC.facebookResult = result
-                self.showViewController(confirmVC, sender: nil)
+                self.presentViewController(confirmVC, animated: true, completion: nil)
             }
         } else {
             //user cancelled fb login

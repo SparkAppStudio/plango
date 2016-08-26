@@ -140,8 +140,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func appNewUser(notification: NSNotification) {
         //every login notification should send controller so UI can be modified here loading screen etc.
-        let controller = notification.userInfo!["controller"] as! UITableViewController
-        controller.tableView.showSimpleLoading()
+        let controller = notification.userInfo!["controller"] as! LoginViewController
+        controller.view.showSimpleLoading()
         
         //facebook newuser
         if let _ = notification.userInfo?["FBSDKLoginResult"] as? FBSDKLoginManagerLoginResult, userName = notification.userInfo?["userName"] as? String, let userEmail = notification.userInfo?["userEmail"] as? String, let userID = notification.userInfo?["userID"] as? String {
@@ -161,11 +161,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             self.handlePlangoAuth(controller, endPoint: Plango.EndPoint.NewAccount.rawValue, email: userEmail, completionMessage: nil, parameters: plangoParameters)
 
-
-
         }
-        
-
 
         //email newuser
         if let userName = notification.userInfo?["userName"] as? String, let userEmail = notification.userInfo?["userEmail"] as? String, let password = notification.userInfo?["password"] as? String {
