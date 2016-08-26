@@ -19,7 +19,7 @@ class PlanMembersTableViewController: UITableViewController {
         let background = UITextView(frame: self.tableView.bounds)
         background.text = "You haven't invited any friends to this plan. Invite them on the desktop at plango.us"
 //        backgroundLabel.numberOfLines = 0
-        background.textContainerInset = UIEdgeInsetsMake(self.tableView.bounds.height/2 - 64, 16, 0, 16)
+        background.textContainerInset = UIEdgeInsetsMake(self.tableView.bounds.height/2 - 44, 16, 0, 16)
         background.editable = false
         background.font = UIFont.plangoSectionHeader()
         background.textColor = UIColor.plangoTypeSectionHeaderGray()
