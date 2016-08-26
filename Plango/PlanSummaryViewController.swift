@@ -432,6 +432,14 @@ class PlanSummaryViewController: UITableViewController {
         buttonStackView.addArrangedSubview(mapButton)
         if myPlan == true {
             buttonStackView.addArrangedSubview(friendsButton)
+            
+            buttonStackView.addSubview(progressView)
+            progressView.snp_makeConstraints(closure: { (make) in
+                make.top.equalTo(buttonStackView.snp_bottom)
+                make.height.equalTo(12)
+                make.leading.equalTo(buttonStackView.snp_leading)
+                make.trailing.equalTo(buttonStackView.snp_trailing)
+            })
         }
         
         stackView.addArrangedSubview(buttonStackView)
@@ -439,13 +447,6 @@ class PlanSummaryViewController: UITableViewController {
         //determine differences in view based on plan specifics, must be after nibs have been created
         if myPlan == true {
             setupDownload()
-            startView.addSubview(progressView)
-            progressView.snp_makeConstraints(closure: { (make) in
-                make.top.equalTo(startView.snp_bottom)
-                make.height.equalTo(20)
-                make.leading.equalTo(startView.snp_leading)
-                make.trailing.equalTo(startView.snp_trailing)
-            })
             stackView.addArrangedSubview(startView)
             
             planDownloaded = isPlanLocal(plan)
@@ -531,7 +532,12 @@ class PlanSummaryViewController: UITableViewController {
         switch indexPath.section {
         case SummaryTitles.Start.section:
             if myPlan == true {
-                return 50 + 200 + 160 + 24 //buttonstackview + startview + download + spacing
+                if timer != nil {
+                    return 50 + 200 + 160 + 24 //buttonstackview + startview + download + spacing
+                } else { //no startview
+                    return 50 + 160 + 12 //buttonstackview + download + spacing
+                }
+                
             } else {
                 return 50 //buttonstackview
             }
@@ -685,10 +691,9 @@ class PlanSummaryViewController: UITableViewController {
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        guard timer != nil else { return }
-        timer.invalidate()
-        timer = nil
+        stopTimer()
     }
+
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -741,6 +746,13 @@ class PlanSummaryViewController: UITableViewController {
 
     }
     
+    
+    func stopTimer() {
+        guard timer != nil else { return }
+        timer.invalidate()
+        timer = nil
+    }
+    
     func timerDidFire() {
         if let startDate = plan.startDate {
             startTimer(startDate)
@@ -776,6 +788,10 @@ class PlanSummaryViewController: UITableViewController {
             startHoursLabel.text = "0"
             startMinutesLabel.text = "0"
             startSecondsLabel.text = "0"
+            
+            stopTimer()
+            startView.removeFromSuperview()
+            tableView.reloadData()
         }
     }
     

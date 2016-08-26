@@ -26,9 +26,9 @@ class PlansTableViewController: UITableViewController {
     //search criteria "\(parent.selectedTags?.description) in \(parent.selectedDestinations?.description) for \(parent.minDuration) - \(parent.maxDuration) days"
     
     lazy var backgroundLabel: UILabel = {
-        let backgroundLabel = UILabel(frame: self.tableView.frame)
+        let backgroundLabel = UILabel(frame: self.tableView.bounds)
         if self.findPlansParameters == nil { //nil means its MyPlans, not search
-            backgroundLabel.text = "You have no plans. Create a new one on the desktop at plango.us"
+            backgroundLabel.text = "You have no plans.\nCreate a new one on the desktop at plango.us"
         } else {
             backgroundLabel.text = "0 results found"
         }

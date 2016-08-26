@@ -15,15 +15,17 @@ class PlanMembersTableViewController: UITableViewController {
     private var confirmedUsers = [User]()
     private var unconfirmedUsers = [User]()
     
-    lazy var backgroundLabel: UILabel = {
-        let backgroundLabel = UILabel(frame: self.tableView.frame)
-        backgroundLabel.text = "You haven't invited any friends to this plan. Invite them on the desktop at plango.us"
-        backgroundLabel.numberOfLines = 0
-        backgroundLabel.font = UIFont.plangoSectionHeader()
-        backgroundLabel.textColor = UIColor.plangoTypeSectionHeaderGray()
-        backgroundLabel.textAlignment = .Center
-        backgroundLabel.backgroundColor = UIColor.plangoBackgroundGray()
-        return backgroundLabel
+    lazy var backgroundText: UITextView = {
+        let background = UITextView(frame: self.tableView.bounds)
+        background.text = "You haven't invited any friends to this plan. Invite them on the desktop at plango.us"
+//        backgroundLabel.numberOfLines = 0
+        background.textContainerInset = UIEdgeInsetsMake(self.tableView.bounds.height/2 - 64, 16, 0, 16)
+        background.editable = false
+        background.font = UIFont.plangoSectionHeader()
+        background.textColor = UIColor.plangoTypeSectionHeaderGray()
+        background.textAlignment = .Center
+        background.backgroundColor = UIColor.plangoBackgroundGray()
+        return background
     }()
     
     override func viewDidLoad() {
@@ -35,12 +37,10 @@ class PlanMembersTableViewController: UITableViewController {
         
         let cellNib = UINib(nibName: "MemberCell", bundle: nil)
         self.tableView.registerNib(cellNib, forCellReuseIdentifier: CellID.Member.rawValue)
-
         // headerfooter view is like a cell
         let sectionNib = UINib(nibName: "SectionHeader", bundle: nil)
         self.tableView.registerNib(sectionNib, forHeaderFooterViewReuseIdentifier: CellID.Header.rawValue)
-
-        self.tableView.backgroundView = backgroundLabel
+        self.tableView.backgroundView = backgroundText
         self.tableView.backgroundView?.hidden = true
 
         getMembers()
