@@ -97,7 +97,7 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
             let parameters = Plango.sharedInstance.buildParameters(minDuration, maxDuration: maxDuration, tags: selectedTags, selectedDestinations: selectedDestinations, user: nil, isJapanSearch: nil)
             
             let plansVC = PlansTableViewController()
-            plansVC.plansEndPoint = Plango.EndPoint.FindPlans.rawValue
+            plansVC.plansEndPoint = Plango.EndPoint.FindPlans.value
             plansVC.findPlansParameters = parameters
             plansVC.searchDestinations = selectedDestinations
             plansVC.navigationItem.title = "RESULTS"
@@ -110,16 +110,14 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
     }
     
     func collectSearchParameters() {
-        if let min = durationController.selectedMin {
-            minDuration = Int(min)
-        } else {
+        if durationController.selectedMin == "1" && durationController.selectedMax == "99" {
             minDuration = nil
-        }
-        if let max = durationController.selectedMax {
-            maxDuration = Int(max)
-        } else {
             maxDuration = nil
+        } else {
+            minDuration = Int(durationController.selectedMin)
+            maxDuration = Int(durationController.selectedMax)
         }
+        
         selectedTags = tagsController.selectedTags
         selectedDestinations = destinationController.selectedDestinations
     }

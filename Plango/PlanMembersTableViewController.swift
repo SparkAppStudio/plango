@@ -66,7 +66,7 @@ class PlanMembersTableViewController: UITableViewController {
             }
         }
             
-        Plango.sharedInstance.fetchMembersFromPlan(Plango.EndPoint.Members.rawValue, members: confirmedMembers) { (users, error) in
+        Plango.sharedInstance.fetchMembersFromPlan(Plango.EndPoint.Members.value, members: confirmedMembers) { (users, error) in
             if let error = error {
                 self.printPlangoError(error)
             } else if let users = users {
@@ -74,7 +74,7 @@ class PlanMembersTableViewController: UITableViewController {
                 self.tableView.reloadData()
             }
         }
-        Plango.sharedInstance.fetchMembersFromPlan(Plango.EndPoint.Members.rawValue, members: unconfirmedMembers) { (users, error) in
+        Plango.sharedInstance.fetchMembersFromPlan(Plango.EndPoint.Members.value, members: unconfirmedMembers) { (users, error) in
             if let error = error {
                 self.printPlangoError(error)
             } else if let users = users {

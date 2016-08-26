@@ -13,8 +13,8 @@ class SearchDurationViewController: UIViewController, UIPickerViewDelegate, UIPi
     lazy var minDays = [String](["Min Days"])
     lazy var maxDays = [String](["Max Days"])
 
-    var selectedMin: String?
-    var selectedMax: String?
+    var selectedMin: String = "1"
+    var selectedMax: String = "99"
     var didUpdateConstraints = false
     let pickerView = UIPickerView()
 

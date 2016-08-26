@@ -72,7 +72,7 @@ class DiscoverTableViewController: UITableViewController {
         
         //------------------------------------------------------------------------
         
-        fetchTags(Plango.EndPoint.AllTags.rawValue)
+        fetchTags(Plango.EndPoint.AllTags.value)
 
         fetchPopularDestinations()
         
@@ -81,7 +81,7 @@ class DiscoverTableViewController: UITableViewController {
     
     func didPullRefresh() {
         if Helper.isConnectedToNetwork() {
-            fetchTags(Plango.EndPoint.AllTags.rawValue)
+            fetchTags(Plango.EndPoint.AllTags.value)
             
             fetchPopularDestinations()
             
@@ -103,7 +103,7 @@ class DiscoverTableViewController: UITableViewController {
     }
     
     func fetchPopularDestinations() {
-        Plango.sharedInstance.fetchPlans(Plango.EndPoint.PopularDestination.rawValue) { (plans, error) in
+        Plango.sharedInstance.fetchPlans(Plango.EndPoint.PopularDestination.value) { (plans, error) in
             if let error = error {
                 self.printPlangoError(error)
             } else if let plans = plans {
@@ -114,7 +114,7 @@ class DiscoverTableViewController: UITableViewController {
     }
     
     func fetchPlangoFavMeta() {
-        Plango.sharedInstance.fetchPlangoFavoritesMeta(Plango.EndPoint.PlangoFavsMeta.rawValue) { (plangoCollections, error) in
+        Plango.sharedInstance.fetchPlangoFavoritesMeta(Plango.EndPoint.PlangoFavsMeta.value) { (plangoCollections, error) in
             if let error = error {
                 self.printPlangoError(error)
             } else if let collections = plangoCollections {
@@ -129,7 +129,7 @@ class DiscoverTableViewController: UITableViewController {
     }
     
     func fetchPlangoFavorites() {
-        Plango.sharedInstance.fetchPlans(Plango.EndPoint.PlangoFavorites.rawValue) { (plans, error) in
+        Plango.sharedInstance.fetchPlans(Plango.EndPoint.PlangoFavorites.value) { (plans, error) in
             if let error = error {
                 self.printPlangoError(error)
             } else if let plans = plans {
@@ -209,7 +209,7 @@ class DiscoverTableViewController: UITableViewController {
                     let cell = tableView.cellForRowAtIndexPath(indexPath) as! PlansTableViewCell
                     cell.contentView.showSimpleLoading()
                     if let plan = cell.plan {
-                        Plango.sharedInstance.reportSpam(Plango.EndPoint.Report.rawValue, planID: plan.id, onCompletion: { (error) in
+                        Plango.sharedInstance.reportSpam(Plango.EndPoint.Report.value, planID: plan.id, onCompletion: { (error) in
                             cell.contentView.hideSimpleLoading()
                             if let error = error {
                                 self.printPlangoError(error)

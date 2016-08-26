@@ -73,7 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let alert = UIAlertController(title: "Email Confirmation", message: error.message, preferredStyle: .Alert)
             let sendConfirmation = UIAlertAction(title: "Resend", style: .Default, handler: { (action) in
                 //Plango send email
-                Plango.sharedInstance.confirmEmail(Plango.EndPoint.SendConfirmation.rawValue, email: email, onCompletion: { (error) in
+                Plango.sharedInstance.confirmEmail(Plango.EndPoint.SendConfirmation.value, email: email, onCompletion: { (error) in
                     if let error = error {
                         controller.printPlangoError(error)
                         if let message = error.message {
@@ -159,7 +159,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             plangoParameters["socialConnects"] = socialConnects
             plangoParameters["fbSignup"] = true
             
-            self.handlePlangoAuth(controller, endPoint: Plango.EndPoint.NewAccount.rawValue, email: userEmail, completionMessage: nil, parameters: plangoParameters)
+            self.handlePlangoAuth(controller, endPoint: Plango.EndPoint.NewAccount.value, email: userEmail, completionMessage: nil, parameters: plangoParameters)
 
         }
 
@@ -168,7 +168,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             let parameters = ["username" : userName, "email" : userEmail, "password" : password]
             
-            self.handlePlangoAuth(controller, endPoint: Plango.EndPoint.NewAccount.rawValue, email: userEmail, completionMessage: "Check your Email", parameters: parameters)
+            self.handlePlangoAuth(controller, endPoint: Plango.EndPoint.NewAccount.value, email: userEmail, completionMessage: "Check your Email", parameters: parameters)
             
         }
     }
@@ -190,7 +190,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     let userID = result.valueForKey("id") as! String
                     Plango.sharedInstance.facebookAvatarURL = "http://graph.facebook.com/\(userID)/picture?type=large"
 
-                    let endPoint = "\(Plango.EndPoint.FacebookLogin.rawValue)\(userID)"
+                    let endPoint = "\(Plango.EndPoint.FacebookLogin.value)\(userID)"
                     self.handlePlangoAuth(controller, endPoint: endPoint, email: nil, completionMessage: nil, parameters: nil)
 
                 }
@@ -200,7 +200,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
             let parameters = ["email" : userEmail, "password" : password]
             
-            self.handlePlangoAuth(controller, endPoint: Plango.EndPoint.Login.rawValue, email: userEmail, completionMessage: nil, parameters: parameters)
+            self.handlePlangoAuth(controller, endPoint: Plango.EndPoint.Login.value, email: userEmail, completionMessage: nil, parameters: parameters)
         }
     }
     

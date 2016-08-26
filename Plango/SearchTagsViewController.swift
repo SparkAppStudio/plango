@@ -108,7 +108,7 @@ class SearchTagsViewController: UIViewController, UISearchResultsUpdating, UISea
 
         self.view.addSubview(tableView)
         
-        Plango.sharedInstance.fetchTags(Plango.EndPoint.AllTags.rawValue) { (receivedTags, error) in
+        Plango.sharedInstance.fetchTags(Plango.EndPoint.AllTags.value) { (receivedTags, error) in
             if let error = error {
                 self.printPlangoError(error)
             } else if let tags = receivedTags {

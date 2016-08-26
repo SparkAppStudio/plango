@@ -337,7 +337,7 @@ class PlansTableViewController: UITableViewController {
                 let cell = tableView.cellForRowAtIndexPath(indexPath) as! PlansTableViewCell
                 cell.contentView.showSimpleLoading()
                 if let plan = cell.plan {
-                    Plango.sharedInstance.reportSpam(Plango.EndPoint.Report.rawValue, planID: plan.id, onCompletion: { (error) in
+                    Plango.sharedInstance.reportSpam(Plango.EndPoint.Report.value, planID: plan.id, onCompletion: { (error) in
                         cell.contentView.hideSimpleLoading()
                         if let error = error {
                             self.printPlangoError(error)

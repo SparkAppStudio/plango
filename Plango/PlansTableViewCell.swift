@@ -37,7 +37,7 @@ class PlansTableViewCell: UITableViewCell {
         backdropView.layer.borderColor = UIColor.plangoCream().CGColor
         
         if let cellPlan = plan {
-            fetchUserForPlan(cellPlan, endPoint: "\(Plango.EndPoint.UserByID.rawValue)\(cellPlan.authorID)")
+            fetchUserForPlan(cellPlan, endPoint: "\(Plango.EndPoint.UserByID.value)\(cellPlan.authorID)")
 
             planNameLabel.text = cellPlan.name
             

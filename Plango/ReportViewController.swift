@@ -46,7 +46,7 @@ class ReportViewController: UIViewController {
     
     func reportPlan(planID: String) {
         self.reportTextView.showSimpleLoading()
-        Plango.sharedInstance.reportSpam(Plango.EndPoint.Report.rawValue, planID: planID) { (errorString) in
+        Plango.sharedInstance.reportSpam(Plango.EndPoint.Report.value, planID: planID) { (errorString) in
             self.reportTextView.hideSimpleLoading()
             
             guard let error = errorString else {

@@ -13,7 +13,8 @@ import SwiftyJSON
 
 class Plango: NSObject {
     static let sharedInstance = Plango()
-    
+    let env = NSBundle.mainBundle().infoDictionary!["BASE_ENDPOINT"] as! String
+
     enum EndPoint: String {
         case UserByID = "http://dev.plango.us/users/"
         case PlanByID = "http://dev.plango.us/plans/"
@@ -32,9 +33,30 @@ class Plango: NSObject {
         case PlangoFavorites = "http://dev.plango.us/findplans?plango_favorite=true"
         case PlangoFavsMeta = "http://dev.plango.us/plangofavorites"
         case Members = "http://dev.plango.us/members"
+        
+        var value: String {
+            switch self {
+            case .UserByID: return "http://\(Plango.sharedInstance.env)/users/"
+            case .PlanByID: return "http://\(Plango.sharedInstance.env)/plans/"
+            case .FindPlans: return "http://\(Plango.sharedInstance.env)/findplans"
+            case .AllTags: return "http://\(Plango.sharedInstance.env)/tags"
+            case .Login: return "http://\(Plango.sharedInstance.env)/login"
+            case .NewAccount: return "http://\(Plango.sharedInstance.env)/createuser"
+            case .Logout: return "http://\(Plango.sharedInstance.env)/logout"
+            case .AmazonImageRoot: return "https://plango-images.s3.amazonaws.com/"
+            case .Home: return "http://\(Plango.sharedInstance.env)/"
+            case .Report: return "http://\(Plango.sharedInstance.env)/plan/reportSpam/"
+            case .MyPlans: return "http://\(Plango.sharedInstance.env)/me/plans"
+            case .SendConfirmation: return "http://\(Plango.sharedInstance.env)/resendconfirmation"
+            case .FacebookLogin: return "http://\(Plango.sharedInstance.env)/user/Facebook/"
+            case .PopularDestination: return "http://\(Plango.sharedInstance.env)/findplans?popular_destination=true"
+            case .PlangoFavorites: return "http://\(Plango.sharedInstance.env)/findplans?plango_favorite=true"
+            case .PlangoFavsMeta: return "http://\(Plango.sharedInstance.env)/plangofavorites"
+            case .Members: return "http://\(Plango.sharedInstance.env)/members"
+
+            }
+        }
     }
-    
-    let env = NSBundle.mainBundle().infoDictionary!["BASE_ENDPOINT"] as! String
     
     var currentUser: User?
     let alamoManager = Alamofire.Manager.sharedInstance
@@ -60,14 +82,14 @@ class Plango: NSObject {
 
     func cleanEndPoint(endPoint: String) -> String {
         var cleanedEndPoint = endPoint
-        if endPoint.lowercaseString.rangeOfString(Plango.EndPoint.AmazonImageRoot.rawValue) == nil && endPoint.lowercaseString.rangeOfString("sqi.net") == nil && endPoint.lowercaseString.rangeOfString("graph.facebook") == nil {
+        if endPoint.lowercaseString.rangeOfString(Plango.EndPoint.AmazonImageRoot.value) == nil && endPoint.lowercaseString.rangeOfString("sqi.net") == nil && endPoint.lowercaseString.rangeOfString("graph.facebook") == nil {
             if endPoint.lowercaseString.rangeOfString("../") != nil {
                 cleanedEndPoint = String(endPoint.characters.dropFirst(3))
             }
             if endPoint.characters.first == "/" {
                 cleanedEndPoint = String(endPoint.characters.dropFirst())
             }
-            cleanedEndPoint = Plango.EndPoint.Home.rawValue.stringByAppendingString(cleanedEndPoint)
+            cleanedEndPoint = Plango.EndPoint.Home.value.stringByAppendingString(cleanedEndPoint)
         }
                 
         return cleanedEndPoint
