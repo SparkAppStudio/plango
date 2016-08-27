@@ -43,18 +43,7 @@ class MyPlansViewController: MXSegmentedPagerController {
         let alert = UIAlertController(title: "Logout?", message: "If you log out you will remove all plans and maps stored on this phone.", preferredStyle: .Alert)
         
         let delete = UIAlertAction(title: "Logout", style: UIAlertActionStyle.Destructive) { (action) in
-
-            if Plango.sharedInstance.currentUser == nil {
-                let nav = UINavigationController(rootViewController: LoginViewController())
-                nav.navigationBar.barTintColor = UIColor.plangoTeal()
-                nav.navigationBar.tintColor = UIColor.whiteColor()
-                nav.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
-                nav.navigationBar.translucent = false
-                
-                self.presentViewController(nav, animated: true, completion: nil)
-            } else {
-                NSNotificationCenter.defaultCenter().postNotificationName(Notify.Logout.rawValue, object: nil, userInfo: ["controller": self])
-            }
+            NSNotificationCenter.defaultCenter().postNotificationName(Notify.Logout.rawValue, object: nil, userInfo: ["controller": self])
         }
         
         let cancel = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)

@@ -93,6 +93,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
     }
     
+    func presentWelcome(controller: UIViewController, completionMessage: String?) {
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            let alert = UIAlertController(title: "Welcome to Plango!", message: "We sent you an email to confirm your account. Click the link and then you can log in.", preferredStyle: .Alert)
+            let ok = UIAlertAction(title: "OK", style: .Default, handler: { (action) in
+                controller.view.imageToast(completionMessage, image: UIImage(named: "whiteCheck")!, notify: true)
+            })
+            
+            alert.addAction(ok)
+            controller.presentViewController(alert, animated: true, completion: nil)
+        })
+    }
+    
     func getParametersFromFacebook(result: AnyObject) -> [String:AnyObject] {
         var plangoParameters = [String:AnyObject]()
         var socialConnects = [[String:AnyObject]]()
@@ -131,11 +143,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             } else if let user = user {
                 Plango.sharedInstance.currentUser = user
-                
                 NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(user), forKey: UserDefaultsKeys.currentUser.rawValue)
-                
-                controller.view.imageToast(completionMessage, image: UIImage(named: "whiteCheck")!, notify: true)
-                
+                if user.confirmed == false {
+                    self.presentWelcome(controller, completionMessage: completionMessage)
+                } else {
+                    controller.view.imageToast(completionMessage, image: UIImage(named: "whiteCheck")!, notify: true)
+                }
             }
         })
     }

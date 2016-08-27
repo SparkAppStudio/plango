@@ -99,10 +99,16 @@ class LoginCoverViewController: UIViewController {
 
         NSNotificationCenter.defaultCenter().addObserverForName(Notify.Timer.rawValue, object: nil, queue: nil) { (notification) in
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                //                self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
-                
                 let app = UIApplication.sharedApplication().delegate as! AppDelegate
-                app.swapLoginControllerInTab()
+
+                if Plango.sharedInstance.currentUser?.confirmed == false {
+                    //if new user has not been confirmed, immediately log them out to prevent inbetween state. They can log in once they click the confirm email
+                    NSNotificationCenter.defaultCenter().postNotificationName(Notify.Logout.rawValue, object: nil, userInfo: ["controller": self])
+
+                } else {
+                    //finish the login process by swapping the controllers
+                    app.swapLoginControllerInTab()
+                }
                 
             })
         }
