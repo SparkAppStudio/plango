@@ -878,7 +878,7 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
         }
         
         dispatch_group_notify(myGroup, dispatch_get_main_queue(), {
-            StoredPlan.savePlan(plan, mapSize: "???Mb")
+            StoredPlan.savePlan(plan, mapSize: "72.7Mb") //avg size when we dont know the actual size because user let download finish on another screen
         })
     }
     

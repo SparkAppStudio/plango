@@ -188,6 +188,7 @@ class PlansTableViewController: UITableViewController {
             self.tableView.hideSimpleLoading()
             self.fetchRequest = nil
             if let error = error {
+                self.tableView.detailToast("Unable to Retrieve Plans", details: "Have you confirmed your email?")
                 self.printPlangoError(error)
             } else if let plans = receivedPlans {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in

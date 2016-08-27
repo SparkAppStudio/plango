@@ -122,10 +122,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if error.statusCode == 403 {
                     guard let email = email else {return}
                     self.presentEmailConfirmation(controller, email: email, error: error)
+                } else if error.statusCode == 401 {
+                    guard let message = error.message else {return}
+                    controller.view.detailToast("Authentication Error", details: message)
                 } else {
-                    if let message = error.message {
-                        controller.view.quickToast(message)
-                    }
+                    guard let message = error.message else {return}
+                    controller.view.quickToast(message)
                 }
             } else if let user = user {
                 Plango.sharedInstance.currentUser = user
