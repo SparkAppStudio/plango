@@ -17,7 +17,7 @@ class User: NSObject, NSCoding {
     var email: String?
     
     var avatar: String?
-    var facebookAvatar: String?
+//    var facebookAvatar: String?
     
     var plans: NSArray?
     
@@ -104,9 +104,9 @@ class User: NSObject, NSCoding {
         newUser.showPlan = dictionary["showplanonboard"] as? Bool
         newUser.showSum = dictionary["showsumonboard"] as? Bool
         
-        if Plango.sharedInstance.facebookAvatarURL != "" {
-            newUser.facebookAvatar = Plango.sharedInstance.facebookAvatarURL
-        }
+//        if Plango.sharedInstance.facebookAvatarURL != "" {
+//            newUser.facebookAvatar = Plango.sharedInstance.facebookAvatarURL
+//        }
         
         return newUser
     }

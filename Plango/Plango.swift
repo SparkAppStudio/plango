@@ -61,7 +61,7 @@ class Plango: NSObject {
     var currentUser: User?
     let alamoManager = Alamofire.Manager.sharedInstance
 //    let decoder = ImageDecoder()
-    lazy var facebookAvatarURL = String()
+//    lazy var facebookAvatarURL = String()
     var searchTotal: Int?
 
     

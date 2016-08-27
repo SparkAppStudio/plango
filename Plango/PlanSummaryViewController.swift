@@ -508,7 +508,7 @@ class PlanSummaryViewController: UITableViewController {
             cell.textLabel?.lineBreakMode = .ByWordWrapping
             cell.textLabel?.font = UIFont.plangoBodyBig()
             cell.textLabel?.textColor = UIColor.plangoText()
-            cell.textLabel!.text = overviewTextArray[indexPath.row]
+            cell.textLabel?.text = overviewTextArray[indexPath.row]
 
             return cell
         default:

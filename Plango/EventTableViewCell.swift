@@ -43,6 +43,12 @@ class EventTableViewCell: UITableViewCell {
         
         guard let experience = experience, event = event else {return}
         
+        if experience.geocode?.count < 2 {
+            directionsButton.hidden = true
+        } else {
+            directionsButton.hidden = false
+        }
+        
         let calendar = NSCalendar.currentCalendar()
         calendar.timeZone = NSTimeZone.defaultTimeZone()
         

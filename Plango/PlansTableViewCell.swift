@@ -75,10 +75,10 @@ class PlansTableViewCell: UITableViewCell {
             self.profileImageView.makeCircle()
 
             guard let endPoint = user.avatar else {
-                if let facebook = user.facebookAvatar {
-                    let cleanURL = NSURL(string: facebook)
-                    self.profileImageView.af_setImageWithURL(cleanURL!)
-                }
+//                if let facebook = user.facebookAvatar {
+//                    let cleanURL = NSURL(string: facebook)
+//                    self.profileImageView.af_setImageWithURL(cleanURL!)
+//                }
                 return
             }
             let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))

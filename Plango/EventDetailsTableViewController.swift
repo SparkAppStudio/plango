@@ -45,10 +45,10 @@ class EventDetailsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        if parentViewController!.isKindOfClass(MapViewController) == false {
+        if experience.geocode?.count == 2 {
             let directionsBarButton = UIBarButtonItem(image: UIImage(named: "directions-white"), style: .Plain, target: self, action: #selector(didTapDirections))
             self.navigationItem.rightBarButtonItem = directionsBarButton
-//        }
+        }
 
 
         self.tableView.backgroundColor = UIColor.plangoBackgroundGray()

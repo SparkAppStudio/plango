@@ -112,7 +112,20 @@ class ItineraryViewController: MXSegmentedPagerController {
     func didTapMap() {
         let experiences = experiencesByDays[segmentedPager.pager.indexForSelectedPage]
         if experiences?.count > 0 {
-            displayMapForExperiences(experiences!, title: "Day \(segmentedPager.pager.indexForSelectedPage + 1)", download: false)
+            var hasMapData = false
+            for exp in experiences! {
+                if exp.geocode?.count == 2 {
+                    hasMapData = true
+                    break
+                }
+            }
+            
+            if hasMapData == true {
+                displayMapForExperiences(experiences!, title: "Day \(segmentedPager.pager.indexForSelectedPage + 1)", download: false)
+            } else {
+                self.view.quickToast("No Map Data")
+            }
+            
         } else {
             self.view.quickToast("No Experiences for Today")
         }

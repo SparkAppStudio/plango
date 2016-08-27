@@ -113,10 +113,11 @@ class MyPlansViewController: MXSegmentedPagerController {
             if let endPoint = user.avatar {
                 let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
                 avatarImageView.af_setImageWithURL(cleanURL!)
-            } else if let facebook = user.facebookAvatar {
-                let cleanURL = NSURL(string: facebook)
-                avatarImageView.af_setImageWithURL(cleanURL!)
             }
+//            else if let facebook = user.facebookAvatar {
+//                let cleanURL = NSURL(string: facebook)
+//                avatarImageView.af_setImageWithURL(cleanURL!)
+//            }
             
         } else {
             accountBarButton.title = "LOGIN"

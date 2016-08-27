@@ -149,7 +149,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             var plangoParameters = [String:AnyObject]()
             var socialConnects = [[String:AnyObject]]()
             
-            Plango.sharedInstance.facebookAvatarURL = "http://graph.facebook.com/\(userID)/picture?type=large"
+//            Plango.sharedInstance.facebookAvatarURL = "http://graph.facebook.com/\(userID)/picture?type=large"
 
             plangoParameters["email"] = userEmail
             plangoParameters["username"] = userName
@@ -188,7 +188,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 } else {
 //                    let email = result.valueForKey("email") as! String
                     let userID = result.valueForKey("id") as! String
-                    Plango.sharedInstance.facebookAvatarURL = "http://graph.facebook.com/\(userID)/picture?type=large"
+//                    Plango.sharedInstance.facebookAvatarURL = "http://graph.facebook.com/\(userID)/picture?type=large"
 
                     let endPoint = "\(Plango.EndPoint.FacebookLogin.value)\(userID)"
                     self.handlePlangoAuth(controller, endPoint: endPoint, email: nil, completionMessage: nil, parameters: nil)
@@ -212,7 +212,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         Plango.sharedInstance.currentUser = nil
         NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKeys.currentUser.rawValue)
-        
+//        Plango.sharedInstance.facebookAvatarURL = ""
         //remove realm data
         let realm = try! Realm()
 
