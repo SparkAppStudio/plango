@@ -301,7 +301,7 @@ class PlansTableViewController: UITableViewController {
         let plan = self.plansArray[indexPath.row]
         cell.plan = plan
         
-        if findPlansParameters == nil && Plango.sharedInstance.currentUser != nil { //myplans
+        if findPlansParameters == nil && Plango.sharedInstance.currentUser != nil && self.navigationController?.viewControllers.count < 2 { //myplans, if nav has more than 2 its plangoCollections
             cell.user = Plango.sharedInstance.currentUser!
         }
         
