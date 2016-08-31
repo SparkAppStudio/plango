@@ -131,15 +131,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             if let error = error {
                 controller.printPlangoError(error)
+                
+                
+                //do not perform this check if its the ConfirmVC, it would break account creation after user made minor mistake, such as already taken user name, instead log out of FB when user presses the cancel button on that controller
+                if controller.classForCoder != LoginConfirmViewController.classForCoder() {
+                    
+                    //When trying to log in, it should log out user from facebook in any event because plango auth failed. Prevents state where user goes to login with facebook again and must "log out of facebook" first
+                    FBSDKLoginManager().logOut()
+                }
+
+                
                 if error.statusCode == 403 {
                     guard let email = email else {return}
                     self.presentEmailConfirmation(controller, email: email, error: error)
                 } else if error.statusCode == 401 {
                     guard let message = error.message else {return}
-                    controller.view.detailToast("Authentication Error", details: message)
+                    controller.view.detailToast("", details: message)
                 } else {
                     guard let message = error.message else {return}
-                    controller.view.quickToast(message)
+                    controller.view.detailToast("", details: message)
                 }
             } else if let user = user {
                 Plango.sharedInstance.currentUser = user

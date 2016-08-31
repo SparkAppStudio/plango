@@ -82,7 +82,7 @@ class Plango: NSObject {
 
     func cleanEndPoint(endPoint: String) -> String {
         var cleanedEndPoint = endPoint
-        if endPoint.lowercaseString.rangeOfString(Plango.EndPoint.AmazonImageRoot.value) == nil && endPoint.lowercaseString.rangeOfString("sqi.net") == nil && endPoint.lowercaseString.rangeOfString("graph.facebook") == nil {
+        if endPoint.lowercaseString.rangeOfString("http") == nil {
             if endPoint.lowercaseString.rangeOfString("../") != nil {
                 cleanedEndPoint = String(endPoint.characters.dropFirst(3))
             }
@@ -258,7 +258,14 @@ class Plango: NSObject {
                     placesString.appendContentsOf("city:\(city),")
                 }
                 if let state = item.state {
-                    placesString.appendContentsOf("state:\(state),")
+                    if let country = item.country { //if you have both check for district bug
+                        if state != "\(country) District" { //this is necessary for some international places bc google does weird things
+                            placesString.appendContentsOf("state:\(state),")
+                        }
+                    } else { //if no country let state pass as normal
+                        placesString.appendContentsOf("state:\(state),")
+                    }
+
                 }
                 if let country = item.country {
                     placesString.appendContentsOf("country:\(country)_")

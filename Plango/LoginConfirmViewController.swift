@@ -125,6 +125,11 @@ class LoginConfirmViewController: LoginViewController {
         }
     }
     
+    override func didTapCancel() {
+        super.didTapCancel()
+        FBSDKLoginManager().logOut() //In this case we cannot logout of facebook soley relying on error in the appdelegate handlePlangoAuth method because user may correct mistake like "username in use" and then will need facebook credentials. So, only log out of facebook if they tap cancel, which takes the user all the way back to main loginCoverVC where they would need to tap facebook button again.
+    }
+    
 
     // MARK: - Text Field
     
