@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (3.4.1)
+  - Alamofire (3.4.2)
   - AlamofireImage (2.4.1):
     - Alamofire (~> 3.3)
   - AlamofireNetworkActivityIndicator (1.0.1):
@@ -18,11 +18,11 @@ PODS:
     - ChameleonFramework/Default
   - CZWeatherKit (2.2.7):
     - PINCache (~> 2.1)
-  - FBSDKCoreKit (4.14.0):
+  - FBSDKCoreKit (4.15.0):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.14.0):
+  - FBSDKLoginKit (4.15.0):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.14.0):
+  - FBSDKShareKit (4.15.0):
     - FBSDKCoreKit
   - GoogleMaps (2.0.1):
     - GoogleMaps/Maps (= 2.0.1)
@@ -35,18 +35,18 @@ PODS:
   - GooglePlaces (2.0.1):
     - GoogleMaps/Base (= 2.0.1)
   - HMSegmentedControl (1.5.2)
-  - Hue (1.1.1)
+  - Hue (1.3.0)
   - Mapbox-iOS-SDK (3.3.4)
   - MapboxDirections.swift (0.6.0):
     - Polyline (~> 3.2)
   - MapboxGeocoder.swift (0.5.0)
   - MBProgressHUD (1.0.0)
   - MXPagerView (0.1.3)
-  - MXParallaxHeader (0.5.1)
-  - MXSegmentedPager (3.0.5):
+  - MXParallaxHeader (0.5.2)
+  - MXSegmentedPager (3.1.0):
     - HMSegmentedControl (~> 1.5.2)
     - MXPagerView (~> 0.1.3)
-    - MXParallaxHeader (~> 0.5.1)
+    - MXParallaxHeader (~> 0.5.2)
   - ObjectMapper (1.4.0)
   - PINCache (2.3)
   - Polyline (3.2.2)
@@ -110,28 +110,28 @@ CHECKOUT OPTIONS:
     :git: https://github.com/MengTo/Spring.git
 
 SPEC CHECKSUMS:
-  Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
+  Alamofire: 6aa33201d20d069e1598891cf928883ff1888c7a
   AlamofireImage: 3ccf3347d9ea24580dc11fb892770a0be6a29826
   AlamofireNetworkActivityIndicator: 49a6e39afb947136f7b1872bae2d684957c26697
   AlamofireObjectMapper: 70f97cbf45c01c48d26aa07a1a7059a60ed7411d
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   CZWeatherKit: e15848c63ac021a83ec92e8fc0011a4ada6bf2ed
-  FBSDKCoreKit: 6e020b5db0b5bd1e01f5fb0902131befd129a502
-  FBSDKLoginKit: da563567a108050ef83739c8c8c001ee9e25fa13
-  FBSDKShareKit: e8e5d4ccef69b41132fe33acda26db1e33143e33
+  FBSDKCoreKit: 6680cbd33a4243d80700f182d0af36b3fa7f3118
+  FBSDKLoginKit: 96d9b70b5784490f02ab86119e542a1f182017a8
+  FBSDKShareKit: 06ef20cb2f16828ca4b20055333313dd445de362
   GoogleMaps: f09da64fc987c1aa29394567c3cab5a3df83c402
   GooglePlacePicker: e7b11b732e40dbe76e8ab4c5fc2f4a7c32b96578
   GooglePlaces: 72fab1d1651c6df0322f2aad245ffb15b80d3c56
   HMSegmentedControl: 83b9686022d2176fb6457d2bdb61e5d6393fed7d
-  Hue: 931aeeadcb29ce5de5b97589aa936be4638a1501
+  Hue: b4d7f4923dd16237f9cbc1783c3c81438b4391f4
   Mapbox-iOS-SDK: b22da0d9703fcfb0a8b592b6a7f6a21264fe44b0
   MapboxDirections.swift: 144cefb4386d419f916ce27928834c28bbaafb4f
   MapboxGeocoder.swift: 4fbe12e42458db895ff73739c69743c943d0824e
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MXPagerView: db0c020aeada6a0c704f18f8053468560e346982
-  MXParallaxHeader: b40fabd42d1bb76f6d1a713ceae5628f69241bd6
-  MXSegmentedPager: 0f8ef591d510dc8b5531219d6f3bbaaacf3eb305
+  MXParallaxHeader: 5070ba8e8af27ec793c0d32ae82cfd2318e59635
+  MXSegmentedPager: 70bee6e9aeb41205288407d896646165951b89a5
   ObjectMapper: a07ad0462c5adf014adc0f89ef04c29b626e855e
   PINCache: ce36ed282031b92fc7733ffe831f474ff80fddc2
   Polyline: 4968bf16ceddd579e1e60820edc74a2271ec9c59

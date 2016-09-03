@@ -711,35 +711,35 @@ extension UIFont {
 
 extension UIColor {
     static func plangoTeal() -> UIColor {
-        return UIColor.hex("#36C1CD")
+        return UIColor(hex: "#36C1CD")
     }
     static func plangoOrange() -> UIColor {
 //        return UIColor.hex("#FF7916") old orange
-        return UIColor.hex("#FF6A3D")
+        return UIColor(hex: "#FF6A3D")
     }
     static func plangoBackgroundGray() -> UIColor {
-        return UIColor.hex("#f2f2f2")
+        return UIColor(hex: "#f2f2f2")
     }
     static func plangoSectionHeaderGray() -> UIColor {
-        return UIColor.hex("#f9f9f9")
+        return UIColor(hex: "#f9f9f9")
     }
     static func plangoTypeSectionHeaderGray() -> UIColor {
-        return UIColor.hex("#666666")
+        return UIColor(hex: "#666666")
     }
     static func plangoBlack() -> UIColor {
-        return UIColor.hex("#333333")
+        return UIColor(hex: "#333333")
     }
     static func plangoText() -> UIColor {
-        return UIColor.hex("#4A4A4A")
+        return UIColor(hex: "#4A4A4A")
     }
     static func plangoTextLight() -> UIColor {
-        return UIColor.hex("#9B9B9B")
+        return UIColor(hex: "#9B9B9B")
     }
     static func plangoCream() -> UIColor {
-        return UIColor.hex("#FDF6EA")
+        return UIColor(hex: "#FDF6EA")
     }
     static func plangoCreamLight() -> UIColor {
-        return UIColor.hex("#EFE5D4")
+        return UIColor(hex: "#EFE5D4")
     }
     static func transparentGray() -> UIColor {
         let color = UIColor.plangoBlack().colorWithAlphaComponent(0.1)
