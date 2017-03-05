@@ -35,31 +35,22 @@ extension UINavigationController {
     
 }
 
-extension Date: Comparable { }
-public func ==(lhs: Date, rhs: Date) -> Bool {
-    return (lhs == rhs)
-}
-
-public func <(lhs: Date, rhs: Date) -> Bool {
-    return lhs.compare(rhs) == .orderedAscending
-}
-
-let dates = [Date(), Date()]
-let maxDate = dates.isEmpty ? nil : Optional(dates.max())
+//let dates = [Date(), Date()]
+//let maxDate = dates.isEmpty ? nil : Optional(dates.max())
 
 
-extension DateFormatter {
-    
-    func dateFromStringOptional(_ string:String?) -> Date?
-    {
-        guard let value = string else
-        {
-            return nil
-        }
-        
-        return self.date(from: value)
-    }
-}
+//extension DateFormatter {
+//    
+//    func dateFromStringOptional(_ string:String?) -> Date?
+//    {
+//        guard let value = string else
+//        {
+//            return nil
+//        }
+//        
+//        return self.date(from: value)
+//    }
+//}
 
 extension String {
     func trimWhiteSpace() -> String {
@@ -627,7 +618,7 @@ extension UIImage {
 extension UIImageView {
     fileprivate func setNetworkImage(_ endPoint: String, onCompletion: @escaping (Data?) -> Void) {
         if let cleanURL = URL(string: Plango.sharedInstance.cleanEndPoint(endPoint)) {
-            self.af_setImageWithURL(cleanURL, placeholderImage: nil, filter: nil, progress: nil, progressQueue: DispatchQueue.main, imageTransition: .none, runImageTransitionIfCached: false, completion: { (response) in
+            self.af_setImage(withURL: cleanURL, placeholderImage: nil, filter: nil, progress: nil, progressQueue: DispatchQueue.main, imageTransition: .noTransition, runImageTransitionIfCached: false, completion: { (response) in
                 if response.result.isSuccess {
                     if let image = response.result.value {
                         let imageData = UIImageJPEGRepresentation(image, 1.0)
@@ -754,9 +745,9 @@ extension IndexSet {
     func aapl_indexPathsFromIndexesWithSection(_ section: Int) -> [IndexPath] {
         var indexPaths: [IndexPath] = []
         indexPaths.reserveCapacity(self.count)
-        (self as NSIndexSet).enumerate{idx, stop in
+        (self as NSIndexSet).enumerate({idx, stop in
             indexPaths.append(IndexPath(item: idx, section: section))
-        }
+        })
         return indexPaths
     }
     

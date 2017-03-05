@@ -107,10 +107,10 @@ class ItineraryViewController: MXSegmentedPagerController {
         //find actual min and max
         for event in events {
             guard let startDate = event.startDate else {continue}
-            if startDate as Date < minDate {
+            if startDate < minDate {
                 self.minDate = startDate as Date
             }
-            if startDate as Date > maxDate {
+            if startDate > maxDate {
                 maxDate = startDate as Date
             }
         }

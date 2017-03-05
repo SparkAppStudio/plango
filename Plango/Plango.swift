@@ -59,7 +59,9 @@ class Plango: NSObject {
     }
     
     var currentUser: User?
-    let alamoManager = Alamofire.Manager.sharedInstance
+    let alamoManager = SessionManager.default
+    
+
 //    let decoder = ImageDecoder()
 //    lazy var facebookAvatarURL = String()
     var searchTotal: Int?
@@ -104,8 +106,8 @@ class Plango: NSObject {
         return cleanString
     }
     
-    func fetchUsers(_ endPoint: String, onCompletion: UsersResponse) -> Request {
-        return Alamofire.request(.GET, endPoint).responseJSON { response in
+    func fetchUsers(_ endPoint: String, onCompletion: @escaping UsersResponse) -> Request {
+        return Alamofire.request(endPoint).responseJSON { response in
             var receivedUsers = [User]()
             
             switch response.result {
@@ -130,7 +132,7 @@ class Plango: NSObject {
                 onCompletion(receivedUsers, nil)
                 
             case .failure(let error):
-                let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
+                let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedDescription)
                 onCompletion(nil, newError)
             }
         }
@@ -174,7 +176,7 @@ class Plango: NSObject {
     }
     
     func fetchPlans(_ endPoint: String, onCompletion: PlansResponse) -> Request {
-        return Alamofire.request(.GET, endPoint).validate().responseJSON { response in
+        return Alamofire.request(endPoint).validate().responseJSON { response in
             print(response.request?.URLString)
 
             switch response.result {
@@ -286,7 +288,7 @@ class Plango: NSObject {
     }
     
     func fetchPlangoFavoritesMeta(_ endPoint: String, onCompletion: @escaping PlangoCollectionResponse) {
-        Alamofire.request(.GET, endPoint).validate().responseJSON { response in
+        Alamofire.request(endPoint).validate().responseJSON { response in
             print(response.request?.URLString)
 
             switch response.result {
@@ -301,7 +303,7 @@ class Plango: NSObject {
                 }
                 
             case .failure(let error):
-                let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
+                let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedDescription)
                 
                 onCompletion(nil, newError)
             }
@@ -309,7 +311,7 @@ class Plango: NSObject {
     }
     
     func fetchTags(_ endPoint: String, onCompletion: @escaping TagsResponse) -> Void {
-        Alamofire.request(.GET, endPoint).validate().responseJSON { response in
+        Alamofire.request(endPoint).validate().responseJSON { response in
             switch response.result {
             case .success(let value):
                 let dataJSON = JSON(value)
@@ -322,7 +324,7 @@ class Plango: NSObject {
                 }
                 
             case .failure(let error):
-                let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
+                let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedDescription)
 
                 onCompletion(nil, newError)
             }
@@ -330,14 +332,14 @@ class Plango: NSObject {
     }
     
     func fetchImage(_ endPoint: String, onCompletion: ImageResponse) -> Request {
-        return Alamofire.request(.GET, endPoint).validate().responseImage { (response) in
+        return Alamofire.request(endPoint).validate().responseImage { (response) in
             
             switch response.result {
             case .success(let image):
                 onCompletion(image, nil)
                 self.photoCache.addImage(image, withIdentifier: endPoint)
             case .failure(let error):
-                let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
+                let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedDescription)
 
                 onCompletion(nil, newError)
             }

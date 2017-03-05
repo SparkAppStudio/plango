@@ -769,7 +769,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D3C9D302F55D77443409D8D3 /* Pods-Plango.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				APP_DISPLAY_NAME = dev.Plango;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BASE_ENDPOINT = dev.plango.us;
@@ -786,7 +786,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7C809CA33271A5989CE4861B /* Pods-Plango.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				APP_DISPLAY_NAME = Plango;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BASE_ENDPOINT = www.plango.us;
