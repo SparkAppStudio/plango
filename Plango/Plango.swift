@@ -13,7 +13,7 @@ import SwiftyJSON
 
 class Plango: NSObject {
     static let sharedInstance = Plango()
-    let env = NSBundle.mainBundle().infoDictionary!["BASE_ENDPOINT"] as! String
+    let env = Bundle.main.infoDictionary!["BASE_ENDPOINT"] as! String
 
     enum EndPoint: String {
         case UserByID = "http://dev.plango.us/users/"
@@ -75,41 +75,41 @@ class Plango: NSObject {
     typealias ImageResponse = (UIImage?, PlangoError?) -> Void
     
     //memory usage scales to physical memory available on device
-    let photoCache = AutoPurgingImageCache(memoryCapacity: NSProcessInfo.processInfo().physicalMemory/5, preferredMemoryUsageAfterPurge: NSProcessInfo.processInfo().physicalMemory/10)
+    let photoCache = AutoPurgingImageCache(memoryCapacity: ProcessInfo.processInfo.physicalMemory/5, preferredMemoryUsageAfterPurge: ProcessInfo.processInfo.physicalMemory/10)
     
     
     var userCache = [String : User]()
 
-    func cleanEndPoint(endPoint: String) -> String {
+    func cleanEndPoint(_ endPoint: String) -> String {
         var cleanedEndPoint = endPoint
-        if endPoint.lowercaseString.rangeOfString("http") == nil {
-            if endPoint.lowercaseString.rangeOfString("../") != nil {
+        if endPoint.lowercased().range(of: "http") == nil {
+            if endPoint.lowercased().range(of: "../") != nil {
                 cleanedEndPoint = String(endPoint.characters.dropFirst(3))
             }
             if endPoint.characters.first == "/" {
                 cleanedEndPoint = String(endPoint.characters.dropFirst())
             }
-            cleanedEndPoint = Plango.EndPoint.Home.value.stringByAppendingString(cleanedEndPoint)
+            cleanedEndPoint = Plango.EndPoint.Home.value + cleanedEndPoint
         }
                 
         return cleanedEndPoint
     }
     
-    func thumbEndPoint(endPoint: String) -> String {
+    func thumbEndPoint(_ endPoint: String) -> String {
         var cleanString = cleanEndPoint(endPoint)
-        let index = cleanString.rangeOfString("/", options:NSStringCompareOptions.BackwardsSearch)?.endIndex
+        let index = cleanString.range(of: "/", options:NSString.CompareOptions.backwards)?.upperBound
         //            let index = cleanString.startIndex.distanceTo(range!.startIndex)
         
-        cleanString.insertContentsOf("thumb/".characters, at: index!)
+        cleanString.insert(contentsOf: "thumb/".characters, at: index!)
         return cleanString
     }
     
-    func fetchUsers(endPoint: String, onCompletion: UsersResponse) -> Request {
+    func fetchUsers(_ endPoint: String, onCompletion: UsersResponse) -> Request {
         return Alamofire.request(.GET, endPoint).responseJSON { response in
             var receivedUsers = [User]()
             
             switch response.result {
-            case .Success(let value):
+            case .success(let value):
                 
                 // MARK: - NOTE: the verbose way
                 //using generic response from Alamofire. Checks if the data may arrive but be empty, otherwise unnecessary
@@ -129,31 +129,31 @@ class Plango: NSObject {
                 receivedUsers = User.getUsersFromJSON(dataJSON)
                 onCompletion(receivedUsers, nil)
                 
-            case .Failure(let error):
+            case .failure(let error):
                 let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
                 onCompletion(nil, newError)
             }
         }
     }
     
-    func fetchMembersFromPlan(endPoint: String, members: [Member], onCompletion: UsersResponse) -> Request {
+    func fetchMembersFromPlan(_ endPoint: String, members: [Member], onCompletion: UsersResponse) -> Request {
 
         var memberIDs = [String]()
         for member in members {
             memberIDs.append(member.id)
         }
         
-        let encodableURLRequest = NSURLRequest(URL: NSURL(string: endPoint)!)
+        let encodableURLRequest = URLRequest(url: URL(string: endPoint)!)
 
-        let mutableURLRequest = NSMutableURLRequest(URL: encodableURLRequest.URL!)
-        mutableURLRequest.HTTPMethod = "POST"
+        let mutableURLRequest = NSMutableURLRequest(url: encodableURLRequest.url!)
+        mutableURLRequest.httpMethod = "POST"
         mutableURLRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        mutableURLRequest.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(memberIDs, options: [])
+        mutableURLRequest.httpBody = try! JSONSerialization.data(withJSONObject: memberIDs, options: [])
         
         
         return Alamofire.request(mutableURLRequest).validate().responseJSON { response in
             switch response.result {
-            case .Success(let value):
+            case .success(let value):
                 let dataJSON = JSON(value)
                 if dataJSON["status"].stringValue == "success" || dataJSON["status"].intValue == 200 {
                     let receivedUsers = User.getUsersFromJSON(dataJSON)
@@ -164,7 +164,7 @@ class Plango: NSObject {
                     
                     onCompletion(nil, newError)
                 }
-            case .Failure(let error):
+            case .failure(let error):
                 let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
                 
                 onCompletion(nil, newError)
@@ -173,16 +173,16 @@ class Plango: NSObject {
         }
     }
     
-    func fetchPlans(endPoint: String, onCompletion: PlansResponse) -> Request {
+    func fetchPlans(_ endPoint: String, onCompletion: PlansResponse) -> Request {
         return Alamofire.request(.GET, endPoint).validate().responseJSON { response in
             print(response.request?.URLString)
 
             switch response.result {
-            case .Success(let value):
+            case .success(let value):
                 let dataJSON = JSON(value)
 
                 onCompletion(Plan.getPlansFromJSON(dataJSON), nil)
-            case .Failure(let error):
+            case .failure(let error):
                 let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
 
                 onCompletion(nil, newError)
@@ -190,7 +190,7 @@ class Plango: NSObject {
         }
     }
     
-    func findPlans(endPoint: String, page: Int, parameters: [String : AnyObject], onCompletion: PlansResponse) -> Request {
+    func findPlans(_ endPoint: String, page: Int, parameters: [String : AnyObject], onCompletion: PlansResponse) -> Request {
         
         //pagination
         var newParameters = parameters
@@ -198,11 +198,11 @@ class Plango: NSObject {
         newParameters["pageNum"] = page
         
         //encoding
-        let encodableURLRequest = NSURLRequest(URL: NSURL(string: endPoint)!)
-        let encodedURLRequest = ParameterEncoding.URL.encode(encodableURLRequest, parameters: newParameters).0
+        let encodableURLRequest = URLRequest(url: URL(string: endPoint)!)
+        let encodedURLRequest = ParameterEncoding.url.encode(encodableURLRequest, parameters: newParameters).0
         
-        let mutableURLRequest = NSMutableURLRequest(URL: encodedURLRequest.URL!)
-        mutableURLRequest.HTTPMethod = "GET"
+        let mutableURLRequest = NSMutableURLRequest(url: encodedURLRequest.url!)
+        mutableURLRequest.httpMethod = "GET"
         mutableURLRequest.setValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
 
         print(mutableURLRequest.URLString)
@@ -210,7 +210,7 @@ class Plango: NSObject {
         return Alamofire.request(mutableURLRequest).validate().responseJSON { response in
             print(response.request?.URLString)
             switch response.result {
-            case .Success(let value):
+            case .success(let value):
                 let dataJSON = JSON(value)
                 if dataJSON["status"].stringValue == "success" {
                     onCompletion(Plan.getPlansFromJSON(dataJSON), nil)
@@ -220,7 +220,7 @@ class Plango: NSObject {
                     
                     onCompletion(nil, newError)
                 }
-            case .Failure(let error):
+            case .failure(let error):
                 let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
 
                 onCompletion(nil, newError)
@@ -229,68 +229,68 @@ class Plango: NSObject {
         }
     }
     
-    func buildParameters(minDuration: Int?, maxDuration: Int?, tags: [Tag]?, selectedDestinations: [Destination]?, user: User?, isJapanSearch: Bool?) -> [String:AnyObject] {
+    func buildParameters(_ minDuration: Int?, maxDuration: Int?, tags: [Tag]?, selectedDestinations: [Destination]?, user: User?, isJapanSearch: Bool?) -> [String:AnyObject] {
         var parameters: [String : AnyObject] = [:]
         
         if let item = minDuration {
-            parameters["durationFrom"] = String(item)
+            parameters["durationFrom"] = String(item) as AnyObject?
         }
         if let item = maxDuration {
-            parameters["durationTo"] = String(item)
+            parameters["durationTo"] = String(item) as AnyObject?
         }
         if let tags = tags {
             
             var tagString = ""
             
             for item in tags {
-                tagString.appendContentsOf("\(item.name!),")
+                tagString.append("\(item.name!),")
             }
             
             let cleanedTags = String(tagString.characters.dropLast())
             
-            parameters["tags"] = cleanedTags
+            parameters["tags"] = cleanedTags as AnyObject?
         }
         if let destinations = selectedDestinations {
             var placesString = ""
             
             for item in destinations {
                 if let city = item.city {
-                    placesString.appendContentsOf("city:\(city),")
+                    placesString.append("city:\(city),")
                 }
                 if let state = item.state {
                     if let country = item.country { //if you have both check for district bug
                         if state != "\(country) District" { //this is necessary for some international places bc google does weird things
-                            placesString.appendContentsOf("state:\(state),")
+                            placesString.append("state:\(state),")
                         }
                     } else { //if no country let state pass as normal
-                        placesString.appendContentsOf("state:\(state),")
+                        placesString.append("state:\(state),")
                     }
 
                 }
                 if let country = item.country {
-                    placesString.appendContentsOf("country:\(country)_")
+                    placesString.append("country:\(country)_")
                 }
             }
             
             let cleanedPlaces = String(placesString.characters.dropLast())
-            parameters["selectedPlaces"] = cleanedPlaces
+            parameters["selectedPlaces"] = cleanedPlaces as AnyObject?
         }
         if let item = user {
-            parameters["user"] = item.displayName
+            parameters["user"] = item.displayName as AnyObject?
         }
         if let item = isJapanSearch {
-            parameters["isJapanSearch"] = item
+            parameters["isJapanSearch"] = item as AnyObject?
         }
         
         return parameters
     }
     
-    func fetchPlangoFavoritesMeta(endPoint: String, onCompletion: PlangoCollectionResponse) {
+    func fetchPlangoFavoritesMeta(_ endPoint: String, onCompletion: @escaping PlangoCollectionResponse) {
         Alamofire.request(.GET, endPoint).validate().responseJSON { response in
             print(response.request?.URLString)
 
             switch response.result {
-            case .Success(let value):
+            case .success(let value):
                 let dataJSON = JSON(value)
                 if dataJSON["status"].stringValue == "success" {
                     onCompletion(PlangoCollection.getPlangoCollectionsFromJSON(dataJSON), nil)
@@ -300,7 +300,7 @@ class Plango: NSObject {
                     onCompletion(nil, newError)
                 }
                 
-            case .Failure(let error):
+            case .failure(let error):
                 let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
                 
                 onCompletion(nil, newError)
@@ -308,10 +308,10 @@ class Plango: NSObject {
         }
     }
     
-    func fetchTags(endPoint: String, onCompletion: TagsResponse) -> Void {
+    func fetchTags(_ endPoint: String, onCompletion: @escaping TagsResponse) -> Void {
         Alamofire.request(.GET, endPoint).validate().responseJSON { response in
             switch response.result {
-            case .Success(let value):
+            case .success(let value):
                 let dataJSON = JSON(value)
                 if dataJSON["status"].stringValue == "success" {
                     onCompletion(Tag.getTagsFromJSON(dataJSON), nil)
@@ -321,7 +321,7 @@ class Plango: NSObject {
                     onCompletion(nil, newError)
                 }
                 
-            case .Failure(let error):
+            case .failure(let error):
                 let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
 
                 onCompletion(nil, newError)
@@ -329,14 +329,14 @@ class Plango: NSObject {
         }
     }
     
-    func fetchImage(endPoint: String, onCompletion: ImageResponse) -> Request {
+    func fetchImage(_ endPoint: String, onCompletion: ImageResponse) -> Request {
         return Alamofire.request(.GET, endPoint).validate().responseImage { (response) in
             
             switch response.result {
-            case .Success(let image):
+            case .success(let image):
                 onCompletion(image, nil)
                 self.photoCache.addImage(image, withIdentifier: endPoint)
-            case .Failure(let error):
+            case .failure(let error):
                 let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
 
                 onCompletion(nil, newError)
@@ -344,13 +344,13 @@ class Plango: NSObject {
         }
     }
     
-    func reportSpam(endPoint: String, planID: String, onCompletion: ReportSpamResponse) -> Void {
+    func reportSpam(_ endPoint: String, planID: String, onCompletion: @escaping ReportSpamResponse) -> Void {
         let spamEndPoint = "\(endPoint)\(planID)"
         
         Alamofire.request(.POST, spamEndPoint).validate().responseJSON { response in
             print(response.request)
             switch response.result {
-            case .Success(let value):
+            case .success(let value):
                 let dataJSON = JSON(value)
                 if dataJSON["status"].stringValue == "success" || dataJSON["status"].intValue == 200 {
                     onCompletion(nil)
@@ -359,7 +359,7 @@ class Plango: NSObject {
                     
                     onCompletion(newError)
                 }
-            case .Failure(let error):
+            case .failure(let error):
                 let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
                 
                 onCompletion(newError)
@@ -367,11 +367,11 @@ class Plango: NSObject {
         }
     }
     
-    func confirmEmail(endPoint: String, email: String, onCompletion: ReportSpamResponse) -> Void {
+    func confirmEmail(_ endPoint: String, email: String, onCompletion: @escaping ReportSpamResponse) -> Void {
         let parameters = ["email" : email]
         Alamofire.request(.POST, endPoint, parameters: parameters).validate().responseJSON { response in
             switch response.result {
-            case .Success(let value):
+            case .success(let value):
                 let dataJSON = JSON(value)
                 if dataJSON["status"].stringValue == "success" || dataJSON["status"].intValue == 200 {
                     onCompletion(nil)
@@ -380,7 +380,7 @@ class Plango: NSObject {
                     
                     onCompletion(newError)
                 }
-            case .Failure(let error):
+            case .failure(let error):
                 let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
                 
                 onCompletion(newError)
@@ -388,21 +388,21 @@ class Plango: NSObject {
         }
     }
     
-    func authPlangoUser(endPoint: String, parameters: [String:AnyObject]?, onCompletion: LoginResponse) -> Void {
+    func authPlangoUser(_ endPoint: String, parameters: [String:AnyObject]?, onCompletion: @escaping LoginResponse) -> Void {
         
         Alamofire.request(.POST, endPoint, parameters: parameters).responseJSON { response in
             print("The request is \(response.request)")
             switch response.result {
-            case .Success(let value):
+            case .success(let value):
                 let dataJSON = JSON(value)
                 if dataJSON["status"].stringValue == "success" || dataJSON["status"].intValue == 200 {
                     
                     //set cookies for future requests
                     if let headerFields = response.response?.allHeaderFields as? [String: String],
 //                        responseURL = response.response?.URL,
-                        requestURL = response.request?.URL {
-                        let cookies = NSHTTPCookie.cookiesWithResponseHeaderFields(headerFields, forURL: requestURL)
-                        Alamofire.Manager.sharedInstance.session.configuration.HTTPCookieStorage?.setCookies(cookies, forURL: requestURL, mainDocumentURL: nil)
+                        let requestURL = response.request?.url {
+                        let cookies = HTTPCookie.cookies(withResponseHeaderFields: headerFields, for: requestURL)
+                        Alamofire.Manager.sharedInstance.session.configuration.httpCookieStorage?.setCookies(cookies, for: requestURL, mainDocumentURL: nil)
                     }
 
                     
@@ -412,7 +412,7 @@ class Plango: NSObject {
                     onCompletion(nil, newError)
                 }
                 
-            case .Failure(let error):
+            case .failure(let error):
                 let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
                 
                 onCompletion(nil, newError)

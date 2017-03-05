@@ -59,10 +59,10 @@ class SearchDestinationViewController: UIViewController {
 
 //        self.extendedLayoutIncludesOpaqueBars = !self.navigationController!.navigationBar.translucent
         
-        tableView = UITableView(frame: UIScreen.mainScreen().bounds)
+        tableView = UITableView(frame: UIScreen.main.bounds)
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 227, 0) //status+nav+pager+tab+SearchButton, not sure why i need it here but not on itineraryTVC
 
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.none
         tableView.backgroundColor = UIColor.plangoBackgroundGray()
         tableView.backgroundView = UIView() //to fix and allow background gray show through search headerview
 
@@ -71,8 +71,8 @@ class SearchDestinationViewController: UIViewController {
 //        tableView.editing = true
 //        tableView.allowsSelectionDuringEditing = true
         
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "selection")
-        tableView.registerClass(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: "header")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "selection")
+        tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: "header")
         
         self.view.addSubview(tableView)
         
@@ -103,7 +103,7 @@ class SearchDestinationViewController: UIViewController {
 }
 
 extension SearchDestinationViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if selectedDestinations.count > 0 {
             return selectedDestinations.count
         } else {
@@ -111,13 +111,13 @@ extension SearchDestinationViewController: UITableViewDelegate, UITableViewDataS
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("selection", forIndexPath: indexPath)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "selection", for: indexPath)
         cell.imageView?.image = nil
 //        cell.imageView?.hidden = true
         cell.contentView.backgroundColor = UIColor.plangoBackgroundGray()
-        cell.textLabel?.backgroundColor = UIColor.clearColor()
-        cell.textLabel?.textAlignment = .Center
+        cell.textLabel?.backgroundColor = UIColor.clear
+        cell.textLabel?.textAlignment = .center
         cell.textLabel?.textColor = UIColor.plangoText()
         cell.textLabel?.font = UIFont.plangoBodyBig()
         
@@ -127,9 +127,9 @@ extension SearchDestinationViewController: UITableViewDelegate, UITableViewDataS
                 cell.textLabel?.text = city
             } else if let state = selectedDestinations[indexPath.row].state {
                 if let fullState = state.getLongState() {
-                    cell.textLabel?.text = fullState.capitalizedString
+                    cell.textLabel?.text = fullState.capitalized
                 } else {
-                    cell.textLabel?.text = state.capitalizedString
+                    cell.textLabel?.text = state.capitalized
                 }
             } else if let country = selectedDestinations[indexPath.row].country {
                 cell.textLabel?.text = country
@@ -138,7 +138,7 @@ extension SearchDestinationViewController: UITableViewDelegate, UITableViewDataS
             if let city = suggestedDestinations[indexPath.row].city {
                 cell.textLabel?.text = city
             } else if let state = suggestedDestinations[indexPath.row].state {
-                cell.textLabel?.text = state.getLongState()!.capitalizedString
+                cell.textLabel?.text = state.getLongState()!.capitalized
             } else if let country = suggestedDestinations[indexPath.row].country {
                 cell.textLabel?.text = country
             }
@@ -146,23 +146,23 @@ extension SearchDestinationViewController: UITableViewDelegate, UITableViewDataS
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if selectedDestinations.count == 0 {
             selectedDestinations.append(suggestedDestinations[indexPath.row])
-            let section = NSIndexSet(index: indexPath.section)
-            tableView.reloadSections(section, withRowAnimation: .Automatic)
+            let section = IndexSet(integer: indexPath.section)
+            tableView.reloadSections(section, with: .automatic)
         } else {
             deleteAtIndexPath(indexPath)
         }
     }
     
-    func deleteAtIndexPath(indexPath: NSIndexPath) {
+    func deleteAtIndexPath(_ indexPath: IndexPath) {
         tableView.beginUpdates()
-        selectedDestinations.removeAtIndex(indexPath.row)
-        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+        selectedDestinations.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
         if selectedDestinations.count == 0 {
-            let section = NSIndexSet(index: indexPath.section)
-            tableView.reloadSections(section, withRowAnimation: .Automatic)
+            let section = IndexSet(integer: indexPath.section)
+            tableView.reloadSections(section, with: .automatic)
         }
         
         tableView.endUpdates()
@@ -173,8 +173,8 @@ extension SearchDestinationViewController: UITableViewDelegate, UITableViewDataS
 //        
 //    }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier("header")
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "header")
         headerView!.contentView.backgroundColor = UIColor.plangoBackgroundGray()
         
         if selectedDestinations.count > 0 {
@@ -186,14 +186,14 @@ extension SearchDestinationViewController: UITableViewDelegate, UITableViewDataS
         return headerView
     }
     
-    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let headerView = view as! UITableViewHeaderFooterView
-        headerView.textLabel!.textAlignment = .Center
+        headerView.textLabel!.textAlignment = .center
         headerView.textLabel!.textColor = UIColor.plangoTextLight()
         headerView.textLabel!.font = UIFont.plangoSearchHeader()
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return Helper.HeaderHeight.section.value
     }
     
@@ -230,9 +230,9 @@ extension SearchDestinationViewController: UITableViewDelegate, UITableViewDataS
 // Handle the user's selection.
 extension SearchDestinationViewController: GMSAutocompleteResultsViewControllerDelegate  {
     
-    func resultsController(resultsController: GMSAutocompleteResultsViewController,
-                           didAutocompleteWithPlace place: GMSPlace) {
-        searchController?.active = false
+    func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
+                           didAutocompleteWith place: GMSPlace) {
+        searchController?.isActive = false
         
         var selectedPlace = Destination()
         
@@ -280,15 +280,15 @@ extension SearchDestinationViewController: GMSAutocompleteResultsViewControllerD
             
         }
         
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             self.tableView.beginUpdates()
             self.selectedDestinations.append(selectedPlace)
-            let indexPath = NSIndexPath(forRow: self.selectedDestinations.endIndex - 1, inSection: 0)
-            self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            let indexPath = IndexPath(row: self.selectedDestinations.endIndex - 1, section: 0)
+            self.tableView.insertRows(at: [indexPath], with: .automatic)
             
             if self.selectedDestinations.count == 1 {
-                let section = NSIndexSet(index: indexPath.section)
-                self.tableView.reloadSections(section, withRowAnimation: .Automatic)
+                let section = IndexSet(integer: indexPath.section)
+                self.tableView.reloadSections(section, with: .automatic)
             }
             
             self.tableView.endUpdates()
@@ -296,18 +296,18 @@ extension SearchDestinationViewController: GMSAutocompleteResultsViewControllerD
         
     }
     
-    func resultsController(resultsController: GMSAutocompleteResultsViewController,
+    func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
                            didFailAutocompleteWithError error: NSError){
         self.printError(error)
         self.view.detailToast("Google Error", details: error.localizedDescription)
     }
     
     // Turn the network activity indicator on and off again.
-    func didRequestAutocompletePredictionsForResultsController(resultsController: GMSAutocompleteResultsViewController) {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    func didRequestAutocompletePredictions(forResultsController resultsController: GMSAutocompleteResultsViewController) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
     }
     
-    func didUpdateAutocompletePredictionsForResultsController(resultsController: GMSAutocompleteResultsViewController) {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+    func didUpdateAutocompletePredictions(forResultsController resultsController: GMSAutocompleteResultsViewController) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
 }

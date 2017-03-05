@@ -18,7 +18,7 @@ class Tag: NSObject {
     // for all plangoObjects need to check image url and see if it is AWS S3 or on plango.
     //if user uploaded image its on S3 can just use the url, if not its on server and need to add prefex "www.plango.us/"
     
-    class func getTagsFromJSON(objectJSON: JSON) -> [Tag] {
+    class func getTagsFromJSON(_ objectJSON: JSON) -> [Tag] {
         var tempTags = [Tag?]()
         
         guard let array = objectJSON["data"].arrayObject else {
@@ -33,7 +33,7 @@ class Tag: NSObject {
         return tempTags.flatMap { $0 }
     }
     
-    class func createTag(dictionary: NSDictionary) -> Tag? {
+    class func createTag(_ dictionary: NSDictionary) -> Tag? {
         let newTag = Tag()
         newTag.id = dictionary["_id"] as! String
         newTag.name = dictionary["tag"] as? String
@@ -48,7 +48,7 @@ struct PlangoCollection {
     var name: String?
     var avatar: String?
     
-    static func getPlangoCollectionsFromJSON(objectJSON: JSON) -> [PlangoCollection] {
+    static func getPlangoCollectionsFromJSON(_ objectJSON: JSON) -> [PlangoCollection] {
         var tempTags = [PlangoCollection?]()
         
         guard let array = objectJSON["data"].arrayObject else {
@@ -63,7 +63,7 @@ struct PlangoCollection {
         return tempTags.flatMap { $0 }
     }
     
-    static func createPlangoCollection(dictionary: NSDictionary) -> PlangoCollection? {
+    static func createPlangoCollection(_ dictionary: NSDictionary) -> PlangoCollection? {
         
         let id = dictionary["_id"] as! String
         let name = dictionary["name"] as? String

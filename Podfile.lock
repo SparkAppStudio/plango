@@ -1,12 +1,12 @@
 PODS:
-  - Alamofire (3.4.2)
-  - AlamofireImage (2.4.1):
-    - Alamofire (~> 3.3)
-  - AlamofireNetworkActivityIndicator (1.0.1):
-    - Alamofire (~> 3.3)
-  - AlamofireObjectMapper (3.0.2):
-    - Alamofire (~> 3.2)
-    - ObjectMapper (~> 1.0)
+  - Alamofire (4.4.0)
+  - AlamofireImage (3.2.0):
+    - Alamofire (~> 4.1)
+  - AlamofireNetworkActivityIndicator (2.1.0):
+    - Alamofire (~> 4.1)
+  - AlamofireObjectMapper (4.1.0):
+    - Alamofire (~> 4.1)
+    - ObjectMapper (~> 2.0)
   - Bolts (1.8.4):
     - Bolts/AppLinks (= 1.8.4)
     - Bolts/Tasks (= 1.8.4)
@@ -18,47 +18,47 @@ PODS:
     - ChameleonFramework/Default
   - CZWeatherKit (2.2.7):
     - PINCache (~> 2.1)
-  - FBSDKCoreKit (4.15.0):
+  - FBSDKCoreKit (4.20.0):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.15.0):
+  - FBSDKLoginKit (4.20.0):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.15.0):
+  - FBSDKShareKit (4.20.0):
     - FBSDKCoreKit
-  - GoogleMaps (2.0.1):
-    - GoogleMaps/Maps (= 2.0.1)
-  - GoogleMaps/Base (2.0.1)
-  - GoogleMaps/Maps (2.0.1):
-    - GoogleMaps/Base (= 2.0.1)
-  - GooglePlacePicker (2.0.1):
-    - GoogleMaps (= 2.0.1)
-    - GooglePlaces (= 2.0.1)
-  - GooglePlaces (2.0.1):
-    - GoogleMaps/Base (= 2.0.1)
-  - HMSegmentedControl (1.5.2)
-  - Hue (1.3.0)
-  - Mapbox-iOS-SDK (3.3.4)
-  - MapboxDirections.swift (0.6.0):
-    - Polyline (~> 3.2)
-  - MapboxGeocoder.swift (0.5.0)
+  - GoogleMaps (2.2.0):
+    - GoogleMaps/Maps (= 2.2.0)
+  - GoogleMaps/Base (2.2.0)
+  - GoogleMaps/Maps (2.2.0):
+    - GoogleMaps/Base
+  - GooglePlacePicker (2.2.0):
+    - GoogleMaps (= 2.2.0)
+    - GooglePlaces (= 2.2.0)
+  - GooglePlaces (2.2.0):
+    - GoogleMaps/Base (= 2.2.0)
+  - HMSegmentedControl (1.5.3)
+  - Hue (2.0.1)
+  - Mapbox-iOS-SDK (3.4.2)
+  - MapboxDirections.swift (0.8.0):
+    - Polyline (~> 4.0)
+  - MapboxGeocoder.swift (0.6.0)
   - MBProgressHUD (1.0.0)
-  - MXPagerView (0.1.3)
-  - MXParallaxHeader (0.5.2)
-  - MXSegmentedPager (3.1.0):
-    - HMSegmentedControl (~> 1.5.2)
-    - MXPagerView (~> 0.1.3)
-    - MXParallaxHeader (~> 0.5.2)
-  - ObjectMapper (1.4.0)
+  - MXPagerView (0.2.1)
+  - MXParallaxHeader (0.6.1)
+  - MXSegmentedPager (3.2.2):
+    - HMSegmentedControl (= 1.5.3)
+    - MXPagerView (= 0.2.1)
+    - MXParallaxHeader (= 0.6.1)
+  - ObjectMapper (2.2.5)
   - PINCache (2.3)
-  - Polyline (3.2.2)
-  - Realm (1.0.2):
-    - Realm/Headers (= 1.0.2)
-  - Realm/Headers (1.0.2)
-  - RealmSwift (1.0.2):
-    - Realm (= 1.0.2)
-  - SnapKit (0.22.0)
+  - Polyline (4.0.0)
+  - Realm (2.4.3):
+    - Realm/Headers (= 2.4.3)
+  - Realm/Headers (2.4.3)
+  - RealmSwift (2.4.3):
+    - Realm (= 2.4.3)
+  - SnapKit (3.2.0)
   - Spring (1.0.3)
-  - SwiftyJSON (2.3.2)
-  - Whisper (3.1.1)
+  - SwiftyJSON (3.1.4)
+  - Whisper (4.0.0)
 
 DEPENDENCIES:
   - Alamofire
@@ -66,7 +66,7 @@ DEPENDENCIES:
   - AlamofireNetworkActivityIndicator
   - AlamofireObjectMapper
   - Bolts
-  - ChameleonFramework/Swift
+  - ChameleonFramework/Swift (from `https://github.com/ViccAlexander/Chameleon.git`)
   - CZWeatherKit
   - FBSDKCoreKit
   - FBSDKLoginKit
@@ -76,72 +76,59 @@ DEPENDENCIES:
   - GooglePlaces
   - Hue
   - Mapbox-iOS-SDK
-  - MapboxDirections.swift (from `https://github.com/mapbox/MapboxDirections.swift.git`, tag `v0.6.0`)
-  - MapboxGeocoder.swift (from `https://github.com/mapbox/MapboxGeocoder.swift.git`, tag `v0.5.0`)
+  - MapboxDirections.swift
+  - MapboxGeocoder.swift
   - MBProgressHUD
   - MXSegmentedPager
   - ObjectMapper
   - RealmSwift
   - SnapKit
-  - Spring (from `https://github.com/MengTo/Spring.git`, branch `master`)
+  - Spring
   - SwiftyJSON
   - Whisper
 
 EXTERNAL SOURCES:
-  MapboxDirections.swift:
-    :git: https://github.com/mapbox/MapboxDirections.swift.git
-    :tag: v0.6.0
-  MapboxGeocoder.swift:
-    :git: https://github.com/mapbox/MapboxGeocoder.swift.git
-    :tag: v0.5.0
-  Spring:
-    :branch: master
-    :git: https://github.com/MengTo/Spring.git
+  ChameleonFramework:
+    :git: https://github.com/ViccAlexander/Chameleon.git
 
 CHECKOUT OPTIONS:
-  MapboxDirections.swift:
-    :git: https://github.com/mapbox/MapboxDirections.swift.git
-    :tag: v0.6.0
-  MapboxGeocoder.swift:
-    :git: https://github.com/mapbox/MapboxGeocoder.swift.git
-    :tag: v0.5.0
-  Spring:
-    :commit: 7bf7ef55e8e936d83b318a74650992898899a526
-    :git: https://github.com/MengTo/Spring.git
+  ChameleonFramework:
+    :commit: acc480fbe023c6e5fe40f68593f4a70a8c4c7ad5
+    :git: https://github.com/ViccAlexander/Chameleon.git
 
 SPEC CHECKSUMS:
-  Alamofire: 6aa33201d20d069e1598891cf928883ff1888c7a
-  AlamofireImage: 3ccf3347d9ea24580dc11fb892770a0be6a29826
-  AlamofireNetworkActivityIndicator: 49a6e39afb947136f7b1872bae2d684957c26697
-  AlamofireObjectMapper: 70f97cbf45c01c48d26aa07a1a7059a60ed7411d
+  Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
+  AlamofireImage: 157ed682cc81d3b9db4fb90c1f12180ac552d93b
+  AlamofireNetworkActivityIndicator: 4716f6554bdfb9c7cf13b1e0e3af21163129690a
+  AlamofireObjectMapper: 435adc82f5b367679bd9e71c4974a54efd0b2521
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   CZWeatherKit: e15848c63ac021a83ec92e8fc0011a4ada6bf2ed
-  FBSDKCoreKit: 6680cbd33a4243d80700f182d0af36b3fa7f3118
-  FBSDKLoginKit: 96d9b70b5784490f02ab86119e542a1f182017a8
-  FBSDKShareKit: 06ef20cb2f16828ca4b20055333313dd445de362
-  GoogleMaps: f09da64fc987c1aa29394567c3cab5a3df83c402
-  GooglePlacePicker: e7b11b732e40dbe76e8ab4c5fc2f4a7c32b96578
-  GooglePlaces: 72fab1d1651c6df0322f2aad245ffb15b80d3c56
-  HMSegmentedControl: 83b9686022d2176fb6457d2bdb61e5d6393fed7d
-  Hue: b4d7f4923dd16237f9cbc1783c3c81438b4391f4
-  Mapbox-iOS-SDK: b22da0d9703fcfb0a8b592b6a7f6a21264fe44b0
-  MapboxDirections.swift: 144cefb4386d419f916ce27928834c28bbaafb4f
-  MapboxGeocoder.swift: 4fbe12e42458db895ff73739c69743c943d0824e
+  FBSDKCoreKit: 2d16979b28fe28c2b95af0d275ad5f9703c6c8de
+  FBSDKLoginKit: a9d9391506c687e2304a590bf9312837fce7f375
+  FBSDKShareKit: 1b91af62a603d67f392bc7fde63bc4a0705dde31
+  GoogleMaps: 104c418d61ab8a05dff06ed0784c25ea9d37da45
+  GooglePlacePicker: 345b1aabd42c9d6d9bf2369c1bae1234d903e764
+  GooglePlaces: bca867d5e9da15384c794b945e4226848bc6e9d9
+  HMSegmentedControl: 7c6145afb50f26cec5f3243082f6f12b9f41318f
+  Hue: 354caec055fdc9d38b5ef33ca2e7224721843baf
+  Mapbox-iOS-SDK: d2c567fee32d316044ec925c8bcfb74a92d57ec9
+  MapboxDirections.swift: 242f12da1a6530f436d5fe5b4d9fc38cf2f9b1d0
+  MapboxGeocoder.swift: dd6783c5262b4ebb1cf5f2662b56cea94a90f67d
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
-  MXPagerView: db0c020aeada6a0c704f18f8053468560e346982
-  MXParallaxHeader: 5070ba8e8af27ec793c0d32ae82cfd2318e59635
-  MXSegmentedPager: 70bee6e9aeb41205288407d896646165951b89a5
-  ObjectMapper: a07ad0462c5adf014adc0f89ef04c29b626e855e
+  MXPagerView: ede184b5191b2ed689ccf05a750a9978cce42414
+  MXParallaxHeader: 858c403532ed933b381556a81ce333d7065ad182
+  MXSegmentedPager: e15df1e335bdc9d86c39eee1e6b5f7ef1a22d7c3
+  ObjectMapper: fb30f71e08470d1e5a20b199fafe1246281db898
   PINCache: ce36ed282031b92fc7733ffe831f474ff80fddc2
-  Polyline: 4968bf16ceddd579e1e60820edc74a2271ec9c59
-  Realm: 9d5c46a4d7d27958530a8dfc58f63a99e5c2cba3
-  RealmSwift: 82f3ac5e24530143dddfde2033acc0d308f27d96
-  SnapKit: 0dd2fd157330f1ea11fd84da13e6be8a7a22bae0
+  Polyline: c6de7430bf6ff0bfff1f087343597b83b38fdb69
+  Realm: e08d60b0048ccccd3949c8c28a92c4db5712d7e9
+  RealmSwift: 30d49739ccb3385d201242736ca4dda56aec9dfc
+  SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
   Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7
-  SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
-  Whisper: 74decae53daf8caff5acf8628e24b92d3f05a453
+  SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
+  Whisper: 08be92623311f8e53201e62e17f6d7b9599a4714
 
-PODFILE CHECKSUM: 8f865aefaf41dfeaab2eb9f7f0617e1569d6139f
+PODFILE CHECKSUM: 6407a233824908c2be222866f3d229f35f0316d5
 
-COCOAPODS: 1.0.0
+COCOAPODS: 1.2.0

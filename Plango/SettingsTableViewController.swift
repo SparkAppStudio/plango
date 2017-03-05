@@ -11,15 +11,15 @@ import UIKit
 class SettingsTableViewController: UITableViewController {
     
     lazy var accountBarButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "LOGOUT", style: .Plain, target: self, action: #selector(didTapAccountButton))
+        let button = UIBarButtonItem(title: "LOGOUT", style: .plain, target: self, action: #selector(didTapAccountButton))
         return button
     }()
     
     func didTapAccountButton() {
         if Plango.sharedInstance.currentUser == nil {
-            self.navigationController?.presentViewController(LoginViewController(), animated: true, completion: nil)
+            self.navigationController?.present(LoginViewController(), animated: true, completion: nil)
         } else {
-            NSNotificationCenter.defaultCenter().postNotificationName(Notify.Logout.rawValue, object: nil, userInfo: ["controller": self])
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Notify.Logout.rawValue), object: nil, userInfo: ["controller": self])
         }
     }
 
@@ -34,11 +34,11 @@ class SettingsTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "test")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "test")
 
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 //        checkForCurrentUserCookies()
         if Plango.sharedInstance.currentUser == nil {
@@ -56,9 +56,9 @@ class SettingsTableViewController: UITableViewController {
     func checkForCurrentUserCookies() {
         print(Plango.sharedInstance.currentUser?.userName)
         
-        print(Plango.sharedInstance.alamoManager.session.configuration.HTTPCookieStorage?.cookies?.count)
+        print(Plango.sharedInstance.alamoManager.session.configuration.httpCookieStorage?.cookies?.count)
 
-        guard let storage = Plango.sharedInstance.alamoManager.session.configuration.HTTPCookieStorage else {return}
+        guard let storage = Plango.sharedInstance.alamoManager.session.configuration.httpCookieStorage else {return}
         if let cookies = storage.cookies {
             for aCookie in cookies {
                 print(aCookie.description)
@@ -68,26 +68,26 @@ class SettingsTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 1
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("test", forIndexPath: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "test", for: indexPath)
         cell.textLabel?.text = "Hello"
         // Configure the cell...
 
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
     }
     

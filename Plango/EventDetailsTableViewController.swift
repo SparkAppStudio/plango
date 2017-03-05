@@ -46,52 +46,52 @@ class EventDetailsTableViewController: UITableViewController {
         super.viewDidLoad()
         
         if experience.geocode?.count == 2 {
-            let directionsBarButton = UIBarButtonItem(image: UIImage(named: "directions-white"), style: .Plain, target: self, action: #selector(didTapDirections))
+            let directionsBarButton = UIBarButtonItem(image: UIImage(named: "directions-white"), style: .plain, target: self, action: #selector(didTapDirections))
             self.navigationItem.rightBarButtonItem = directionsBarButton
         }
 
 
         self.tableView.backgroundColor = UIColor.plangoBackgroundGray()
-        self.navigationItem.title = experience.name?.uppercaseString
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        self.navigationItem.title = experience.name?.uppercased()
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.none
         
         let reviewNib = UINib(nibName: "ReviewCell", bundle: nil)
-        self.tableView.registerNib(reviewNib, forCellReuseIdentifier: CellID.Review.rawValue)
+        self.tableView.register(reviewNib, forCellReuseIdentifier: CellID.Review.rawValue)
         
 //        self.tableView.registerNib(notesNib, forCellReuseIdentifier: CellID.Notes.rawValue)
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: CellID.Notes.rawValue)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: CellID.Notes.rawValue)
         
-        let bundle = NSBundle(forClass: self.dynamicType)
+        let bundle = Bundle(for: type(of: self))
         
         // headerfooter view is like a cell
         let sectionNib = UINib(nibName: "SectionHeader", bundle: nil)
-        self.tableView.registerNib(sectionNib, forHeaderFooterViewReuseIdentifier: CellID.Header.rawValue)
+        self.tableView.register(sectionNib, forHeaderFooterViewReuseIdentifier: CellID.Header.rawValue)
         
-        tableView.registerClass(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: CellID.Footer.rawValue)
+        tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: CellID.Footer.rawValue)
 
         //tableHeader view
         
         let nib = UINib(nibName: "EventDetailsHeader", bundle: bundle)
-        headerView = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        headerView = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         headerView.snp_makeConstraints { (make) in
             make.height.equalTo(Helper.CellHeight.superWide.value)
         }
         
-        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.size.width, height: Helper.CellHeight.superWide.value))
+        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: Helper.CellHeight.superWide.value))
         
         containerView.addSubview(headerView)
         
         tableView.tableHeaderView = containerView
         
-        headerView.leadingAnchor.constraintEqualToAnchor(tableView.tableHeaderView!.leadingAnchor).active = true
-        headerView.trailingAnchor.constraintEqualToAnchor(tableView.tableHeaderView!.trailingAnchor).active = true
-        headerView.bottomAnchor.constraintEqualToAnchor(tableView.tableHeaderView!.bottomAnchor).active = true
-        headerView.topAnchor.constraintEqualToAnchor(tableView.tableHeaderView!.topAnchor).active = true
+        headerView.leadingAnchor.constraint(equalTo: tableView.tableHeaderView!.leadingAnchor).isActive = true
+        headerView.trailingAnchor.constraint(equalTo: tableView.tableHeaderView!.trailingAnchor).isActive = true
+        headerView.bottomAnchor.constraint(equalTo: tableView.tableHeaderView!.bottomAnchor).isActive = true
+        headerView.topAnchor.constraint(equalTo: tableView.tableHeaderView!.topAnchor).isActive = true
 
 
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         titleLabel.text = experience.name
@@ -103,7 +103,7 @@ class EventDetailsTableViewController: UITableViewController {
         
     // MARK: - Table view Delegate
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard (experience.notes != nil && experience.notes != "") else {return Helper.CellHeight.reviews.value}
         
         switch indexPath.section {
@@ -116,20 +116,20 @@ class EventDetailsTableViewController: UITableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
     
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return Helper.HeaderHeight.section.value
     }
     
-    override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 12
     }
     
-    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(CellID.Header.rawValue) as! SectionHeaderView
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CellID.Header.rawValue) as! SectionHeaderView
         
         guard (experience.notes != nil && experience.notes != "") else {headerView.titleLabel.text = "Tips and Reviews"; return headerView}
 
@@ -146,21 +146,21 @@ class EventDetailsTableViewController: UITableViewController {
         return headerView
     }
     
-    override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let footerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(CellID.Footer.rawValue)
-        footerView?.hidden = true //this makes it a transparent footer effect = so you still have gaps but it doesnt hug bottom of screen while scrolling
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let footerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CellID.Footer.rawValue)
+        footerView?.isHidden = true //this makes it a transparent footer effect = so you still have gaps but it doesnt hug bottom of screen while scrolling
         return footerView
     }
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         guard (experience.notes != nil && experience.notes != "") else {return EventTitles.count - 1}
 
         return EventTitles.count
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard (experience.notes != nil && experience.notes != "") else {
             if let reviews = experience.reviews {
                 return reviews.count
@@ -183,9 +183,9 @@ class EventDetailsTableViewController: UITableViewController {
         }
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard (experience.notes != nil && experience.notes != "") else {
-            let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Review.rawValue, forIndexPath: indexPath) as! ReviewTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: CellID.Review.rawValue, for: indexPath) as! ReviewTableViewCell
             
             cell.review = experience.reviews![indexPath.row]
             cell.configure()
@@ -196,17 +196,17 @@ class EventDetailsTableViewController: UITableViewController {
         
         switch indexPath.section {
         case EventTitles.MyNotes.section:
-            let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Notes.rawValue, forIndexPath: indexPath)
-            cell.selectionStyle = .None
+            let cell = tableView.dequeueReusableCell(withIdentifier: CellID.Notes.rawValue, for: indexPath)
+            cell.selectionStyle = .none
             cell.textLabel?.numberOfLines = 0
-            cell.textLabel?.lineBreakMode = .ByWordWrapping
+            cell.textLabel?.lineBreakMode = .byWordWrapping
             cell.textLabel?.font = UIFont.plangoBody()
             cell.textLabel?.textColor = UIColor.plangoText()
             cell.textLabel?.text = experience.notes
             return cell
             
         case EventTitles.Tips.section:
-            let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Review.rawValue, forIndexPath: indexPath) as! ReviewTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: CellID.Review.rawValue, for: indexPath) as! ReviewTableViewCell
             
             cell.review = experience.reviews![indexPath.row]
             cell.configure()
@@ -214,7 +214,7 @@ class EventDetailsTableViewController: UITableViewController {
             return cell
             
         default:
-            let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
             
             
             return cell

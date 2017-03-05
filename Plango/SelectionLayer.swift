@@ -11,7 +11,7 @@ import UIKit
 class SelectionLayer: CALayer {
     override init() {
         super.init()
-        self.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.4).CGColor
+        self.backgroundColor = UIColor.white.withAlphaComponent(0.4).cgColor
         
     }
     
@@ -21,8 +21,8 @@ class SelectionLayer: CALayer {
     
     func addBadge() {
         let badgeLayer = CALayer()
-        badgeLayer.frame = CGRectMake(self.bounds.width - 30, self.bounds.height - 30, 25, 25)
-        badgeLayer.contents = UIImage(named: "check_icon")?.CGImage
+        badgeLayer.frame = CGRect(x: self.bounds.width - 30, y: self.bounds.height - 30, width: 25, height: 25)
+        badgeLayer.contents = UIImage(named: "check_icon")?.cgImage
         
         self.addSublayer(badgeLayer)
     }

@@ -12,58 +12,58 @@ import MBProgressHUD
 import Hue
 
 extension UIBarButtonItem {
-    func hide(sender: Bool) {
-        self.enabled = !sender
+    func hide(_ sender: Bool) {
+        self.isEnabled = !sender
         if sender == true {
-            self.tintColor = UIColor.clearColor()
+            self.tintColor = UIColor.clear
         } else {
-            self.tintColor = UIColor.whiteColor()
+            self.tintColor = UIColor.white
         }
     }
 }
 
 extension UINavigationController {
     
-    override public func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override open var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
     //New implementation to prevent autorotate yet allow camera to rotate for proper pictures
     //works across the app because everything is embedded in the UINavigationController
-    override public func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.Portrait
+    override open var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.portrait
     }
     
 }
 
-extension NSDate: Comparable { }
-public func ==(lhs: NSDate, rhs: NSDate) -> Bool {
-    return lhs.isEqualToDate(rhs)
+extension Date: Comparable { }
+public func ==(lhs: Date, rhs: Date) -> Bool {
+    return (lhs == rhs)
 }
 
-public func <(lhs: NSDate, rhs: NSDate) -> Bool {
-    return lhs.compare(rhs) == .OrderedAscending
+public func <(lhs: Date, rhs: Date) -> Bool {
+    return lhs.compare(rhs) == .orderedAscending
 }
 
-let dates = [NSDate(), NSDate()]
-let maxDate = dates.isEmpty ? nil : Optional(dates.maxElement())
+let dates = [Date(), Date()]
+let maxDate = dates.isEmpty ? nil : Optional(dates.max())
 
 
-extension NSDateFormatter {
+extension DateFormatter {
     
-    func dateFromStringOptional(string:String?) -> NSDate?
+    func dateFromStringOptional(_ string:String?) -> Date?
     {
         guard let value = string else
         {
             return nil
         }
         
-        return self.dateFromString(value)
+        return self.date(from: value)
     }
 }
 
 extension String {
     func trimWhiteSpace() -> String {
-        return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        return self.trimmingCharacters(in: CharacterSet.whitespaces)
     }
     
     //This is necessary because the JSON object actually has timezone data '.SSSZ' which we dont want
@@ -256,7 +256,7 @@ extension String {
     
     
     func getShortState() -> State? {
-        switch (self.uppercaseString) {
+        switch (self.uppercased()) {
         case "ALABAMA":
         return State.AL;
         
@@ -440,7 +440,7 @@ extension String {
     }
     
     func getShortStateCanada() -> StateCanada? {
-        switch self.uppercaseString {
+        switch self.uppercased() {
         case "ALBERTA":
             return StateCanada.AB
         case "BRITISH COLUMBIA":
@@ -473,7 +473,7 @@ extension String {
     }
     
     func getShortStateAustralia() -> StateAustralia? {
-        switch self.uppercaseString {
+        switch self.uppercased() {
         case "AUSTRALIAN CAPITAL TERRITORY":
             return StateAustralia.ACT
             case "NEW SOUTH WALES":
@@ -590,7 +590,7 @@ extension String {
 
 extension PHAsset {
     
-    func getAdjustedSize(maxDimension: CGFloat)-> CGSize {
+    func getAdjustedSize(_ maxDimension: CGFloat)-> CGSize {
         let width = CGFloat(pixelWidth)
         let height = CGFloat(pixelHeight)
         var newWidth: CGFloat = 0
@@ -608,7 +608,7 @@ extension PHAsset {
 }
 
 extension UIImage {
-    func getAdjustedSize(maxDimension: CGFloat)-> CGSize {
+    func getAdjustedSize(_ maxDimension: CGFloat)-> CGSize {
         let height = size.height
         let width = size.width
         var newHeight: CGFloat = 0
@@ -625,9 +625,9 @@ extension UIImage {
 }
 
 extension UIImageView {
-    private func setNetworkImage(endPoint: String, onCompletion: (NSData?) -> Void) {
-        if let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint)) {
-            self.af_setImageWithURL(cleanURL, placeholderImage: nil, filter: nil, progress: nil, progressQueue: dispatch_get_main_queue(), imageTransition: .None, runImageTransitionIfCached: false, completion: { (response) in
+    fileprivate func setNetworkImage(_ endPoint: String, onCompletion: @escaping (Data?) -> Void) {
+        if let cleanURL = URL(string: Plango.sharedInstance.cleanEndPoint(endPoint)) {
+            self.af_setImageWithURL(cleanURL, placeholderImage: nil, filter: nil, progress: nil, progressQueue: DispatchQueue.main, imageTransition: .none, runImageTransitionIfCached: false, completion: { (response) in
                 if response.result.isSuccess {
                     if let image = response.result.value {
                         let imageData = UIImageJPEGRepresentation(image, 1.0)
@@ -639,7 +639,7 @@ extension UIImageView {
         
     }
     
-    private func setLocalImage(localAvatar: NSData?) {
+    fileprivate func setLocalImage(_ localAvatar: Data?) {
         guard let avatar = localAvatar else {return}
         self.image = UIImage(data: avatar)
         if let compound = self as? CompoundImageView {
@@ -647,9 +647,9 @@ extension UIImageView {
         }
     }
     
-    func plangoImage(object: PlangoObject) {
+    func plangoImage(_ object: PlangoObject) {
         if Helper.isConnectedToNetwork() == false {
-            self.setLocalImage(object.localAvatar)
+            self.setLocalImage(object.localAvatar as Data?)
         } else {
             guard let endPoint = object.avatar else {self.backgroundColor = UIColor.plangoBackgroundGray(); return}
             
@@ -666,7 +666,7 @@ extension UIImageView {
 
 extension UILabel {
     func dropShadow() {
-        self.layer.shadowColor = UIColor.plangoBlack().CGColor
+        self.layer.shadowColor = UIColor.plangoBlack().cgColor
         self.layer.shadowOpacity = 0.5
         self.layer.shadowOffset = CGSize(width: 0, height: 2)
         self.layer.shadowRadius = 4
@@ -742,20 +742,20 @@ extension UIColor {
         return UIColor(hex: "#EFE5D4")
     }
     static func transparentGray() -> UIColor {
-        let color = UIColor.plangoBlack().colorWithAlphaComponent(0.1)
+        let color = UIColor.plangoBlack().withAlphaComponent(0.1)
 //        let color = UIColor.hex("#000000")
 //        color.alpha(0.1)
         return color
     }
 }
 
-extension NSIndexSet {
+extension IndexSet {
     
-    func aapl_indexPathsFromIndexesWithSection(section: Int) -> [NSIndexPath] {
-        var indexPaths: [NSIndexPath] = []
+    func aapl_indexPathsFromIndexesWithSection(_ section: Int) -> [IndexPath] {
+        var indexPaths: [IndexPath] = []
         indexPaths.reserveCapacity(self.count)
-        self.enumerateIndexesUsingBlock{idx, stop in
-            indexPaths.append(NSIndexPath(forItem: idx, inSection: section))
+        (self as NSIndexSet).enumerate{idx, stop in
+            indexPaths.append(IndexPath(item: idx, section: section))
         }
         return indexPaths
     }
@@ -764,29 +764,29 @@ extension NSIndexSet {
 
 extension UIViewController {
     
-    func displayMapForExperiences(experiences: [Experience], title: String?, download: Bool) {
+    func displayMapForExperiences(_ experiences: [Experience], title: String?, download: Bool) {
         let mapVC = MapViewController()
         mapVC.experiences = experiences
         mapVC.shouldDownload = download
         if let title = title {
-            mapVC.navigationItem.title = title.uppercaseString
+            mapVC.navigationItem.title = title.uppercased()
         } else {
-            mapVC.navigationItem.title = "Map".uppercaseString
+            mapVC.navigationItem.title = "Map".uppercased()
         }
-        showViewController(mapVC, sender: nil)
+        show(mapVC, sender: nil)
     }
     
-    func displayMapForPlan(plan: Plan, download: Bool) {
+    func displayMapForPlan(_ plan: Plan, download: Bool) {
         let mapVC = MapViewController()
         mapVC.plan = plan
         mapVC.experiences = plan.experiences
         mapVC.shouldDownload = download
         if let title = plan.name {
-            mapVC.navigationItem.title = title.uppercaseString
+            mapVC.navigationItem.title = title.uppercased()
         } else {
             mapVC.navigationItem.title = "MAP"
         }
-        showViewController(mapVC, sender: nil)
+        show(mapVC, sender: nil)
     }
 }
 
@@ -805,8 +805,8 @@ extension UICollectionView {
 //    }
     
     //### returns empty Array, rather than nil, when no elements in rect.
-    func aapl_indexPathsForElementsInRect(rect: CGRect) -> [NSIndexPath] {
-        guard let allLayoutAttributes = self.collectionViewLayout.layoutAttributesForElementsInRect(rect)
+    func aapl_indexPathsForElementsInRect(_ rect: CGRect) -> [IndexPath] {
+        guard let allLayoutAttributes = self.collectionViewLayout.layoutAttributesForElements(in: rect)
             else {return []}
         let indexPaths = allLayoutAttributes.map{$0.indexPath}
         return indexPaths
@@ -815,21 +815,21 @@ extension UICollectionView {
 }
 
 extension UICollectionViewFlowLayout {
-    func cellsFitAcrossScreen(numberOfCells: Int, labelHeight: CGFloat, cellShapeRatio: CGFloat) -> CGSize {
+    func cellsFitAcrossScreen(_ numberOfCells: Int, labelHeight: CGFloat, cellShapeRatio: CGFloat) -> CGSize {
         //using information from flowLayout get proper spacing for cells across entire screen
         let insideMargin = self.minimumInteritemSpacing
         let outsideMargins = self.sectionInset.left + self.sectionInset.right
         let numberOfDivisions: Int = numberOfCells - 1
         let subtractionForMargins: CGFloat = insideMargin * CGFloat(numberOfDivisions) + outsideMargins
         
-        let fittedWidth = (UIScreen.mainScreen().bounds.width - subtractionForMargins) / CGFloat(numberOfCells)
+        let fittedWidth = (UIScreen.main.bounds.width - subtractionForMargins) / CGFloat(numberOfCells)
         let ratioHeight = fittedWidth * cellShapeRatio
         
         return CGSize(width: fittedWidth, height: ratioHeight + labelHeight)
     }
     
     func widescreenCards() -> CGSize {
-        let cellWidth = UIScreen.mainScreen().bounds.size.width * 0.6
+        let cellWidth = UIScreen.main.bounds.size.width * 0.6
         let cellHeight = cellWidth * (9/16)
         
         return CGSize(width: cellWidth, height: cellHeight)
@@ -837,37 +837,37 @@ extension UICollectionViewFlowLayout {
 }
 
 extension UIResponder {
-    func printPlangoError(error: PlangoError) {
-        if let status = error.statusCode, message = error.message {
+    func printPlangoError(_ error: PlangoError) {
+        if let status = error.statusCode, let message = error.message {
             print("In \(self) Status Code: \(status) Message: \(message)")
         }
     }
     
-    func printError(error: NSError) {
+    func printError(_ error: NSError) {
         print("In \(self) Code: \(error.code) Failure Reason: \(error.localizedFailureReason)")
     }
 }
 
 extension UIView {
-    public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
+    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         self.endEditing(true)
     }
     
-    func fitViewConstraintsTo(view: UIView) {
-        self.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor).active = true
-        self.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor).active = true
-        self.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor).active = true
-        self.topAnchor.constraintEqualToAnchor(view.topAnchor).active = true
+    func fitViewConstraintsTo(_ view: UIView) {
+        self.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        self.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        self.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        self.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
     }
     
-    func fitLoginButtons(controller: UIViewController) {
-        self.heightAnchor.constraintEqualToConstant(50).active = true
-        self.widthAnchor.constraintEqualToConstant(controller.view.frame.width - 16).active = true
+    func fitLoginButtons(_ controller: UIViewController) {
+        self.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        self.widthAnchor.constraint(equalToConstant: controller.view.frame.width - 16).isActive = true
     }
     
     func fitLoginLabels() {
-        self.heightAnchor.constraintEqualToConstant(24).active = true
+        self.heightAnchor.constraint(equalToConstant: 24).isActive = true
     }
     
     func makeCircle() {
@@ -876,10 +876,10 @@ extension UIView {
     }
     
     func copyView() -> AnyObject {
-        return NSKeyedUnarchiver.unarchiveObjectWithData(NSKeyedArchiver.archivedDataWithRootObject(self))!
+        return NSKeyedUnarchiver.unarchiveObject(with: NSKeyedArchiver.archivedData(withRootObject: self))! as AnyObject
     }
     
-    func makeRoundCorners(divider: Int) {
+    func makeRoundCorners(_ divider: Int) {
         self.layer.cornerRadius = self.frame.size.width / CGFloat(divider)
         self.clipsToBounds = true
     }
@@ -893,86 +893,86 @@ extension UIView {
     
     
     // MARK: Toast via MBProgressHUD
-    func quickToast(title: String) {
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            let hud = MBProgressHUD.showHUDAddedTo(self, animated: true)
-            hud.mode = MBProgressHUDMode.Text
+    func quickToast(_ title: String) {
+        DispatchQueue.main.async(execute: { () -> Void in
+            let hud = MBProgressHUD.showAdded(to: self, animated: true)
+            hud.mode = MBProgressHUDMode.text
             hud.label.text = title
-            NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(UIView.hudTimerDidFire(_:)), userInfo: hud, repeats: false)
+            Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(UIView.hudTimerDidFire(_:)), userInfo: hud, repeats: false)
         })
     }
     
-    func detailToast(title: String, details: String) {
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            let hud = MBProgressHUD.showHUDAddedTo(self, animated: true)
-            hud.mode = MBProgressHUDMode.Text
+    func detailToast(_ title: String, details: String) {
+        DispatchQueue.main.async(execute: { () -> Void in
+            let hud = MBProgressHUD.showAdded(to: self, animated: true)
+            hud.mode = MBProgressHUDMode.text
             hud.label.text = title
             hud.detailsLabel.text = details
-            NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: #selector(UIView.hudTimerDidFire(_:)), userInfo: hud, repeats: false)
+            Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(UIView.hudTimerDidFire(_:)), userInfo: hud, repeats: false)
         })
     }
     
-    func imageToast(title: String?, image: UIImage, notify: Bool) {
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            let hud = MBProgressHUD.showHUDAddedTo(self, animated: true)
-            hud.mode = MBProgressHUDMode.CustomView
+    func imageToast(_ title: String?, image: UIImage, notify: Bool) {
+        DispatchQueue.main.async(execute: { () -> Void in
+            let hud = MBProgressHUD.showAdded(to: self, animated: true)
+            hud.mode = MBProgressHUDMode.customView
             hud.label.text = title
             hud.customView = UIImageView(image: image)
             
             if notify == true {
-                NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: #selector(UIView.hudTimerDidFireAndNotify(_:)), userInfo: hud, repeats: false)
+                Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(UIView.hudTimerDidFireAndNotify(_:)), userInfo: hud, repeats: false)
             } else {
-                NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: #selector(UIView.hudTimerDidFire(_:)), userInfo: hud, repeats: false)
+                Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(UIView.hudTimerDidFire(_:)), userInfo: hud, repeats: false)
             }
             
         })
     }
     
     func showSimpleLoading() {
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            MBProgressHUD.showHUDAddedTo(self, animated: true)
+        DispatchQueue.main.async(execute: { () -> Void in
+            MBProgressHUD.showAdded(to: self, animated: true)
         })
     }
     
     func hideSimpleLoading() {
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            MBProgressHUD.hideHUDForView(self, animated: true)
+        DispatchQueue.main.async(execute: { () -> Void in
+            MBProgressHUD.hide(for: self, animated: true)
         })
     }
     
     func showPieLoading() -> MBProgressHUD {
         let hud = MBProgressHUD(view: self)
-        hud.mode = MBProgressHUDMode.Determinate
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        hud.mode = MBProgressHUDMode.determinate
+        DispatchQueue.main.async(execute: { () -> Void in
             self.addSubview(hud)
-            hud.showAnimated(true)
+            hud.show(animated: true)
         })
         return hud
     }
     
-    func hidePieLoading(hud: MBProgressHUD, percent: Float) {
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+    func hidePieLoading(_ hud: MBProgressHUD, percent: Float) {
+        DispatchQueue.main.async(execute: { () -> Void in
             hud.progress = percent
             if hud.progress == 1.0 {
-                hud.hideAnimated(true)
+                hud.hide(animated: true)
             }
         })
     }
     
-    func hudTimerDidFire(sender: NSTimer) {
+    func hudTimerDidFire(_ sender: Timer) {
         if let hud = sender.userInfo as? MBProgressHUD {
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                hud.hideAnimated(true)
+            DispatchQueue.main.async(execute: { () -> Void in
+                hud.hide(animated: true)
             })
         }
         sender.invalidate()
     }
     
-    func hudTimerDidFireAndNotify(sender: NSTimer) {
+    func hudTimerDidFireAndNotify(_ sender: Timer) {
         if let hud = sender.userInfo as? MBProgressHUD {
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                hud.hideAnimated(true)
-                NSNotificationCenter.defaultCenter().postNotificationName(Notify.Timer.rawValue, object: nil, userInfo: nil)
+            DispatchQueue.main.async(execute: { () -> Void in
+                hud.hide(animated: true)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: Notify.Timer.rawValue), object: nil, userInfo: nil)
             })
 
         }

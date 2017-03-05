@@ -18,23 +18,23 @@ class ReportViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        NSNotificationCenter.defaultCenter().addObserverForName(Notify.Timer.rawValue, object: nil, queue: nil) { (notification) in
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.navigationController?.popViewControllerAnimated(true)
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: Notify.Timer.rawValue), object: nil, queue: nil) { (notification) in
+            DispatchQueue.main.async(execute: { () -> Void in
+                self.navigationController?.popViewController(animated: true)
             })
         }
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         reportButton.makeRoundCorners(64)
         reportButton.backgroundColor = UIColor.plangoOrange()
-        reportButton.tintColor = UIColor.whiteColor()
+        reportButton.tintColor = UIColor.white
         
     }
     
-    @IBAction func didTapReport(sender: UIButton) {
+    @IBAction func didTapReport(_ sender: UIButton) {
         if reportTextView.text.isEmpty == false {
             reportPlan(plan.id)
 //            self.navigationController?.popViewControllerAnimated(true)
@@ -44,7 +44,7 @@ class ReportViewController: UIViewController {
 
     }
     
-    func reportPlan(planID: String) {
+    func reportPlan(_ planID: String) {
         self.reportTextView.showSimpleLoading()
         Plango.sharedInstance.reportSpam(Plango.EndPoint.Report.value, planID: planID) { (errorString) in
             self.reportTextView.hideSimpleLoading()

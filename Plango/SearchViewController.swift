@@ -47,7 +47,7 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.extendedLayoutIncludesOpaqueBars = false
-        self.edgesForExtendedLayout = .None
+        self.edgesForExtendedLayout = UIRectEdge()
         
 
         
@@ -73,25 +73,25 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         
         // Segmented Control customization
         self.segmentedPager.segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
-        self.segmentedPager.segmentedControl.backgroundColor = UIColor.whiteColor()
+        self.segmentedPager.segmentedControl.backgroundColor = UIColor.white
         self.segmentedPager.segmentedControl.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.plangoTypeSectionHeaderGray(), NSFontAttributeName: UIFont.plangoHeader()];
         self.segmentedPager.segmentedControl.selectedTitleTextAttributes = [NSForegroundColorAttributeName : UIColor.plangoTypeSectionHeaderGray(), NSFontAttributeName: UIFont.plangoHeader()]
         self.segmentedPager.segmentedControl.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe
         self.segmentedPager.segmentedControl.selectionIndicatorColor = UIColor.plangoOrange()
         
         
-        searchButton = UIButton(type: .Custom)
+        searchButton = UIButton(type: .custom)
         
-        searchButton.setTitle("Get Plans", forState: .Normal)
+        searchButton.setTitle("Get Plans", for: UIControlState())
         searchButton.backgroundColor = UIColor.plangoOrange()
-        searchButton.titleLabel?.textColor = UIColor.whiteColor()
+        searchButton.titleLabel?.textColor = UIColor.white
         searchButton.titleLabel?.font = UIFont.plangoButton()
-        searchButton.addTarget(self, action: #selector(didTapSearch), forControlEvents: .TouchUpInside)
+        searchButton.addTarget(self, action: #selector(didTapSearch), for: .touchUpInside)
         
         self.segmentedPager.addSubview(searchButton)
     }
     
-    func didTapSearch(sender: UIButton) {
+    func didTapSearch(_ sender: UIButton) {
         if Helper.isConnectedToNetwork() {
             collectSearchParameters()
             let parameters = Plango.sharedInstance.buildParameters(minDuration, maxDuration: maxDuration, tags: selectedTags, selectedDestinations: selectedDestinations, user: nil, isJapanSearch: nil)
@@ -102,7 +102,7 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
             plansVC.searchDestinations = selectedDestinations
             plansVC.navigationItem.title = "RESULTS"
             plansVC.hidesBottomBarWhenPushed = true
-            self.showViewController(plansVC, sender: nil)
+            self.show(plansVC, sender: nil)
         } else {
             view.quickToast("No Internet")
         }
@@ -122,36 +122,36 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         selectedDestinations = destinationController.selectedDestinations
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationItem.title = "SEARCH"
         searchButton.frame = CGRect(x: 0, y: self.view.frame.height - 60, width: self.view.frame.width, height: 60)
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if firstView == true {
-            segmentedPager.pager.showPageAtIndex(1, animated: false)
+            segmentedPager.pager.showPage(at: 1, animated: false)
             firstView = false
         }
     }
     
-    func addPage(title: String, controller: UIViewController) {
+    func addPage(_ title: String, controller: UIViewController) {
         self.addChildViewController(controller)
-        controller.didMoveToParentViewController(self)
-        titlesArray.addObject(title)
-        controllersArray.addObject(controller)
+        controller.didMove(toParentViewController: self)
+        titlesArray.add(title)
+        controllersArray.add(controller)
         
     }
     
-    func displaySelections(tags: [Tag]?, destinations: [Destination]?, duration: Duration?) {
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+    func displaySelections(_ tags: [Tag]?, destinations: [Destination]?, duration: Duration?) {
+        DispatchQueue.main.async(execute: { () -> Void in
             if let tags = tags {
                 var allTags = "Selected Tags: "
                 for item in tags {
                     guard let name = item.name else {return}
-                    allTags.appendContentsOf("\(name), ")
+                    allTags.append("\(name), ")
                 }
                 let cleanedTags = String(allTags.characters.dropLast(2))
                 self.selectedTagsLabel.text = cleanedTags
@@ -161,11 +161,11 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
                 var allDestinations = "Selected Destinations: "
                 for item in destinations {
                     if let city = item.city {
-                        allDestinations.appendContentsOf("\(city), ")
+                        allDestinations.append("\(city), ")
                     } else if let state = item.state {
-                        allDestinations.appendContentsOf("\(state), ")
+                        allDestinations.append("\(state), ")
                     } else if let country = item.country {
-                        allDestinations.appendContentsOf("\(country), ")
+                        allDestinations.append("\(country), ")
                     }
                 }
                 let cleanedDestinations = String(allDestinations.characters.dropLast(2))
@@ -193,24 +193,24 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
     //    }
     
     // MARK: - MXSegmentedPagerDelegate
-    override func heightForSegmentedControlInSegmentedPager(segmentedPager: MXSegmentedPager) -> CGFloat {
+    override func heightForSegmentedControl(in segmentedPager: MXSegmentedPager) -> CGFloat {
         return Helper.HeaderHeight.pager.value
     }
     
-    override func segmentedPager(segmentedPager: MXSegmentedPager, didScrollWithParallaxHeader parallaxHeader: MXParallaxHeader) {
+    override func segmentedPager(_ segmentedPager: MXSegmentedPager, didScrollWith parallaxHeader: MXParallaxHeader) {
         //use or override for refresh effect
     }
     
     // MARK: - MXSegmentedpagerDataSource
-    override func numberOfPagesInSegmentedPager(segmentedPager: MXSegmentedPager) -> Int {
+    override func numberOfPages(in segmentedPager: MXSegmentedPager) -> Int {
         return titlesArray.count
     }
     
-    override func segmentedPager(segmentedPager: MXSegmentedPager, titleForSectionAtIndex index: Int) -> String {
+    override func segmentedPager(_ segmentedPager: MXSegmentedPager, titleForSectionAt index: Int) -> String {
         return titlesArray[index] as! String
     }
     
-    override func segmentedPager(segmentedPager: MXSegmentedPager, viewControllerForPageAtIndex index: Int) -> UIViewController {
+    override func segmentedPager(_ segmentedPager: MXSegmentedPager, viewControllerForPageAt index: Int) -> UIViewController {
         return controllersArray[index] as! UIViewController
     }
 }

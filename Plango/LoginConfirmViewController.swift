@@ -68,22 +68,22 @@ class LoginConfirmViewController: LoginViewController {
         headerStackView.removeFromSuperview()
         footerStackView.removeFromSuperview()
         
-        footerView.frame = CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.size.width, height: 66)
-        loginButton.setTitle("SIGN UP", forState: .Normal)
+        footerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 66)
+        loginButton.setTitle("SIGN UP", for: UIControlState())
         footerView.addSubview(loginButton)
         
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "username")
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "email")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "username")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "email")
         
         let parameters = ["fields":"id, name, email"]
-        FBSDKGraphRequest.init(graphPath: "me", parameters: parameters).startWithCompletionHandler({ (connection, result, error) in
+        FBSDKGraphRequest.init(graphPath: "me", parameters: parameters).start(completionHandler: { (connection, result, error) in
             if let error = error {
-                self.printError(error)
+                self.printError(error as NSError)
             } else {
-                let email = result.valueForKey("email") as! String
-                self.facebookUserID = result.valueForKey("id") as! String
+                let email = result.value(forKey: "email") as! String
+                self.facebookUserID = result.value(forKey: "id") as! String
                 
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                DispatchQueue.main.async(execute: { () -> Void in
                     self.emailTextField.text = email
                 })
 
@@ -101,7 +101,7 @@ class LoginConfirmViewController: LoginViewController {
         }
     }
     
-    override func didTapLogin(button: UIButton) {
+    override func didTapLogin(_ button: UIButton) {
 
         guard let userEmail = emailTextField.text else {
             self.tableView.quickToast("Please Enter a Email")
@@ -121,7 +121,7 @@ class LoginConfirmViewController: LoginViewController {
             self.tableView.quickToast("We Need a Username")
         } else {
             guard let result = facebookResult else {return}
-            NSNotificationCenter.defaultCenter().postNotificationName(Notify.NewUser.rawValue, object: nil, userInfo: ["controller" : self, "FBSDKLoginResult" : result, "userEmail" : userEmail.lowercaseString, "userName" : userName, "userID" : userID])
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Notify.NewUser.rawValue), object: nil, userInfo: ["controller" : self, "FBSDKLoginResult" : result, "userEmail" : userEmail.lowercased(), "userName" : userName, "userID" : userID])
         }
     }
     
@@ -196,25 +196,25 @@ class LoginConfirmViewController: LoginViewController {
     
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 2
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         switch indexPath.row {
         case 0:
-            let cell = tableView.dequeueReusableCellWithIdentifier("username", forIndexPath: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "username", for: indexPath)
             usernameTextField.frame = cellFrame(cell)
             cell.contentView.addSubview(usernameTextField)
             return cell
         default:
-            let cell = tableView.dequeueReusableCellWithIdentifier("email", forIndexPath: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "email", for: indexPath)
             emailTextField.frame = cellFrame(cell)
             cell.contentView.addSubview(emailTextField)
             return cell

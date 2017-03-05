@@ -21,12 +21,12 @@ class Plan: PlangoObject {
     var authorID: String!
     
     var durationDays: Int!
-    var startDate: NSDate?
-    var endDate: NSDate?
+    var startDate: Date?
+    var endDate: Date?
     
-    var lastViewedDate: NSDate?
-    var lastUpdatedDate: NSDate?
-    var createdDate: NSDate?
+    var lastViewedDate: Date?
+    var lastUpdatedDate: Date?
+    var createdDate: Date?
     
     var viewCount: Int!
     var usedCount: Int!
@@ -129,7 +129,7 @@ class Plan: PlangoObject {
 //        aCoder.encodeObject(plangoFavorite, forKey: CodeKeys.plangoFavorite.rawValue)
 //    }
     
-    class func getPlansFromJSON(objectJSON: JSON) -> [Plan]? {
+    class func getPlansFromJSON(_ objectJSON: JSON) -> [Plan]? {
         var tempUsers = [Plan?]()
         
         if let array = objectJSON["data"].arrayObject { //sometimes plango server sends array in top level
@@ -166,15 +166,15 @@ class Plan: PlangoObject {
         return tempUsers.flatMap { $0 }
     }
     
-    class func createPlan(dictionary: NSDictionary) -> Plan? {
+    class func createPlan(_ dictionary: NSDictionary) -> Plan? {
         
         // ----------------------------------------------------------------------------------
         
         // NOTE: - the time given in the JSON is actually in yyyy-MM-dd’T'HH:mm:ss.SSSZ format. However, that denotes timezone of UTC for ISODate, and the times received are actually local times. Each time is local to the timezone that event is created in. Here I will set all of them to the local time of the device. This means the calculation between device and time of a certain event is only accurate if the device is in the same timezone of that event. This also requires me to drop the last 5 chars of the JSON string to match this timezoneless template, which we just assign to be local time.
         
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.locale = NSLocale.systemLocale()
-        dateFormatter.timeZone = NSTimeZone.systemTimeZone()
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale.system
+        dateFormatter.timeZone = TimeZone.current
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
 
         // ----------------------------------------------------------------------------------
@@ -189,23 +189,23 @@ class Plan: PlangoObject {
 
         if let startDate = dictionary["start"] as? String {
             //Trimming timezone is necessary because the JSON object actually has timezone data '.SSSZ' which we dont want
-            newPlan.startDate = dateFormatter.dateFromString(startDate.trimDateTimeZone())
+            newPlan.startDate = dateFormatter.date(from: startDate.trimDateTimeZone())
         }
         
         if let endDate = dictionary["end"] as? String {
-            newPlan.endDate = dateFormatter.dateFromString(endDate.trimDateTimeZone())
+            newPlan.endDate = dateFormatter.date(from: endDate.trimDateTimeZone())
         }
         
         if let lastViewed = dictionary["last_viewed"] as? String {
-            newPlan.lastViewedDate = dateFormatter.dateFromString(lastViewed)
+            newPlan.lastViewedDate = dateFormatter.date(from: lastViewed)
         }
         
         if let lastUpdated = dictionary["last_updated"] as? String {
-            newPlan.lastUpdatedDate = dateFormatter.dateFromString(lastUpdated)
+            newPlan.lastUpdatedDate = dateFormatter.date(from: lastUpdated)
         }
         
         if let createdDate = dictionary["created_date"] as? String {
-            newPlan.createdDate = dateFormatter.dateFromString(createdDate.trimDateTimeZone())
+            newPlan.createdDate = dateFormatter.date(from: createdDate.trimDateTimeZone())
         }
         
         newPlan.viewCount = dictionary["viewCount"] as? Int
@@ -253,9 +253,9 @@ class Plan: PlangoObject {
                 let duration = event["duration"] as? Int
                 let allDay = event["all_day"] as? Bool
 
-                var startDate: NSDate? = nil
+                var startDate: Date? = nil
                 if let start = event["start"] as? String {
-                    startDate = dateFormatter.dateFromString(start.trimDateTimeZone())
+                    startDate = dateFormatter.date(from: start.trimDateTimeZone())
                 }
                 
                 let anEvent = Event(id: id)
@@ -278,14 +278,14 @@ class Plan: PlangoObject {
                 let notes = place["notes"] as? String
                 let duration = place["duration"] as? Int
 
-                var startDate: NSDate? = nil
+                var startDate: Date? = nil
                 if let start = place["start"] as? String {
-                    startDate = dateFormatter.dateFromString(start.trimDateTimeZone())
+                    startDate = dateFormatter.date(from: start.trimDateTimeZone())
                 }
         
-                var endDate: NSDate? = nil
+                var endDate: Date? = nil
                 if let end = place["end"] as? String {
-                    endDate = dateFormatter.dateFromString(end.trimDateTimeZone())
+                    endDate = dateFormatter.date(from: end.trimDateTimeZone())
                 }
                 
                 let aPlace = Place(id: id)
@@ -340,9 +340,9 @@ class Plan: PlangoObject {
                         let authorAvatar = review["reviewer_photo"] as? String
                         let likes = review["likes"] as? Int
                         
-                        var date: NSDate? = nil
+                        var date: Date? = nil
                         if let reviewDate = review["review_date"] as? String {
-                            date = dateFormatter.dateFromString(reviewDate.trimDateTimeZone())
+                            date = dateFormatter.date(from: reviewDate.trimDateTimeZone())
                         }
                         
                         let aReview = Review(id: id)
@@ -427,7 +427,7 @@ class Event: PlangoObject { //"experience_id":"560de35905c85ada730e7f14","start"
 //    var id: String!
     var experienceID: String?
     var duration: Int?
-    var startDate: NSDate?
+    var startDate: Date?
     var allDay: Bool!
     
 //    init(id: String, experienceID: String?, duration: Int?, startDate: NSDate?, allDay: Bool?) {
@@ -445,8 +445,8 @@ class Place: PlangoObject { //"state":"Alajuela","country":"Costa Rica","_id":"5
     var state: String?
     var country: String?
     var notes: String?
-    var startDate: NSDate?
-    var endDate: NSDate?
+    var startDate: Date?
+    var endDate: Date?
     var durationDays: Int?
     
 //    init(warehouse: JSONWarehouse) {
@@ -499,7 +499,7 @@ class Review: PlangoObject {
     var author: String?
 //    var authorAvatar: String?
     var likes: Int?
-    var date: NSDate?
+    var date: Date?
     
 }
 

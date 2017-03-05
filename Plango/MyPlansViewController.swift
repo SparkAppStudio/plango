@@ -34,24 +34,24 @@ class MyPlansViewController: MXSegmentedPagerController {
     //account login logout
     
     lazy var accountBarButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "LOGOUT", style: .Plain, target: self, action: #selector(didTapAccountButton))
+        let button = UIBarButtonItem(title: "LOGOUT", style: .plain, target: self, action: #selector(didTapAccountButton))
         return button
     }()
     
     func didTapAccountButton() {
         
-        let alert = UIAlertController(title: "Logout?", message: "If you log out you will remove all plans and maps stored on this phone.", preferredStyle: .Alert)
+        let alert = UIAlertController(title: "Logout?", message: "If you log out you will remove all plans and maps stored on this phone.", preferredStyle: .alert)
         
-        let delete = UIAlertAction(title: "Logout", style: UIAlertActionStyle.Destructive) { (action) in
-            NSNotificationCenter.defaultCenter().postNotificationName(Notify.Logout.rawValue, object: nil, userInfo: ["controller": self])
+        let delete = UIAlertAction(title: "Logout", style: UIAlertActionStyle.destructive) { (action) in
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Notify.Logout.rawValue), object: nil, userInfo: ["controller": self])
         }
         
-        let cancel = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alert.addAction(delete)
         alert.addAction(cancel)
         
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
 
     
@@ -60,18 +60,18 @@ class MyPlansViewController: MXSegmentedPagerController {
         
         self.navigationItem.rightBarButtonItem = accountBarButton
         self.extendedLayoutIncludesOpaqueBars = false
-        self.edgesForExtendedLayout = .None
+        self.edgesForExtendedLayout = UIRectEdge()
         
         addPage("My Plans", controller: plansController)
         
         // Parallax Header
-        let bundle = NSBundle(forClass: self.dynamicType)
+        let bundle = Bundle(for: type(of: self))
         let nib = UINib(nibName: "ProfileHeader", bundle: bundle)
-        headerView = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        headerView = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         
         // Parallax Header
         self.segmentedPager.parallaxHeader.view = headerView
-        self.segmentedPager.parallaxHeader.mode = MXParallaxHeaderMode.Fill;
+        self.segmentedPager.parallaxHeader.mode = MXParallaxHeaderMode.fill;
         self.segmentedPager.parallaxHeader.height = Helper.CellHeight.wideScreen.value
         self.segmentedPager.parallaxHeader.minimumHeight = 0;
         
@@ -84,9 +84,9 @@ class MyPlansViewController: MXSegmentedPagerController {
 //        self.segmentedPager.segmentedControl.selectionIndicatorColor = UIColor.plangoOrange()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationItem.title = "MY PLANS".uppercaseString
+        self.navigationItem.title = "MY PLANS".uppercased()
         if let user = Plango.sharedInstance.currentUser {
             
             accountBarButton.title = "LOGOUT"
@@ -100,7 +100,7 @@ class MyPlansViewController: MXSegmentedPagerController {
             avatarImageView.makeCircle()
 
             if let endPoint = user.avatar {
-                let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
+                let cleanURL = URL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
                 avatarImageView.af_setImageWithURL(cleanURL!)
             }
 //            else if let facebook = user.facebookAvatar {
@@ -118,11 +118,11 @@ class MyPlansViewController: MXSegmentedPagerController {
         }
     }
     
-    func addPage(title: String, controller: UIViewController) {
+    func addPage(_ title: String, controller: UIViewController) {
         self.addChildViewController(controller)
-        controller.didMoveToParentViewController(self)
-        titlesArray.addObject(title)
-        controllersArray.addObject(controller)
+        controller.didMove(toParentViewController: self)
+        titlesArray.add(title)
+        controllersArray.add(controller)
         
     }
     
@@ -140,11 +140,11 @@ class MyPlansViewController: MXSegmentedPagerController {
 //    }
     
     // MARK: - MXSegmentedPagerDelegate
-    override func heightForSegmentedControlInSegmentedPager(segmentedPager: MXSegmentedPager) -> CGFloat {
+    override func heightForSegmentedControl(in segmentedPager: MXSegmentedPager) -> CGFloat {
         return 0
     }
     
-    override func segmentedPager(segmentedPager: MXSegmentedPager, didScrollWithParallaxHeader parallaxHeader: MXParallaxHeader) {
+    override func segmentedPager(_ segmentedPager: MXSegmentedPager, didScrollWith parallaxHeader: MXParallaxHeader) {
 
         //no need to query if not logged in
         guard let _ = Plango.sharedInstance.currentUser else {return}
@@ -157,15 +157,15 @@ class MyPlansViewController: MXSegmentedPagerController {
     }
     
     // MARK: - MXSegmentedpagerDataSource
-    override func numberOfPagesInSegmentedPager(segmentedPager: MXSegmentedPager) -> Int {
+    override func numberOfPages(in segmentedPager: MXSegmentedPager) -> Int {
         return titlesArray.count
     }
     
-    override func segmentedPager(segmentedPager: MXSegmentedPager, titleForSectionAtIndex index: Int) -> String {
+    override func segmentedPager(_ segmentedPager: MXSegmentedPager, titleForSectionAt index: Int) -> String {
         return titlesArray[index] as! String
     }
     
-    override func segmentedPager(segmentedPager: MXSegmentedPager, viewControllerForPageAtIndex index: Int) -> UIViewController {
+    override func segmentedPager(_ segmentedPager: MXSegmentedPager, viewControllerForPageAt index: Int) -> UIViewController {
         return controllersArray[index] as! UIViewController
     }
 }

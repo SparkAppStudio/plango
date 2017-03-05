@@ -10,15 +10,15 @@ import UIKit
 
 class CompoundImageView: UIImageView {
     
-    private let gradient: CAGradientLayer = CAGradientLayer()
-    private let grayLayer: CALayer = CALayer()
+    fileprivate let gradient: CAGradientLayer = CAGradientLayer()
+    fileprivate let grayLayer: CALayer = CALayer()
 
 
     func gradientDarkToClear() {
         guard self.layer.sublayers?.last == nil else { return }
         
-        let colorTop = UIColor.clearColor().CGColor
-        let colorBottom = UIColor.plangoBlack().colorWithAlphaComponent(0.8).CGColor
+        let colorTop = UIColor.clear.cgColor
+        let colorBottom = UIColor.plangoBlack().withAlphaComponent(0.8).cgColor
         
         
         gradient.colors = [colorTop, colorBottom]
@@ -29,12 +29,12 @@ class CompoundImageView: UIImageView {
     
     func lightGrayOverlay() {
         guard self.layer.sublayers?.last == nil else { return }
-        grayLayer.backgroundColor = UIColor.transparentGray().CGColor
+        grayLayer.backgroundColor = UIColor.transparentGray().cgColor
         grayLayer.frame = self.bounds
         self.layer.addSublayer(grayLayer)
     }
     
-    override func layoutSublayersOfLayer(layer: CALayer) {
+    override func layoutSublayersOfLayer(_ layer: CALayer) {
         super.layoutSublayersOfLayer(layer)
         gradient.frame = CGRect(x: 0, y: self.bounds.height / 2, width: self.bounds.width, height: self.bounds.height / 2)
         grayLayer.frame = self.bounds

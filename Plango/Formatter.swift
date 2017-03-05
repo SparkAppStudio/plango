@@ -10,11 +10,11 @@ import UIKit
 import SwiftyJSON
 
 class Formatter: NSObject {
-    private static var internalJsonDateTimeFormatter: NSDateFormatter?
+    fileprivate static var internalJsonDateTimeFormatter: DateFormatter?
     
-    static var jsonDateTimeFormatter: NSDateFormatter {
+    static var jsonDateTimeFormatter: DateFormatter {
         if (internalJsonDateTimeFormatter == nil) {
-            internalJsonDateTimeFormatter = NSDateFormatter()
+            internalJsonDateTimeFormatter = DateFormatter()
             internalJsonDateTimeFormatter!.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'SSSZZ"
         }
         return internalJsonDateTimeFormatter!

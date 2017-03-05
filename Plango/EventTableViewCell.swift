@@ -7,9 +7,22 @@
 //
 
 import UIKit
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 protocol EventTableViewCellDelegate: class {
-    func didSendExperience(experience: Experience)
+    func didSendExperience(_ experience: Experience)
 }
 
 class EventTableViewCell: UITableViewCell {
@@ -23,7 +36,7 @@ class EventTableViewCell: UITableViewCell {
     @IBOutlet weak var coverView: UIView!
     
     //IBActions
-    @IBAction func didTapDirections(sender: UIButton) {
+    @IBAction func didTapDirections(_ sender: UIButton) {
         //pass info back to controller to open apple or google maps with experience location
         delegate?.didSendExperience(experience)
     }
@@ -41,36 +54,36 @@ class EventTableViewCell: UITableViewCell {
         
         directionsButton.makeCircle()
         
-        guard let experience = experience, event = event else {return}
+        guard let experience = experience, let event = event else {return}
         
         if experience.geocode?.count < 2 {
-            directionsButton.hidden = true
+            directionsButton.isHidden = true
         } else {
-            directionsButton.hidden = false
+            directionsButton.isHidden = false
         }
         
-        let calendar = NSCalendar.currentCalendar()
-        calendar.timeZone = NSTimeZone.defaultTimeZone()
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone.current
         
         
-        let formatter = NSDateFormatter()
-        formatter.locale = NSLocale.systemLocale()
+        let formatter = DateFormatter()
+        formatter.locale = Locale.system
         formatter.calendar = calendar
         formatter.timeZone = calendar.timeZone
-        formatter.dateStyle = .ShortStyle
-        formatter.timeStyle = .ShortStyle
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
         formatter.dateFormat = "h:mm a"
         
         
-        let components = calendar.components([.Day, .Hour, .Minute], fromDate: event.startDate!)
-        let todayComponents = calendar.components([.Day, .Hour], fromDate: NSDate())
+        let components = (calendar as NSCalendar).components([.day, .hour, .minute], from: event.startDate! as Date)
+        let todayComponents = (calendar as NSCalendar).components([.day, .hour], from: Date())
         
         if components.hour == todayComponents.hour && components.day == todayComponents.day {
             startTimeLabel.textColor = UIColor.plangoOrange()
         } else {
             startTimeLabel.textColor = UIColor.plangoTextLight()
         }
-        startTimeLabel.text = formatter.stringFromDate(event.startDate!)
+        startTimeLabel.text = formatter.string(from: event.startDate! as Date)
         titleLabel.text = experience.name
         
         coverImageView.plangoImage(experience)

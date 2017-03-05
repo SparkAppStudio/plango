@@ -12,10 +12,34 @@ import AlamofireImage
 import CZWeatherKit
 import Mapbox
 import RealmSwift
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class PlanSummaryViewController: UITableViewController {
     
-    private enum SummaryTitles: String {
+    fileprivate enum SummaryTitles: String {
         case Start = ""
         case Overview = "Overview"
 
@@ -51,7 +75,7 @@ class PlanSummaryViewController: UITableViewController {
     @IBOutlet weak var startSecondsLabel: UILabel!
     
     //DownloadView xib
-    @IBAction func didTapDownload(sender: UIButton) {
+    @IBAction func didTapDownload(_ sender: UIButton) {
         guard (plan.experiences != nil) else {self.view.quickToast("No Experiences"); return}
         guard isMapDownloading() != true else {self.view.quickToast("Another Map is Downloading"); return}
         startOfflinePackDownload()
@@ -59,7 +83,7 @@ class PlanSummaryViewController: UITableViewController {
     }
     
     @IBOutlet weak var localPlanLabel: UILabel!
-    @IBAction func didTapDeletePlan(sender: UIButton) {
+    @IBAction func didTapDeletePlan(_ sender: UIButton) {
         deleteLocalPlan(plan)
     }
     
@@ -79,21 +103,21 @@ class PlanSummaryViewController: UITableViewController {
     var experiencesByPlace: [String:[Experience]]!
     
     let downloader = ImageDownloader()
-    var myGroup = dispatch_group_create()
+    var myGroup = DispatchGroup()
     
     var mapView: MGLMapView!
     
     lazy var progressView: UIProgressView = {
-        let progress = UIProgressView(progressViewStyle: .Default)
+        let progress = UIProgressView(progressViewStyle: .default)
 //        progress.frame = CGRectMake(UIScreen.mainScreen().bounds.width/4, UIScreen.mainScreen().bounds.height * 0.75 + 50, UIScreen.mainScreen().bounds.width/2, 20)
-        progress.hidden = true
+        progress.isHidden = true
         return progress
     }()
     
-    private lazy var experiencePlaceDataSource = [String:Experience]()
+    fileprivate lazy var experiencePlaceDataSource = [String:Experience]()
     
-    var timer: NSTimer!
-    let calendar = NSCalendar.currentCalendar()
+    var timer: Timer!
+    var calendar = Calendar.current
     var days = 0
     var hours = 0
     var minutes = 0
@@ -116,57 +140,57 @@ class PlanSummaryViewController: UITableViewController {
     
     lazy var itineraryButton: UIButton = {
        let button = UIButton()
-        button.backgroundColor = UIColor.whiteColor()
-        button.layer.borderColor = UIColor.plangoBackgroundGray().CGColor
+        button.backgroundColor = UIColor.white
+        button.layer.borderColor = UIColor.plangoBackgroundGray().cgColor
         button.layer.borderWidth = 1
         button.tintColor = UIColor.plangoTeal()
-        button.setTitleColor(UIColor.plangoTeal(), forState: .Normal)
+        button.setTitleColor(UIColor.plangoTeal(), for: UIControlState())
         button.titleLabel?.font = UIFont.plangoSmallButton()
-        button.setTitle("Itinerary", forState: .Normal)
+        button.setTitle("Itinerary", for: UIControlState())
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 0)
-        button.setImage(UIImage(named: "itinerary-teal"), forState: .Normal)
+        button.setImage(UIImage(named: "itinerary-teal"), for: UIControlState())
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 4)
-        button.addTarget(self, action: #selector(didTapItinerary), forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(didTapItinerary), for: .touchUpInside)
         return button
     }()
     
     lazy var mapButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor.whiteColor()
-        button.layer.borderColor = UIColor.plangoBackgroundGray().CGColor
+        button.backgroundColor = UIColor.white
+        button.layer.borderColor = UIColor.plangoBackgroundGray().cgColor
         button.layer.borderWidth = 1
 
         button.tintColor = UIColor.plangoTeal()
-        button.setTitleColor(UIColor.plangoTeal(), forState: .Normal)
+        button.setTitleColor(UIColor.plangoTeal(), for: UIControlState())
         button.titleLabel?.font = UIFont.plangoSmallButton()
-        button.setTitle("Map", forState: .Normal)
+        button.setTitle("Map", for: UIControlState())
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 0)
-        button.setImage(UIImage(named: "map-teal"), forState: .Normal)
+        button.setImage(UIImage(named: "map-teal"), for: UIControlState())
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 4)
-        button.addTarget(self, action: #selector(didTapMap), forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(didTapMap), for: .touchUpInside)
         return button
     }()
     
     lazy var friendsButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor.whiteColor()
-        button.layer.borderColor = UIColor.plangoBackgroundGray().CGColor
+        button.backgroundColor = UIColor.white
+        button.layer.borderColor = UIColor.plangoBackgroundGray().cgColor
         button.layer.borderWidth = 1
 
         button.tintColor = UIColor.plangoTeal()
-        button.setTitleColor(UIColor.plangoTeal(), forState: .Normal)
+        button.setTitleColor(UIColor.plangoTeal(), for: UIControlState())
         button.titleLabel?.font = UIFont.plangoSmallButton()
-        button.setTitle("Friends", forState: .Normal)
+        button.setTitle("Friends", for: UIControlState())
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 0)
-        button.setImage(UIImage(named: "friends-teal"), forState: .Normal)
+        button.setImage(UIImage(named: "friends-teal"), for: UIControlState())
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 4)
-        button.addTarget(self, action: #selector(didTapFriends), forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(didTapFriends), for: .touchUpInside)
         return button
     }()
     
     func weather() {
         
-        let date = NSDate()
+        let date = Date()
         var coordinate = CLLocationCoordinate2D(latitude: 117, longitude: 32)
 
         guard let experiences = plan.experiences else {return}
@@ -186,34 +210,34 @@ class PlanSummaryViewController: UITableViewController {
         
         
 
-        let rounder = NSDecimalNumberHandler(roundingMode: .RoundBankers, scale: 0, raiseOnExactness: false, raiseOnOverflow: false, raiseOnUnderflow: false, raiseOnDivideByZero: true)
+        let rounder = NSDecimalNumberHandler(roundingMode: .bankers, scale: 0, raiseOnExactness: false, raiseOnOverflow: false, raiseOnUnderflow: false, raiseOnDivideByZero: true)
 
         
-        let request = CZForecastioRequest.newForecastRequestWithDate(date)
-        request.key = "9c74ebb83e3387c347b8eb741b6402d5"
+        let request = CZForecastioRequest.newForecastRequest(with: date)
+        request?.key = "9c74ebb83e3387c347b8eb741b6402d5"
 //        request.location = CZWeatherLocation(fromCity: "Sydney", country: "Australia")
 //        request.location = CZWeatherLocation(fromCity: "Los Angeles", state: "CA")
-        request.location = CZWeatherLocation(fromCoordinate: coordinate)
-        request.sendWithCompletion { (data, error) -> Void in
+        request?.location = CZWeatherLocation(from: coordinate)
+        request?.send { (data, error) -> Void in
             if let error = error {
-                self.printError(error)
+                self.printError(error as NSError)
             } else if let weather = data {
                 let forecast = weather.dailyForecasts.first as! CZWeatherForecastCondition
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                DispatchQueue.main.async(execute: { () -> Void in
 
                     print("high: \(forecast.highTemperature.f) low: \(forecast.lowTemperature.f)")
                     let avgTempFloat = (forecast.highTemperature.f + forecast.lowTemperature.f) / 2
-                    let avgTemp = NSDecimalNumber(float: avgTempFloat).decimalNumberByRoundingAccordingToBehavior(rounder)
+                    let avgTemp = NSDecimalNumber(value: avgTempFloat as Float).rounding(accordingToBehavior: rounder)
                     
-                    self.temperatureLabel.text = String(avgTemp)
+                    self.temperatureLabel.text = String(describing: avgTemp)
                     self.weatherLabel.text = forecast.summary
                     let climaChar = forecast.climacon.rawValue
                     let climaString = NSString(format: "%c", climaChar)
                     self.climaconLabel.text = String(climaString)
                     
-                    self.temperatureLabel.hidden = false
-                    self.weatherLabel.hidden = false
-                    self.climaconLabel.hidden = false
+                    self.temperatureLabel.isHidden = false
+                    self.weatherLabel.isHidden = false
+                    self.climaconLabel.isHidden = false
                     
                     self.temperatureLabel.dropShadow()
                     self.weatherLabel.dropShadow()
@@ -224,12 +248,12 @@ class PlanSummaryViewController: UITableViewController {
     }
     
     func getOverviewStrings() {
-        if let startDate = plan.startDate, endDate = plan.endDate {
-            let formatter = NSDateFormatter()
-            formatter.timeZone = NSTimeZone.defaultTimeZone()
-            formatter.dateStyle = NSDateFormatterStyle.LongStyle
-            let startDateString = formatter.stringFromDate(startDate)
-            let endDateString = formatter.stringFromDate(endDate)
+        if let startDate = plan.startDate, let endDate = plan.endDate {
+            let formatter = DateFormatter()
+            formatter.timeZone = TimeZone.current
+            formatter.dateStyle = DateFormatter.Style.long
+            let startDateString = formatter.string(from: startDate as Date)
+            let endDateString = formatter.string(from: endDate as Date)
             
             if myPlan == true {
                 overviewTextArray.append("\(startDateString)        to        \(endDateString)")
@@ -246,11 +270,11 @@ class PlanSummaryViewController: UITableViewController {
 
     }
     
-    func deleteLocalPlan(plan: Plan) {
+    func deleteLocalPlan(_ plan: Plan) {
         
-        let alert = UIAlertController(title: "Delete Local Data?", message: "Are you sure you want to remove this plan from your phone?", preferredStyle: .Alert)
+        let alert = UIAlertController(title: "Delete Local Data?", message: "Are you sure you want to remove this plan from your phone?", preferredStyle: .alert)
         
-        let delete = UIAlertAction(title: "Delete", style: UIAlertActionStyle.Destructive) { (action) in
+        let delete = UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive) { (action) in
             
             //realm
             let realm = try! Realm()
@@ -261,20 +285,20 @@ class PlanSummaryViewController: UITableViewController {
             }
             
             //mapbox
-            for pack in MGLOfflineStorage.sharedOfflineStorage().packs! {
-                guard let userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? NSDictionary else {continue}
+            for pack in MGLOfflineStorage.shared().packs! {
+                guard let userInfo = NSKeyedUnarchiver.unarchiveObject(with: pack.context) as? NSDictionary else {continue}
                 guard let planID = userInfo["planID"] as? String else {continue}
                 
                 if planID == plan.id {
                     self.view.showSimpleLoading()
-                    MGLOfflineStorage.sharedOfflineStorage().removePack(pack, withCompletionHandler: { (error) in
+                    MGLOfflineStorage.shared().removePack(pack, withCompletionHandler: { (error) in
                         self.view.hideSimpleLoading()
                         if let error = error {
-                            self.printError(error)
+                            self.printError(error as NSError)
                         } else {
                             self.planDownloaded = false
 
-                            self.progressView.hidden = true
+                            self.progressView.isHidden = true
                             self.deleteView.removeFromSuperview()
                             self.stackView.addArrangedSubview(self.downloadView)
                         }
@@ -284,28 +308,28 @@ class PlanSummaryViewController: UITableViewController {
             }
         }
         
-        let cancel = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alert.addAction(delete)
         alert.addAction(cancel)
         
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     func isMapDownloading() -> Bool {
-        guard let localPacks = MGLOfflineStorage.sharedOfflineStorage().packs else { return false }
+        guard let localPacks = MGLOfflineStorage.shared().packs else { return false }
         for pack in localPacks {
-            if pack.state == .Active {
+            if pack.state == .active {
                 return true
             }
         }
         return false
     }
     
-    func isPlanLocal(plan: Plan) -> Bool {
-        guard let localPacks = MGLOfflineStorage.sharedOfflineStorage().packs else { return false }
+    func isPlanLocal(_ plan: Plan) -> Bool {
+        guard let localPacks = MGLOfflineStorage.shared().packs else { return false }
         for pack in localPacks {
-            guard let userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? NSDictionary else {continue}
+            guard let userInfo = NSKeyedUnarchiver.unarchiveObject(with: pack.context) as? NSDictionary else {continue}
             guard let planID = userInfo["planID"] as? String else {continue}
             
             if planID == plan.id {
@@ -313,7 +337,7 @@ class PlanSummaryViewController: UITableViewController {
                 let realm = try! Realm()
                 if let object = realm.objectForPrimaryKey(StoredPlan.self, key: plan.id) {
                     if let map = object.mapSize {
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        DispatchQueue.main.async(execute: { () -> Void in
                             self.localPlanLabel.text = "Delete this map to free up storage (\(map))"
                         })
                     }
@@ -328,7 +352,7 @@ class PlanSummaryViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.none
         tableView.backgroundColor = UIColor.plangoBackgroundGray()
         
         if let plan = self.plan {
@@ -346,30 +370,30 @@ class PlanSummaryViewController: UITableViewController {
 
         }
         
-        timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(timerDidFire), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerDidFire), userInfo: nil, repeats: true)
         
 //        let bundle = NSBundle(forClass: self.dynamicType)
         
         let nibHeader = UINib(nibName: "SummaryHeader", bundle: nil)
-        headerView = nibHeader.instantiateWithOwner(self, options: nil)[0] as! UIView
+        headerView = nibHeader.instantiate(withOwner: self, options: nil)[0] as! UIView
         headerView.snp_makeConstraints { (make) in
             make.height.equalTo(Helper.CellHeight.superWide.value)
         }
         
         let nibStart = UINib(nibName: "SummaryStart", bundle: nil)
-        startView = nibStart.instantiateWithOwner(self, options: nil)[0] as! UIView
+        startView = nibStart.instantiate(withOwner: self, options: nil)[0] as! UIView
         startView.snp_makeConstraints { (make) in
             make.height.equalTo(200)
         }
         
         let nibDownload = UINib(nibName: "DownloadView", bundle: nil)
-        downloadView = nibDownload.instantiateWithOwner(self, options: nil)[0] as! UIView
+        downloadView = nibDownload.instantiate(withOwner: self, options: nil)[0] as! UIView
         downloadView.snp_makeConstraints { (make) in
             make.height.equalTo(160)
         }
         
         let nibDelete = UINib(nibName: "DeletePlanView", bundle: nil)
-        deleteView = nibDelete.instantiateWithOwner(self, options: nil)[0] as! UIView
+        deleteView = nibDelete.instantiate(withOwner: self, options: nil)[0] as! UIView
         deleteView.snp_makeConstraints { (make) in
             make.height.equalTo(160)
         }
@@ -378,25 +402,25 @@ class PlanSummaryViewController: UITableViewController {
         
         // headerfooter view is like a cell
         let sectionNib = UINib(nibName: "SectionHeader", bundle: nil)
-        self.tableView.registerNib(sectionNib, forHeaderFooterViewReuseIdentifier: CellID.Header.rawValue)
+        self.tableView.register(sectionNib, forHeaderFooterViewReuseIdentifier: CellID.Header.rawValue)
         
-        tableView.registerClass(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: CellID.Footer.rawValue)
+        tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: CellID.Footer.rawValue)
         
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Start")
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Overview")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Start")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Overview")
         
         let experienceNib = UINib(nibName: "ExperienceCell", bundle: nil)
-        tableView.registerNib(experienceNib, forCellReuseIdentifier: CellID.Experience.rawValue)
+        tableView.register(experienceNib, forCellReuseIdentifier: CellID.Experience.rawValue)
 
         
-        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.size.width, height: Helper.CellHeight.superWide.value))
+        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: Helper.CellHeight.superWide.value))
         
         containerView.addSubview(headerView)
         
-        headerView.leadingAnchor.constraintEqualToAnchor(containerView.leadingAnchor).active = true
-        headerView.trailingAnchor.constraintEqualToAnchor(containerView.trailingAnchor).active = true
-        headerView.bottomAnchor.constraintEqualToAnchor(containerView.bottomAnchor).active = true
-        headerView.topAnchor.constraintEqualToAnchor(containerView.topAnchor).active = true
+        headerView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
+        headerView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
+        headerView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+        headerView.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
         
         tableView.tableHeaderView = containerView
 
@@ -408,7 +432,7 @@ class PlanSummaryViewController: UITableViewController {
         
         stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .Vertical
+        stackView.axis = .vertical
         stackView.spacing = 12
 //        scrollView.addSubview(stackView)
         
@@ -421,8 +445,8 @@ class PlanSummaryViewController: UITableViewController {
         
         buttonStackView = UIStackView()
         buttonStackView.translatesAutoresizingMaskIntoConstraints = false
-        buttonStackView.axis = .Horizontal
-        buttonStackView.distribution = .FillEqually
+        buttonStackView.axis = .horizontal
+        buttonStackView.distribution = .fillEqually
 //        buttonStackView.spacing = 4
         buttonStackView.snp_makeConstraints { (make) in
             make.height.equalTo(50)
@@ -459,12 +483,12 @@ class PlanSummaryViewController: UITableViewController {
         
     }
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         guard let places = plan.places else {return SummaryTitles.count}
         return SummaryTitles.count + places.count
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case SummaryTitles.Start.section:
             return 1
@@ -473,7 +497,7 @@ class PlanSummaryViewController: UITableViewController {
         default:
             guard let places = plan.places else {return 0}
             let placeID = places[section - 2].id //subtract 2 because of 1st 2 hard coded sections
-            guard let experiences = experiencesByPlace[placeID] else {return 0}
+            guard let experiences = experiencesByPlace[placeID!] else {return 0}
             return experiences.count
             
             //            if experiences.count < 3 {
@@ -486,37 +510,37 @@ class PlanSummaryViewController: UITableViewController {
     
     var overviewTextArray = [String]()
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case SummaryTitles.Start.section:
-            let cell = tableView.dequeueReusableCellWithIdentifier("Start", forIndexPath: indexPath)
-            cell.selectionStyle = .None
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Start", for: indexPath)
+            cell.selectionStyle = .none
             cell.contentView.backgroundColor = UIColor.plangoBackgroundGray()
             cell.contentView.addSubview(stackView)
             
-            stackView.leadingAnchor.constraintEqualToAnchor(cell.contentView.leadingAnchor).active = true
-            stackView.trailingAnchor.constraintEqualToAnchor(cell.contentView.trailingAnchor).active = true
-            stackView.bottomAnchor.constraintEqualToAnchor(cell.contentView.bottomAnchor).active = true
-            stackView.topAnchor.constraintEqualToAnchor(cell.contentView.topAnchor).active = true
-            stackView.widthAnchor.constraintEqualToAnchor(cell.contentView.widthAnchor).active = true
+            stackView.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor).isActive = true
+            stackView.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor).isActive = true
+            stackView.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor).isActive = true
+            stackView.topAnchor.constraint(equalTo: cell.contentView.topAnchor).isActive = true
+            stackView.widthAnchor.constraint(equalTo: cell.contentView.widthAnchor).isActive = true
 
             return cell
         case SummaryTitles.Overview.section:
-            let cell = tableView.dequeueReusableCellWithIdentifier("Overview", forIndexPath: indexPath)
-            cell.selectionStyle = .None
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Overview", for: indexPath)
+            cell.selectionStyle = .none
             cell.textLabel?.numberOfLines = 0
-            cell.textLabel?.lineBreakMode = .ByWordWrapping
+            cell.textLabel?.lineBreakMode = .byWordWrapping
             cell.textLabel?.font = UIFont.plangoBodyBig()
             cell.textLabel?.textColor = UIColor.plangoText()
             cell.textLabel?.text = overviewTextArray[indexPath.row]
 
             return cell
         default:
-            let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Experience.rawValue, forIndexPath: indexPath) as! ExperienceTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: CellID.Experience.rawValue, for: indexPath) as! ExperienceTableViewCell
             
             guard let places = plan.places else {return cell}
             let placeID = places[indexPath.section - 2].id
-            guard let experiences = experiencesByPlace[placeID] else {return cell}
+            guard let experiences = experiencesByPlace[placeID!] else {return cell}
             
             cell.experience = experiences[indexPath.row]
             cell.configure()
@@ -524,11 +548,11 @@ class PlanSummaryViewController: UITableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case SummaryTitles.Start.section:
             if myPlan == true {
@@ -548,19 +572,19 @@ class PlanSummaryViewController: UITableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let footerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(CellID.Footer.rawValue)
-        footerView?.hidden = true
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let footerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CellID.Footer.rawValue)
+        footerView?.isHidden = true
         return footerView
     }
     
-    override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 12
     }
     
-    func parseExperiencesIntoPlaces(experiences: [Experience]?, places: [Place]?) -> [String:[Experience]] {
+    func parseExperiencesIntoPlaces(_ experiences: [Experience]?, places: [Place]?) -> [String:[Experience]] {
         var placesExperiences = [String:[Experience]]()
-        guard let places = places, experiences = experiences else {return placesExperiences}
+        guard let places = places, let experiences = experiences else {return placesExperiences}
         
         for place in places {
             var placeExperiences = [Experience]()
@@ -574,8 +598,8 @@ class PlanSummaryViewController: UITableViewController {
         return placesExperiences
     }
     
-    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(CellID.Header.rawValue) as! SectionHeaderView
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CellID.Header.rawValue) as! SectionHeaderView
         
         switch section {
         case SummaryTitles.Start.section:
@@ -584,8 +608,8 @@ class PlanSummaryViewController: UITableViewController {
             headerView.titleLabel.text = "Overview"
             
             if let cities = plan.places?.count {
-                headerView.citiesLabel.hidden = false
-                headerView.citiesImageView.hidden = false
+                headerView.citiesLabel.isHidden = false
+                headerView.citiesImageView.isHidden = false
                 if cities == 1 {
                     headerView.citiesLabel.text = "\(cities) City"
                 } else {
@@ -594,8 +618,8 @@ class PlanSummaryViewController: UITableViewController {
             }
             
             if let duration = plan.durationDays {
-                headerView.daysLabel.hidden = false
-                headerView.daysImageView.hidden = false
+                headerView.daysLabel.isHidden = false
+                headerView.daysImageView.isHidden = false
                 if duration == 1 {
                     headerView.daysLabel.text = "\(duration) Day"
                 } else {
@@ -604,8 +628,8 @@ class PlanSummaryViewController: UITableViewController {
             }
             
             if let activities = plan.experiences?.count {
-                headerView.activitiesLabel.hidden = false
-                headerView.activitiesImageView.hidden = false
+                headerView.activitiesLabel.isHidden = false
+                headerView.activitiesImageView.isHidden = false
                 if activities == 1 {
                     headerView.activitiesLabel.text = "\(activities) Activity"
                 } else {
@@ -621,8 +645,8 @@ class PlanSummaryViewController: UITableViewController {
             headerView.titleLabel.text = place.city
             
             if let duration = place.durationDays {
-                headerView.daysLabel.hidden = false
-                headerView.daysImageView.hidden = false
+                headerView.daysLabel.isHidden = false
+                headerView.daysImageView.isHidden = false
 
                 if duration == 1 {
                     headerView.daysLabel.text = "\(duration) Day"
@@ -632,8 +656,8 @@ class PlanSummaryViewController: UITableViewController {
             }
             
             if let activities = experiencesByPlace[place.id]?.count {
-                headerView.activitiesLabel.hidden = false
-                headerView.activitiesImageView.hidden = false
+                headerView.activitiesLabel.isHidden = false
+                headerView.activitiesImageView.isHidden = false
 
                 if activities == 1 {
                     headerView.activitiesLabel.text = "\(activities) Activity"
@@ -647,7 +671,7 @@ class PlanSummaryViewController: UITableViewController {
 
     }
     
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch section {
         case SummaryTitles.Start.section:
             return 0
@@ -658,26 +682,26 @@ class PlanSummaryViewController: UITableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section > 1 {
-            let cell = tableView.cellForRowAtIndexPath(indexPath) as! ExperienceTableViewCell
+            let cell = tableView.cellForRow(at: indexPath) as! ExperienceTableViewCell
             let eventDetails = EventDetailsTableViewController()
             eventDetails.experience = cell.experience
             
-            showViewController(eventDetails, sender: nil)
+            show(eventDetails, sender: nil)
 
         }
     }
     
-    func parseTags(planTags: [String], comma: Bool) -> String {
+    func parseTags(_ planTags: [String], comma: Bool) -> String {
         
         var tags = ""
 
         for tagName in planTags {
             if comma == true {
-                tags = tags.stringByAppendingString("\(tagName), ")
+                tags = tags + "\(tagName), "
             } else {
-                tags = tags.stringByAppendingString("#\(tagName) ")
+                tags = tags + "#\(tagName) "
             }
         }
         
@@ -689,13 +713,13 @@ class PlanSummaryViewController: UITableViewController {
 
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         stopTimer()
     }
 
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         
@@ -705,7 +729,7 @@ class PlanSummaryViewController: UITableViewController {
         configureLabel(startSecondsLabel)
         
         if let plan = self.plan {
-            self.navigationItem.title = plan.name?.uppercaseString
+            self.navigationItem.title = plan.name?.uppercased()
             
             coverImageView.plangoImage(plan)
             
@@ -720,7 +744,7 @@ class PlanSummaryViewController: UITableViewController {
                     locationText = city
                 }
                 if let country = places.first?.country {
-                    locationText = locationText.stringByAppendingString(", \(country)")
+                    locationText = locationText + ", \(country)"
                 }
                 locationNameLabel.text = locationText
                 
@@ -731,7 +755,7 @@ class PlanSummaryViewController: UITableViewController {
                 //                let cleanedPlaces = String(allPlaces.characters.dropLast(2))
             }
                         
-            guard let days = plan.durationDays else {durationLabel.hidden = true; return}
+            guard let days = plan.durationDays else {durationLabel.isHidden = true; return}
             
             if days == 1 {
                 durationLabel.text = "\(days.description) Day"
@@ -740,7 +764,7 @@ class PlanSummaryViewController: UITableViewController {
             }
             
             guard let startDate = plan.startDate else {return}
-            startTimer(startDate)
+            startTimer(startDate as Date)
         }
         weather()
 
@@ -755,27 +779,27 @@ class PlanSummaryViewController: UITableViewController {
     
     func timerDidFire() {
         if let startDate = plan.startDate {
-            startTimer(startDate)
+            startTimer(startDate as Date)
         }
     }
     
-    func startTimer(startDate: NSDate) {
-        let today = NSDate()
-        calendar.timeZone = NSTimeZone.localTimeZone()
+    func startTimer(_ startDate: Date) {
+        let today = Date()
+        calendar.timeZone = TimeZone.autoupdatingCurrent
         
-        days = calendar.components(.Day, fromDate: today, toDate: startDate, options: []).day
+        days = (calendar as Calendar).dateComponents(.day, from: today, to: startDate, options: []).day!
         
-        let startMinusDays = calendar.dateByAddingUnit(.Day, value: -days, toDate: startDate, options: [])
+        let startMinusDays = (calendar as Calendar).date(byAdding: .day, value: -days, to: startDate, options: [])
         
-        hours = calendar.components(.Hour, fromDate: today, toDate: startMinusDays!, options: []).hour
+        hours = (calendar as Calendar).dateComponents(.hour, from: today, to: startMinusDays!, options: []).hour!
         
-        let startMinusHours = calendar.dateByAddingUnit(.Hour, value: -hours, toDate: startMinusDays!, options: [])
+        let startMinusHours = (calendar as Calendar).date(byAdding: .hour, value: -hours, to: startMinusDays!, options: [])
 
-        minutes = calendar.components(.Minute, fromDate: today, toDate: startMinusHours!, options: []).minute
+        minutes = (calendar as Calendar).dateComponents(.minute, from: today, to: startMinusHours!, options: []).minute!
         
-        let startMinusMinutes = calendar.dateByAddingUnit(.Minute, value: -minutes, toDate: startMinusHours!, options: [])
+        let startMinusMinutes = (calendar as Calendar).date(byAdding: .minute, value: -minutes, to: startMinusHours!, options: [])
         
-        seconds = calendar.components(.Second, fromDate: today, toDate: startMinusMinutes!, options: []).second
+        seconds = (calendar as Calendar).dateComponents(.second, from: today, to: startMinusMinutes!, options: []).second!
         
         if days > 0 || hours > 0 || minutes > 0 || seconds > 0 {
             startDaysLabel.text = days.description
@@ -795,8 +819,8 @@ class PlanSummaryViewController: UITableViewController {
         }
     }
     
-    func configureLabel(label: UILabel) {
-        label.layer.borderColor = UIColor.plangoBackgroundGray().CGColor
+    func configureLabel(_ label: UILabel) {
+        label.layer.borderColor = UIColor.plangoBackgroundGray().cgColor
         label.layer.borderWidth = 1
         
     }
@@ -810,7 +834,7 @@ class PlanSummaryViewController: UITableViewController {
         guard (plan.experiences?.count > 0) else {self.view.quickToast("No Activities for this Plan"); return}
         let itineraryVC = ItineraryViewController()
         itineraryVC.plan = self.plan
-        self.showViewController(itineraryVC, sender: nil)
+        self.show(itineraryVC, sender: nil)
     }
     
     func didTapMap() {
@@ -825,7 +849,7 @@ class PlanSummaryViewController: UITableViewController {
         guard let members = plan.members else {self.view.quickToast("No Members"); return}
         let membersVC = PlanMembersTableViewController()
         membersVC.members = members
-        showViewController(membersVC, sender: nil)
+        show(membersVC, sender: nil)
     }
     
     //MARK: - Map Download without viewing map
@@ -833,20 +857,20 @@ class PlanSummaryViewController: UITableViewController {
     deinit {
         //        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidBecomeActiveNotification, object: nil)
         if myPlan == true {
-            MGLOfflineStorage.sharedOfflineStorage().removeObserver(self, forKeyPath: "packs")
+            MGLOfflineStorage.shared().removeObserver(self, forKeyPath: "packs")
         }
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
 extension PlanSummaryViewController: MGLMapViewDelegate {
     
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "packs" {
             if let change = change {
 
-                let kind = change[NSKeyValueChangeKindKey]?.integerValue
-                if kind == Int(NSKeyValueChange.Setting.rawValue) {
+                let kind = (change[NSKeyValueChangeKey.kindKey]? as AnyObject).intValue
+                if kind == Int(NSKeyValueChange.setting.rawValue) {
                     
                     //only check if its false, to perhaps prevent double firing
                     if planDownloaded == false {
@@ -866,7 +890,7 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
         }
     }
     
-    func cachePlanImages(plan: Plan) {
+    func cachePlanImages(_ plan: Plan) {
         downloadImage(plan)
         guard let experiences = plan.experiences else {return}
         for experience in experiences {
@@ -877,20 +901,20 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
             }
         }
         
-        dispatch_group_notify(myGroup, dispatch_get_main_queue(), {
+        myGroup.notify(queue: DispatchQueue.main, execute: {
             StoredPlan.savePlan(plan, mapSize: "72.7Mb") //avg size when we dont know the actual size because user let download finish on another screen
         })
     }
     
-    func downloadImage(object: PlangoObject) {
+    func downloadImage(_ object: PlangoObject) {
         guard let endPoint = object.avatar else {return}
-        guard let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint)) else {return}
-        dispatch_group_enter(myGroup)
+        guard let cleanURL = URL(string: Plango.sharedInstance.cleanEndPoint(endPoint)) else {return}
+        myGroup.enter()
 
         //download and set avatar
-        let request = NSURLRequest(URL: cleanURL)
+        let request = URLRequest(url: cleanURL)
         downloader.downloadImage(URLRequest: request, completion: { (response) in
-            dispatch_group_leave(self.myGroup)
+            self.myGroup.leave()
             if response.result.isSuccess {
                 if let image = response.result.value {
                     let imageData = UIImageJPEGRepresentation(image, 1.0)
@@ -902,7 +926,7 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
     
     func setupDownload() {
         mapView = MGLMapView(frame: self.view.bounds)
-        mapView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapView.delegate = self
         
         let pointsAndPlaces = MapViewController.getPlacesFromExperiences(plan.experiences)
@@ -918,12 +942,12 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
             mapView.zoomLevel = 14
         }
         
-        MGLOfflineStorage.sharedOfflineStorage().addObserver(self, forKeyPath: "packs", options: NSKeyValueObservingOptions.New, context: nil)
+        MGLOfflineStorage.shared().addObserver(self, forKeyPath: "packs", options: NSKeyValueObservingOptions.new, context: nil)
         
         // Setup offline pack notification handlers.
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MapViewController.offlinePackProgressDidChange(_:)), name: MGLOfflinePackProgressChangedNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MapViewController.offlinePackDidReceiveError(_:)), name: MGLOfflinePackErrorNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MapViewController.offlinePackDidReceiveMaximumAllowedMapboxTiles(_:)), name: MGLOfflinePackMaximumMapboxTilesReachedNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MapViewController.offlinePackProgressDidChange(_:)), name: NSNotification.Name.MGLOfflinePackProgressChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MapViewController.offlinePackDidReceiveError(_:)), name: NSNotification.Name.MGLOfflinePackError, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MapViewController.offlinePackDidReceiveMaximumAllowedMapboxTiles(_:)), name: NSNotification.Name.MGLOfflinePackMaximumMapboxTilesReached, object: nil)
         
     }
     
@@ -941,12 +965,12 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
         
         //metadata for local storage
         let userInfo: NSDictionary = ["planID" : plan.id]
-        let context = NSKeyedArchiver.archivedDataWithRootObject(userInfo)
+        let context = NSKeyedArchiver.archivedData(withRootObject: userInfo)
         
         //create and regsiter offline pack with the shared singleton storage object
-        MGLOfflineStorage.sharedOfflineStorage().addPackForRegion(region, withContext: context) { (pack, error) in
+        MGLOfflineStorage.shared().addPack(for: region, withContext: context) { (pack, error) in
             guard error == nil else {
-                self.printError(error!)
+                self.printError(error! as NSError)
                 return
             }
             //start downloading
@@ -956,11 +980,11 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
     
     // MARK: - MGLOfflinePack notification handlers
     
-    func offlinePackProgressDidChange(notification: NSNotification) {
+    func offlinePackProgressDidChange(_ notification: Foundation.Notification) {
         // Get the offline pack this notification is regarding,
         // and the associated user info for the pack; in this case, `name = My Offline Pack`
         if let pack = notification.object as? MGLOfflinePack,
-            userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? [String: String] {
+            let userInfo = NSKeyedUnarchiver.unarchiveObject(with: pack.context) as? [String: String] {
             let progress = pack.progress
             // or notification.userInfo![MGLOfflinePackProgressUserInfoKey]!.MGLOfflinePackProgressValue
             let completedResources = progress.countOfResourcesCompleted
@@ -971,15 +995,15 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
             
             // Setup the progress bar if its right plan controller
             if userInfo["planID"] == plan.id {
-                progressView.hidden = false
+                progressView.isHidden = false
                 progressView.progress = progressPercentage
             }
             
             
             // If this pack has finished, print its size and resource count.
             if completedResources == expectedResources {
-                progressView.hidden = true
-                let byteCount = NSByteCountFormatter.stringFromByteCount(Int64(pack.progress.countOfBytesCompleted), countStyle: NSByteCountFormatterCountStyle.Memory)
+                progressView.isHidden = true
+                let byteCount = ByteCountFormatter.string(fromByteCount: Int64(pack.progress.countOfBytesCompleted), countStyle: ByteCountFormatter.CountStyle.memory)
 
                 //check and make sure user is on correct plan controller viewing the plan that is being downloaded
                 if userInfo["planID"] == plan.id {
@@ -1005,18 +1029,18 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
         }
     }
     
-    func offlinePackDidReceiveError(notification: NSNotification) {
+    func offlinePackDidReceiveError(_ notification: Foundation.Notification) {
         if let pack = notification.object as? MGLOfflinePack,
-            userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? [String: String],
-            error = notification.userInfo?[MGLOfflinePackErrorUserInfoKey] as? NSError {
+            let userInfo = NSKeyedUnarchiver.unarchiveObject(with: pack.context) as? [String: String],
+            let error = notification.userInfo?[MGLOfflinePackErrorUserInfoKey] as? NSError {
             print("Offline pack “\(userInfo["name"])” received error: \(error.localizedFailureReason)")
         }
     }
     
-    func offlinePackDidReceiveMaximumAllowedMapboxTiles(notification: NSNotification) {
+    func offlinePackDidReceiveMaximumAllowedMapboxTiles(_ notification: Foundation.Notification) {
         if let pack = notification.object as? MGLOfflinePack,
-            userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(pack.context) as? [String: String],
-            maximumCount = notification.userInfo?[MGLOfflinePackMaximumCountUserInfoKey]?.unsignedLongLongValue {
+            let userInfo = NSKeyedUnarchiver.unarchiveObject(with: pack.context) as? [String: String],
+            let maximumCount = (notification.userInfo?[MGLOfflinePackMaximumCountUserInfoKey] as AnyObject).uint64Value {
             print("Offline pack “\(userInfo["name"])” reached limit of \(maximumCount) tiles.")
         }
     }

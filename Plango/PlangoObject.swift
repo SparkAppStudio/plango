@@ -54,7 +54,7 @@ class PlangoObject: NSObject {
     
     var id: String!
     var avatar: String?
-    var localAvatar: NSData?
+    var localAvatar: Data?
 
 
     convenience init(id: String) {

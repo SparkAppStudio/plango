@@ -8,6 +8,30 @@
 
 import UIKit
 import MXSegmentedPager
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class ItineraryViewController: MXSegmentedPagerController {
     
@@ -27,16 +51,16 @@ class ItineraryViewController: MXSegmentedPagerController {
     var plan: Plan!
     
     //derived dates when plan doesnt have info
-    var minDate = NSDate()
-    var maxDate = NSDate()
+    var minDate = Date()
+    var maxDate = Date()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.extendedLayoutIncludesOpaqueBars = false
-        self.edgesForExtendedLayout = .None
-        self.navigationItem.title = "Itinerary".uppercaseString
+        self.edgesForExtendedLayout = UIRectEdge()
+        self.navigationItem.title = "Itinerary".uppercased()
         
-        let mapBarButton = UIBarButtonItem(image: UIImage(named: "map"), style: .Plain, target: self, action: #selector(didTapMap))
+        let mapBarButton = UIBarButtonItem(image: UIImage(named: "map"), style: .plain, target: self, action: #selector(didTapMap))
         self.navigationItem.rightBarButtonItem = mapBarButton
         
         // Parallax Header
@@ -54,11 +78,11 @@ class ItineraryViewController: MXSegmentedPagerController {
         self.segmentedPager.backgroundColor = UIColor.plangoBackgroundGray()
         
         // Segmented Control customization
-        self.segmentedPager.segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown
-        self.segmentedPager.segmentedControl.backgroundColor = UIColor.whiteColor()
+        self.segmentedPager.segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocation.down
+        self.segmentedPager.segmentedControl.backgroundColor = UIColor.white
         self.segmentedPager.segmentedControl.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.plangoTypeSectionHeaderGray(), NSFontAttributeName: UIFont.plangoHeader()]
         self.segmentedPager.segmentedControl.selectedTitleTextAttributes = [NSForegroundColorAttributeName : UIColor.plangoTypeSectionHeaderGray(), NSFontAttributeName: UIFont.plangoHeader()]
-        self.segmentedPager.segmentedControl.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe
+        self.segmentedPager.segmentedControl.selectionStyle = HMSegmentedControlSelectionStyle.fullWidthStripe
         self.segmentedPager.segmentedControl.selectionIndicatorColor = UIColor.plangoOrange()
         
         // Register reuse page
@@ -67,34 +91,34 @@ class ItineraryViewController: MXSegmentedPagerController {
         guard let plan = plan else {return}
         
         //derive days from events
-        let calendar = NSCalendar.currentCalendar()
-        calendar.timeZone = NSTimeZone.localTimeZone()
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone.autoupdatingCurrent
         
         guard let events = plan.events else {return}
         
         //setup baseline dates, ideally only loops once and then breaks, but written this way in case first events dont have dates but subsequent ones do
         for event in events {
             guard let startDate = event.startDate else {continue}
-            minDate = startDate
-            maxDate = startDate
+            minDate = startDate as Date
+            maxDate = startDate as Date
             break
         }
         
         //find actual min and max
         for event in events {
             guard let startDate = event.startDate else {continue}
-            if startDate < minDate {
-                minDate = startDate
+            if startDate as Date < minDate {
+                self.minDate = startDate as Date
             }
-            if startDate > maxDate {
-                maxDate = startDate
+            if startDate as Date > maxDate {
+                maxDate = startDate as Date
             }
         }
         
         var days = Int()
         
-        let hours = calendar.components(.Hour, fromDate: minDate, toDate: maxDate, options: []).hour
-        let exactDays: Double = Double(hours) / Double(24)
+        let hours = (calendar as NSCalendar).components(.hour, from: minDate, to: maxDate, options: []).hour
+        let exactDays: Double = Double(hours!) / Double(24)
         days = Int(ceil(exactDays))
         if days == 0 {
             days = 1
@@ -105,7 +129,7 @@ class ItineraryViewController: MXSegmentedPagerController {
         }
         
         for item in 1...days {
-            titlesArray.addObject("Day \(item)")
+            titlesArray.add("Day \(item)")
         }
     }
     
@@ -141,18 +165,18 @@ class ItineraryViewController: MXSegmentedPagerController {
     
     // MARK: - MXSegmentedPagerDelegate
     
-    override func heightForSegmentedControlInSegmentedPager(segmentedPager: MXSegmentedPager) -> CGFloat {
+    override func heightForSegmentedControl(in segmentedPager: MXSegmentedPager) -> CGFloat {
         return Helper.HeaderHeight.pager.value
     }
     
-    override func segmentedPager(segmentedPager: MXSegmentedPager, didScrollWithParallaxHeader parallaxHeader: MXParallaxHeader) {
+    override func segmentedPager(_ segmentedPager: MXSegmentedPager, didScrollWith parallaxHeader: MXParallaxHeader) {
         //use or override for refresh effect
     }
     
     
     // MARK: - MXSegmentedpagerDataSource
     
-    override func numberOfPagesInSegmentedPager(segmentedPager: MXSegmentedPager) -> Int {
+    override func numberOfPages(in segmentedPager: MXSegmentedPager) -> Int {
         if titlesArray.count == 0 {
             return 1
         } else {
@@ -160,7 +184,7 @@ class ItineraryViewController: MXSegmentedPagerController {
         }
     }
     
-    override func segmentedPager(segmentedPager: MXSegmentedPager, titleForSectionAtIndex index: Int) -> String {
+    override func segmentedPager(_ segmentedPager: MXSegmentedPager, titleForSectionAt index: Int) -> String {
         if titlesArray.count == 0 {
             return "Unknown"
         } else {
@@ -168,12 +192,12 @@ class ItineraryViewController: MXSegmentedPagerController {
         }
     }
     
-    override func segmentedPager(segmentedPager: MXSegmentedPager, viewControllerForPageAtIndex index: Int) -> UIViewController {
+    override func segmentedPager(_ segmentedPager: MXSegmentedPager, viewControllerForPageAt index: Int) -> UIViewController {
         
         let eventsTableViewController = ItineraryTableViewController()
         
         self.addChildViewController(eventsTableViewController)
-        eventsTableViewController.didMoveToParentViewController(self)
+        eventsTableViewController.didMove(toParentViewController: self)
 
         guard let plan = plan else {return eventsTableViewController}
         guard let events = plan.events else {return eventsTableViewController}
@@ -182,22 +206,22 @@ class ItineraryViewController: MXSegmentedPagerController {
         var eventsForTheDay = [Event]()
         var experiencesForTheDay = [Experience]()
 
-        let calendar = NSCalendar.currentCalendar()
-        calendar.timeZone = NSTimeZone.localTimeZone()
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone.autoupdatingCurrent
         
-        var startDate = NSDate()
+        var startDate = Date()
 //        if plan.startDate != nil {
 //            startDate = plan.startDate!
 //        } else {
             startDate = minDate
 //        }
         
-        let indexDate = calendar.dateByAddingUnit(.Day, value: index, toDate: startDate, options: [])
+        let indexDate = (calendar as NSCalendar).date(byAdding: .day, value: index, to: startDate, options: [])
         
-        let indexDay = calendar.component(.Day, fromDate: indexDate!)
+        let indexDay = (calendar as NSCalendar).component(.day, from: indexDate!)
         
         for event in events {
-            let eventDay = calendar.component(.Day, fromDate: event.startDate!)
+            let eventDay = (calendar as NSCalendar).component(.day, from: event.startDate! as Date)
             
             if eventDay == indexDay {
                 eventsForTheDay.append(event)
@@ -206,7 +230,7 @@ class ItineraryViewController: MXSegmentedPagerController {
         
         
         //sort events chronologically
-        eventsForTheDay.sortInPlace({ $0.startDate < $1.startDate })
+        eventsForTheDay.sort(by: { $0.startDate < $1.startDate })
 
         for event in eventsForTheDay {
             for experience in experiences {

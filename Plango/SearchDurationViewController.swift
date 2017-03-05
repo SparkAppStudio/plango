@@ -41,9 +41,9 @@ class SearchDurationViewController: UIViewController, UIPickerViewDelegate, UIPi
         if didUpdateConstraints == false {
 //            guard let parent = parentViewController else {return}
             pickerView.snp_makeConstraints { (make) in
-                make.width.equalTo(UIScreen.mainScreen().bounds.width)
+                make.width.equalTo(UIScreen.main.bounds.width)
                 make.top.equalTo(self.topLayoutGuide)
-                make.height.equalTo(UIScreen.mainScreen().bounds.height - 260)
+                make.height.equalTo(UIScreen.main.bounds.height - 260)
             }
             didUpdateConstraints = true
         }
@@ -54,11 +54,11 @@ class SearchDurationViewController: UIViewController, UIPickerViewDelegate, UIPi
     
     
     
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 2
     }
     
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch component {
         case 0:
             return minDays.count
@@ -67,7 +67,7 @@ class SearchDurationViewController: UIViewController, UIPickerViewDelegate, UIPi
         }
     }
     
-    func pickerView(pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         var title = String()
         switch component {
         case 0:
@@ -79,7 +79,7 @@ class SearchDurationViewController: UIViewController, UIPickerViewDelegate, UIPi
         return NSAttributedString(string: title, attributes: [NSForegroundColorAttributeName : UIColor.plangoText(), NSFontAttributeName : UIFont.plangoBodyBig()])
     }
     
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch component {
         case 0:
             if row == 0 {

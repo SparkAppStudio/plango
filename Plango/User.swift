@@ -32,45 +32,45 @@ class User: NSObject, NSCoding {
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
-       let tempID = aDecoder.decodeObjectForKey("id") as! String
+       let tempID = aDecoder.decodeObject(forKey: "id") as! String
         self.init(id: tempID)
-        self.userName = aDecoder.decodeObjectForKey("userName") as? String
-        self.displayName = aDecoder.decodeObjectForKey("displayName") as? String
-        self.email = aDecoder.decodeObjectForKey("email") as? String
-        self.avatar = aDecoder.decodeObjectForKey("avatar") as? String
-        self.plans = aDecoder.decodeObjectForKey("plans") as? NSArray
-        self.invites = aDecoder.decodeInt32ForKey("invites")
-        self.admin = aDecoder.decodeBoolForKey("admin")
-        self.confirmed = aDecoder.decodeBoolForKey("confirmed")
-        self.showPlan = aDecoder.decodeBoolForKey("showPlan")
-        self.showSum = aDecoder.decodeBoolForKey("showSum")
+        self.userName = aDecoder.decodeObject(forKey: "userName") as? String
+        self.displayName = aDecoder.decodeObject(forKey: "displayName") as? String
+        self.email = aDecoder.decodeObject(forKey: "email") as? String
+        self.avatar = aDecoder.decodeObject(forKey: "avatar") as? String
+        self.plans = aDecoder.decodeObject(forKey: "plans") as? NSArray
+        self.invites = aDecoder.decodeInt32(forKey: "invites")
+        self.admin = aDecoder.decodeBool(forKey: "admin")
+        self.confirmed = aDecoder.decodeBool(forKey: "confirmed")
+        self.showPlan = aDecoder.decodeBool(forKey: "showPlan")
+        self.showSum = aDecoder.decodeBool(forKey: "showSum")
     }
     
-    func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(id, forKey: "id")
-        aCoder.encodeObject(userName, forKey: "userName")
-        aCoder.encodeObject(displayName, forKey: "displayName")
-        aCoder.encodeObject(email, forKey: "email")
-        aCoder.encodeObject(avatar, forKey: "avatar")
-        aCoder.encodeObject(plans, forKey: "plans")
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(id, forKey: "id")
+        aCoder.encode(userName, forKey: "userName")
+        aCoder.encode(displayName, forKey: "displayName")
+        aCoder.encode(email, forKey: "email")
+        aCoder.encode(avatar, forKey: "avatar")
+        aCoder.encode(plans, forKey: "plans")
         if let invites = invites {
-            aCoder.encodeInt32(invites, forKey: "invites")
+            aCoder.encode(invites, forKey: "invites")
         }
         if let admin = admin {
-            aCoder.encodeBool(admin, forKey: "admin")
+            aCoder.encode(admin, forKey: "admin")
         }
         if let confirmed = confirmed {
-            aCoder.encodeBool(confirmed, forKey: "confirmed")
+            aCoder.encode(confirmed, forKey: "confirmed")
         }
         if let showPlan = showPlan {
-            aCoder.encodeBool(showPlan, forKey: "showPlan")
+            aCoder.encode(showPlan, forKey: "showPlan")
         }
         if let showSum = showSum {
-            aCoder.encodeBool(showSum, forKey: "showSum")
+            aCoder.encode(showSum, forKey: "showSum")
         }
     }
     
-    class func getUsersFromJSON(objectJSON: JSON) -> [User] {
+    class func getUsersFromJSON(_ objectJSON: JSON) -> [User] {
         var tempUsers = [User?]()
         
         if let array = objectJSON["data"].arrayObject {
@@ -79,14 +79,14 @@ class User: NSObject, NSCoding {
                 tempUsers.append(createUser(dictionary))
             }
         } else if let dictionary = objectJSON["data"].dictionaryObject {
-            tempUsers.append(createUser(dictionary))
+            tempUsers.append(createUser(dictionary as NSDictionary))
         }
         
         //remote nil users
         return tempUsers.flatMap { $0 }
     }
     
-    class func createUser(dictionary: NSDictionary) -> User? {
+    class func createUser(_ dictionary: NSDictionary) -> User? {
         let tempID = dictionary["_id"] as! String
         let newUser = User(id: tempID)
         newUser.userName = dictionary["username"] as? String

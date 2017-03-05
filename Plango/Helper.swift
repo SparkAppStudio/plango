@@ -13,12 +13,12 @@ class Helper: NSObject {
     enum PhotoSize: Int {
         //        case Chat
         //        case Profile
-        case General
+        case general
         var value: CGFloat {
             switch self {
                 //            case .Chat: return 400
                 //            case .Profile: return 200
-            case .General: return 800
+            case .general: return 800
             }
         }
     }
@@ -41,8 +41,8 @@ class Helper: NSObject {
         case reviews
         var value: CGFloat {
             switch self {
-            case .wideScreen: return UIScreen.mainScreen().bounds.size.width * (9/16)
-            case .superWide: return UIScreen.mainScreen().bounds.size.width * (9/21)
+            case .wideScreen: return UIScreen.main.bounds.size.width * (9/16)
+            case .superWide: return UIScreen.main.bounds.size.width * (9/21)
             case .plans: return 114
             case .reviews: return 80
             }
@@ -70,9 +70,9 @@ class Helper: NSObject {
     
     static func isConnectedToNetwork() -> Bool {
         var zeroAddress = sockaddr_in()
-        zeroAddress.sin_len = UInt8(sizeofValue(zeroAddress))
+        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
         zeroAddress.sin_family = sa_family_t(AF_INET)
-        let defaultRouteReachability = withUnsafePointer(&zeroAddress) {
+        let defaultRouteReachability = withUnsafePointer(to: &zeroAddress) {
             SCNetworkReachabilityCreateWithAddress(nil, UnsafePointer($0))
         }
         var flags = SCNetworkReachabilityFlags()
@@ -84,25 +84,25 @@ class Helper: NSObject {
         return (isReachable && !needsConnection)
     }
     
-    static func errorMessage(classType: NSObject, error: NSError?, message: String?) -> String {
+    static func errorMessage(_ classType: NSObject, error: NSError?, message: String?) -> String {
         return "In \(classType.classForCoder) Error: \(error) Message: \(message)"
     }
     
-    static func textIsValid(textField: UITextField, sender: Bool) {
+    static func textIsValid(_ textField: UITextField, sender: Bool) {
         textField.layer.borderWidth = 3.0
         
         if sender == true {
-            textField.layer.borderColor = UIColor.redColor().CGColor
+            textField.layer.borderColor = UIColor.red.cgColor
         } else {
-            textField.layer.borderColor = UIColor.greenColor().CGColor
+            textField.layer.borderColor = UIColor.green.cgColor
         }
     }
     
-    static func invalidCharacterMessage(character: String) -> String {
+    static func invalidCharacterMessage(_ character: String) -> String {
         return "Can't use '\(character)'"
     }
     
-    static func isValidSearchWithErrors(existingText: String?, possibleNewCharacter: String) -> String? {
+    static func isValidSearchWithErrors(_ existingText: String?, possibleNewCharacter: String) -> String? {
         if let text = existingText {
             if text.characters.count + possibleNewCharacter.characters.count > 50 {
                 return "Search is too long"
@@ -111,7 +111,7 @@ class Helper: NSObject {
         return nil
     }
     
-    static func isValidEmailWithErrors(existingText: String?, possibleNewCharacter: String) -> String? {
+    static func isValidEmailWithErrors(_ existingText: String?, possibleNewCharacter: String) -> String? {
         if let text = existingText {
             if text.characters.count + possibleNewCharacter.characters.count > 30 {
                 return "Email is too long"
@@ -124,7 +124,7 @@ class Helper: NSObject {
         return nil
     }
     
-    static func isValidPasswordWithErrors(existingText: String?, possibleNewCharacter: String) -> String? {
+    static func isValidPasswordWithErrors(_ existingText: String?, possibleNewCharacter: String) -> String? {
         if let text = existingText {
             if text.characters.count + possibleNewCharacter.characters.count > 20 {
                 return "Password is too long"
@@ -137,7 +137,7 @@ class Helper: NSObject {
         return nil
     }
     
-    static func isValidUserNameWithErrors(existingText: String?, possibleNewCharacter: String) -> String? {
+    static func isValidUserNameWithErrors(_ existingText: String?, possibleNewCharacter: String) -> String? {
         if let text = existingText {
             if text.characters.count + possibleNewCharacter.characters.count > 20 {
                 return "Username is too long"
@@ -152,7 +152,7 @@ class Helper: NSObject {
         return nil
     }
     
-    static func isValidTweetWithErrors(existingText: String?, possibleNewCharacter: String) -> String? {
+    static func isValidTweetWithErrors(_ existingText: String?, possibleNewCharacter: String) -> String? {
         if let text = existingText {
             
             if (text.characters.count + possibleNewCharacter.characters.count) > 140 {
@@ -162,14 +162,14 @@ class Helper: NSObject {
         return nil
     }
     
-    static func cellsFitAcrossScreen(numberOfCells: Int, labelHeight: CGFloat, itemSpacing: CGFloat, sectionInsetLeft: CGFloat, sectionInsetRight: CGFloat) -> CGSize {
+    static func cellsFitAcrossScreen(_ numberOfCells: Int, labelHeight: CGFloat, itemSpacing: CGFloat, sectionInsetLeft: CGFloat, sectionInsetRight: CGFloat) -> CGSize {
         //using hardwired info get proper spacing for cells across entire screen
         let insideMargin = itemSpacing
         let outsideMargins = sectionInsetLeft + sectionInsetRight
         let numberOfDivisions: Int = numberOfCells - 1
         let subtractionForMargins: CGFloat = insideMargin * CGFloat(numberOfDivisions) + outsideMargins
         
-        let fittedWidth = (UIScreen.mainScreen().bounds.width - subtractionForMargins) / CGFloat(numberOfCells)
+        let fittedWidth = (UIScreen.main.bounds.width - subtractionForMargins) / CGFloat(numberOfCells)
         return CGSize(width: fittedWidth, height: fittedWidth + labelHeight)
     }
 }

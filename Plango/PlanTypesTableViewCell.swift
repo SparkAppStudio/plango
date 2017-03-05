@@ -20,12 +20,12 @@ class PlanTypesTableViewCell: UITableViewCell {
         let margin = (Helper.CellHeight.superWide.value - layout.itemSize.height) / 2
         layout.sectionInset = UIEdgeInsetsMake(0, margin, 0, margin)
         layout.minimumLineSpacing = margin
-        layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
+        layout.scrollDirection = UICollectionViewScrollDirection.horizontal
         
-        collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout)
+        collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         
         let typeNib = UINib(nibName: "TypeCell", bundle: nil)
-        collectionView?.registerNib(typeNib, forCellWithReuseIdentifier: CellID.SpecificType.rawValue)
+        collectionView?.register(typeNib, forCellWithReuseIdentifier: CellID.SpecificType.rawValue)
         collectionView.showsHorizontalScrollIndicator = false
         contentView.addSubview(collectionView)
     }
@@ -38,11 +38,11 @@ class PlanTypesTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         collectionView.frame = self.contentView.bounds
-        collectionView.backgroundColor = UIColor.whiteColor()
+        collectionView.backgroundColor = UIColor.white
     }
     
     
-    func configureWithDataSourceDelegate(dataSourceDelegate delegate: protocol<UICollectionViewDataSource, UICollectionViewDelegate>) {
+    func configureWithDataSourceDelegate(dataSourceDelegate delegate: UICollectionViewDataSource & UICollectionViewDelegate) {
         collectionView.dataSource = delegate
         collectionView.delegate = delegate
         collectionView.reloadData()

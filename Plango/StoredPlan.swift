@@ -15,19 +15,19 @@ class StoredPlan: PlangoStoredObject {
     dynamic var mapSize: String?
     dynamic var name: String?
     dynamic var avatar: String?
-    dynamic var localAvatar: NSData?
+    dynamic var localAvatar: Data?
     dynamic var planDescription: String?
     let isPublic = RealmOptional<Bool>()
     
     dynamic var authorID: String?
     
     let durationDays = RealmOptional<Int>()
-    dynamic var startDate: NSDate?
-    dynamic var endDate: NSDate?
+    dynamic var startDate: Date?
+    dynamic var endDate: Date?
     
-    dynamic var lastViewedDate: NSDate?
-    dynamic var lastUpdatedDate: NSDate?
-    dynamic var createdDate: NSDate?
+    dynamic var lastViewedDate: Date?
+    dynamic var lastUpdatedDate: Date?
+    dynamic var createdDate: Date?
     
     let viewCount = RealmOptional<Int>()
     let usedCount = RealmOptional<Int>()
@@ -41,7 +41,7 @@ class StoredPlan: PlangoStoredObject {
     let experiences = List<StoredExperience>()
     dynamic var plangoFavorite: String?
     
-    class func unpackStoredPlan(plan: StoredPlan) -> Plan {
+    class func unpackStoredPlan(_ plan: StoredPlan) -> Plan {
         let savedPlan = Plan()
         savedPlan.id = plan.id
         savedPlan.name = plan.name
@@ -189,22 +189,22 @@ class StoredPlan: PlangoStoredObject {
         return savedPlan
     }
     
-    class func savePlan(plan: Plan, mapSize: String) {
+    class func savePlan(_ plan: Plan, mapSize: String) {
         let savedPlan = StoredPlan()
         savedPlan.id = plan.id
         savedPlan.name = plan.name
         savedPlan.mapSize = mapSize
         savedPlan.avatar = plan.avatar
-        savedPlan.localAvatar = plan.localAvatar
+        savedPlan.localAvatar = plan.localAvatar as Data?
         savedPlan.planDescription = plan.planDescription
         savedPlan.isPublic.value = plan.isPublic
         savedPlan.authorID = plan.authorID
         savedPlan.durationDays.value = plan.durationDays
-        savedPlan.startDate = plan.startDate
-        savedPlan.endDate = plan.endDate
-        savedPlan.lastViewedDate = plan.lastViewedDate
-        savedPlan.lastUpdatedDate = plan.lastUpdatedDate
-        savedPlan.createdDate = plan.createdDate
+        savedPlan.startDate = plan.startDate as Date?
+        savedPlan.endDate = plan.endDate as Date?
+        savedPlan.lastViewedDate = plan.lastViewedDate as Date?
+        savedPlan.lastUpdatedDate = plan.lastUpdatedDate as Date?
+        savedPlan.createdDate = plan.createdDate as Date?
         savedPlan.viewCount.value = plan.viewCount
         savedPlan.usedCount.value = plan.usedCount
         
@@ -253,7 +253,7 @@ class StoredPlan: PlangoStoredObject {
                 storedItem.id = item.id
                 storedItem.experienceID = item.experienceID
                 storedItem.duration.value = item.duration
-                storedItem.startDate = item.startDate
+                storedItem.startDate = item.startDate as Date?
                 storedItem.allDay.value = item.allDay
                 savedPlan.events.append(storedItem)
             }
@@ -267,8 +267,8 @@ class StoredPlan: PlangoStoredObject {
                 storedItem.state = item.state
                 storedItem.country = item.country
                 storedItem.notes = item.notes
-                storedItem.startDate = item.startDate
-                storedItem.endDate = item.endDate
+                storedItem.startDate = item.startDate as Date?
+                storedItem.endDate = item.endDate as Date?
                 storedItem.durationDays.value = item.durationDays
                 savedPlan.places.append(storedItem)
             }
@@ -282,7 +282,7 @@ class StoredPlan: PlangoStoredObject {
                 storedItem.authorID = item.authorID
                 storedItem.name = item.name
                 storedItem.avatar = item.avatar
-                storedItem.localAvatar = item.localAvatar
+                storedItem.localAvatar = item.localAvatar as Data?
                 storedItem.address = item.address
                 storedItem.city = item.city
                 storedItem.state = item.state
@@ -317,9 +317,9 @@ class StoredPlan: PlangoStoredObject {
                         stored.name = review.name
                         stored.author = review.author
                         stored.authorAvatar = review.avatar
-                        stored.localAvatar = review.localAvatar
+                        stored.localAvatar = review.localAvatar as Data?
                         stored.likes.value = review.likes
-                        stored.date = review.date
+                        stored.date = review.date as Date?
                         storedItem.reviews.append(stored)
                     }
                 }
@@ -371,7 +371,7 @@ class StoredTodo: PlangoStoredObject {
 class StoredEvent: PlangoStoredObject {
     dynamic var experienceID: String? = nil
     let duration = RealmOptional<Int>()
-    dynamic var startDate: NSDate? = nil
+    dynamic var startDate: Date? = nil
     let allDay = RealmOptional<Bool>()
 }
 
@@ -380,8 +380,8 @@ class StoredPlace: PlangoStoredObject {
     dynamic var state: String?
     dynamic var country: String?
     dynamic var notes: String?
-    dynamic var startDate: NSDate?
-    dynamic var endDate: NSDate?
+    dynamic var startDate: Date?
+    dynamic var endDate: Date?
     let durationDays = RealmOptional<Int>()
 
 }
@@ -391,7 +391,7 @@ class StoredExperience: PlangoStoredObject {
     dynamic var authorID: String?
     dynamic var name: String?
     dynamic var avatar: String?
-    dynamic var localAvatar: NSData?
+    dynamic var localAvatar: Data?
     dynamic var address: String?
     dynamic var city: String?
     dynamic var state: String?
@@ -418,9 +418,9 @@ class StoredReview: PlangoStoredObject {
     dynamic var name: String?
     dynamic var author: String?
     dynamic var authorAvatar: String?
-    dynamic var localAvatar: NSData?
+    dynamic var localAvatar: Data?
     let likes = RealmOptional<Int>()
-    dynamic var date: NSDate?
+    dynamic var date: Date?
 
 }
 //not a PlangoStoredObject because it has no mongoDB ID, and a blank Realm ID prevents it being retrieved

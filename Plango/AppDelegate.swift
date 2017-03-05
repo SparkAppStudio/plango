@@ -22,26 +22,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
 //        GMSServices.provideAPIKey("AIzaSyA39ZWfxBR9I4VENEDuS53ivijYC_ZKvpY")
         GMSPlacesClient.provideAPIKey("AIzaSyA39ZWfxBR9I4VENEDuS53ivijYC_ZKvpY")
         // Override point for customization after application launch.        
-        NSNotificationCenter.defaultCenter().addObserverForName(Notify.Login.rawValue, object: nil, queue: nil) { (notification) -> Void in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: Notify.Login.rawValue), object: nil, queue: nil) { (notification) -> Void in
             self.appLogin(notification)
         }
         
-        NSNotificationCenter.defaultCenter().addObserverForName(Notify.NewUser.rawValue, object: nil, queue: nil) { (notification) in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: Notify.NewUser.rawValue), object: nil, queue: nil) { (notification) in
             self.appNewUser(notification)
         }
         
-        NSNotificationCenter.defaultCenter().addObserverForName(Notify.Logout.rawValue, object: nil, queue: nil) { (notification) -> Void in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: Notify.Logout.rawValue), object: nil, queue: nil) { (notification) -> Void in
             self.appLogout(notification)
         }
         
-        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        window = UIWindow(frame: UIScreen.main.bounds)
         configureTabController()
         syncAuthStatus()
         window?.makeKeyAndVisible()
@@ -64,14 +64,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
-        return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
     }
     
-    func presentEmailConfirmation(controller: UIViewController, email: String, error: PlangoError) {
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            let alert = UIAlertController(title: "Email Confirmation", message: error.message, preferredStyle: .Alert)
-            let sendConfirmation = UIAlertAction(title: "Resend", style: .Default, handler: { (action) in
+    func presentEmailConfirmation(_ controller: UIViewController, email: String, error: PlangoError) {
+        DispatchQueue.main.async(execute: { () -> Void in
+            let alert = UIAlertController(title: "Email Confirmation", message: error.message, preferredStyle: .alert)
+            let sendConfirmation = UIAlertAction(title: "Resend", style: .default, handler: { (action) in
                 //Plango send email
                 Plango.sharedInstance.confirmEmail(Plango.EndPoint.SendConfirmation.value, email: email, onCompletion: { (error) in
                     if let error = error {
@@ -85,47 +85,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                 })
             })
-            let cancel = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in }
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in }
             alert.addAction(cancel)
             alert.addAction(sendConfirmation)
             
-            controller.presentViewController(alert, animated: true, completion: nil)
+            controller.present(alert, animated: true, completion: nil)
         })
     }
     
-    func presentWelcome(controller: UIViewController, completionMessage: String?) {
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            let alert = UIAlertController(title: "Welcome to Plango!", message: "We sent you an email to confirm your account. Click the link and then you can log in.", preferredStyle: .Alert)
-            let ok = UIAlertAction(title: "OK", style: .Default, handler: { (action) in
+    func presentWelcome(_ controller: UIViewController, completionMessage: String?) {
+        DispatchQueue.main.async(execute: { () -> Void in
+            let alert = UIAlertController(title: "Welcome to Plango!", message: "We sent you an email to confirm your account. Click the link and then you can log in.", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) in
                 controller.view.imageToast(completionMessage, image: UIImage(named: "whiteCheck")!, notify: true)
             })
             
             alert.addAction(ok)
-            controller.presentViewController(alert, animated: true, completion: nil)
+            controller.present(alert, animated: true, completion: nil)
         })
     }
     
-    func getParametersFromFacebook(result: AnyObject) -> [String:AnyObject] {
+    func getParametersFromFacebook(_ result: AnyObject) -> [String:AnyObject] {
         var plangoParameters = [String:AnyObject]()
         var socialConnects = [[String:AnyObject]]()
         
-        let email = result.valueForKey("email")
-        let userName = result.valueForKey("name")?.lowercaseString
-        let displayName = "\(result.valueForKey("first_name")) \(result.valueForKey("last_name"))"
-        let userID = result.valueForKey("id")
+        let email = result.value(forKey: "email")
+        let userName = (result.value(forKey: "name") as AnyObject).lowercased
+        let displayName = "\(result.value(forKey: "first_name")) \(result.value(forKey: "last_name"))"
+        let userID = result.value(forKey: "id")
         
         
-        plangoParameters["email"] = email
-        plangoParameters["username"] = userName!
+        plangoParameters["email"] = email as AnyObject?
+        plangoParameters["username"] = userName! as AnyObject?
         
-        socialConnects.append(["network" : "Facebook", "socialId" : userID!, "displayName" : displayName, "email" : email!])
+        socialConnects.append(["network" : "Facebook" as AnyObject, "socialId" : userID! as AnyObject, "displayName" : displayName as AnyObject, "email" : email! as AnyObject])
         
-        plangoParameters["socialConnects"] = socialConnects
-        plangoParameters["fbSignup"] = true
+        plangoParameters["socialConnects"] = socialConnects as AnyObject?
+        plangoParameters["fbSignup"] = true as AnyObject?
         return plangoParameters
     }
     
-    func handlePlangoAuth(controller: UIViewController, endPoint: String, email: String?, completionMessage: String?, parameters: [String:AnyObject]?) {
+    func handlePlangoAuth(_ controller: UIViewController, endPoint: String, email: String?, completionMessage: String?, parameters: [String:AnyObject]?) {
         Plango.sharedInstance.authPlangoUser(endPoint, parameters: parameters, onCompletion: { (user, error) in
             controller.view.hideSimpleLoading()
             
@@ -153,7 +153,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             } else if let user = user {
                 Plango.sharedInstance.currentUser = user
-                NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(user), forKey: UserDefaultsKeys.currentUser.rawValue)
+                UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: user), forKey: UserDefaultsKeys.currentUser.rawValue)
                 if user.confirmed == false {
                     self.presentWelcome(controller, completionMessage: completionMessage)
                 } else {
@@ -163,26 +163,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
     }
     
-    func appNewUser(notification: NSNotification) {
+    func appNewUser(_ notification: Foundation.Notification) {
         //every login notification should send controller so UI can be modified here loading screen etc.
         let controller = notification.userInfo!["controller"] as! LoginViewController
         controller.view.showSimpleLoading()
         
         //facebook newuser
-        if let _ = notification.userInfo?["FBSDKLoginResult"] as? FBSDKLoginManagerLoginResult, userName = notification.userInfo?["userName"] as? String, let userEmail = notification.userInfo?["userEmail"] as? String, let userID = notification.userInfo?["userID"] as? String {
+        if let _ = notification.userInfo?["FBSDKLoginResult"] as? FBSDKLoginManagerLoginResult, let userName = notification.userInfo?["userName"] as? String, let userEmail = notification.userInfo?["userEmail"] as? String, let userID = notification.userInfo?["userID"] as? String {
             
             var plangoParameters = [String:AnyObject]()
             var socialConnects = [[String:AnyObject]]()
             
 //            Plango.sharedInstance.facebookAvatarURL = "http://graph.facebook.com/\(userID)/picture?type=large"
 
-            plangoParameters["email"] = userEmail
-            plangoParameters["username"] = userName
+            plangoParameters["email"] = userEmail as AnyObject?
+            plangoParameters["username"] = userName as AnyObject?
             
-            socialConnects.append(["network" : "Facebook", "socialId" : userID, "displayName" : userName, "email" : userEmail])
+            socialConnects.append(["network" : "Facebook" as AnyObject, "socialId" : userID as AnyObject, "displayName" : userName as AnyObject, "email" : userEmail as AnyObject])
             
-            plangoParameters["socialConnects"] = socialConnects
-            plangoParameters["fbSignup"] = true
+            plangoParameters["socialConnects"] = socialConnects as AnyObject?
+            plangoParameters["fbSignup"] = true as AnyObject?
             
             self.handlePlangoAuth(controller, endPoint: Plango.EndPoint.NewAccount.value, email: userEmail, completionMessage: nil, parameters: plangoParameters)
 
@@ -193,12 +193,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             let parameters = ["username" : userName, "email" : userEmail, "password" : password]
             
-            self.handlePlangoAuth(controller, endPoint: Plango.EndPoint.NewAccount.value, email: userEmail, completionMessage: "Check your Email", parameters: parameters)
+            self.handlePlangoAuth(controller, endPoint: Plango.EndPoint.NewAccount.value, email: userEmail, completionMessage: "Check your Email", parameters: parameters as [String : AnyObject]?)
             
         }
     }
 
-    func appLogin(notification: NSNotification) {
+    func appLogin(_ notification: Foundation.Notification) {
         //every login notification should send controller so UI can be modified here loading screen etc.
         let controller = notification.userInfo!["controller"] as! LoginViewController
         controller.view.showSimpleLoading()
@@ -207,12 +207,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let _ = notification.userInfo?["FBSDKLoginResult"] as? FBSDKLoginManagerLoginResult {
             
             let parameters = ["fields":"id, name, email"]
-            FBSDKGraphRequest.init(graphPath: "me", parameters: parameters).startWithCompletionHandler({ (connection, result, error) in
+            FBSDKGraphRequest.init(graphPath: "me", parameters: parameters).start(completionHandler: { (connection, result, error) in
                 if let error = error {
-                    controller.printError(error)
+                    controller.printError(error as NSError)
                 } else {
 //                    let email = result.valueForKey("email") as! String
-                    let userID = result.valueForKey("id") as! String
+                    let userID = result.value(forKey: "id") as! String
 //                    Plango.sharedInstance.facebookAvatarURL = "http://graph.facebook.com/\(userID)/picture?type=large"
 
                     let endPoint = "\(Plango.EndPoint.FacebookLogin.value)\(userID)"
@@ -225,18 +225,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
             let parameters = ["email" : userEmail, "password" : password]
             
-            self.handlePlangoAuth(controller, endPoint: Plango.EndPoint.Login.value, email: userEmail, completionMessage: nil, parameters: parameters)
+            self.handlePlangoAuth(controller, endPoint: Plango.EndPoint.Login.value, email: userEmail, completionMessage: nil, parameters: parameters as [String : AnyObject]?)
         }
     }
     
-    func appLogout(notification: NSNotification) {
+    func appLogout(_ notification: Foundation.Notification) {
         let controller = notification.userInfo!["controller"] as! UIViewController
         controller.view.showSimpleLoading()
         
         FBSDKLoginManager().logOut()
 
         Plango.sharedInstance.currentUser = nil
-        NSUserDefaults.standardUserDefaults().removeObjectForKey(UserDefaultsKeys.currentUser.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.currentUser.rawValue)
 //        Plango.sharedInstance.facebookAvatarURL = ""
         //remove realm data
         let realm = try! Realm()
@@ -246,7 +246,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         //remove mapbox data
-        let storage = MGLOfflineStorage.sharedOfflineStorage()
+        let storage = MGLOfflineStorage.shared()
         if let packs = storage.packs {
             for pack in packs {
                 storage.removePack(pack, withCompletionHandler: nil)
@@ -254,9 +254,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         
-        Plango.sharedInstance.alamoManager.session.resetWithCompletionHandler {
+        Plango.sharedInstance.alamoManager.session.reset {
             controller.view.hideSimpleLoading()
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
                 self.swapLoginControllerInTab()
             })
         }
@@ -268,10 +268,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let nav = tabController.viewControllers?.last as! UINavigationController
         if Plango.sharedInstance.currentUser == nil {
             nav.setViewControllers([LoginCoverViewController()], animated: false)
-            nav.navigationBarHidden = true
+            nav.isNavigationBarHidden = true
         } else {
             nav.setViewControllers([MyPlansViewController()], animated: false)
-            nav.navigationBarHidden = false
+            nav.isNavigationBarHidden = false
         }
     }
     
@@ -287,18 +287,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         plangoNav([tabOne, tabTwo, tabThree])
         
         //search controllers
-        UIBarButtonItem.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.plangoOrange(), NSFontAttributeName: UIFont.plangoSmallButton()], forState: .Normal)
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.plangoOrange(), NSFontAttributeName: UIFont.plangoSmallButton()], for: UIControlState())
         
-        UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).font = UIFont.plangoBody()
-        UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).textColor = UIColor.plangoTextLight()
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).font = UIFont.plangoBody()
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).textColor = UIColor.plangoTextLight()
         
         
         let tabController = UITabBarController()
         tabController.viewControllers = [tabOne, tabTwo, tabThree]
-        tabController.tabBar.barTintColor = UIColor.whiteColor()
-        tabController.tabBar.backgroundColor = UIColor.whiteColor()
+        tabController.tabBar.barTintColor = UIColor.white
+        tabController.tabBar.backgroundColor = UIColor.white
         tabController.tabBar.tintColor = UIColor.plangoTeal()
-        tabController.tabBar.opaque = true
+        tabController.tabBar.isOpaque = true
         
         let starImage = UIImage(named: "star")
         let searchImage = UIImage(named: "search")
@@ -316,19 +316,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func syncAuthStatus() {
-        if let userData = NSUserDefaults.standardUserDefaults().objectForKey(UserDefaultsKeys.currentUser.rawValue) as? NSData {
-            let user = NSKeyedUnarchiver.unarchiveObjectWithData(userData) as! User
+        if let userData = UserDefaults.standard.object(forKey: UserDefaultsKeys.currentUser.rawValue) as? Data {
+            let user = NSKeyedUnarchiver.unarchiveObject(with: userData) as! User
             Plango.sharedInstance.currentUser = user
         }
         
-        if Plango.sharedInstance.alamoManager.session.configuration.HTTPCookieStorage?.cookies == nil && Plango.sharedInstance.currentUser != nil {
+        if Plango.sharedInstance.alamoManager.session.configuration.httpCookieStorage?.cookies == nil && Plango.sharedInstance.currentUser != nil {
             Plango.sharedInstance.currentUser = nil
             
             swapLoginControllerInTab()
         }
         
-        if Plango.sharedInstance.currentUser == nil && Plango.sharedInstance.alamoManager.session.configuration.HTTPCookieStorage?.cookies != nil {
-            Plango.sharedInstance.alamoManager.session.resetWithCompletionHandler({})
+        if Plango.sharedInstance.currentUser == nil && Plango.sharedInstance.alamoManager.session.configuration.httpCookieStorage?.cookies != nil {
+            Plango.sharedInstance.alamoManager.session.reset(completionHandler: {})
             
             swapLoginControllerInTab()
         }
@@ -345,41 +345,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        }
 //    }
     
-    func plangoTabBarItem(tabBarItems: [UITabBarItem]) {
+    func plangoTabBarItem(_ tabBarItems: [UITabBarItem]) {
         for tab in tabBarItems {
-            tab.setTitleTextAttributes([NSFontAttributeName: UIFont.plangoTabBar()], forState: .Normal)
+            tab.setTitleTextAttributes([NSFontAttributeName: UIFont.plangoTabBar()], for: UIControlState())
         }
     }
     
-    func plangoNav(navControllers: [UINavigationController]) {
+    func plangoNav(_ navControllers: [UINavigationController]) {
         for nav in navControllers {
             nav.navigationBar.barTintColor = UIColor.plangoTeal()
-            nav.navigationBar.tintColor = UIColor.whiteColor()
-            nav.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.plangoNav()]
-            nav.navigationBar.translucent = false
+            nav.navigationBar.tintColor = UIColor.white
+            nav.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.plangoNav()]
+            nav.navigationBar.isTranslucent = false
         }
     }
 
 
-    func applicationWillResignActive(application: UIApplication) {
+    func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     }
 
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
 
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
 
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         FBSDKAppEvents.activateApp()
     }
 
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 

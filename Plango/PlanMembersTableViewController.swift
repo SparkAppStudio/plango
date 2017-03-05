@@ -12,18 +12,18 @@ class PlanMembersTableViewController: UITableViewController {
 
     var members: [Member]!
     
-    private var confirmedUsers = [User]()
-    private var unconfirmedUsers = [User]()
+    fileprivate var confirmedUsers = [User]()
+    fileprivate var unconfirmedUsers = [User]()
     
     lazy var backgroundText: UITextView = {
         let background = UITextView(frame: self.tableView.bounds)
         background.text = "You haven't invited any friends to this plan. Invite them on the desktop at plango.us"
 //        backgroundLabel.numberOfLines = 0
         background.textContainerInset = UIEdgeInsetsMake(self.tableView.bounds.height/2 - 44, 16, 0, 16)
-        background.editable = false
+        background.isEditable = false
         background.font = UIFont.plangoSectionHeader()
         background.textColor = UIColor.plangoTypeSectionHeaderGray()
-        background.textAlignment = .Center
+        background.textAlignment = .center
         background.backgroundColor = UIColor.plangoBackgroundGray()
         return background
     }()
@@ -33,24 +33,24 @@ class PlanMembersTableViewController: UITableViewController {
         self.navigationItem.title = "FRIENDS"
         self.tableView.backgroundColor = UIColor.plangoBackgroundGray()
         self.tableView.allowsSelection = false
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.none
         
         let cellNib = UINib(nibName: "MemberCell", bundle: nil)
-        self.tableView.registerNib(cellNib, forCellReuseIdentifier: CellID.Member.rawValue)
+        self.tableView.register(cellNib, forCellReuseIdentifier: CellID.Member.rawValue)
         // headerfooter view is like a cell
         let sectionNib = UINib(nibName: "SectionHeader", bundle: nil)
-        self.tableView.registerNib(sectionNib, forHeaderFooterViewReuseIdentifier: CellID.Header.rawValue)
+        self.tableView.register(sectionNib, forHeaderFooterViewReuseIdentifier: CellID.Header.rawValue)
         self.tableView.backgroundView = backgroundText
-        self.tableView.backgroundView?.hidden = true
+        self.tableView.backgroundView?.isHidden = true
 
         getMembers()
     }
 
     func getMembers() {
         //get rid of self
-        for (index, member) in members.enumerate() {
+        for (index, member) in members.enumerated() {
             if member.id == Plango.sharedInstance.currentUser?.id {
-                members.removeAtIndex(index)
+                members.remove(at: index)
             }
         }
         
@@ -87,16 +87,16 @@ class PlanMembersTableViewController: UITableViewController {
     
     // MARK: - Table view delegate
     
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return Helper.HeaderHeight.section.value
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Helper.CellHeight.reviews.value
     }
     
-    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(CellID.Header.rawValue) as! SectionHeaderView
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CellID.Header.rawValue) as! SectionHeaderView
         switch section {
         case 0:
             headerView.titleLabel.text = "Pending"
@@ -109,17 +109,17 @@ class PlanMembersTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         if unconfirmedUsers.count == 0 && confirmedUsers.count == 0 {
-            tableView.backgroundView?.hidden = false
+            tableView.backgroundView?.isHidden = false
             return 0
         } else {
-            tableView.backgroundView?.hidden = true
+            tableView.backgroundView?.isHidden = true
             return 2 
         }
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
             return unconfirmedUsers.count
@@ -128,9 +128,9 @@ class PlanMembersTableViewController: UITableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Member.rawValue, forIndexPath: indexPath) as! MemberTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: CellID.Member.rawValue, for: indexPath) as! MemberTableViewCell
 
         switch indexPath.section {
         case 0:

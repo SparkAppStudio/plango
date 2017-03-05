@@ -10,6 +10,19 @@ import UIKit
 import SwiftyJSON
 import Alamofire
 import RealmSwift
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 class PlansTableViewController: UITableViewController {
     
@@ -35,7 +48,7 @@ class PlansTableViewController: UITableViewController {
         backgroundLabel.numberOfLines = 0
         backgroundLabel.font = UIFont.plangoSectionHeader()
         backgroundLabel.textColor = UIColor.plangoTypeSectionHeaderGray()
-        backgroundLabel.textAlignment = .Center
+        backgroundLabel.textAlignment = .center
         backgroundLabel.backgroundColor = UIColor.plangoBackgroundGray()
         return backgroundLabel
     }()
@@ -52,18 +65,18 @@ class PlansTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.none
         self.tableView.backgroundColor = UIColor.plangoBackgroundGray()
         
 
         
         let cellNib = UINib(nibName: "PlansCell", bundle: nil)
-        self.tableView.registerNib(cellNib, forCellReuseIdentifier: CellID.Plans.rawValue)
+        self.tableView.register(cellNib, forCellReuseIdentifier: CellID.Plans.rawValue)
         
         if plansArray.count == 0 { //make sure data is not preloaded as in top collections case
             
             self.tableView.backgroundView = backgroundLabel
-            self.tableView.backgroundView?.hidden = true
+            self.tableView.backgroundView?.isHidden = true
 
             getPlans()
         }
@@ -84,31 +97,31 @@ class PlansTableViewController: UITableViewController {
     
     func setupSearchResultsHeader() {
         let nib = UINib(nibName: "SearchResultsHeader", bundle: nil)
-        headerView = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        headerView = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         headerView.snp_makeConstraints { (make) in
             make.height.equalTo(Helper.HeaderHeight.section.value)
         }
         
-        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.size.width, height: Helper.HeaderHeight.section.value))
+        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: Helper.HeaderHeight.section.value))
         
         containerView.addSubview(headerView)
         
         tableView.tableHeaderView = containerView
         
-        headerView.leadingAnchor.constraintEqualToAnchor(tableView.tableHeaderView!.leadingAnchor).active = true
-        headerView.trailingAnchor.constraintEqualToAnchor(tableView.tableHeaderView!.trailingAnchor).active = true
-        headerView.bottomAnchor.constraintEqualToAnchor(tableView.tableHeaderView!.bottomAnchor).active = true
-        headerView.topAnchor.constraintEqualToAnchor(tableView.tableHeaderView!.topAnchor).active = true
+        headerView.leadingAnchor.constraint(equalTo: tableView.tableHeaderView!.leadingAnchor).isActive = true
+        headerView.trailingAnchor.constraint(equalTo: tableView.tableHeaderView!.trailingAnchor).isActive = true
+        headerView.bottomAnchor.constraint(equalTo: tableView.tableHeaderView!.bottomAnchor).isActive = true
+        headerView.topAnchor.constraint(equalTo: tableView.tableHeaderView!.topAnchor).isActive = true
         
-        tagsLabel.hidden = true
-        placesLabel.hidden = true
-        daysLabel.hidden = true
+        tagsLabel.isHidden = true
+        placesLabel.isHidden = true
+        daysLabel.isHidden = true
     }
     
-    func configureSearchResultsHeader(parameters: [String : AnyObject]) {
-        tagsLabel.hidden = false
-        placesLabel.hidden = false
-        daysLabel.hidden = false
+    func configureSearchResultsHeader(_ parameters: [String : AnyObject]) {
+        tagsLabel.isHidden = false
+        placesLabel.isHidden = false
+        daysLabel.isHidden = false
         if let tags = parameters["tags"] as? String {
             tagsLabel.text = tags
         }
@@ -117,15 +130,15 @@ class PlansTableViewController: UITableViewController {
                 var text = "in "
                 for place in destinations {
                     if let city = place.city {
-                        text = text.stringByAppendingString("\(city), ")
+                        text = text + "\(city), "
                     } else if let state = place.state {
                         if let fullState = state.getLongState() {
-                            text = text.stringByAppendingString("\(fullState.capitalizedString), ")
+                            text = text + "\(fullState.capitalized), "
                         } else {
-                            text = text.stringByAppendingString("\(state.capitalizedString), ")
+                            text = text + "\(state.capitalized), "
                         }
                     } else if let country = place.country {
-                        text = text.stringByAppendingString("\(country), ")
+                        text = text + "\(country), "
                     }
                 }
                 if text == "in " {
@@ -145,9 +158,9 @@ class PlansTableViewController: UITableViewController {
             daysLabel.text = "from 1"
         }
         if let durationTo = parameters["durationTo"] as? String {
-            daysLabel.text = daysLabel.text!.stringByAppendingString(" - \(durationTo) days")
+            daysLabel.text = daysLabel.text! + " - \(durationTo) days"
         } else {
-            daysLabel.text = daysLabel.text!.stringByAppendingString(" - Many days")
+            daysLabel.text = daysLabel.text! + " - Many days"
         }
         if daysLabel.text == "from 1 - Many days" {
             daysLabel.text = ""
@@ -166,7 +179,7 @@ class PlansTableViewController: UITableViewController {
                 plans.append(StoredPlan.unpackStoredPlan(plan))
             }
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
                 self.plansArray = plans
                 self.tableView.reloadData()
             })
@@ -181,7 +194,7 @@ class PlansTableViewController: UITableViewController {
         }
     }
     
-    private func fetchPlans(endPoint: String) {
+    fileprivate func fetchPlans(_ endPoint: String) {
         tableView.showSimpleLoading()
         fetchRequest = Plango.sharedInstance.fetchPlans(endPoint) {
             (receivedPlans: [Plan]?, error: PlangoError?) in
@@ -190,10 +203,10 @@ class PlansTableViewController: UITableViewController {
             if let error = error {
                 self.printPlangoError(error)
             } else if let plans = receivedPlans {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                DispatchQueue.main.async(execute: { () -> Void in
                     self.plansArray = plans
                     if plans.count == 0 {
-                        self.tableView.backgroundView?.hidden = false
+                        self.tableView.backgroundView?.isHidden = false
                     }
                     self.tableView.reloadData()
                 })
@@ -201,7 +214,7 @@ class PlansTableViewController: UITableViewController {
         }
     }
     
-    override func scrollViewDidScroll(scrollView: UIScrollView) {
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         checkAndAppendMorePlans()
     }
     
@@ -225,7 +238,7 @@ class PlansTableViewController: UITableViewController {
         
     }
     
-    private func findPlans(endPoint: String, page: Int, parameters: [String : AnyObject]) {
+    fileprivate func findPlans(_ endPoint: String, page: Int, parameters: [String : AnyObject]) {
         self.tableView.showSimpleLoading()
         fetchRequest = Plango.sharedInstance.findPlans(endPoint, page: page, parameters: parameters) { (receivedPlans, error) in
             self.tableView.hideSimpleLoading()
@@ -238,15 +251,15 @@ class PlansTableViewController: UITableViewController {
                 if plans.count == 0 { //empty array means end of pagination
                     self.endReached = true
                 }
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                DispatchQueue.main.async(execute: { () -> Void in
                     
 //                    if self.plansArray.count == 0 {
 //                        self.plansArray = plans
 //                    } else {
-                        self.plansArray.appendContentsOf(plans)
+                        self.plansArray.append(contentsOf: plans)
 //                    }
                     if self.plansArray.count == 0 {
-                        self.tableView.backgroundView?.hidden = false
+                        self.tableView.backgroundView?.isHidden = false
                     }
                     
                     if let total = Plango.sharedInstance.searchTotal {
@@ -281,22 +294,22 @@ class PlansTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         if plansArray.count == 0 {
             return 0
         } else {
-            tableView.backgroundView?.hidden = true
+            tableView.backgroundView?.isHidden = true
             return 1
         }
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return plansArray.count
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Plans.rawValue, forIndexPath: indexPath) as! PlansTableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: CellID.Plans.rawValue, for: indexPath) as! PlansTableViewCell
         
         let plan = self.plansArray[indexPath.row]
         cell.plan = plan
@@ -309,19 +322,19 @@ class PlansTableViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Helper.CellHeight.plans.value //should be the same as xib file
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(indexPath) as! PlansTableViewCell
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as! PlansTableViewCell
         let planSummary = PlanSummaryViewController()
         planSummary.plan = cell.plan
         planSummary.hidesBottomBarWhenPushed = true
-        self.showViewController(planSummary, sender: nil)
+        self.show(planSummary, sender: nil)
     }
     
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         if findPlansParameters != nil {
             return true
         } else {
@@ -329,12 +342,12 @@ class PlansTableViewController: UITableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-        let report = UITableViewRowAction(style: .Destructive, title: "Report") { action, index in
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let report = UITableViewRowAction(style: UITableViewRowActionStyle(), title: "Report") { action, index in
+            DispatchQueue.main.async(execute: { () -> Void in
                 tableView.setEditing(false, animated: true)
                 
-                let cell = tableView.cellForRowAtIndexPath(indexPath) as! PlansTableViewCell
+                let cell = tableView.cellForRow(at: indexPath) as! PlansTableViewCell
                 cell.contentView.showSimpleLoading()
                 if let plan = cell.plan {
                     Plango.sharedInstance.reportSpam(Plango.EndPoint.Report.value, planID: plan.id, onCompletion: { (error) in

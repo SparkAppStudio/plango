@@ -20,7 +20,7 @@ class TopCollectionsTableViewCell: UITableViewCell {
     func configure() {
         self.layoutIfNeeded()
         if let avatarString = plangoCollection?.avatar {
-            let avatarURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(avatarString))
+            let avatarURL = URL(string: Plango.sharedInstance.cleanEndPoint(avatarString))
             coverImageView.af_setImageWithURL(avatarURL!)
             coverImageView.gradientDarkToClear()
         }
@@ -54,7 +54,7 @@ class TopCollectionsMiddleTableViewCell: TopCollectionsTableViewCell {
     override func configure() {
         self.layoutIfNeeded()
         if let avatarString = plangoCollection?.avatar {
-            let avatarURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(avatarString))
+            let avatarURL = URL(string: Plango.sharedInstance.cleanEndPoint(avatarString))
             coverImageViewM.af_setImageWithURL(avatarURL!)
             
         }

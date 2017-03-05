@@ -16,7 +16,7 @@ class DiscoverSectionHeaderView: UITableViewHeaderFooterView {
 
 class DiscoverTableViewController: UITableViewController {
     
-    private enum DiscoverTitles: String {
+    fileprivate enum DiscoverTitles: String {
         case TypeCollections = "What's Your Type?"
         case PlangoCollections = "Plango Favorites"
         case PopularPlans = "Popular Destinations"
@@ -39,7 +39,7 @@ class DiscoverTableViewController: UITableViewController {
     
     lazy var tagsArray = [Tag]()
     
-    lazy var usersDictionary = [NSIndexPath:User]()
+    lazy var usersDictionary = [IndexPath:User]()
     lazy var popularDestinationsPlansArray = [Plan]?()
     lazy var plangoFavoriteCollectionsArray = [PlangoCollection]?()
     var plangoFavoritesDictionary: [String:[Plan]]?
@@ -47,28 +47,28 @@ class DiscoverTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(self, action: #selector(didPullRefresh), forControlEvents: .ValueChanged)
+        refreshControl?.addTarget(self, action: #selector(didPullRefresh), for: .valueChanged)
         
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.none
 
         self.tableView.backgroundColor = UIColor.plangoBackgroundGray()
         self.navigationItem.title = "DISCOVER"
         
         // MARK: - Cell Types ------------------------------------------------------------------------
         let plansNib = UINib(nibName: "PlansCell", bundle: nil)
-        self.tableView.registerNib(plansNib, forCellReuseIdentifier: CellID.Plans.rawValue)
+        self.tableView.register(plansNib, forCellReuseIdentifier: CellID.Plans.rawValue)
         
         let topCollectionsNib = UINib(nibName: "TopCollectionsCell", bundle: nil)
-        self.tableView.registerNib(topCollectionsNib, forCellReuseIdentifier: CellID.TopCollections.rawValue)
+        self.tableView.register(topCollectionsNib, forCellReuseIdentifier: CellID.TopCollections.rawValue)
         
         let topCollectionsMiddleNib = UINib(nibName: "TopCollectionsMiddleCell", bundle: nil)
-        self.tableView.registerNib(topCollectionsMiddleNib, forCellReuseIdentifier: CellID.TopCollectionsMiddle.rawValue)
+        self.tableView.register(topCollectionsMiddleNib, forCellReuseIdentifier: CellID.TopCollectionsMiddle.rawValue)
         
-        self.tableView.registerClass(PlanTypesTableViewCell.self, forCellReuseIdentifier: CellID.PlanTypes.rawValue)
+        self.tableView.register(PlanTypesTableViewCell.self, forCellReuseIdentifier: CellID.PlanTypes.rawValue)
         
         // headerfooter view is like a cell
         let sectionNib = UINib(nibName: "DiscoverHeader", bundle: nil)
-        self.tableView.registerNib(sectionNib, forHeaderFooterViewReuseIdentifier: CellID.Header.rawValue)
+        self.tableView.register(sectionNib, forHeaderFooterViewReuseIdentifier: CellID.Header.rawValue)
         
         //------------------------------------------------------------------------
         
@@ -92,7 +92,7 @@ class DiscoverTableViewController: UITableViewController {
         }
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         refreshControl?.endRefreshing()
     }
@@ -156,7 +156,7 @@ class DiscoverTableViewController: UITableViewController {
     
     // MARK: - Table view Delegate
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case DiscoverTitles.TypeCollections.section:
             return Helper.CellHeight.superWide.value
@@ -172,41 +172,41 @@ class DiscoverTableViewController: UITableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         switch indexPath.section {
         case DiscoverTitles.TypeCollections.section: break
             
         case DiscoverTitles.PlangoCollections.section:
-            let cell = tableView.cellForRowAtIndexPath(indexPath) as! TopCollectionsTableViewCell
+            let cell = tableView.cellForRow(at: indexPath) as! TopCollectionsTableViewCell
             if let plans = cell.plans {
                 let plansVC = PlansTableViewController()
                 plansVC.plansArray = plans
-                plansVC.navigationItem.title = cell.plangoCollection?.name?.uppercaseString
+                plansVC.navigationItem.title = cell.plangoCollection?.name?.uppercased()
                 plansVC.hidesBottomBarWhenPushed = true
-                self.showViewController(plansVC, sender: nil)
+                self.show(plansVC, sender: nil)
             }
 
         default:
-            let cell = tableView.cellForRowAtIndexPath(indexPath) as! PlansTableViewCell
+            let cell = tableView.cellForRow(at: indexPath) as! PlansTableViewCell
             let planSummary = PlanSummaryViewController()
             planSummary.plan = cell.plan
             planSummary.hidesBottomBarWhenPushed = true
-            self.showViewController(planSummary, sender: nil)
+            self.show(planSummary, sender: nil)
         }
     }
     
-    override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
         switch indexPath.section {
             
         case DiscoverTitles.PopularPlans.section:
             
-            let report = UITableViewRowAction(style: .Destructive, title: "Report") { action, index in
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            let report = UITableViewRowAction(style: UITableViewRowActionStyle(), title: "Report") { action, index in
+                DispatchQueue.main.async(execute: { () -> Void in
                     tableView.setEditing(false, animated: true)
                     
-                    let cell = tableView.cellForRowAtIndexPath(indexPath) as! PlansTableViewCell
+                    let cell = tableView.cellForRow(at: indexPath) as! PlansTableViewCell
                     cell.contentView.showSimpleLoading()
                     if let plan = cell.plan {
                         Plango.sharedInstance.reportSpam(Plango.EndPoint.Report.value, planID: plan.id, onCompletion: { (error) in
@@ -234,23 +234,23 @@ class DiscoverTableViewController: UITableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
         
         switch indexPath.section {
         case DiscoverTitles.PopularPlans.section:
-            return .Delete
+            return .delete
         default:
-            return .None
+            return .none
         }
     }
     
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return DiscoverTitles.count
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case DiscoverTitles.TypeCollections.section:
             return 1
@@ -270,21 +270,21 @@ class DiscoverTableViewController: UITableViewController {
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case DiscoverTitles.TypeCollections.section:
-            let cell = tableView.dequeueReusableCellWithIdentifier(CellID.PlanTypes.rawValue, forIndexPath: indexPath) as! PlanTypesTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: CellID.PlanTypes.rawValue, for: indexPath) as! PlanTypesTableViewCell
             cell.configureWithDataSourceDelegate(dataSourceDelegate: self)
             return cell
 
         case DiscoverTitles.PlangoCollections.section:
             
             guard let count = plangoFavoriteCollectionsArray?.count else {
-            let cell = tableView.dequeueReusableCellWithIdentifier(CellID.TopCollections.rawValue, forIndexPath: indexPath) as! TopCollectionsTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: CellID.TopCollections.rawValue, for: indexPath) as! TopCollectionsTableViewCell
                 return cell
             }
             if indexPath.row != count - 1 {
-                let cell = tableView.dequeueReusableCellWithIdentifier(CellID.TopCollectionsMiddle.rawValue, forIndexPath: indexPath) as! TopCollectionsMiddleTableViewCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: CellID.TopCollectionsMiddle.rawValue, for: indexPath) as! TopCollectionsMiddleTableViewCell
                 
                 if let collections = self.plangoFavoriteCollectionsArray {
                     let collection = collections[indexPath.row]
@@ -298,7 +298,7 @@ class DiscoverTableViewController: UITableViewController {
                 
                 return cell
             } else { //last cell in list doesnt need bottom spacing
-                let cell = tableView.dequeueReusableCellWithIdentifier(CellID.TopCollections.rawValue, forIndexPath: indexPath) as! TopCollectionsTableViewCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: CellID.TopCollections.rawValue, for: indexPath) as! TopCollectionsTableViewCell
                 
                 if let collections = self.plangoFavoriteCollectionsArray {
                     let collection = collections[indexPath.row]
@@ -314,7 +314,7 @@ class DiscoverTableViewController: UITableViewController {
             }
 
         default:
-            let cell = tableView.dequeueReusableCellWithIdentifier(CellID.Plans.rawValue, forIndexPath: indexPath) as! PlansTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: CellID.Plans.rawValue, for: indexPath) as! PlansTableViewCell
             if indexPath.section == DiscoverTitles.PopularPlans.section {
                 if let plans = self.popularDestinationsPlansArray {
                     cell.plan = plans[indexPath.row]
@@ -325,12 +325,12 @@ class DiscoverTableViewController: UITableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return Helper.HeaderHeight.section.value + 4 //slightly taller section header than rest of app
     }
     
-    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(CellID.Header.rawValue) as! DiscoverSectionHeaderView
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CellID.Header.rawValue) as! DiscoverSectionHeaderView
         
         switch section {
         case DiscoverTitles.TypeCollections.section:
@@ -373,7 +373,7 @@ class DiscoverTableViewController: UITableViewController {
 
 extension DiscoverTableViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
-    func fetchTags(endPoint: String) {
+    func fetchTags(_ endPoint: String) {
         Plango.sharedInstance.fetchTags(endPoint) { (receivedTags, error) in
             if let error = error {
                 self.printPlangoError(error)
@@ -384,12 +384,12 @@ extension DiscoverTableViewController: UICollectionViewDataSource, UICollectionV
         }
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return tagsArray.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(CellID.SpecificType.rawValue, forIndexPath: indexPath) as! TypeCollectionViewCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellID.SpecificType.rawValue, for: indexPath) as! TypeCollectionViewCell
         
         // Configure the cell
         cell.plangoTag = tagsArray[indexPath.row]
@@ -398,8 +398,8 @@ extension DiscoverTableViewController: UICollectionViewDataSource, UICollectionV
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! TypeCollectionViewCell
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! TypeCollectionViewCell
         guard let tag = cell.plangoTag else {return}
         
         let parameters = Plango.sharedInstance.buildParameters(nil, maxDuration: nil, tags: [tag], selectedDestinations: nil, user: nil, isJapanSearch: nil)
@@ -407,9 +407,9 @@ extension DiscoverTableViewController: UICollectionViewDataSource, UICollectionV
         let plansVC = PlansTableViewController()
         plansVC.plansEndPoint = Plango.EndPoint.FindPlans.rawValue
         plansVC.findPlansParameters = parameters
-        plansVC.navigationItem.title = tag.name?.uppercaseString
+        plansVC.navigationItem.title = tag.name?.uppercased()
         plansVC.hidesBottomBarWhenPushed = true
-        self.showViewController(plansVC, sender: nil)
+        self.show(plansVC, sender: nil)
 
     }
 

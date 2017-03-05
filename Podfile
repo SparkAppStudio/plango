@@ -1,4 +1,4 @@
-platform :ios, '9.0'
+platform :ios, '10.2'
 use_frameworks!
 
 target 'Plango' do
@@ -32,17 +32,16 @@ target 'Plango' do
     pod 'GoogleMaps'
     pod 'Mapbox-iOS-SDK'
 #     pod 'MapboxStatic.swift', :git => 'https://github.com/mapbox/MapboxStatic.swift.git', :tag => 'v0.6.0'
-    pod 'MapboxGeocoder.swift', :git => 'https://github.com/mapbox/MapboxGeocoder.swift.git', :tag => 'v0.5.0'
-    pod 'MapboxDirections.swift', :git => 'https://github.com/mapbox/MapboxDirections.swift.git', :tag => 'v0.6.0'
-
+    pod 'MapboxGeocoder.swift'
+    pod 'MapboxDirections.swift'
 #    persistence
     pod 'RealmSwift'
     pod 'ObjectMapper'
 
 #    frontendConvienence
     pod 'Hue'
-    pod 'ChameleonFramework/Swift'
-    pod 'Spring', :git => 'https://github.com/MengTo/Spring.git', :branch => 'master'
+    pod 'ChameleonFramework/Swift', :git => 'https://github.com/ViccAlexander/Chameleon.git'
+    pod 'Spring'
     pod 'CZWeatherKit'
 
 end

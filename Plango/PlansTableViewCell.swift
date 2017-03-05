@@ -34,7 +34,7 @@ class PlansTableViewCell: UITableViewCell {
     
     func configure() {
         backdropView.layer.borderWidth = 1
-        backdropView.layer.borderColor = UIColor.plangoCream().CGColor
+        backdropView.layer.borderColor = UIColor.plangoCream().cgColor
         
         if let cellPlan = plan {
             fetchUserForPlan(cellPlan, endPoint: "\(Plango.EndPoint.UserByID.value)\(cellPlan.authorID)")
@@ -48,13 +48,13 @@ class PlansTableViewCell: UITableViewCell {
                return
             }
             for tagName in planTags {
-                allTags = allTags.stringByAppendingString("\(tagName), ")
+                allTags = allTags + "\(tagName), "
             }
             let cleanedTags = String(allTags.characters.dropLast(2))
             planTagsLabel.text = cleanedTags
             
-            guard let days = cellPlan.durationDays else {planLengthLabel.hidden = true; return}
-            planLengthLabel.hidden = false
+            guard let days = cellPlan.durationDays else {planLengthLabel.isHidden = true; return}
+            planLengthLabel.isHidden = false
             if days == 1 {
                 planLengthLabel.text = "\(days) Day"
             } else {
@@ -69,8 +69,8 @@ class PlansTableViewCell: UITableViewCell {
         }
     }
     
-    func configureUser(user: User) {
-        dispatch_async(dispatch_get_main_queue(), {
+    func configureUser(_ user: User) {
+        DispatchQueue.main.async(execute: {
             self.profileNameLabel.text = user.userName
             self.profileImageView.makeCircle()
 
@@ -81,7 +81,7 @@ class PlansTableViewCell: UITableViewCell {
 //                }
                 return
             }
-            let cleanURL = NSURL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
+            let cleanURL = URL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
             
             self.profileImageView.af_setImageWithURL(cleanURL!)
         })
@@ -104,7 +104,7 @@ class PlansTableViewCell: UITableViewCell {
         plan = nil
     }
     
-    func fetchUserForPlan(plan: Plan, endPoint: String) {
+    func fetchUserForPlan(_ plan: Plan, endPoint: String) {
         
         if let user = user {
             configureUser(user)
@@ -135,7 +135,7 @@ class PlansTableViewCell: UITableViewCell {
 
     
     //my own method for image handling, currently just using alamofire extension method so this may be unneccesarry
-    func loadImageForImageView(endPoint: String, imageView: UIImageView) {
+    func loadImageForImageView(_ endPoint: String, imageView: UIImageView) {
         let cleanedEndPoint = Plango.sharedInstance.cleanEndPoint(endPoint)
         
         if let image = Plango.sharedInstance.photoCache.imageWithIdentifier(cleanedEndPoint) {
@@ -158,7 +158,7 @@ class PlansTableViewCell: UITableViewCell {
         reset()
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state

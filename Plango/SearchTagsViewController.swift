@@ -9,7 +9,7 @@
 import UIKit
 
 protocol TagsResultsDelegate: class {
-    func didSelectTag(tag: Tag)
+    func didSelectTag(_ tag: Tag)
 }
 
 class TagsResultsViewController: UITableViewController {
@@ -19,21 +19,21 @@ class TagsResultsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.backgroundColor = UIColor.plangoBackgroundGray()
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "tag")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "tag")
     }
     
     // MARK: UITableViewDataSource
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filteredTags.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("tag", forIndexPath: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "tag", for: indexPath)
         
         cell.contentView.backgroundColor = UIColor.plangoBackgroundGray()
-        cell.textLabel?.backgroundColor = UIColor.clearColor()
-        cell.textLabel?.textAlignment = .Left
+        cell.textLabel?.backgroundColor = UIColor.clear
+        cell.textLabel?.textAlignment = .left
         cell.textLabel?.textColor = UIColor.plangoText()
         cell.textLabel?.font = UIFont.plangoBodyBig()
 
@@ -45,7 +45,7 @@ class TagsResultsViewController: UITableViewController {
     
     // MARK: UITableViewDelegate
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.didSelectTag(filteredTags[indexPath.row])
     }
 }
@@ -91,10 +91,10 @@ class SearchTagsViewController: UIViewController, UISearchResultsUpdating, UISea
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView = UITableView(frame: UIScreen.mainScreen().bounds)
+        tableView = UITableView(frame: UIScreen.main.bounds)
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 227, 0) //status+nav+pager+tab+SearchButton, not sure why i need it here but not on itineraryTVC
 
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
         tableView.backgroundColor = UIColor.plangoBackgroundGray()
         tableView.backgroundView = UIView() //to fix and allow background gray show through search headerview
 
@@ -103,8 +103,8 @@ class SearchTagsViewController: UIViewController, UISearchResultsUpdating, UISea
 //        tableView.editing = true
 //        tableView.allowsSelectionDuringEditing = true
 
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "selection")
-        tableView.registerClass(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: "header")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "selection")
+        tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: "header")
 
         self.view.addSubview(tableView)
         
@@ -142,37 +142,37 @@ class SearchTagsViewController: UIViewController, UISearchResultsUpdating, UISea
     
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         self.tableView.clipsToBounds = true
     }
     
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
+    func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
         resultsViewController.tableView.reloadData()
     }
     
-    func filterContentForSearchText(searchText: String) {
+    func filterContentForSearchText(_ searchText: String) {
         resultsViewController.filteredTags = self.tags.filter { (tag) -> Bool in
-            return tag.name!.lowercaseString.containsString(searchText.lowercaseString)
+            return tag.name!.lowercased().contains(searchText.lowercased())
         }
     }
     
-    func didSelectTag(tag: Tag) {
+    func didSelectTag(_ tag: Tag) {
         
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             self.tableView.beginUpdates()
             self.selectedTags.append(tag)
-            let indexPath = NSIndexPath(forRow: self.selectedTags.endIndex - 1, inSection: 0)
+            let indexPath = IndexPath(row: self.selectedTags.endIndex - 1, section: 0)
             
             self.searchController?.searchBar.text = nil
-            self.searchController!.searchResultsController?.dismissViewControllerAnimated(true, completion: nil)
-            self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            self.searchController!.searchResultsController?.dismiss(animated: true, completion: nil)
+            self.tableView.insertRows(at: [indexPath], with: .automatic)
             
             if self.selectedTags.count == 1 {
-                let section = NSIndexSet(index: indexPath.section)
-                self.tableView.reloadSections(section, withRowAnimation: .Automatic)
+                let section = IndexSet(integer: indexPath.section)
+                self.tableView.reloadSections(section, with: .automatic)
             }
             
             self.tableView.endUpdates()
@@ -181,7 +181,7 @@ class SearchTagsViewController: UIViewController, UISearchResultsUpdating, UISea
 }
 
 extension SearchTagsViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if selectedTags.count > 0 {
             return selectedTags.count
         } else {
@@ -189,26 +189,26 @@ extension SearchTagsViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    func deleteAtIndexPath(indexPath: NSIndexPath) {
+    func deleteAtIndexPath(_ indexPath: IndexPath) {
         tableView.beginUpdates()
-        selectedTags.removeAtIndex(indexPath.row)
-        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+        selectedTags.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
         if selectedTags.count == 0 {
-            let section = NSIndexSet(index: indexPath.section)
-            tableView.reloadSections(section, withRowAnimation: .Automatic)
+            let section = IndexSet(integer: indexPath.section)
+            tableView.reloadSections(section, with: .automatic)
         }
         
         tableView.endUpdates()
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("selection", forIndexPath: indexPath)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "selection", for: indexPath)
         
         cell.imageView?.image = nil
 //        cell.imageView?.hidden = true
         cell.contentView.backgroundColor = UIColor.plangoBackgroundGray()
-        cell.textLabel?.backgroundColor = UIColor.clearColor()
-        cell.textLabel?.textAlignment = .Center
+        cell.textLabel?.backgroundColor = UIColor.clear
+        cell.textLabel?.textAlignment = .center
         cell.textLabel?.textColor = UIColor.plangoText()
         cell.textLabel?.font = UIFont.plangoBodyBig()
         
@@ -222,18 +222,18 @@ extension SearchTagsViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if selectedTags.count == 0 {
             selectedTags.append(tags[indexPath.row])
-            let section = NSIndexSet(index: indexPath.section)
-            tableView.reloadSections(section, withRowAnimation: .Automatic)
+            let section = IndexSet(integer: indexPath.section)
+            tableView.reloadSections(section, with: .automatic)
         } else {
             deleteAtIndexPath(indexPath)
         }
     }
 
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier("header")
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "header")
         headerView!.contentView.backgroundColor = UIColor.plangoBackgroundGray()
         
         if selectedTags.count > 0 {
@@ -245,14 +245,14 @@ extension SearchTagsViewController: UITableViewDelegate, UITableViewDataSource {
         return headerView
     }
     
-    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let headerView = view as! UITableViewHeaderFooterView
-        headerView.textLabel!.textAlignment = .Center
+        headerView.textLabel!.textAlignment = .center
         headerView.textLabel!.textColor = UIColor.plangoTextLight()
         headerView.textLabel!.font = UIFont.plangoSearchHeader()
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return Helper.HeaderHeight.section.value
     }
     
