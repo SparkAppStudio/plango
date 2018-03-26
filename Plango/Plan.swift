@@ -173,7 +173,7 @@ class Plan: PlangoObject {
         // NOTE: - the time given in the JSON is actually in yyyy-MM-dd’T'HH:mm:ss.SSSZ format. However, that denotes timezone of UTC for ISODate, and the times received are actually local times. Each time is local to the timezone that event is created in. Here I will set all of them to the local time of the device. This means the calculation between device and time of a certain event is only accurate if the device is in the same timezone of that event. This also requires me to drop the last 5 chars of the JSON string to match this timezoneless template, which we just assign to be local time.
         
         let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale.system
+        dateFormatter.locale = Locale.current
         dateFormatter.timeZone = TimeZone.current
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
 

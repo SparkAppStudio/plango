@@ -1,64 +1,64 @@
 PODS:
-  - Alamofire (4.4.0)
-  - AlamofireImage (3.2.0):
+  - Alamofire (4.7.0)
+  - AlamofireImage (3.3.0):
+    - Alamofire (~> 4.5)
+  - AlamofireNetworkActivityIndicator (2.2.0):
+    - Alamofire (~> 4.5)
+  - AlamofireObjectMapper (5.0.0):
     - Alamofire (~> 4.1)
-  - AlamofireNetworkActivityIndicator (2.1.0):
-    - Alamofire (~> 4.1)
-  - AlamofireObjectMapper (4.1.0):
-    - Alamofire (~> 4.1)
-    - ObjectMapper (~> 2.0)
-  - Bolts (1.8.4):
-    - Bolts/AppLinks (= 1.8.4)
-    - Bolts/Tasks (= 1.8.4)
-  - Bolts/AppLinks (1.8.4):
+    - ObjectMapper (~> 3.0)
+  - Bolts (1.9.0):
+    - Bolts/AppLinks (= 1.9.0)
+    - Bolts/Tasks (= 1.9.0)
+  - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
-  - Bolts/Tasks (1.8.4)
+  - Bolts/Tasks (1.9.0)
   - ChameleonFramework/Default (2.1.0)
   - ChameleonFramework/Swift (2.1.0):
     - ChameleonFramework/Default
   - CZWeatherKit (2.2.7):
     - PINCache (~> 2.1)
-  - FBSDKCoreKit (4.20.0):
+  - FBSDKCoreKit (4.31.1):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.20.0):
+  - FBSDKLoginKit (4.31.1):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.20.0):
-    - FBSDKCoreKit
-  - GoogleMaps (2.2.0):
-    - GoogleMaps/Maps (= 2.2.0)
-  - GoogleMaps/Base (2.2.0)
-  - GoogleMaps/Maps (2.2.0):
+  - FBSDKShareKit (4.31.1):
+    - FBSDKCoreKit (~> 4.31.1)
+  - GoogleMaps (2.6.0):
+    - GoogleMaps/Maps (= 2.6.0)
+  - GoogleMaps/Base (2.6.0)
+  - GoogleMaps/Maps (2.6.0):
     - GoogleMaps/Base
-  - GooglePlacePicker (2.2.0):
-    - GoogleMaps (= 2.2.0)
-    - GooglePlaces (= 2.2.0)
-  - GooglePlaces (2.2.0):
-    - GoogleMaps/Base (= 2.2.0)
+  - GooglePlacePicker (2.6.0):
+    - GoogleMaps (= 2.6.0)
+    - GooglePlaces (= 2.6.0)
+  - GooglePlaces (2.6.0):
+    - GoogleMaps/Base (= 2.6.0)
   - HMSegmentedControl (1.5.3)
-  - Hue (2.0.1)
-  - Mapbox-iOS-SDK (3.4.2)
-  - MapboxDirections.swift (0.8.0):
-    - Polyline (~> 4.0)
-  - MapboxGeocoder.swift (0.6.0)
-  - MBProgressHUD (1.0.0)
+  - Hue (3.0.1)
+  - Mapbox-iOS-SDK (3.7.6)
+  - MapboxDirections.swift (0.19.0):
+    - Polyline (~> 4.2)
+  - MapboxGeocoder.swift (0.8.0)
+  - MBProgressHUD (1.1.0)
   - MXPagerView (0.2.1)
   - MXParallaxHeader (0.6.1)
-  - MXSegmentedPager (3.2.2):
+  - MXSegmentedPager (3.3.0):
     - HMSegmentedControl (= 1.5.3)
     - MXPagerView (= 0.2.1)
     - MXParallaxHeader (= 0.6.1)
-  - ObjectMapper (2.2.5)
+  - ObjectMapper (3.1.0)
   - PINCache (2.3)
-  - Polyline (4.0.0)
-  - Realm (2.4.3):
-    - Realm/Headers (= 2.4.3)
-  - Realm/Headers (2.4.3)
-  - RealmSwift (2.4.3):
-    - Realm (= 2.4.3)
-  - SnapKit (3.2.0)
-  - Spring (1.0.3)
-  - SwiftyJSON (3.1.4)
-  - Whisper (4.0.0)
+  - Polyline (4.2.0)
+  - Realm (3.3.0):
+    - Realm/Headers (= 3.3.0)
+  - Realm/Headers (3.3.0)
+  - RealmSwift (3.3.0):
+    - Realm (= 3.3.0)
+  - SnapKit (4.0.0)
+  - Spring (1.0.5)
+  - SwiftyJSON (4.0.0)
+  - Whisper (6.0.2)
 
 DEPENDENCIES:
   - Alamofire
@@ -93,42 +93,42 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   ChameleonFramework:
-    :commit: acc480fbe023c6e5fe40f68593f4a70a8c4c7ad5
+    :commit: 6dd284bde21ea2e7f9fd89bc36f40df16e16369d
     :git: https://github.com/ViccAlexander/Chameleon.git
 
 SPEC CHECKSUMS:
-  Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
-  AlamofireImage: 157ed682cc81d3b9db4fb90c1f12180ac552d93b
-  AlamofireNetworkActivityIndicator: 4716f6554bdfb9c7cf13b1e0e3af21163129690a
-  AlamofireObjectMapper: 435adc82f5b367679bd9e71c4974a54efd0b2521
-  Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
+  Alamofire: 907e0a98eb68cdb7f9d1f541a563d6ac5dc77b25
+  AlamofireImage: 2e784dc5d00f04903a52c1d169181469c805c3df
+  AlamofireNetworkActivityIndicator: 81e1630e7cfed22a4e4e82a174c59e651dc4f8ca
+  AlamofireObjectMapper: 5fafc816351cbbc0d486611aaeba7461c0cbad49
+  Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   CZWeatherKit: e15848c63ac021a83ec92e8fc0011a4ada6bf2ed
-  FBSDKCoreKit: 2d16979b28fe28c2b95af0d275ad5f9703c6c8de
-  FBSDKLoginKit: a9d9391506c687e2304a590bf9312837fce7f375
-  FBSDKShareKit: 1b91af62a603d67f392bc7fde63bc4a0705dde31
-  GoogleMaps: 104c418d61ab8a05dff06ed0784c25ea9d37da45
-  GooglePlacePicker: 345b1aabd42c9d6d9bf2369c1bae1234d903e764
-  GooglePlaces: bca867d5e9da15384c794b945e4226848bc6e9d9
+  FBSDKCoreKit: e08ccfcefa7bc1347a07c276dac9bf6c7fe57024
+  FBSDKLoginKit: 99797ac39252fef6f72600b886f6ee60b4b29cab
+  FBSDKShareKit: e640c41c9fcd61929eeb3d0c21ad335103e7cb62
+  GoogleMaps: 42f91c68b7fa2f84d5c86597b18ceb99f5414c7f
+  GooglePlacePicker: e4488625effb006f59de49e14b7a603e463e4261
+  GooglePlaces: f6ddf33b75cef69e888907d9947c57198ed845f3
   HMSegmentedControl: 7c6145afb50f26cec5f3243082f6f12b9f41318f
-  Hue: 354caec055fdc9d38b5ef33ca2e7224721843baf
-  Mapbox-iOS-SDK: d2c567fee32d316044ec925c8bcfb74a92d57ec9
-  MapboxDirections.swift: 242f12da1a6530f436d5fe5b4d9fc38cf2f9b1d0
-  MapboxGeocoder.swift: dd6783c5262b4ebb1cf5f2662b56cea94a90f67d
-  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  Hue: 93e852fa6211ab35922ad8c293f51c43d6c79eb2
+  Mapbox-iOS-SDK: 23ececda1d90c3b436b45e2c88e9677f025303c0
+  MapboxDirections.swift: 28c683ee94b12c0da7849ec5e579150623180fee
+  MapboxGeocoder.swift: 16e8488bbb81a5036b9a11d4d7714200337db86b
+  MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
   MXPagerView: ede184b5191b2ed689ccf05a750a9978cce42414
   MXParallaxHeader: 858c403532ed933b381556a81ce333d7065ad182
-  MXSegmentedPager: e15df1e335bdc9d86c39eee1e6b5f7ef1a22d7c3
-  ObjectMapper: fb30f71e08470d1e5a20b199fafe1246281db898
+  MXSegmentedPager: a35ebaf939e1629f24db3bb26653c1c557362f59
+  ObjectMapper: 20505058f54e5c3ca69e1d6de9897d152a5369a6
   PINCache: ce36ed282031b92fc7733ffe831f474ff80fddc2
-  Polyline: c6de7430bf6ff0bfff1f087343597b83b38fdb69
-  Realm: e08d60b0048ccccd3949c8c28a92c4db5712d7e9
-  RealmSwift: 30d49739ccb3385d201242736ca4dda56aec9dfc
-  SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
-  Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7
-  SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
-  Whisper: 08be92623311f8e53201e62e17f6d7b9599a4714
+  Polyline: 3d69f75bb136357e27291d439d0436c6ebda57a4
+  Realm: 7d74ad6c5020432f58fe5e1df90bb6d97b2c7fef
+  RealmSwift: b2fa31a09c22e246026766557405505eeaad2b01
+  SnapKit: a42d492c16e80209130a3379f73596c3454b7694
+  Spring: 17901566c8ecf3a1327902b940406c64512f9bb1
+  SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
+  Whisper: 169760fc4bab0abf24d5529f9276f95c25cf1025
 
 PODFILE CHECKSUM: 6407a233824908c2be222866f3d229f35f0316d5
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.4.0

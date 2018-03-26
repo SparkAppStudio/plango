@@ -368,7 +368,7 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
             Waypoint(coordinate: userCoordinates),
             Waypoint(coordinate: annotation.coordinate),]
         
-        let options = RouteOptions(waypoints: waypoints, profileIdentifier: MBDirectionsProfileIdentifierAutomobile)
+        let options = RouteOptions(waypoints: waypoints, profileIdentifier: MBDirectionsProfileIdentifier.automobile)
         options.includesSteps = true
         
         directions.calculateDirections(options: options) { (waypoints, routes, error) in

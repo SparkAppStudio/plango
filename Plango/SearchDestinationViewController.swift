@@ -297,7 +297,7 @@ extension SearchDestinationViewController: GMSAutocompleteResultsViewControllerD
     }
     
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
-                           didFailAutocompleteWithError error: NSError){
+                           didFailAutocompleteWithError error: Error){
         self.printError(error)
         self.view.detailToast("Google Error", details: error.localizedDescription)
     }

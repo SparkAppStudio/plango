@@ -38,7 +38,7 @@ class MyPlansViewController: MXSegmentedPagerController {
         return button
     }()
     
-    func didTapAccountButton() {
+    @objc func didTapAccountButton() {
         
         let alert = UIAlertController(title: "Logout?", message: "If you log out you will remove all plans and maps stored on this phone.", preferredStyle: .alert)
         

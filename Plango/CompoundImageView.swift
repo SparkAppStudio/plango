@@ -33,9 +33,9 @@ class CompoundImageView: UIImageView {
         grayLayer.frame = self.bounds
         self.layer.addSublayer(grayLayer)
     }
-    
-    override func layoutSublayersOfLayer(_ layer: CALayer) {
-        super.layoutSublayersOfLayer(layer)
+
+    override func layoutSublayers(of layer: CALayer) {
+        super.layoutSublayers(of: layer)
         gradient.frame = CGRect(x: 0, y: self.bounds.height / 2, width: self.bounds.width, height: self.bounds.height / 2)
         grayLayer.frame = self.bounds
     }

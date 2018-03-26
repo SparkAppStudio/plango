@@ -138,7 +138,7 @@ class Plango: NSObject {
         }
     }
     
-    func fetchMembersFromPlan(_ endPoint: String, members: [Member], onCompletion: UsersResponse) -> Request {
+    func fetchMembersFromPlan(_ endPoint: String, members: [Member], onCompletion: @escaping UsersResponse) -> Request {
 
         var memberIDs = [String]()
         for member in members {
@@ -153,7 +153,7 @@ class Plango: NSObject {
         mutableURLRequest.httpBody = try! JSONSerialization.data(withJSONObject: memberIDs, options: [])
         
         
-        return Alamofire.request(mutableURLRequest).validate().responseJSON { response in
+        return Alamofire.request(mutableURLRequest as! URLRequestConvertible).validate().responseJSON { response in
             switch response.result {
             case .success(let value):
                 let dataJSON = JSON(value)
@@ -167,7 +167,7 @@ class Plango: NSObject {
                     onCompletion(nil, newError)
                 }
             case .failure(let error):
-                let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
+                let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedDescription)
                 
                 onCompletion(nil, newError)
             }
@@ -175,9 +175,9 @@ class Plango: NSObject {
         }
     }
     
-    func fetchPlans(_ endPoint: String, onCompletion: PlansResponse) -> Request {
+    func fetchPlans(_ endPoint: String, onCompletion: @escaping PlansResponse) -> Request {
         return Alamofire.request(endPoint).validate().responseJSON { response in
-            print(response.request?.URLString)
+            print(response.request?.urlRequest ?? "fetch plans request")
 
             switch response.result {
             case .success(let value):
@@ -185,7 +185,7 @@ class Plango: NSObject {
 
                 onCompletion(Plan.getPlansFromJSON(dataJSON), nil)
             case .failure(let error):
-                let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedFailureReason)
+                let newError = PlangoError(statusCode: response.response?.statusCode, message: error.localizedDescription)
 
                 onCompletion(nil, newError)
             }
@@ -196,8 +196,8 @@ class Plango: NSObject {
         
         //pagination
         var newParameters = parameters
-        newParameters["maxResults"] = 14
-        newParameters["pageNum"] = page
+        newParameters["maxResults"] = 14 as AnyObject
+        newParameters["pageNum"] = page as AnyObject
         
         //encoding
         let encodableURLRequest = URLRequest(url: URL(string: endPoint)!)
@@ -331,7 +331,7 @@ class Plango: NSObject {
         }
     }
     
-    func fetchImage(_ endPoint: String, onCompletion: ImageResponse) -> Request {
+    func fetchImage(_ endPoint: String, onCompletion: @escaping ImageResponse) -> Request {
         return Alamofire.request(endPoint).validate().responseImage { (response) in
             
             switch response.result {

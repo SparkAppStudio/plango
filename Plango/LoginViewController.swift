@@ -304,7 +304,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UITableViewDel
 //        }
     }
     
-    func didTapCancel() {
+    @objc func didTapCancel() {
         tableView.endEditing(true)
         dismissBothControllers()
     }
@@ -317,7 +317,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UITableViewDel
         }
     }
     
-    func didTapToggle(_ sender: UIButton) {
+    @objc func didTapToggle(_ sender: UIButton) {
         if loginSegment.selectedSegmentIndex == 0 {
             loginSegment.selectedSegmentIndex = 1
         } else {
@@ -326,7 +326,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UITableViewDel
         loginSegment.sendActions(for: UIControlEvents.valueChanged)
     }
     
-    func didChangeLoginSegment() {
+    @objc func didChangeLoginSegment() {
         tableView.reloadData()
         if loginSegment.selectedSegmentIndex == 0 {
 //            footerView.bounds = CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.size.width, height: Heights.FooterLogin.value)
@@ -355,13 +355,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UITableViewDel
 //        self.tableView.endEditing(true)
 //    }
     
-    func didTapForgotPassword(_ sender: UIButton) {
+    @objc func didTapForgotPassword(_ sender: UIButton) {
         guard let url = URL(string: "https://www.plango.us/login/#/forgot-password") else {return}
         let safariVC = SFSafariViewController(url: url)
         present(safariVC, animated: true, completion: nil)
     }
     
-    func didTapLogin(_ button: UIButton) {
+    @objc func didTapLogin(_ button: UIButton) {
         if loginSegment.selectedSegmentIndex == 0 {
             guard let userEmail = emailTextField.text else {
                 self.tableView.quickToast("Please Enter your Email")
@@ -597,7 +597,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UITableViewDel
 }
 
 extension LoginViewController: FBSDKLoginButtonDelegate {
-    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
         if error != nil {
             printError(error)
             self.tableView.quickToast(error.localizedFailureReason!)

@@ -40,8 +40,8 @@ class DiscoverTableViewController: UITableViewController {
     lazy var tagsArray = [Tag]()
     
     lazy var usersDictionary = [IndexPath:User]()
-    lazy var popularDestinationsPlansArray = [Plan]?()
-    lazy var plangoFavoriteCollectionsArray = [PlangoCollection]?()
+    lazy var popularDestinationsPlansArray: [Plan]? = [Plan]()
+    lazy var plangoFavoriteCollectionsArray: [PlangoCollection]? = [PlangoCollection]()
     var plangoFavoritesDictionary: [String:[Plan]]?
     
     override func viewDidLoad() {
@@ -79,7 +79,7 @@ class DiscoverTableViewController: UITableViewController {
         fetchPlangoFavMeta()
     }
     
-    func didPullRefresh() {
+    @objc func didPullRefresh() {
         if Helper.isConnectedToNetwork() {
             fetchTags(Plango.EndPoint.AllTags.value)
             
@@ -202,7 +202,7 @@ class DiscoverTableViewController: UITableViewController {
             
         case DiscoverTitles.PopularPlans.section:
             
-            let report = UITableViewRowAction(style: UITableViewRowActionStyle(), title: "Report") { action, index in
+            let report = UITableViewRowAction(style: .normal, title: "Report") { action, index in
                 DispatchQueue.main.async(execute: { () -> Void in
                     tableView.setEditing(false, animated: true)
                     

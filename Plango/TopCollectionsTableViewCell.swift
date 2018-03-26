@@ -21,7 +21,8 @@ class TopCollectionsTableViewCell: UITableViewCell {
         self.layoutIfNeeded()
         if let avatarString = plangoCollection?.avatar {
             let avatarURL = URL(string: Plango.sharedInstance.cleanEndPoint(avatarString))
-            coverImageView.af_setImageWithURL(avatarURL!)
+
+            coverImageView.af_setImage(withURL: avatarURL!)
             coverImageView.gradientDarkToClear()
         }
         

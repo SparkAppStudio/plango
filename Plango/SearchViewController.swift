@@ -72,11 +72,11 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         self.view.backgroundColor = UIColor.plangoBackgroundGray()
         
         // Segmented Control customization
-        self.segmentedPager.segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
+        self.segmentedPager.segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocation.down;
         self.segmentedPager.segmentedControl.backgroundColor = UIColor.white
-        self.segmentedPager.segmentedControl.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.plangoTypeSectionHeaderGray(), NSFontAttributeName: UIFont.plangoHeader()];
-        self.segmentedPager.segmentedControl.selectedTitleTextAttributes = [NSForegroundColorAttributeName : UIColor.plangoTypeSectionHeaderGray(), NSFontAttributeName: UIFont.plangoHeader()]
-        self.segmentedPager.segmentedControl.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe
+        self.segmentedPager.segmentedControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.plangoTypeSectionHeaderGray(), NSAttributedStringKey.font: UIFont.plangoHeader()];
+        self.segmentedPager.segmentedControl.selectedTitleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.plangoTypeSectionHeaderGray(), NSAttributedStringKey.font: UIFont.plangoHeader()]
+        self.segmentedPager.segmentedControl.selectionStyle = HMSegmentedControlSelectionStyle.fullWidthStripe
         self.segmentedPager.segmentedControl.selectionIndicatorColor = UIColor.plangoOrange()
         
         
@@ -91,7 +91,7 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
         self.segmentedPager.addSubview(searchButton)
     }
     
-    func didTapSearch(_ sender: UIButton) {
+    @objc func didTapSearch(_ sender: UIButton) {
         if Helper.isConnectedToNetwork() {
             collectSearchParameters()
             let parameters = Plango.sharedInstance.buildParameters(minDuration, maxDuration: maxDuration, tags: selectedTags, selectedDestinations: selectedDestinations, user: nil, isJapanSearch: nil)

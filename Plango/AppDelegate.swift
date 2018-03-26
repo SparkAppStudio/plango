@@ -287,7 +287,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         plangoNav([tabOne, tabTwo, tabThree])
         
         //search controllers
-        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.plangoOrange(), NSFontAttributeName: UIFont.plangoSmallButton()], for: UIControlState())
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.plangoOrange(), NSAttributedStringKey.font: UIFont.plangoSmallButton()], for: UIControlState())
         
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).font = UIFont.plangoBody()
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).textColor = UIColor.plangoTextLight()
@@ -347,7 +347,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func plangoTabBarItem(_ tabBarItems: [UITabBarItem]) {
         for tab in tabBarItems {
-            tab.setTitleTextAttributes([NSFontAttributeName: UIFont.plangoTabBar()], for: UIControlState())
+            tab.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.plangoTabBar()], for: UIControlState())
         }
     }
     
@@ -355,7 +355,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         for nav in navControllers {
             nav.navigationBar.barTintColor = UIColor.plangoTeal()
             nav.navigationBar.tintColor = UIColor.white
-            nav.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.plangoNav()]
+            nav.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont.plangoNav()]
             nav.navigationBar.isTranslucent = false
         }
     }

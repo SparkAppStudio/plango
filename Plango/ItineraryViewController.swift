@@ -80,8 +80,8 @@ class ItineraryViewController: MXSegmentedPagerController {
         // Segmented Control customization
         self.segmentedPager.segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocation.down
         self.segmentedPager.segmentedControl.backgroundColor = UIColor.white
-        self.segmentedPager.segmentedControl.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.plangoTypeSectionHeaderGray(), NSFontAttributeName: UIFont.plangoHeader()]
-        self.segmentedPager.segmentedControl.selectedTitleTextAttributes = [NSForegroundColorAttributeName : UIColor.plangoTypeSectionHeaderGray(), NSFontAttributeName: UIFont.plangoHeader()]
+        self.segmentedPager.segmentedControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.plangoTypeSectionHeaderGray(), NSAttributedStringKey.font: UIFont.plangoHeader()]
+        self.segmentedPager.segmentedControl.selectedTitleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.plangoTypeSectionHeaderGray(), NSAttributedStringKey.font: UIFont.plangoHeader()]
         self.segmentedPager.segmentedControl.selectionStyle = HMSegmentedControlSelectionStyle.fullWidthStripe
         self.segmentedPager.segmentedControl.selectionIndicatorColor = UIColor.plangoOrange()
         
@@ -133,7 +133,7 @@ class ItineraryViewController: MXSegmentedPagerController {
         }
     }
     
-    func didTapMap() {
+    @objc func didTapMap() {
         let experiences = experiencesByDays[segmentedPager.pager.indexForSelectedPage]
         if experiences?.count > 0 {
             var hasMapData = false

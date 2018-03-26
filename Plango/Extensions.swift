@@ -834,8 +834,8 @@ extension UIResponder {
         }
     }
     
-    func printError(_ error: NSError) {
-        print("In \(self) Code: \(error.code) Failure Reason: \(error.localizedFailureReason)")
+    func printError(_ error: Error) {
+        print("In \(self) Failure Reason: \(error.localizedDescription)")
     }
 }
 

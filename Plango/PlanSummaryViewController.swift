@@ -278,7 +278,7 @@ class PlanSummaryViewController: UITableViewController {
             
             //realm
             let realm = try! Realm()
-            if let object = realm.objectForPrimaryKey(StoredPlan.self, key: plan.id) {
+            if let object = realm.object(ofType: StoredPlan.self, forPrimaryKey: plan.id) {
                 try! realm.write {
                     realm.delete(object)
                 }
@@ -458,7 +458,7 @@ class PlanSummaryViewController: UITableViewController {
             buttonStackView.addArrangedSubview(friendsButton)
             
             buttonStackView.addSubview(progressView)
-            progressView.snp_makeConstraints(closure: { (make) in
+            progressView.snp_makeConstraints({ (make) in
                 make.top.equalTo(buttonStackView.snp_bottom)
                 make.height.equalTo(12)
                 make.leading.equalTo(buttonStackView.snp_leading)
@@ -777,7 +777,7 @@ class PlanSummaryViewController: UITableViewController {
         timer = nil
     }
     
-    func timerDidFire() {
+    @objc func timerDidFire() {
         if let startDate = plan.startDate {
             startTimer(startDate as Date)
         }
@@ -786,20 +786,20 @@ class PlanSummaryViewController: UITableViewController {
     func startTimer(_ startDate: Date) {
         let today = Date()
         calendar.timeZone = TimeZone.autoupdatingCurrent
-        
-        days = (calendar as Calendar).dateComponents(.day, from: today, to: startDate, options: []).day!
-        
-        let startMinusDays = (calendar as Calendar).date(byAdding: .day, value: -days, to: startDate, options: [])
-        
-        hours = (calendar as Calendar).dateComponents(.hour, from: today, to: startMinusDays!, options: []).hour!
-        
-        let startMinusHours = (calendar as Calendar).date(byAdding: .hour, value: -hours, to: startMinusDays!, options: [])
 
-        minutes = (calendar as Calendar).dateComponents(.minute, from: today, to: startMinusHours!, options: []).minute!
+        days = calendar.dateComponents([.day], from: today, to: startDate).day!
+
+        let startMinusDays = calendar.date(byAdding: .day, value: -days, to: startDate)
         
-        let startMinusMinutes = (calendar as Calendar).date(byAdding: .minute, value: -minutes, to: startMinusHours!, options: [])
+        hours = calendar.dateComponents([.hour], from: today, to: startMinusDays!).hour!
         
-        seconds = (calendar as Calendar).dateComponents(.second, from: today, to: startMinusMinutes!, options: []).second!
+        let startMinusHours = calendar.date(byAdding: .hour, value: -hours, to: startMinusDays!)
+
+        minutes = calendar.dateComponents([.minute], from: today, to: startMinusHours!).minute!
+        
+        let startMinusMinutes = calendar.date(byAdding: .minute, value: -minutes, to: startMinusHours!)
+        
+        seconds = calendar.dateComponents([.second], from: today, to: startMinusMinutes!).second!
         
         if days > 0 || hours > 0 || minutes > 0 || seconds > 0 {
             startDaysLabel.text = days.description
@@ -830,14 +830,14 @@ class PlanSummaryViewController: UITableViewController {
 //        scrollView.contentSize = stackView.frame.size
 //    }
     
-    func didTapItinerary() {
+    @objc func didTapItinerary() {
         guard (plan.experiences?.count > 0) else {self.view.quickToast("No Activities for this Plan"); return}
         let itineraryVC = ItineraryViewController()
         itineraryVC.plan = self.plan
         self.show(itineraryVC, sender: nil)
     }
     
-    func didTapMap() {
+    @objc func didTapMap() {
         guard (plan.experiences?.count > 0) else {self.view.quickToast("No Activities for this Plan"); return}
         displayMapForPlan(plan, download: false)
     }
@@ -845,7 +845,7 @@ class PlanSummaryViewController: UITableViewController {
     
 
     
-    func didTapFriends() {
+    @objc func didTapFriends() {
         guard let members = plan.members else {self.view.quickToast("No Members"); return}
         let membersVC = PlanMembersTableViewController()
         membersVC.members = members

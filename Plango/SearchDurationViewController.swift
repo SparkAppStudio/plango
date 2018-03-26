@@ -76,7 +76,7 @@ class SearchDurationViewController: UIViewController, UIPickerViewDelegate, UIPi
             title = maxDays[row]
         }
         
-        return NSAttributedString(string: title, attributes: [NSForegroundColorAttributeName : UIColor.plangoText(), NSFontAttributeName : UIFont.plangoBodyBig()])
+        return NSAttributedString(string: title, attributes: [NSAttributedStringKey.foregroundColor : UIColor.plangoText(), NSAttributedStringKey.font : UIFont.plangoBodyBig()])
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {

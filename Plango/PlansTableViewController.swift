@@ -343,7 +343,7 @@ class PlansTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let report = UITableViewRowAction(style: UITableViewRowActionStyle(), title: "Report") { action, index in
+        let report = UITableViewRowAction(style: .normal, title: "Report") { action, index in
             DispatchQueue.main.async(execute: { () -> Void in
                 tableView.setEditing(false, animated: true)
                 
