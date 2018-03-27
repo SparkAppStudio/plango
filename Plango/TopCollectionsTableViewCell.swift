@@ -56,7 +56,7 @@ class TopCollectionsMiddleTableViewCell: TopCollectionsTableViewCell {
         self.layoutIfNeeded()
         if let avatarString = plangoCollection?.avatar {
             let avatarURL = URL(string: Plango.sharedInstance.cleanEndPoint(avatarString))
-            coverImageViewM.af_setImageWithURL(avatarURL!)
+            coverImageViewM.af_setImage(withURL: avatarURL!)
             
         }
         

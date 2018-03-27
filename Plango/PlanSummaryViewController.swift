@@ -335,7 +335,7 @@ class PlanSummaryViewController: UITableViewController {
             if planID == plan.id {
                 
                 let realm = try! Realm()
-                if let object = realm.objectForPrimaryKey(StoredPlan.self, key: plan.id) {
+                if let object = realm.object(ofType: StoredPlan.self, forPrimaryKey: plan.id) {
                     if let map = object.mapSize {
                         DispatchQueue.main.async(execute: { () -> Void in
                             self.localPlanLabel.text = "Delete this map to free up storage (\(map))"
@@ -868,9 +868,10 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "packs" {
             if let change = change {
+                let changeObject = change[NSKeyValueChangeKey.kindKey] as AnyObject
 
-                let kind = (change[NSKeyValueChangeKey.kindKey]? as AnyObject).intValue
-                if kind == Int(NSKeyValueChange.setting.rawValue) {
+                let kind = changeObject.uintValue
+                if kind == NSKeyValueChange.setting.rawValue {
                     
                     //only check if its false, to perhaps prevent double firing
                     if planDownloaded == false {
@@ -913,7 +914,7 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
 
         //download and set avatar
         let request = URLRequest(url: cleanURL)
-        downloader.downloadImage(URLRequest: request, completion: { (response) in
+        downloader.download(request, completion: { (response) in
             self.myGroup.leave()
             if response.result.isSuccess {
                 if let image = response.result.value {

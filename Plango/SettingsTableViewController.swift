@@ -15,7 +15,7 @@ class SettingsTableViewController: UITableViewController {
         return button
     }()
     
-    func didTapAccountButton() {
+    @objc func didTapAccountButton() {
         if Plango.sharedInstance.currentUser == nil {
             self.navigationController?.present(LoginViewController(), animated: true, completion: nil)
         } else {

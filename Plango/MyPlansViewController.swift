@@ -101,7 +101,7 @@ class MyPlansViewController: MXSegmentedPagerController {
 
             if let endPoint = user.avatar {
                 let cleanURL = URL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
-                avatarImageView.af_setImageWithURL(cleanURL!)
+                avatarImageView.af_setImage(withURL: cleanURL!)
             }
 //            else if let facebook = user.facebookAvatar {
 //                let cleanURL = NSURL(string: facebook)

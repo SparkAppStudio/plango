@@ -22,7 +22,7 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
     var shouldDownload: Bool = false
     var progressView: UIProgressView!
 
-    let directions = Directions.sharedDirections
+    let directions = Directions.shared
     var routeLine: MGLPolyline!
     var navAnnotation: MGLAnnotation!
     var navMode: Bool = false {
@@ -74,19 +74,19 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         return button
     }()
 
-    func didTapCancelNav(_ selector: UIButton) {
+    @objc func didTapCancelNav(_ selector: UIButton) {
         endNavToAnnotation(mapView)
     }
     
-    func didTapStartNav(_ selector: UIButton) {
+    @objc func didTapStartNav(_ selector: UIButton) {
         openAppleMapsNavForAnnotation(navAnnotation)
     }
     
-    func didTapCenterView(_ selector: UIButton) {
+    @objc func didTapCenterView(_ selector: UIButton) {
         centerView()
     }
     
-    func didTapDefaultView(_ selector: UIButton) {
+    @objc func didTapDefaultView(_ selector: UIButton) {
         defaultView()
     }
     
@@ -188,7 +188,7 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
     
     // MARK: - MGLOfflinePack notification handlers
     
-    func offlinePackProgressDidChange(_ notification: Notification) {
+    @objc func offlinePackProgressDidChange(_ notification: Notification) {
         // Get the offline pack this notification is regarding,
         // and the associated user info for the pack; in this case, `name = My Offline Pack`
         if let pack = notification.object as? MGLOfflinePack,
@@ -226,7 +226,7 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         }
     }
     
-    func offlinePackDidReceiveError(_ notification: Notification) {
+    @objc func offlinePackDidReceiveError(_ notification: Notification) {
         if let pack = notification.object as? MGLOfflinePack,
             let userInfo = NSKeyedUnarchiver.unarchiveObject(with: pack.context) as? [String: String],
             let error = notification.userInfo?[MGLOfflinePackErrorUserInfoKey] as? NSError {
@@ -234,7 +234,7 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         }
     }
     
-    func offlinePackDidReceiveMaximumAllowedMapboxTiles(_ notification: Notification) {
+    @objc func offlinePackDidReceiveMaximumAllowedMapboxTiles(_ notification: Notification) {
         if let pack = notification.object as? MGLOfflinePack,
             let userInfo = NSKeyedUnarchiver.unarchiveObject(with: pack.context) as? [String: String],
             let maximumCount = (notification.userInfo?[MGLOfflinePackMaximumCountUserInfoKey] as AnyObject).uint64Value {
@@ -283,16 +283,16 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
 //    func mapViewWillStartLocatingUser(mapView: MGLMapView) {
 //        print("lat: \(mapView.userLocation?.coordinate.latitude) long: \(mapView.userLocation?.coordinate.longitude)")
 //    }
-    
-    func mapView(_ mapView: MGLMapView, didFailToLocateUserWithError error: NSError) {
-        if error.domain == kCLErrorDomain && error.code == CLError.Code.denied.rawValue {
+
+    func mapView(_ mapView: MGLMapView, didFailToLocateUserWithError error: Error) {
+        if error._domain == kCLErrorDomain && error._code == CLError.Code.denied.rawValue {
             //the user denied access and should provide location
             DispatchQueue.main.async(execute: { () -> Void in
                 let alert = UIAlertController(title: "Location Access Denied", message: "Go to settings to allow Plango to see your location", preferredStyle: .alert)
                 
                 let settings = UIAlertAction(title: "Settings", style: .default, handler: { (action) in
                     let url = URL(string: UIApplicationOpenSettingsURLString)
-                    UIApplication.shared.openURL(url!)
+                    UIApplication.shared.open(url!, options: [:], completionHandler: nil)
                     
                 })
                 
@@ -371,7 +371,7 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         let options = RouteOptions(waypoints: waypoints, profileIdentifier: MBDirectionsProfileIdentifier.automobile)
         options.includesSteps = true
         
-        directions.calculateDirections(options: options) { (waypoints, routes, error) in
+        directions.calculate(options: options) { (waypoints, routes, error) in
             guard error == nil else {
                 print("Error calculating directions: \(error!)")
                 if error?.domain == MBDirectionsErrorDomain {

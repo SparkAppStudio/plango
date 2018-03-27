@@ -12,22 +12,22 @@ import RealmSwift
 //import ObjectMapper
 
 class StoredPlan: PlangoStoredObject {
-    dynamic var mapSize: String?
-    dynamic var name: String?
-    dynamic var avatar: String?
-    dynamic var localAvatar: Data?
-    dynamic var planDescription: String?
+    @objc dynamic var mapSize: String?
+    @objc dynamic var name: String?
+    @objc dynamic var avatar: String?
+    @objc dynamic var localAvatar: Data?
+    @objc dynamic var planDescription: String?
     let isPublic = RealmOptional<Bool>()
     
-    dynamic var authorID: String?
+    @objc dynamic var authorID: String?
     
     let durationDays = RealmOptional<Int>()
-    dynamic var startDate: Date?
-    dynamic var endDate: Date?
+    @objc dynamic var startDate: Date?
+    @objc dynamic var endDate: Date?
     
-    dynamic var lastViewedDate: Date?
-    dynamic var lastUpdatedDate: Date?
-    dynamic var createdDate: Date?
+    @objc dynamic var lastViewedDate: Date?
+    @objc dynamic var lastUpdatedDate: Date?
+    @objc dynamic var createdDate: Date?
     
     let viewCount = RealmOptional<Int>()
     let usedCount = RealmOptional<Int>()
@@ -39,7 +39,7 @@ class StoredPlan: PlangoStoredObject {
     let events = List<StoredEvent>()
     let places = List<StoredPlace>()
     let experiences = List<StoredExperience>()
-    dynamic var plangoFavorite: String?
+    @objc dynamic var plangoFavorite: String?
     
     class func unpackStoredPlan(_ plan: StoredPlan) -> Plan {
         let savedPlan = Plan()
@@ -364,67 +364,67 @@ class StoredMember: PlangoStoredObject {
 }
 
 class StoredTodo: PlangoStoredObject {
-    dynamic var item: String = ""
-    dynamic var done: Bool = false
+    @objc dynamic var item: String = ""
+    @objc dynamic var done: Bool = false
 }
 
 class StoredEvent: PlangoStoredObject {
-    dynamic var experienceID: String? = nil
+    @objc dynamic var experienceID: String? = nil
     let duration = RealmOptional<Int>()
-    dynamic var startDate: Date? = nil
+    @objc dynamic var startDate: Date? = nil
     let allDay = RealmOptional<Bool>()
 }
 
 class StoredPlace: PlangoStoredObject {
-    dynamic var city: String?
-    dynamic var state: String?
-    dynamic var country: String?
-    dynamic var notes: String?
-    dynamic var startDate: Date?
-    dynamic var endDate: Date?
+    @objc dynamic var city: String?
+    @objc dynamic var state: String?
+    @objc dynamic var country: String?
+    @objc dynamic var notes: String?
+    @objc dynamic var startDate: Date?
+    @objc dynamic var endDate: Date?
     let durationDays = RealmOptional<Int>()
 
 }
 
 class StoredExperience: PlangoStoredObject {
-    dynamic var placeID: String?
-    dynamic var authorID: String?
-    dynamic var name: String?
-    dynamic var avatar: String?
-    dynamic var localAvatar: Data?
-    dynamic var address: String?
-    dynamic var city: String?
-    dynamic var state: String?
-    dynamic var country: String?
-    dynamic var url: String?
-    dynamic var rating: String?
-    dynamic var experienceDescription: String?
-    dynamic var notes: String?
-    dynamic var phone: String?
+    @objc dynamic var placeID: String?
+    @objc dynamic var authorID: String?
+    @objc dynamic var name: String?
+    @objc dynamic var avatar: String?
+    @objc dynamic var localAvatar: Data?
+    @objc dynamic var address: String?
+    @objc dynamic var city: String?
+    @objc dynamic var state: String?
+    @objc dynamic var country: String?
+    @objc dynamic var url: String?
+    @objc dynamic var rating: String?
+    @objc dynamic var experienceDescription: String?
+    @objc dynamic var notes: String?
+    @objc dynamic var phone: String?
     let tipCount = RealmOptional<Int>()
     let price = RealmOptional<Int>()
     let likes = RealmOptional<Int>()
-    dynamic var locationType: String?
-    dynamic var isPublic: Bool = false
-    dynamic var isCustom: Bool = false
+    @objc dynamic var locationType: String?
+    @objc dynamic var isPublic: Bool = false
+    @objc dynamic var isCustom: Bool = false
     let photos = List<PlangoStoredObject>()
     let hours = List<PlangoStoredObject>()
     let reviews = List<StoredReview>()
-    dynamic var geocode: StoredGeocode?
+    @objc dynamic var geocode: StoredGeocode?
 
 }
 
 class StoredReview: PlangoStoredObject {
-    dynamic var name: String?
-    dynamic var author: String?
-    dynamic var authorAvatar: String?
-    dynamic var localAvatar: Data?
+    @objc dynamic var name: String?
+    @objc dynamic var author: String?
+    @objc dynamic var authorAvatar: String?
+    @objc dynamic var localAvatar: Data?
     let likes = RealmOptional<Int>()
-    dynamic var date: Date?
+    @objc dynamic var date: Date?
 
 }
 //not a PlangoStoredObject because it has no mongoDB ID, and a blank Realm ID prevents it being retrieved
 class StoredGeocode: Object {
-    dynamic var lattitude: Double = 0.0
-    dynamic var longitude: Double = 0.0
+    @objc dynamic var lattitude: Double = 0.0
+    @objc dynamic var longitude: Double = 0.0
 }

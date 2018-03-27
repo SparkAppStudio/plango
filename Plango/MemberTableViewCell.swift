@@ -21,7 +21,7 @@ class MemberTableViewCell: UITableViewCell {
             nameLabel.text = cellUser.userName
             guard let endPoint = cellUser.avatar else {return}
             let cleanURL = URL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
-            profileImageView.af_setImageWithURL(cleanURL!)
+            profileImageView.af_setImage(withURL: cleanURL!)
         }
     }
     

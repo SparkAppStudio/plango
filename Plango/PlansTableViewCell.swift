@@ -83,7 +83,7 @@ class PlansTableViewCell: UITableViewCell {
             }
             let cleanURL = URL(string: Plango.sharedInstance.cleanEndPoint(endPoint))
             
-            self.profileImageView.af_setImageWithURL(cleanURL!)
+            self.profileImageView.af_setImage(withURL: cleanURL!)
         })
     }
     
@@ -138,7 +138,7 @@ class PlansTableViewCell: UITableViewCell {
     func loadImageForImageView(_ endPoint: String, imageView: UIImageView) {
         let cleanedEndPoint = Plango.sharedInstance.cleanEndPoint(endPoint)
         
-        if let image = Plango.sharedInstance.photoCache.imageWithIdentifier(cleanedEndPoint) {
+        if let image = Plango.sharedInstance.photoCache.image(withIdentifier: cleanedEndPoint) {
             imageView.image = image
             return
         }

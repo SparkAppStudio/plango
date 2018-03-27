@@ -38,7 +38,7 @@ class EventDetailsTableViewController: UITableViewController {
     var experience: Experience!
     var headerView: UIView!
     
-    func didTapDirections() {
+    @objc func didTapDirections() {
         displayMapForExperiences([experience], title: experience.name, download: false)
     }
 

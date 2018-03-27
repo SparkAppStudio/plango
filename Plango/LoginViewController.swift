@@ -600,7 +600,7 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
         if error != nil {
             printError(error)
-            self.tableView.quickToast(error.localizedFailureReason!)
+            self.tableView.quickToast(error.localizedDescription)
         } else if result.isCancelled == false {
             if loginSegment.selectedSegmentIndex == 0 {
                 NotificationCenter.default.post(name: Notification.Name(rawValue: Notify.Login.rawValue), object: nil, userInfo: ["controller" : self, "FBSDKLoginResult":result])

@@ -67,7 +67,7 @@ class EventTableViewCell: UITableViewCell {
         
         
         let formatter = DateFormatter()
-        formatter.locale = Locale.system
+        formatter.locale = Locale.current
         formatter.calendar = calendar
         formatter.timeZone = calendar.timeZone
         formatter.dateStyle = .short

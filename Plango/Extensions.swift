@@ -59,7 +59,7 @@ extension String {
     
     //This is necessary because the JSON object actually has timezone data '.SSSZ' which we dont want
     func trimDateTimeZone() -> String {
-        return String(self.characters.dropLast(5))
+        return String(self.dropLast(5))
     }
     
     func getLongState() -> String? {
@@ -950,7 +950,7 @@ extension UIView {
         })
     }
     
-    func hudTimerDidFire(_ sender: Timer) {
+    @objc func hudTimerDidFire(_ sender: Timer) {
         if let hud = sender.userInfo as? MBProgressHUD {
             DispatchQueue.main.async(execute: { () -> Void in
                 hud.hide(animated: true)
@@ -959,7 +959,7 @@ extension UIView {
         sender.invalidate()
     }
     
-    func hudTimerDidFireAndNotify(_ sender: Timer) {
+    @objc func hudTimerDidFireAndNotify(_ sender: Timer) {
         if let hud = sender.userInfo as? MBProgressHUD {
             DispatchQueue.main.async(execute: { () -> Void in
                 hud.hide(animated: true)

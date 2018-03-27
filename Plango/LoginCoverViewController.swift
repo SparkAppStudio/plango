@@ -155,7 +155,7 @@ class LoginCoverViewController: UIViewController {
 
     }
     
-    func didTapLogin(_ sender: UIButton) {
+    @objc func didTapLogin(_ sender: UIButton) {
         let loginVC = LoginViewController()
         if sender == signupButton {
             loginVC.loginSegment.selectedSegmentIndex = 1
@@ -165,7 +165,7 @@ class LoginCoverViewController: UIViewController {
         present(loginVC, animated: true, completion: nil)
     }
     
-    func didTapTerms(_ sender: UIButton) {
+    @objc func didTapTerms(_ sender: UIButton) {
         guard let url = URL(string: "https://www.plango.us/terms.html") else {return}
         let safariVC = SFSafariViewController(url: url)
         present(safariVC, animated: true, completion: nil)
