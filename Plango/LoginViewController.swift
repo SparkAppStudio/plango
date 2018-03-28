@@ -273,6 +273,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UITableViewDel
         headerStackView.fitViewConstraintsTo(containerHeaderView)
         
         loginButton.fitLoginButtons(self)
+
+        //need to remove 30pt height constraint facebook imposes
+        for constraint in facebookButton.constraints {
+            facebookButton.removeConstraint(constraint)
+        }
         facebookButton.fitLoginButtons(self)
         
         orLabel.fitLoginLabels()
