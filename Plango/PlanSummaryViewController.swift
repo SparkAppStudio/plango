@@ -376,25 +376,25 @@ class PlanSummaryViewController: UITableViewController {
         
         let nibHeader = UINib(nibName: "SummaryHeader", bundle: nil)
         headerView = nibHeader.instantiate(withOwner: self, options: nil)[0] as! UIView
-        headerView.snp_makeConstraints { (make) in
+        headerView.snp.makeConstraints { (make) in
             make.height.equalTo(Helper.CellHeight.superWide.value)
         }
         
         let nibStart = UINib(nibName: "SummaryStart", bundle: nil)
         startView = nibStart.instantiate(withOwner: self, options: nil)[0] as! UIView
-        startView.snp_makeConstraints { (make) in
+        startView.snp.makeConstraints { (make) in
             make.height.equalTo(200)
         }
         
         let nibDownload = UINib(nibName: "DownloadView", bundle: nil)
         downloadView = nibDownload.instantiate(withOwner: self, options: nil)[0] as! UIView
-        downloadView.snp_makeConstraints { (make) in
+        downloadView.snp.makeConstraints { (make) in
             make.height.equalTo(160)
         }
         
         let nibDelete = UINib(nibName: "DeletePlanView", bundle: nil)
         deleteView = nibDelete.instantiate(withOwner: self, options: nil)[0] as! UIView
-        deleteView.snp_makeConstraints { (make) in
+        deleteView.snp.makeConstraints { (make) in
             make.height.equalTo(160)
         }
         
@@ -448,7 +448,7 @@ class PlanSummaryViewController: UITableViewController {
         buttonStackView.axis = .horizontal
         buttonStackView.distribution = .fillEqually
 //        buttonStackView.spacing = 4
-        buttonStackView.snp_makeConstraints { (make) in
+        buttonStackView.snp.makeConstraints { (make) in
             make.height.equalTo(50)
         }
         
@@ -458,11 +458,11 @@ class PlanSummaryViewController: UITableViewController {
             buttonStackView.addArrangedSubview(friendsButton)
             
             buttonStackView.addSubview(progressView)
-            progressView.snp_makeConstraints({ (make) in
-                make.top.equalTo(buttonStackView.snp_bottom)
+            progressView.snp.makeConstraints({ (make) in
+                make.top.equalTo(buttonStackView.snp.bottom)
                 make.height.equalTo(12)
-                make.leading.equalTo(buttonStackView.snp_leading)
-                make.trailing.equalTo(buttonStackView.snp_trailing)
+                make.leading.equalTo(buttonStackView.snp.leading)
+                make.trailing.equalTo(buttonStackView.snp.trailing)
             })
         }
         
@@ -706,9 +706,9 @@ class PlanSummaryViewController: UITableViewController {
         }
         
         if comma == true {
-            return String(tags.characters.dropLast(2))
+            return String(tags.dropLast(2))
         } else {
-            return String(tags.characters.dropLast(1))
+            return String(tags.dropLast(1))
         }
 
     }
@@ -1002,6 +1002,7 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
             
             
             // If this pack has finished, print its size and resource count.
+            let name = userInfo["name"] ?? "name not found"
             if completedResources == expectedResources {
                 progressView.isHidden = true
                 let byteCount = ByteCountFormatter.string(fromByteCount: Int64(pack.progress.countOfBytesCompleted), countStyle: ByteCountFormatter.CountStyle.memory)
@@ -1022,10 +1023,10 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
                     self.view.quickToast("Your other plan finished downloading") //realm plan wont know how big map data is to display but otherwise will work fine
                 }
                 
-                print("Offline pack “\(userInfo["name"])” completed: \(byteCount), \(completedResources) resources")
+                print("Offline pack “\(name)” completed: \(byteCount), \(completedResources) resources")
             } else {
                 // Otherwise, print download/verification progress.
-                print("Offline pack “\(userInfo["name"])” has \(completedResources) of \(expectedResources) resources — \(progressPercentage * 100)%.")
+                print("Offline pack “\(name)” has \(completedResources) of \(expectedResources) resources — \(progressPercentage * 100)%.")
             }
         }
     }
@@ -1033,16 +1034,18 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
     func offlinePackDidReceiveError(_ notification: Foundation.Notification) {
         if let pack = notification.object as? MGLOfflinePack,
             let userInfo = NSKeyedUnarchiver.unarchiveObject(with: pack.context) as? [String: String],
-            let error = notification.userInfo?[MGLOfflinePackErrorUserInfoKey] as? NSError {
-            print("Offline pack “\(userInfo["name"])” received error: \(error.localizedFailureReason)")
+            let error = notification.userInfo?[MGLOfflinePackUserInfoKey.error] as? NSError {
+            let name = userInfo["name"] ?? "name not found"
+            print("Offline pack “\(name)” received error: \(String(describing: error.localizedFailureReason))")
         }
     }
     
     func offlinePackDidReceiveMaximumAllowedMapboxTiles(_ notification: Foundation.Notification) {
         if let pack = notification.object as? MGLOfflinePack,
             let userInfo = NSKeyedUnarchiver.unarchiveObject(with: pack.context) as? [String: String],
-            let maximumCount = (notification.userInfo?[MGLOfflinePackMaximumCountUserInfoKey] as AnyObject).uint64Value {
-            print("Offline pack “\(userInfo["name"])” reached limit of \(maximumCount) tiles.")
+            let maximumCount = (notification.userInfo?[MGLOfflinePackUserInfoKey.maximumCount] as AnyObject).uint64Value {
+            let name = userInfo["name"] ?? "name not found"
+            print("Offline pack “\(name)” reached limit of \(maximumCount) tiles.")
         }
     }
     

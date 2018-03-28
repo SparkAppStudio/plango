@@ -54,12 +54,11 @@ class SettingsTableViewController: UITableViewController {
     }
     
     func checkForCurrentUserCookies() {
-        print(Plango.sharedInstance.currentUser?.userName)
-        
-        print(Plango.sharedInstance.alamoManager.session.configuration.httpCookieStorage?.cookies?.count)
+        print(Plango.sharedInstance.currentUser?.userName ?? "no user found")
 
         guard let storage = Plango.sharedInstance.alamoManager.session.configuration.httpCookieStorage else {return}
         if let cookies = storage.cookies {
+            print("Cookies Count: \(cookies.count)")
             for aCookie in cookies {
                 print(aCookie.description)
             }

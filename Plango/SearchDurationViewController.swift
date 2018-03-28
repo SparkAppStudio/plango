@@ -40,9 +40,9 @@ class SearchDurationViewController: UIViewController, UIPickerViewDelegate, UIPi
     override func updateViewConstraints() {
         if didUpdateConstraints == false {
 //            guard let parent = parentViewController else {return}
-            pickerView.snp_makeConstraints { (make) in
+            pickerView.snp.makeConstraints { (make) in
                 make.width.equalTo(UIScreen.main.bounds.width)
-                make.top.equalTo(self.topLayoutGuide)
+                make.top.equalTo(self.topLayoutGuide.snp.top)
                 make.height.equalTo(UIScreen.main.bounds.height - 260)
             }
             didUpdateConstraints = true

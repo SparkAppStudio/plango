@@ -413,7 +413,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UITableViewDel
     // MARK: - Text Field
     
     func processTextField(_ textField: UITextField) {
-        textField.text?.trimWhiteSpace()
+        _ = textField.text?.trimWhiteSpace()
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -561,18 +561,24 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UITableViewDel
                 if (indexPath.row == 0 && indexPath.row == tableView.numberOfRows(inSection: indexPath.section)-1) {
                     pathRef.__addRoundedRect(transform: nil, rect: bounds, cornerWidth: cornerRadius, cornerHeight: cornerRadius)
                 } else if (indexPath.row == 0) {
-                    CGPathMoveToPoint(pathRef, nil, bounds.minX, bounds.maxY)
-                    CGPathAddArcToPoint(pathRef, nil, bounds.minX, bounds.minY, bounds.midX, bounds.minY, cornerRadius)
-                    CGPathAddArcToPoint(pathRef, nil, bounds.maxX, bounds.minY, bounds.maxX, bounds.midY, cornerRadius)
-                    CGPathAddLineToPoint(pathRef, nil, bounds.maxX, bounds.maxY)
+                    pathRef.move(to: CGPoint(x: bounds.minX, y: bounds.maxY))
+
+                    pathRef.addArc(tangent1End: CGPoint(x: bounds.minX, y: bounds.minY), tangent2End: CGPoint(x: bounds.midX, y: bounds.minY), radius: cornerRadius)
+
+                    pathRef.addArc(tangent1End: CGPoint(x: bounds.maxX, y: bounds.minY), tangent2End: CGPoint(x: bounds.maxX, y: bounds.midY), radius: cornerRadius)
+
+                    pathRef.addLine(to: CGPoint(x: bounds.maxX, y: bounds.maxY))
 //                    addLine = true
                 } else if (indexPath.row == tableView.numberOfRows(inSection: indexPath.section)-1) {
-                    CGPathMoveToPoint(pathRef, nil, bounds.minX, bounds.minY)
-                    CGPathAddArcToPoint(pathRef, nil, bounds.minX, bounds.maxY, bounds.midX, bounds.maxY, cornerRadius)
-                    CGPathAddArcToPoint(pathRef, nil, bounds.maxX, bounds.maxY, bounds.maxX, bounds.midY, cornerRadius)
-                    CGPathAddLineToPoint(pathRef, nil, bounds.maxX, bounds.minY)
+                    pathRef.move(to: CGPoint(x: bounds.minX, y: bounds.minY))
+
+                    pathRef.addArc(tangent1End: CGPoint(x: bounds.minX, y: bounds.maxY), tangent2End: CGPoint(x: bounds.midX, y: bounds.maxY), radius: cornerRadius)
+
+                    pathRef.addArc(tangent1End: CGPoint(x: bounds.maxX, y: bounds.maxY), tangent2End: CGPoint(x: bounds.maxX, y: bounds.midY), radius: cornerRadius)
+
+                    pathRef.addLine(to: CGPoint(x: bounds.maxX, y: bounds.minY))
                 } else {
-                    CGPathAddRect(pathRef, nil, bounds)
+                    pathRef.addRect(bounds)
 //                    addLine = true
                 }
                 

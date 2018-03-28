@@ -98,7 +98,7 @@ class PlansTableViewController: UITableViewController {
     func setupSearchResultsHeader() {
         let nib = UINib(nibName: "SearchResultsHeader", bundle: nil)
         headerView = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
-        headerView.snp_makeConstraints { (make) in
+        headerView.snp.makeConstraints { (make) in
             make.height.equalTo(Helper.HeaderHeight.section.value)
         }
         
@@ -144,7 +144,7 @@ class PlansTableViewController: UITableViewController {
                 if text == "in " {
                     placesLabel.text = ""
                 } else {
-                    placesLabel.text = String(text.characters.dropLast(2))
+                    placesLabel.text = String(text.dropLast(2))
                 }
                 
             }
@@ -226,7 +226,8 @@ class PlansTableViewController: UITableViewController {
         
         if findPlansParameters != nil { //check make sure supports pagination by seeing if parameters were set
             let lastRow = tableView.indexPathsForVisibleRows?.last?.row
-            print("last row \(lastRow)")
+
+            print("last row \(String(describing: lastRow))")
             print("array count \(plansArray.count - 8)")
             
             if lastRow == plansArray.count - 8 && endReached == false {

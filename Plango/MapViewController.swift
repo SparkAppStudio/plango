@@ -147,11 +147,11 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         view.addSubview(centerViewButton)
         view.addSubview(defaultViewButton)
     
-        cancelNavButton.snp_makeConstraints { (make) in
+        cancelNavButton.snp.makeConstraints { (make) in
             make.width.equalTo(50)
             make.height.equalTo(50)
-            make.leading.equalTo(view.snp_leading)
-            make.bottom.equalTo(startNavButton.snp_top)
+            make.leading.equalTo(view.snp.leading)
+            make.bottom.equalTo(startNavButton.snp.top)
         }
     }
     
@@ -193,6 +193,11 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         // and the associated user info for the pack; in this case, `name = My Offline Pack`
         if let pack = notification.object as? MGLOfflinePack,
             let userInfo = NSKeyedUnarchiver.unarchiveObject(with: pack.context) as? [String: String] {
+
+            // for error handling
+            let name = userInfo["name"] ?? "name not found"
+
+
             let progress = pack.progress
             // or notification.userInfo![MGLOfflinePackProgressUserInfoKey]!.MGLOfflinePackProgressValue
             let completedResources = progress.countOfResourcesCompleted
@@ -218,10 +223,10 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
                 self.mapView.imageToast(nil, image: UIImage(named: "whiteCheck")!, notify: false)
                 
                 let byteCount = ByteCountFormatter.string(fromByteCount: Int64(pack.progress.countOfBytesCompleted), countStyle: ByteCountFormatter.CountStyle.memory)
-                print("Offline pack “\(userInfo["name"])” completed: \(byteCount), \(completedResources) resources")
+                print("Offline pack “\(name)” completed: \(byteCount), \(completedResources) resources")
             } else {
                 // Otherwise, print download/verification progress.
-                print("Offline pack “\(userInfo["name"])” has \(completedResources) of \(expectedResources) resources — \(progressPercentage * 100)%.")
+                print("Offline pack “\(name)” has \(completedResources) of \(expectedResources) resources — \(progressPercentage * 100)%.")
             }
         }
     }
@@ -229,16 +234,18 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
     @objc func offlinePackDidReceiveError(_ notification: Notification) {
         if let pack = notification.object as? MGLOfflinePack,
             let userInfo = NSKeyedUnarchiver.unarchiveObject(with: pack.context) as? [String: String],
-            let error = notification.userInfo?[MGLOfflinePackErrorUserInfoKey] as? NSError {
-            print("Offline pack “\(userInfo["name"])” received error: \(error.localizedFailureReason)")
+            let error = notification.userInfo?[MGLOfflinePackUserInfoKey.error] as? NSError {
+            let name = userInfo["name"] ?? "name not found"
+            print("Offline pack “\(name)” received error: \(String(describing: error.localizedFailureReason))")
         }
     }
     
     @objc func offlinePackDidReceiveMaximumAllowedMapboxTiles(_ notification: Notification) {
         if let pack = notification.object as? MGLOfflinePack,
             let userInfo = NSKeyedUnarchiver.unarchiveObject(with: pack.context) as? [String: String],
-            let maximumCount = (notification.userInfo?[MGLOfflinePackMaximumCountUserInfoKey] as AnyObject).uint64Value {
-            print("Offline pack “\(userInfo["name"])” reached limit of \(maximumCount) tiles.")
+            let maximumCount = (notification.userInfo?[MGLOfflinePackUserInfoKey.maximumCount] as AnyObject).uint64Value {
+            let name = userInfo["name"] ?? "name not found"
+            print("Offline pack “\(name)” reached limit of \(maximumCount) tiles.")
         }
     }
 
@@ -371,7 +378,7 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         let options = RouteOptions(waypoints: waypoints, profileIdentifier: MBDirectionsProfileIdentifier.automobile)
         options.includesSteps = true
         
-        directions.calculate(options: options) { (waypoints, routes, error) in
+        directions.calculate(options) { (waypoints, routes, error) in
             guard error == nil else {
                 print("Error calculating directions: \(error!)")
                 if error?.domain == MBDirectionsErrorDomain {

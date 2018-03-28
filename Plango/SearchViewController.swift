@@ -153,7 +153,7 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
                     guard let name = item.name else {return}
                     allTags.append("\(name), ")
                 }
-                let cleanedTags = String(allTags.characters.dropLast(2))
+                let cleanedTags = String(allTags.dropLast(2))
                 self.selectedTagsLabel.text = cleanedTags
             }
             
@@ -168,7 +168,7 @@ class SearchViewController: MXSegmentedPagerController, UITextFieldDelegate {
                         allDestinations.append("\(country), ")
                     }
                 }
-                let cleanedDestinations = String(allDestinations.characters.dropLast(2))
+                let cleanedDestinations = String(allDestinations.dropLast(2))
                 self.selectedDestinationsLabel.text = cleanedDestinations
             }
             

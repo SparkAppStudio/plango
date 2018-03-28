@@ -89,7 +89,7 @@ class Helper: NSObject {
     }
     
     static func errorMessage(_ classType: NSObject, error: NSError?, message: String?) -> String {
-        return "In \(classType.classForCoder) Error: \(error) Message: \(message)"
+        return "In \(classType.classForCoder) Error: \(String(describing: error)) Message: \(String(describing: message))"
     }
     
     static func textIsValid(_ textField: UITextField, sender: Bool) {
@@ -108,7 +108,7 @@ class Helper: NSObject {
     
     static func isValidSearchWithErrors(_ existingText: String?, possibleNewCharacter: String) -> String? {
         if let text = existingText {
-            if text.characters.count + possibleNewCharacter.characters.count > 50 {
+            if text.count + possibleNewCharacter.count > 50 {
                 return "Search is too long"
             }
         }
@@ -117,7 +117,7 @@ class Helper: NSObject {
     
     static func isValidEmailWithErrors(_ existingText: String?, possibleNewCharacter: String) -> String? {
         if let text = existingText {
-            if text.characters.count + possibleNewCharacter.characters.count > 30 {
+            if text.count + possibleNewCharacter.count > 30 {
                 return "Email is too long"
             }
         }
@@ -130,7 +130,7 @@ class Helper: NSObject {
     
     static func isValidPasswordWithErrors(_ existingText: String?, possibleNewCharacter: String) -> String? {
         if let text = existingText {
-            if text.characters.count + possibleNewCharacter.characters.count > 20 {
+            if text.count + possibleNewCharacter.count > 20 {
                 return "Password is too long"
             }
         }
@@ -143,7 +143,7 @@ class Helper: NSObject {
     
     static func isValidUserNameWithErrors(_ existingText: String?, possibleNewCharacter: String) -> String? {
         if let text = existingText {
-            if text.characters.count + possibleNewCharacter.characters.count > 20 {
+            if text.count + possibleNewCharacter.count > 20 {
                 return "Username is too long"
             }
         }
@@ -159,7 +159,7 @@ class Helper: NSObject {
     static func isValidTweetWithErrors(_ existingText: String?, possibleNewCharacter: String) -> String? {
         if let text = existingText {
             
-            if (text.characters.count + possibleNewCharacter.characters.count) > 140 {
+            if (text.count + possibleNewCharacter.count) > 140 {
                 return "Tweet is too long"
             }
         }

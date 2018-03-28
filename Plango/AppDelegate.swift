@@ -110,13 +110,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var socialConnects = [[String:AnyObject]]()
         
         let email = result.value(forKey: "email")
-        let userName = (result.value(forKey: "name") as AnyObject).lowercased
-        let displayName = "\(result.value(forKey: "first_name")) \(result.value(forKey: "last_name"))"
+        let userName = (result.value(forKey: "name") as! String).lowercased
+
+        let firstName = result.value(forKey: "first_name") as! String
+        let lastName = result.value(forKey: "last_name") as! String
+        let displayName = "\(firstName) \(lastName)"
         let userID = result.value(forKey: "id")
         
         
         plangoParameters["email"] = email as AnyObject?
-        plangoParameters["username"] = userName! as AnyObject?
+        plangoParameters["username"] = userName as AnyObject?
         
         socialConnects.append(["network" : "Facebook" as AnyObject, "socialId" : userID! as AnyObject, "displayName" : displayName as AnyObject, "email" : email! as AnyObject])
         
@@ -212,7 +215,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     controller.printError(error as NSError)
                 } else {
 //                    let email = result.valueForKey("email") as! String
-                    let userID = result.value(forKey: "id") as! String
+                    let resultObject = result as AnyObject
+                    let userID = resultObject.value(forKey: "id") as! String
 //                    Plango.sharedInstance.facebookAvatarURL = "http://graph.facebook.com/\(userID)/picture?type=large"
 
                     let endPoint = "\(Plango.EndPoint.FacebookLogin.value)\(userID)"

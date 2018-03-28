@@ -80,8 +80,9 @@ class LoginConfirmViewController: LoginViewController {
             if let error = error {
                 self.printError(error as NSError)
             } else {
-                let email = result.value(forKey: "email") as! String
-                self.facebookUserID = result.value(forKey: "id") as! String
+                let resultObject = result as AnyObject
+                let email = resultObject.value(forKey: "email") as! String
+                self.facebookUserID = resultObject.value(forKey: "id") as! String
                 
                 DispatchQueue.main.async(execute: { () -> Void in
                     self.emailTextField.text = email
@@ -96,7 +97,7 @@ class LoginConfirmViewController: LoginViewController {
 //        super.viewDidLayoutSubviews()
         
         loginButton.fitLoginButtons(self)
-        loginButton.snp_makeConstraints { (make) in
+        loginButton.snp.makeConstraints { (make) in
             make.center.equalTo(footerView)
         }
     }

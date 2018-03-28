@@ -50,7 +50,7 @@ class PlansTableViewCell: UITableViewCell {
             for tagName in planTags {
                 allTags = allTags + "\(tagName), "
             }
-            let cleanedTags = String(allTags.characters.dropLast(2))
+            let cleanedTags = String(allTags.dropLast(2))
             planTagsLabel.text = cleanedTags
             
             guard let days = cellPlan.durationDays else {planLengthLabel.isHidden = true; return}

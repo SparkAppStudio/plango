@@ -203,13 +203,13 @@ class Plango: NSObject {
         let encodableURLRequest = URLRequest(url: URL(string: endPoint)!)
         let encodedURLRequest = try! URLEncoding.default.encode(encodableURLRequest, with: newParameters)
         
-        let mutableURLRequest = NSMutableURLRequest(url: encodedURLRequest.url!)
+        var mutableURLRequest = URLRequest(url: encodedURLRequest.url!)
         mutableURLRequest.httpMethod = "GET"
         mutableURLRequest.setValue("text/html; charset=utf-8", forHTTPHeaderField: "Content-Type")
 
         print(mutableURLRequest.url?.absoluteString ?? "find plans request url")
         
-        return Alamofire.request(mutableURLRequest as! URLRequestConvertible).validate().responseJSON { response in
+        return Alamofire.request(mutableURLRequest).validate().responseJSON { response in
             print(response.request?.url?.absoluteString ?? "find plans response request url")
             switch response.result {
             case .success(let value):
@@ -393,7 +393,7 @@ class Plango: NSObject {
     func authPlangoUser(_ endPoint: String, parameters: [String:AnyObject]?, onCompletion: @escaping LoginResponse) -> Void {
         
         Alamofire.request(endPoint, method: .post, parameters: parameters).responseJSON { response in
-            print("The request is \(response.request ?? "auth response")")
+//            print("The request is \(response.request ?? "auth response")")
             switch response.result {
             case .success(let value):
                 let dataJSON = JSON(value)

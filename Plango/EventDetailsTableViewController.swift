@@ -73,7 +73,7 @@ class EventDetailsTableViewController: UITableViewController {
         
         let nib = UINib(nibName: "EventDetailsHeader", bundle: bundle)
         headerView = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
-        headerView.snp_makeConstraints { (make) in
+        headerView.snp.makeConstraints { (make) in
             make.height.equalTo(Helper.CellHeight.superWide.value)
         }
         

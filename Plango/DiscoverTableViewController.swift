@@ -103,7 +103,7 @@ class DiscoverTableViewController: UITableViewController {
     }
     
     func fetchPopularDestinations() {
-        Plango.sharedInstance.fetchPlans(Plango.EndPoint.PopularDestination.value) { (plans, error) in
+        _ = Plango.sharedInstance.fetchPlans(Plango.EndPoint.PopularDestination.value) { (plans, error) in
             if let error = error {
                 self.printPlangoError(error)
             } else if let plans = plans {
@@ -129,7 +129,7 @@ class DiscoverTableViewController: UITableViewController {
     }
     
     func fetchPlangoFavorites() {
-        Plango.sharedInstance.fetchPlans(Plango.EndPoint.PlangoFavorites.value) { (plans, error) in
+        _ = Plango.sharedInstance.fetchPlans(Plango.EndPoint.PlangoFavorites.value) { (plans, error) in
             if let error = error {
                 self.printPlangoError(error)
             } else if let plans = plans {
