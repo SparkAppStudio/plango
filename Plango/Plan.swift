@@ -135,7 +135,7 @@ class Plan: PlangoObject {
         if let array = objectJSON["data"].arrayObject { //sometimes plango server sends array in top level
             
             if array.count == 0 {
-                return tempUsers.flatMap { $0 } //end of pagination, found empty array
+                return tempUsers.compactMap { $0 } //end of pagination, found empty array
             }
             
             for item in array {
@@ -153,7 +153,7 @@ class Plan: PlangoObject {
             }
             
             if array.count == 0 {
-                return tempUsers.flatMap { $0 } //end of pagination, found empty array
+                return tempUsers.compactMap { $0 } //end of pagination, found empty array
             }
             
             for item in array {
@@ -163,7 +163,7 @@ class Plan: PlangoObject {
         }
         
         //remote nil users
-        return tempUsers.flatMap { $0 }
+        return tempUsers.compactMap { $0 }
     }
     
     class func createPlan(_ dictionary: NSDictionary) -> Plan? {

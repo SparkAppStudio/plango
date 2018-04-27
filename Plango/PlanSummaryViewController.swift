@@ -285,13 +285,13 @@ class PlanSummaryViewController: UITableViewController {
             }
             
             //mapbox
-            for pack in MGLOfflineStorage.shared().packs! {
+            for pack in MGLOfflineStorage.shared.packs! {
                 guard let userInfo = NSKeyedUnarchiver.unarchiveObject(with: pack.context) as? NSDictionary else {continue}
                 guard let planID = userInfo["planID"] as? String else {continue}
                 
                 if planID == plan.id {
                     self.view.showSimpleLoading()
-                    MGLOfflineStorage.shared().removePack(pack, withCompletionHandler: { (error) in
+                    MGLOfflineStorage.shared.removePack(pack, withCompletionHandler: { (error) in
                         self.view.hideSimpleLoading()
                         if let error = error {
                             self.printError(error as NSError)
@@ -317,7 +317,7 @@ class PlanSummaryViewController: UITableViewController {
     }
     
     func isMapDownloading() -> Bool {
-        guard let localPacks = MGLOfflineStorage.shared().packs else { return false }
+        guard let localPacks = MGLOfflineStorage.shared.packs else { return false }
         for pack in localPacks {
             if pack.state == .active {
                 return true
@@ -327,7 +327,7 @@ class PlanSummaryViewController: UITableViewController {
     }
     
     func isPlanLocal(_ plan: Plan) -> Bool {
-        guard let localPacks = MGLOfflineStorage.shared().packs else { return false }
+        guard let localPacks = MGLOfflineStorage.shared.packs else { return false }
         for pack in localPacks {
             guard let userInfo = NSKeyedUnarchiver.unarchiveObject(with: pack.context) as? NSDictionary else {continue}
             guard let planID = userInfo["planID"] as? String else {continue}
@@ -857,7 +857,7 @@ class PlanSummaryViewController: UITableViewController {
     deinit {
         //        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidBecomeActiveNotification, object: nil)
         if myPlan == true {
-            MGLOfflineStorage.shared().removeObserver(self, forKeyPath: "packs")
+            MGLOfflineStorage.shared.removeObserver(self, forKeyPath: "packs")
         }
         NotificationCenter.default.removeObserver(self)
     }
@@ -943,7 +943,7 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
             mapView.zoomLevel = 14
         }
         
-        MGLOfflineStorage.shared().addObserver(self, forKeyPath: "packs", options: NSKeyValueObservingOptions.new, context: nil)
+        MGLOfflineStorage.shared.addObserver(self, forKeyPath: "packs", options: NSKeyValueObservingOptions.new, context: nil)
         
         // Setup offline pack notification handlers.
         NotificationCenter.default.addObserver(self, selector: #selector(MapViewController.offlinePackProgressDidChange(_:)), name: NSNotification.Name.MGLOfflinePackProgressChanged, object: nil)
@@ -969,7 +969,7 @@ extension PlanSummaryViewController: MGLMapViewDelegate {
         let context = NSKeyedArchiver.archivedData(withRootObject: userInfo)
         
         //create and regsiter offline pack with the shared singleton storage object
-        MGLOfflineStorage.shared().addPack(for: region, withContext: context) { (pack, error) in
+        MGLOfflineStorage.shared.addPack(for: region, withContext: context) { (pack, error) in
             guard error == nil else {
                 self.printError(error! as NSError)
                 return

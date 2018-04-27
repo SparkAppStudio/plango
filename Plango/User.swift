@@ -83,7 +83,7 @@ class User: NSObject, NSCoding {
         }
         
         //remote nil users
-        return tempUsers.flatMap { $0 }
+        return tempUsers.compactMap { $0 }
     }
     
     class func createUser(_ dictionary: NSDictionary) -> User? {

@@ -176,7 +176,7 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         let context = NSKeyedArchiver.archivedData(withRootObject: userInfo)
         
         //create and regsiter offline pack with the shared singleton storage object
-        MGLOfflineStorage.shared().addPack(for: region, withContext: context) { (pack, error) in
+        MGLOfflineStorage.shared.addPack(for: region, withContext: context) { (pack, error) in
             guard error == nil else {
                 self.printError(error! as NSError)
                 return

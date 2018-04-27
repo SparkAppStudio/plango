@@ -30,7 +30,7 @@ class Tag: NSObject {
             tempTags.append(createTag(dictionary))
         }
         
-        return tempTags.flatMap { $0 }
+        return tempTags.compactMap { $0 }
     }
     
     class func createTag(_ dictionary: NSDictionary) -> Tag? {
@@ -60,7 +60,7 @@ struct PlangoCollection {
             tempTags.append(createPlangoCollection(dictionary))
         }
         
-        return tempTags.flatMap { $0 }
+        return tempTags.compactMap { $0 }
     }
     
     static func createPlangoCollection(_ dictionary: NSDictionary) -> PlangoCollection? {

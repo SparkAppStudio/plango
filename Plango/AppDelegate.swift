@@ -250,7 +250,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         //remove mapbox data
-        let storage = MGLOfflineStorage.shared()
+        let storage = MGLOfflineStorage.shared
         if let packs = storage.packs {
             for pack in packs {
                 storage.removePack(pack, withCompletionHandler: nil)
