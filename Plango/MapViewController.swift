@@ -37,7 +37,7 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         }
     }
     lazy var startNavButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: self.view.bounds.height - 124, width: self.view.bounds.width, height: 60))
+        let button = UIButton(frame: CGRect(x: 0, y: self.view.bounds.height - 174, width: self.view.bounds.width, height: 60))
         button.setTitle("Start Navigation", for: UIControlState())
         button.titleLabel?.textColor = UIColor.white
         button.backgroundColor = UIColor.plangoOrange()
@@ -56,7 +56,7 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         return button
     }()
     lazy var centerViewButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 12, y: self.view.bounds.height - 130, width: 38, height: 38))
+        let button = UIButton(frame: CGRect(x: 12, y: self.view.bounds.height - 200, width: 38, height: 38))
         button.setImage(UIImage(named: "center"), for: UIControlState())
         button.backgroundColor = UIColor.clear
         button.addTarget(self, action: #selector(didTapCenterView(_:)), for: .touchUpInside)
@@ -64,7 +64,7 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         return button
     }()
     lazy var defaultViewButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 12, y: self.view.bounds.height - 176, width: 38, height: 38))
+        let button = UIButton(frame: CGRect(x: 12, y: self.view.bounds.height - 246, width: 38, height: 38))
 //        button.contentHorizontalAlignment = .Fill
         button.setImage(UIImage(named: "allxp"), for: UIControlState())
 //        button.contentMode = .ScaleToFill
@@ -116,10 +116,6 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapView.delegate = self
         mapView.showsUserLocation = true
-
-        if let userLocation = mapView.userLocation {
-            mapView.setCenter(userLocation.coordinate, zoomLevel: 14, animated: false)
-        }
         
         self.view.addSubview(mapView)
         
@@ -310,7 +306,6 @@ class MapViewController: UIViewController, MGLMapViewDelegate {
             })
         }
     }
-    
     
     func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
         if points?.count == 1 {

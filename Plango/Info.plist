@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>We need access to your media to upload to your profile</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need access to your photos to upload to your profile</string>
 	<key>BASE_ENDPOINT</key>
 	<string>$(BASE_ENDPOINT)</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -36,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2</string>
 	<key>FacebookAppID</key>
 	<string>1537501039847467</string>
 	<key>FacebookDisplayName</key>
@@ -67,8 +63,12 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>We need access to your media to upload to your profile</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Shows your location on the map and helps improve OpenStreetMap. Necessary for Directions</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to your photos to upload to your profile</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>climacons.ttf</string>
